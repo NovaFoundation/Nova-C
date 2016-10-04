@@ -2,101 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cae7c69-2188-4377-b8bb-128920d8743b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AbstractMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AccessibleWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AnnotationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArgumentListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArrayAccessWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArrayWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AssignmentMethodWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AssignmentWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BinaryOperationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BodyMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BreakWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CaseWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CastWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CatchWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClassDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureContextDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureContextWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureParameterListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ConstructorWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ContinueWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ControlStatementWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DefaultParameterInitializationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DefaultWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DestructorWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DimensionsWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ElseStatementWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExceptionHandlerWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExtensionVTableWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExternalMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FallthroughWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FieldDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FieldListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FileDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FinallyWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ForEachLoopWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ForLoopWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IIdentifierWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IValueWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IdentifierWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IfStatementWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ImportListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ImportWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstanceDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstanceFieldListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstantiationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceVTableWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LambdaMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LiteralWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LocalDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LoopWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchCaseWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchChildWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallArgumentListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NodeWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NovaMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NovaParameterListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/OperatorWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PackageWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ParameterListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ParameterWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PriorityWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ProgramWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PropertyMethodWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/RepeatWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ReturnWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ScopeWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/SkeletonWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticBlockWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticClassReferenceWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticFieldListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TernaryOperationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ThrowWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TryWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TypeListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/UnaryOperationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/UntilWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VTableWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ValueWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableDeclarationListWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VirtualMethodDeclarationWriter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/WhileLoopWriter.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nova/c/CTarget.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Nova.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Nova.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Nova C.iws" />
@@ -725,6 +630,14 @@
       <option name="presentableId" value="Default" />
       <updated>1475545869405</updated>
     </task>
+    <task id="LOCAL-00001" summary="Extracted all classes into own files.">
+      <created>1475570399918</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1475570399918</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -767,6 +680,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Extracted all classes into own files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Extracted all classes into own files." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
