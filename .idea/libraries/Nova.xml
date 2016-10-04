@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Nova">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../Nova/out/production/Nova" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Nova/src" />
+    </SOURCES>
+  </library>
+</component>
