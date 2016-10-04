@@ -16,7 +16,7 @@ public abstract class StaticBlockWriter extends NodeWriter
 	{
 		Scope scope = node().getScope();
 		
-		return scope.getTarget().generateSource(builder);
+		return getWriter(scope).generateSource(builder);
 	}
 	
 	public StringBuilder generateMethodHeader(StringBuilder builder, ClassDeclaration clazz)
@@ -27,14 +27,14 @@ public abstract class StaticBlockWriter extends NodeWriter
 		
 		ParameterList params = node().getParameterList();
 		
-		builder.append('(').append(params.getTarget().generateSource()).append(')');
+		builder.append('(').append(getWriter(params).generateSource()).append(')');
 		
 		return builder;
 	}
 	
 	public static StringBuilder generateMethodName(StringBuilder builder, ClassDeclaration clazz)
 	{
-		return builder.append(clazz.getTarget().generateSourceName()).append(StaticBlock.C_PREFIX).append(StaticBlock.IDENTIFIER);
+		return builder.append(getWriter(clazz).generateSourceName()).append(StaticBlock.C_PREFIX).append(StaticBlock.IDENTIFIER);
 	}
 	
 	public static StringBuilder generateMethodCall(StringBuilder builder, ClassDeclaration clazz)

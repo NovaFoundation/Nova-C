@@ -14,7 +14,7 @@ public abstract class FieldListWriter extends ListWriter
 	 */
 	public StringBuilder generateNonStaticHeader(StringBuilder builder)
 	{
-		return node().getPublicFieldList().getTarget().generateHeader(builder);
+		return getWriter(node().getPublicFieldList()).generateHeader(builder);
 	}
 	
 	/**
@@ -25,7 +25,7 @@ public abstract class FieldListWriter extends ListWriter
 	 */
 	public StringBuilder generateStaticHeader(StringBuilder builder)
 	{
-		return node().getPublicStaticFieldList().getTarget().generateHeader(builder);
+		return getWriter(node().getPublicStaticFieldList()).generateHeader(builder);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public abstract class FieldListWriter extends ListWriter
 	 */
 	public StringBuilder generateStaticSource(StringBuilder builder)
 	{
-		return node().getPublicStaticFieldList().getTarget().generateSource(builder);
+		return getWriter(node().getPublicStaticFieldList()).generateSource(builder);
 	}
 	
 	/**
@@ -47,6 +47,6 @@ public abstract class FieldListWriter extends ListWriter
 	 */
 	public StringBuilder generateNonStaticSource(StringBuilder builder)
 	{
-		return node().getPrivateStaticFieldList().getTarget().generateHeader(builder);
+		return getWriter(node().getPrivateStaticFieldList()).generateHeader(builder);
 	}
 }

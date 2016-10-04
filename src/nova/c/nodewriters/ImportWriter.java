@@ -15,13 +15,28 @@ public abstract class ImportWriter extends NodeWriter
 	{
 		builder.append("#include ");
 		
-		if (node().isExternal() || !node().getFileDeclaration().getName().equals(node().location))
+		String location = node().location;
+		
+		if (node().isExternal())
 		{
-			return builder.append('<').append(node().getLocation()).append('>').append('\n');
+			location += ".h";
 		}
 		else
 		{
-			return builder.append('"').append(node().getLocation()).append('"').append('\n');
+			ClassDeclaration node = node().getProgram().getClassDeclaration(location);
+			
+			FileDeclaration f = node.getFileDeclaration();
+			
+			location = getWriter(f).generateHeaderName();
+		}
+		
+		if (node().isExternal() || !node().getFileDeclaration().getName().equals(node().location))
+		{
+			return builder.append('<').append(location).append('>').append('\n');
+		}
+		else
+		{
+			return builder.append('"').append(location).append('"').append('\n');
 		}
 	}
 }

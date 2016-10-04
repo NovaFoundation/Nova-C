@@ -15,13 +15,13 @@ public abstract class InstantiationWriter extends IIdentifierWriter
 	{
 		Identifier id = node().getIdentifier();
 		
-		return id.getTarget().generateSourceFragment(builder);
+		return getWriter(id).generateSourceFragment(builder);
 	}
 	
 	public StringBuilder generateUseOutput(StringBuilder builder, boolean pointer, boolean checkAccesses)
 	{
 		Identifier id = node().getIdentifier();
 		
-		return id.getTarget().generateUseOutput(builder, pointer, checkAccesses);
+		return getWriter(id).generateUseOutput(builder, pointer, checkAccesses);
 	}
 }

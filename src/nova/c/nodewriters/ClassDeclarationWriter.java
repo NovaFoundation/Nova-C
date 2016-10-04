@@ -30,13 +30,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			{
 				Parameter ref = declaration.getParameterList().getObjectReference();
 				
-				return ref.getTarget().generateNullOutput(builder);
+				return getWriter(ref).generateNullOutput(builder);
 			}
 			else if (declaration instanceof ClosureDeclaration)
 			{
 				ClosureDeclaration closure = (ClosureDeclaration)declaration;
 				
-				return closure.getTarget().generateSourceName(builder, "ref");
+				return getWriter(closure).generateSourceName(builder, "ref");
 			}
 		}
 		
@@ -56,13 +56,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			builder.append("typedef " + method.getTarget().generateType() + " (*");
+			builder.append("typedef " + getWriter(method).generateType() + " (*");
 			
-			method.getTarget().generateSourceNativeName(builder, true).append(")(");
+			getWriter(method).generateSourceNativeName(builder, true).append(")(");
 			
 			ParameterList params = method.getParameterList();
 			
-			params.getTarget().generateHeader(builder).append(");\n");
+			getWriter(params).generateHeader(builder).append(");\n");
 		}
 		
 		builder.append("\ntypedef struct " + name + "\n");
@@ -70,8 +70,8 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			method.getTarget().generateSourceNativeName(builder, true).append(" ");
-			method.getTarget().generateSourceNativeName(builder, false).append(";\n");
+			getWriter(method).generateSourceNativeName(builder, true).append(" ");
+			getWriter(method).generateSourceNativeName(builder, false).append(";\n");
 		}
 		
 		builder.append("} " + name + ";\n");
@@ -92,7 +92,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			String value = "&" + method.getTarget().generateSourceName();
+			String value = "&" + getWriter(method).generateSourceName();
 			
 			if (method instanceof NovaMethodDeclaration)
 			{
@@ -116,7 +116,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		VTableList vtables = node().getVTableNodes();
 		
-		vtables.getTarget().generateHeader(builder).append('\n');
+		getWriter(vtables).generateHeader(builder).append('\n');
 		
 		if (node().containsNonStaticData() || node().containsVirtualMethods())
 		{
@@ -126,11 +126,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			
 			VTable extension = node().getVTableNodes().getExtensionVTable();
 			
-			builder.append(extension.getTarget().generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
+			builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
 			
 			FieldList fields = node().getFieldList();
 			
-			fields.getTarget().generateNonStaticHeader(builder);
+			getWriter(fields).generateNonStaticHeader(builder);
 			
 			if (node().containsNonStaticPrivateData())
 			{
@@ -142,23 +142,23 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		FieldList fields = node().getFieldList();
 		
-		fields.getTarget().generateStaticHeader(builder).append('\n');
+		getWriter(fields).generateStaticHeader(builder).append('\n');
 		
 		if (node().getStaticBlockList().getNumVisibleChildren() > 0)
 		{
 			StaticBlock child = node().getStaticBlockList().getChild(0);
 			
-			child.getTarget().generateHeader(builder, node());
+			getWriter(child).generateHeader(builder, node());
 		}
 		
 		MethodList constructors = node().getConstructorList();
-		constructors.getTarget().generateHeader(builder);
+		getWriter(constructors).generateHeader(builder);
 		
-		node().getDestructorList().getTarget().generateHeader(builder);
-		node().getMethodList().getTarget().generateHeader(builder);
-		node().getPropertyMethodList().getTarget().generateHeader(builder);
-		node().getHiddenMethodList().getTarget().generateHeader(builder);
-		node().getVirtualMethodList().getTarget().generateHeader(builder);
+		getWriter(node().getDestructorList()).generateHeader(builder);
+		getWriter(node().getMethodList()).generateHeader(builder);
+		getWriter(node().getPropertyMethodList()).generateHeader(builder);
+		getWriter(node().getHiddenMethodList()).generateHeader(builder);
+		getWriter(node().getVirtualMethodList()).generateHeader(builder);
 		
 		return builder;
 	}
@@ -167,7 +167,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		VTableList vtables = node().getVTableNodes();
 		
-		vtables.getTarget().generateSource(builder).append('\n');
+		getWriter(vtables).generateSource(builder).append('\n');
 		
 		if (node().containsNonStaticPrivateData())
 		{
@@ -178,27 +178,27 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		FieldList fields = node().getFieldList();
 		
-		fields.getTarget().generateStaticSource(builder);
+		getWriter(fields).generateStaticSource(builder);
 		
 		for (int i = node().getNumDefaultChildren(); i < node().getNumChildren(); i++)
 		{
 			Node child = node().getChild(i);
 			
-			builder.append('\n').append(child.getTarget().generateSource());
+			builder.append('\n').append(getWriter(child).generateSource());
 		}
 		
 		fields = node().getFieldList();
 		
-		fields.getTarget().generateNonStaticSource(builder);
+		getWriter(fields).generateNonStaticSource(builder);
 		
 		generateStaticBlocksSource(builder);
 		
-		node().getConstructorList().getTarget().generateSource(builder);
-		node().getDestructorList().getTarget().generateSource(builder);
-		node().getMethodList().getTarget().generateSource(builder);
-		node().getPropertyMethodList().getTarget().generateSource(builder);
-		node().getHiddenMethodList().getTarget().generateSource(builder);
-		node().getVirtualMethodList().getTarget().generateSource(builder);
+		getWriter(node().getConstructorList()).generateSource(builder);
+		getWriter(node().getDestructorList()).generateSource(builder);
+		getWriter(node().getMethodList()).generateSource(builder);
+		getWriter(node().getPropertyMethodList()).generateSource(builder);
+		getWriter(node().getHiddenMethodList()).generateSource(builder);
+		getWriter(node().getVirtualMethodList()).generateSource(builder);
 		
 		return builder;
 	}
@@ -209,7 +209,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		{
 			StaticBlock block = node().getStaticBlockList().getChild(0);
 			
-			block.getTarget().generateMethodHeader(builder, node()).append('\n');
+			getWriter(block).generateMethodHeader(builder, node()).append('\n');
 			
 			builder.append('{').append('\n');
 			
@@ -217,7 +217,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			{
 				block = node().getStaticBlockList().getChild(i);
 				
-				block.getTarget().generateSource(builder);
+				getWriter(block).generateSource(builder);
 			}
 			
 			builder.append('}').append('\n');
@@ -250,12 +250,12 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		{
 			ClassDeclaration clazz = node().getExtendedClassDeclaration();
 			
-			clazz.getTarget().generatePrivateFieldsSource(builder);
+			getWriter(clazz).generatePrivateFieldsSource(builder);
 		}
 		
 		InstanceFieldList fields = node().getFieldList().getPrivateFieldList();
 		
-		return fields.getTarget().generateSource(builder);
+		return getWriter(fields).generateSource(builder);
 	}
 	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
@@ -296,7 +296,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			
 			if (methodDeclaration.getVisibility() == InstanceDeclaration.PRIVATE)
 			{
-				methodDeclaration.getTarget().generateSourcePrototype(builder).append('\n');
+				getWriter(methodDeclaration).generateSourcePrototype(builder).append('\n');
 			}
 		}
 	}
@@ -328,6 +328,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		Package p = node().getFileDeclaration().getPackage();
 		
-		return p.getTarget().generateLocation(builder).append('_');
+		return getWriter(p).generateLocation(builder).append('_');
 	}
 }

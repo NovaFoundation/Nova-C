@@ -26,14 +26,14 @@ public abstract class InstanceFieldListWriter extends ListWriter
 				fields = extended.getFieldList().getPrivateFieldList();
 			}
 			
-			fields.getTarget().generateHeader(builder);
+			getWriter(fields).generateHeader(builder);
 		}
 		
 		for (int i = 0; i < node().getNumChildren(); i++)
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateHeader(builder);
+			getWriter(child).generateHeader(builder);
 		}
 		
 		return builder;
@@ -57,7 +57,7 @@ public abstract class InstanceFieldListWriter extends ListWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		if (hasMethods)

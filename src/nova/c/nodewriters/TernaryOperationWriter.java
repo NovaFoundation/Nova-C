@@ -11,8 +11,8 @@ public abstract class TernaryOperationWriter extends IValueWriter implements Acc
 		Value t = node().getTrueValue();
 		Value f = node().getFalseValue();
 		
-		String trueValue = t.getTarget().generateSourceFragment().toString();
-		String falseValue = f.getTarget().generateSourceFragment().toString();
+		String trueValue = getWriter(t).generateSourceFragment().toString();
+		String falseValue = getWriter(f).generateSourceFragment().toString();
 		
 		ClassDeclaration trueType = t.getReturnedNode().getTypeClass();
 		ClassDeclaration falseType = f.getReturnedNode().getTypeClass();
@@ -25,18 +25,18 @@ public abstract class TernaryOperationWriter extends IValueWriter implements Acc
 			{
 				Value r = f.getReturnedNode();
 				
-				trueValue = r.getTarget().generateTypeCast() + trueValue;
+				trueValue = getWriter(r).generateTypeCast() + trueValue;
 			}
 			else
 			{
 				Value r = t.getReturnedNode();
 				
-				falseValue = r.getTarget().generateTypeCast() + falseValue;
+				falseValue = getWriter(r).generateTypeCast() + falseValue;
 			}
 		}
 		
 		Value condition = node().getCondition();
 		
-		return condition.getTarget().generateSourceFragment(builder).append(" ? ").append(trueValue).append(" : ").append(falseValue);
+		return getWriter(condition).generateSourceFragment(builder).append(" ? ").append(trueValue).append(" : ").append(falseValue);
 	}
 }

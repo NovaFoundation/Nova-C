@@ -23,7 +23,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateHeaderFragment(builder).append(";\n");
+			getWriter(child).generateHeaderFragment(builder).append(";\n");
 		}
 		
 		generateVirtualMethodDeclarations(builder, methods);
@@ -50,7 +50,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSourceFragment(builder).append(",\n");
+			getWriter(child).generateSourceFragment(builder).append(",\n");
 		}
 		
 		generateVirtualMethodValues(builder, methods);
@@ -91,7 +91,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		VirtualMethodDeclaration virtual = method.getVirtualMethod();
 		ParameterList params = method.getParameterList();
 		
-		return method.getTarget().generateType(builder).append(" (*").append(virtual.getTarget().generateVirtualMethodName()).append(")(").append(params.getTarget().generateHeader()).append(");\n");
+		return getWriter(method).generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName()).append(")(").append(getWriter(params).generateHeader()).append(");\n");
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 					method = method.getVirtualMethod();
 				}
 				
-				method.getTarget().generateSourceName(builder);
+				getWriter(method).generateSourceName(builder);
 			}
 			else
 			{

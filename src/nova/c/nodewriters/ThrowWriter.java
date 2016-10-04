@@ -12,7 +12,7 @@ public abstract class ThrowWriter extends ExceptionHandlerWriter
 		builder.append("THROW").append('(').append(node().getException().getID()).append(", ");
 		Identifier exception = node().getExceptionInstance();
 		
-		exception.getTarget().generateSourceFragment(builder).append(')').append(';').append('\n');
+		getWriter(exception).generateSourceFragment(builder).append(')').append(';').append('\n');
 		
 		return builder;
 	}

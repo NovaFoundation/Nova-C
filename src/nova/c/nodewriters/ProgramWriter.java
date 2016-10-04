@@ -12,7 +12,7 @@ public abstract class ProgramWriter extends NodeWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateHeader();
+			getWriter(child).generateHeader();
 		}
 		
 		return builder;
@@ -24,7 +24,7 @@ public abstract class ProgramWriter extends NodeWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource();
+			getWriter(child).generateSource();
 		}
 		
 		return builder;
@@ -39,7 +39,7 @@ public abstract class ProgramWriter extends NodeWriter
 		{
 			FileDeclaration fileDeclaration = (FileDeclaration)node().getChild(i);
 			
-			fileDeclaration.getTarget().formatHeaderOutput();
+			getWriter(fileDeclaration).formatHeaderOutput();
 		}
 	}
 	
@@ -52,7 +52,7 @@ public abstract class ProgramWriter extends NodeWriter
 		{
 			FileDeclaration fileDeclaration = (FileDeclaration)node().getChild(i);
 			
-			fileDeclaration.getTarget().formatSourceOutput();
+			getWriter(fileDeclaration).formatSourceOutput();
 		}
 	}
 	

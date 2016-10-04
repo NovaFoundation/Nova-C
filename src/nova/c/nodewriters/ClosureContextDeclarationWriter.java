@@ -36,7 +36,7 @@ public abstract class ClosureContextDeclarationWriter extends LocalDeclarationWr
 			builder.append('&');
 		}
 		
-		var.originalDeclaration.getTarget().generateSourceName(builder);
+		getWriter(var.originalDeclaration).generateSourceName(builder);
 		
 		return builder.append(",\n");
 	}

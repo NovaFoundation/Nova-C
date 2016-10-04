@@ -18,7 +18,7 @@ public abstract class LocalDeclarationWriter extends VariableDeclarationWriter
                 }
                 
                 return builder;*/
-			return node().implicitType.getTarget().generateType(builder, checkArray, checkValueReference);
+			return getWriter(node().implicitType).generateType(builder, checkArray, checkValueReference);
 		}
 		
 		return super.generateType(builder, checkArray, checkValueReference);

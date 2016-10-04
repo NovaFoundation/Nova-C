@@ -23,7 +23,7 @@ public abstract class AssignmentWriter extends ValueWriter
 		
 		Value assignee = node().getAssigneeNode();
 		
-		return assignee.getTarget().generateSourceFragment(builder).append(" = ").append(generateAssignmentSource());
+		return getWriter(assignee).generateSourceFragment(builder).append(" = ").append(generateAssignmentSource());
 	}
 	
 	/**
@@ -68,10 +68,10 @@ public abstract class AssignmentWriter extends ValueWriter
 			Value assigned = node().getAssignedNodeValue();
 			Value returned = assignment.getReturnedNode();
 			
-			assigned.getTarget().generateTypeCast(builder, true, false).append(returned.getTarget().generatePointerToValueConversion(returned)).append('(');
+			getWriter(assigned).generateTypeCast(builder, true, false).append(getWriter(returned).generatePointerToValueConversion(returned)).append('(');
 		}
 		
-		builder.append(assignment.generateDataTypeOutput(node().getAssignedNodeValue().getDataType())).append(assignment.getTarget().generateSourceFragment());
+		builder.append(assignment.generateDataTypeOutput(node().getAssignedNodeValue().getDataType())).append(getWriter(assignment).generateSourceFragment());
 		
 		if (!sameType)
 		{

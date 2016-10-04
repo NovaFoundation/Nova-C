@@ -60,7 +60,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				{
 					Value ret = arg.getReturnedNode();
 					
-					param.getTarget().generateTypeCast(builder).append(ret.getTarget().generatePointerToValueConversion(param));
+					getWriter(param).generateTypeCast(builder).append(getWriter(ret).generatePointerToValueConversion(param));
 				}
 				
 				generateArgumentPrefix(builder, arg, i);
@@ -75,7 +75,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 					builder.append('&');
 				}
 				
-				arg.getTarget().generateArgumentOutput(builder);
+				getWriter(arg).generateArgumentOutput(builder);
 				
 				if (!sameType)
 				{
@@ -148,7 +148,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			if (var.isVolatile())
 			{
-				parameter.getTarget().generateTypeCast(builder);
+				getWriter(parameter).generateTypeCast(builder);
 			}
 		}
 		
@@ -182,7 +182,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			ClosureDeclaration closure = (ClosureDeclaration)method;
 			
-			closure.getTarget().generateObjectReferenceIdentifier(builder);
+			getWriter(closure).generateObjectReferenceIdentifier(builder);
 		}
 		else
 		{
@@ -208,7 +208,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			if (castClass != null)
 			{
-				castClass.getTarget().generateTypeCast(builder, true, false).append('(');
+				getWriter(castClass).generateTypeCast(builder, true, false).append('(');
 			}
 			
 			// Chop off the method call so it does not get cloned over.
@@ -229,7 +229,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			Accessible ref = context.getCArgumentReferenceContext();
 			
-			ref.getTarget().generateArgumentReference(builder, call);
+			getWriter(ref).generateArgumentReference(builder, call);
 			
 			if (castClass != null)
 			{

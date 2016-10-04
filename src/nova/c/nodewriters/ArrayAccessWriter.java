@@ -11,7 +11,7 @@ public abstract class ArrayAccessWriter extends NodeWriter
 	{
 		Dimensions dimensions = node().getDimensions();
 		
-		dimensions.getTarget().generateSourceFragment(builder);
+		getWriter(dimensions).generateSourceFragment(builder);
 		
 		return builder;
 	}

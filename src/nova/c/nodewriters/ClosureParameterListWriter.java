@@ -14,7 +14,7 @@ public abstract class ClosureParameterListWriter extends ParameterListWriter
 		{
 			builder.append(", ");
 			
-			param.getTarget().generateHeader(builder);
+			getWriter(param).generateHeader(builder);
 		}
 		
 		builder.append(", void*");

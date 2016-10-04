@@ -13,7 +13,7 @@ public abstract class CatchWriter extends ExceptionHandlerWriter
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		return builder;
 	}

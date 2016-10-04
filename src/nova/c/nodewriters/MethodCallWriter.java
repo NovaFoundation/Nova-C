@@ -37,7 +37,7 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			builder.append("->");
 			
-			child.getTarget().generateSourceFragment(builder);
+			getWriter(child).generateSourceFragment(builder);
 		}
 		
 		return builder;
@@ -86,16 +86,16 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			VirtualMethodDeclaration virtual = novaMethod.getVirtualMethod();
 			
-			virtual.getTarget().generateSourceName(builder);
+			getWriter(virtual).generateSourceName(builder);
 		}
 		else
 		{
-			method.getTarget().generateSourceName(builder);
+			getWriter(method).generateSourceName(builder);
 		}
 		
 		MethodCallArgumentList args = node().getArgumentList();
 		
-		args.getTarget().generateSource(builder);
+		getWriter(args).generateSource(builder);
 		
 		if (requiresCast)
 		{

@@ -12,7 +12,7 @@ public abstract class ImportListWriter extends ListWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		return builder;
@@ -24,6 +24,6 @@ public abstract class ImportListWriter extends ListWriter
 		
 		Import importNode = Import.decodeStatement(node(), "import \"" + file.getClassDeclaration().getClassLocation() + "\"", node().getLocationIn(), true);
 		
-		return importNode.getTarget().generateSource(builder);
+		return getWriter(importNode).generateSource(builder);
 	}
 }

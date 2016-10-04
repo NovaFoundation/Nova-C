@@ -23,7 +23,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		
 		Parameter ref = node().getParameterList().getObjectReference();
 		
-		ref.getTarget().generateType(builder).append(' ');
+		getWriter(ref).generateType(builder).append(' ');
 		
 		generateObjectReferenceIdentifier(builder).append(", ");
 		generateContextParameter(builder);
@@ -37,7 +37,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		{
 			Accessible root = context.getRootReferenceNode();
 			
-			root.getTarget().generateArgumentReference(builder, context);
+			getWriter(root).generateArgumentReference(builder, context);
 		}
 		else
 		{
@@ -45,7 +45,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		}
 		
 		builder.append(", ");
-		method.getTarget().generateClosureContext(builder);
+		getWriter(method).generateClosureContext(builder);
 		
 		return builder;
 	}
@@ -93,7 +93,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		
 		ParameterList params = node().getParameterList();
 		
-		builder.append('(').append(params.getTarget().generateHeader()).append(')').append(";\n");
+		builder.append('(').append(getWriter(params).generateHeader()).append(')').append(";\n");
 		
 		return builder;
 	}

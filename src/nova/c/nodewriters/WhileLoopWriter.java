@@ -10,11 +10,11 @@ public abstract class WhileLoopWriter extends LoopWriter
 	{
 		Node condition = node().getCondition();
 		
-		builder.append("while (").append(condition.getTarget().generateSourceFragment()).append(')').append('\n');
+		builder.append("while (").append(getWriter(condition).generateSourceFragment()).append(')').append('\n');
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		return builder;
 	}

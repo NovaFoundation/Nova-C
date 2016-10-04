@@ -2,6 +2,8 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 
+import static nova.c.nodewriters.NodeWriter.getWriter;
+
 public interface AccessibleWriter
 {
 	public abstract Accessible node();
@@ -22,7 +24,7 @@ public interface AccessibleWriter
 			current = current.getAccessingNode();
 		}
 		
-		return ((Value)current).getTarget().generateSourceFragment(builder);
+		return getWriter((Value)current).generateSourceFragment(builder);
 	}
 	
 	/**
@@ -41,11 +43,11 @@ public interface AccessibleWriter
 		
 		if (n instanceof Identifier)
 		{
-			((Identifier)n).getTarget().generateUseOutput(builder, false, true);
+			getWriter(((Identifier)n)).generateUseOutput(builder, false, true);
 		}
 		else
 		{
-			n.getTarget().generateUseOutput(builder);
+			getWriter(n).generateUseOutput(builder);
 		}
 		
 		generateChildrenSourceFragment(builder, true, callingMethod, false);
@@ -137,7 +139,7 @@ public interface AccessibleWriter
 			return builder;
 		}
 		
-		StringBuilder output = child.getTarget().generateChildSourceFragment(reference, stopBefore, checkAccesses);
+		StringBuilder output = getWriter(child).generateChildSourceFragment(reference, stopBefore, checkAccesses);
 		
 		if (output.length() > 0 && reference)
 		{
@@ -178,11 +180,11 @@ public interface AccessibleWriter
 			
 			if (n instanceof Identifier)
 			{
-				use = ((Identifier)n).getTarget().generateUseOutput(builder, false, checkAccesses);
+				use = getWriter(((Identifier)n)).generateUseOutput(builder, false, checkAccesses);
 			}
 			else
 			{
-				use = n.getTarget().generateUseOutput(builder);
+				use = getWriter(n).generateUseOutput(builder);
 			}
 			
 			return use.append(generateChildrenSourceFragment(true, stopBefore));
@@ -194,11 +196,11 @@ public interface AccessibleWriter
 			
 			if (id.isSpecialFragment())
 			{
-				id.getTarget().generateSpecialFragment(builder);
+				getWriter(id).generateSpecialFragment(builder);
 			}
 		}
 		
-		return n.getTarget().generateSourceFragment(builder);
+		return getWriter(n).generateSourceFragment(builder);
 	}
 	
 	/**
@@ -231,7 +233,7 @@ public interface AccessibleWriter
 		
 		while (current != null && current != stopAt)
 		{
-			((Value)current).getTarget().generateUseOutput(builder).append(delimiter);
+			getWriter(((Value)current)).generateUseOutput(builder).append(delimiter);
 			
 			current = current.getAccessedNode();
 		}

@@ -18,7 +18,7 @@ public abstract class ElseStatementWriter extends ControlStatementWriter
 			{
 				builder.append(' ');
 				
-				child.getTarget().generateSourceFragment(builder);
+				getWriter(child).generateSourceFragment(builder);
 			}
 		}
 		
@@ -26,6 +26,6 @@ public abstract class ElseStatementWriter extends ControlStatementWriter
 		
 		Scope scope = node().getScope();
 		
-		return scope.getTarget().generateSource(builder);
+		return getWriter(scope).generateSource(builder);
 	}
 }

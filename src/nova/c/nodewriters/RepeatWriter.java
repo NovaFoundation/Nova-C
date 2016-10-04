@@ -12,7 +12,7 @@ public abstract class RepeatWriter extends LoopWriter
 		
 		if (value != null)
 		{
-			builder.append("for (").append(node().getName()).append(" = 0; ").append(node().getName()).append(" < ").append(value.getTarget().generateSourceFragment()).append("; ").append(node().getName()).append("++)\n");
+			builder.append("for (").append(node().getName()).append(" = 0; ").append(node().getName()).append(" < ").append(getWriter(value).generateSourceFragment()).append("; ").append(node().getName()).append("++)\n");
 		}
 		else
 		{
@@ -21,7 +21,7 @@ public abstract class RepeatWriter extends LoopWriter
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		return builder;
 	}

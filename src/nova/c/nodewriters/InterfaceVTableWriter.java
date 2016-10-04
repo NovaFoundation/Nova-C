@@ -31,7 +31,7 @@ public abstract class InterfaceVTableWriter extends VTableWriter
 		{
 			if (method != null)
 			{
-				method.getTarget().generateInterfaceVTableSource(builder);
+				getWriter(method).generateInterfaceVTableSource(builder);
 			}
 			else
 			{

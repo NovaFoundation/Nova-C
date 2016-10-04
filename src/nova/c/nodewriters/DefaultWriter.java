@@ -15,13 +15,13 @@ public abstract class DefaultWriter extends MatchCaseWriter
 		{
 			builder.append("default:").append('\n');
 			
-			scope.getTarget().generateSource(builder, false);
+			getWriter(scope).generateSource(builder, false);
 		}
 		else
 		{
 			builder.append("else").append('\n');
 			
-			scope.getTarget().generateSource(builder);
+			getWriter(scope).generateSource(builder);
 		}
 		
 		return builder;

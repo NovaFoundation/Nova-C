@@ -10,7 +10,7 @@ public abstract class TypeListWriter extends ListWriter
 	{
 		for (Object child : node())
 		{
-			((Node)child).getTarget().generateHeader(builder);
+			getWriter(((Node)child)).generateHeader(builder);
 		}
 		
 		return builder;
@@ -20,7 +20,7 @@ public abstract class TypeListWriter extends ListWriter
 	{
 		for (Object child : node())
 		{
-			((Node)child).getTarget().generateSource(builder);
+			getWriter(((Node)child)).generateSource(builder);
 		}
 		
 		return builder;

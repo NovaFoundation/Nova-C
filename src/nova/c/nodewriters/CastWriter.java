@@ -13,8 +13,8 @@ public abstract class CastWriter extends IValueWriter
 		Value value = node().getValueNode();
 		Value ret = value.getReturnedNode();
 		
-		ret.getTarget().generatePointerToValueConversion(builder);
-		value.getTarget().generateSourceFragment(builder);
+		getWriter(ret).generatePointerToValueConversion(builder);
+		getWriter(value).generateSourceFragment(builder);
 		
 		return builder;
 	}

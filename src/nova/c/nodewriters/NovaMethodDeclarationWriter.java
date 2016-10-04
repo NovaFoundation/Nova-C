@@ -11,7 +11,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		NovaMethodDeclaration root = node().getVirtualMethod();//.getRootDeclaration();
 		NovaParameterList params = root.getParameterList();
 		
-		builder.append("(").append(root.getTarget().generateType()).append("(*)(").append(params.getTarget().generateHeader()).append("))");
+		builder.append("(").append(getWriter(root).generateType()).append("(*)(").append(getWriter(params).generateHeader()).append("))");
 		
 		return generateSourceName(builder);
 	}
@@ -77,7 +77,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		VirtualMethodDeclaration virtual = node().getVirtualMethod();
 		NovaParameterList params = node().getParameterList();
 		
-		return generateType(builder).append(" (*").append(virtual.getTarget().generateVirtualMethodName()).append(")(").append(params.getTarget().generateHeader()).append(");\n");
+		return generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName()).append(")(").append(getWriter(params).generateHeader()).append(");\n");
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		{
 			VirtualMethodDeclaration virtual = node().getVirtualMethod();
 			
-			return virtual.getTarget().generateVirtualMethodName(builder);
+			return getWriter(virtual).generateVirtualMethodName(builder);
 		}
 		
 		return super.generateMethodCall(builder);

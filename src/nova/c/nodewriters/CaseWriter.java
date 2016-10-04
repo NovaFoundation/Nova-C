@@ -16,9 +16,9 @@ public abstract class CaseWriter extends MatchCaseWriter
 		{
 			Value value = node().getValue();
 			
-			builder.append("case " + value.getTarget().generateSourceFragment() + ":\n");
+			builder.append("case " + getWriter(value).generateSourceFragment() + ":\n");
 			
-			scope.getTarget().generateSource(builder, false);
+			getWriter(scope).generateSource(builder, false);
 			
 			if (node().requiresBreak())
 			{
@@ -29,7 +29,7 @@ public abstract class CaseWriter extends MatchCaseWriter
 		{
 			Value controlValue = node().getParentSwitch().getControlValue();
 			
-			String control = controlValue.getTarget().generateSourceFragment().toString();
+			String control = getWriter(controlValue).generateSourceFragment().toString();
 			
 			Case before = null;
 			String fall   = "";
@@ -45,7 +45,7 @@ public abstract class CaseWriter extends MatchCaseWriter
 				{
 					Variable fallthrough = node().getParentSwitch().getLocalFallthrough();
 					
-					fall = fallthrough.getTarget().generateSourceFragment() + " || ";
+					fall = getWriter(fallthrough).generateSourceFragment() + " || ";
 				}
 				else
 				{
@@ -55,10 +55,10 @@ public abstract class CaseWriter extends MatchCaseWriter
 			
 			Value value = node().getValue();
 			
-			builder.append("if (" + fall + control + " == " + value.getTarget().generateSourceFragment() + ")").append('\n');
+			builder.append("if (" + fall + control + " == " + getWriter(value).generateSourceFragment() + ")").append('\n');
 			builder.append("{\n");
 			
-			scope.getTarget().generateSource(builder, false);
+			getWriter(scope).generateSource(builder, false);
 			
 			if (node().getParentSwitch().requiresLoopFacade() && node().requiresBreak())
 			{

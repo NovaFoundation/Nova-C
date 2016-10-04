@@ -8,10 +8,10 @@ public abstract class DefaultParameterInitializationWriter extends NodeWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
-		String use = node().parameter.getTarget().generateUseOutput().toString();
+		String use = getWriter(node().parameter).generateUseOutput().toString();
 		
 		builder.append(use).append(" = ");
-		node().parameter.getTarget().generateTypeCast(builder).append('(');
+		getWriter(node().parameter).generateTypeCast(builder).append('(');
 		
 		builder.append(use).append(" == ");
 		
@@ -26,11 +26,11 @@ public abstract class DefaultParameterInitializationWriter extends NodeWriter
 		
 		ClassDeclaration obj = node().getProgram().getClassDeclaration("nova/Object");
 		
-		String cast = !node().parameter.getDefaultValue().isPrimitive() ? obj.getTarget().generateTypeCast().toString() : "";
+		String cast = !node().parameter.getDefaultValue().isPrimitive() ? getWriter(obj).generateTypeCast().toString() : "";
 		
 		Value defaultValue = node().parameter.getDefaultValue();
 		
-		builder.append(" ? ").append(cast).append(defaultValue.getTarget().generateSourceFragment()).append(" : ").append(cast).append(use);
+		builder.append(" ? ").append(cast).append(getWriter(defaultValue).generateSourceFragment()).append(" : ").append(cast).append(use);
 		
 		return builder.append(");");
 	}

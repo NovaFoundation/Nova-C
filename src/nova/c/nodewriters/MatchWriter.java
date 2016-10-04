@@ -15,9 +15,9 @@ public abstract class MatchWriter extends ControlStatementWriter
 		{
 			Value control = node().getControlValue();
 			
-			builder.append("switch (" + control.getTarget().generateSourceFragment() + ")\n");
+			builder.append("switch (" + getWriter(control).generateSourceFragment() + ")\n");
 			
-			scope.getTarget().generateSource(builder);
+			getWriter(scope).generateSource(builder);
 		}
 		else
 		{
@@ -28,7 +28,7 @@ public abstract class MatchWriter extends ControlStatementWriter
 				builder.append("do\n{\n");
 			}
 			
-			scope.getTarget().generateSource(builder, false);
+			getWriter(scope).generateSource(builder, false);
 			
 			if (requiresFacade)
 			{

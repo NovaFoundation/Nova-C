@@ -27,10 +27,10 @@ public abstract class ReturnWriter extends IValueWriter
 				NovaMethodDeclaration method = node().getParentMethod();
 				Value r = value.getReturnedNode();
 				
-				method.getTarget().generateTypeCast(builder).append(r.getTarget().generatePointerToValueConversion(r));
+				getWriter(method).generateTypeCast(builder).append(getWriter(r).generatePointerToValueConversion(r));
 			}
 			
-			value.getTarget().generateSourceFragment(builder);
+			getWriter(value).generateSourceFragment(builder);
 		}
 		
 		return builder;

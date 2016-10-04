@@ -1,5 +1,6 @@
 package nova.c.nodewriters;
 
+import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.util.SyntaxUtils;
 
@@ -33,7 +34,7 @@ public abstract class LiteralWriter extends IValueWriter implements AccessibleWr
 		{
 			Instantiation str = Instantiation.decodeStatement(node().getParent(), "new String(" + node().value + ")", node().getLocationIn(), true);
 			
-			return str.getTarget().generateSourceFragment(builder);
+			return getWriter(str).generateSourceFragment(builder);
 		}
 		else if (node().isNullLiteral(node()))
 		{

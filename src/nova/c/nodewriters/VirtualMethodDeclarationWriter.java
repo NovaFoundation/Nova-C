@@ -30,7 +30,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		
 		Parameter ref = node().getOriginalParameterList().getObjectReference();
 		
-		ref.getTarget().generateSourceFragment(builder).append("->");
+		getWriter(ref).generateSourceFragment(builder).append("->");
 		
 		builder.append(VTable.IDENTIFIER).append("->");
 		
@@ -56,7 +56,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		MethodCall output = MethodCall.decodeStatement(node().getScope(), call, node().getLocationIn().asNew(), true, true, node());
 		
 		generateVirtualMethodName(builder);
-		output.getArgumentList().getTarget().generateSourceFragment(builder);
+		getWriter(output.getArgumentList()).generateSourceFragment(builder);
 		
 		return builder.append(";\n}\n");
 	}

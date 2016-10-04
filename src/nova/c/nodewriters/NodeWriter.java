@@ -2,8 +2,14 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.error.UnimplementedOperationException;
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.Package;
+import net.fathomsoft.nova.tree.annotations.Annotation;
+import net.fathomsoft.nova.tree.exceptionhandling.*;
+import net.fathomsoft.nova.tree.lambda.LambdaMethodDeclaration;
+import net.fathomsoft.nova.tree.match.*;
+import net.fathomsoft.nova.tree.variables.*;
 
-public abstract class NodeWriter
+public abstract class NodeWriter extends Writer
 {
 	public abstract Node node();
 	

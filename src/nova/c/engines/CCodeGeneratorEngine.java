@@ -2,13 +2,14 @@ package nova.c.engines;
 
 import net.fathomsoft.nova.CodeGeneratorEngine;
 import net.fathomsoft.nova.Nova;
-import net.fathomsoft.nova.TargetC;
 import net.fathomsoft.nova.error.SyntaxMessage;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.util.FileUtils;
 import net.fathomsoft.nova.util.StringUtils;
 import net.fathomsoft.nova.util.SyntaxUtils;
+import nova.c.nodewriters.FileDeclarationWriter;
+import nova.c.nodewriters.StaticBlockWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 import static net.fathomsoft.nova.Nova.*;
+import static nova.c.nodewriters.NodeWriter.getWriter;
 
 public class CCodeGeneratorEngine extends CodeGeneratorEngine
 {
@@ -42,7 +44,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	 */
 	public void generateCHeaderOutput()
 	{
-		tree.getRoot().getTarget().generateHeader(new StringBuilder());
+		getWriter(tree.getRoot()).generateHeader(new StringBuilder());
 	}
 	
 	/**
@@ -51,7 +53,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	 */
 	public void generateCSourceOutput()
 	{
-		tree.getRoot().getTarget().generateSource(new StringBuilder());
+		getWriter(tree.getRoot()).generateSource(new StringBuilder());
 	}
 	
 	/**
@@ -66,8 +68,52 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	
 	public void formatOutput()
 	{
-		tree.getRoot().getTarget().formatSourceOutput();
-		tree.getRoot().getTarget().formatHeaderOutput();
+		getWriter(tree.getRoot()).formatSourceOutput();
+		getWriter(tree.getRoot()).formatHeaderOutput();
+	}
+	
+	/**
+	 * Get the C Header output text (destination text) from the Syntax
+	 * tree.
+	 *
+	 * @return The C Header output text after compilation.
+	 */
+	public String[] getCHeaderOutput()
+	{
+		Program root = tree.getRoot();
+		
+		String headers[] = new String[root.getNumChildren()];
+		
+		for (int i = 0; i < headers.length; i++)
+		{
+			Node child = root.getChild(i);
+			
+			headers[i] = getWriter(child).generateHeader().toString();
+		}
+		
+		return headers;
+	}
+	
+	/**
+	 * Get the C Source output text (destination text) from the Syntax
+	 * tree.
+	 *
+	 * @return The C Source output text after compilation.
+	 */
+	public String[] getCSourceOutput()
+	{
+		Program root = tree.getRoot();
+		
+		String sources[] = new String[root.getNumChildren()];
+		
+		for (int i = 0; i < sources.length; i++)
+		{
+			Node child = root.getChild(i);
+			
+			sources[i] = getWriter(child).generateSource().toString();
+		}
+		
+		return sources;
 	}
 	
 	public void writeFiles()
@@ -75,8 +121,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		generateNativeInterface();
 		generateInterfaceVTable();
 		
-		String headers[] = tree.getCHeaderOutput();
-		String sources[] = tree.getCSourceOutput();
+		String headers[] = getCHeaderOutput();
+		String sources[] = getCSourceOutput();
 		FileDeclaration files[] = tree.getFiles();
 		
 		if (controller.isFlagEnabled(CSOURCE))
@@ -137,14 +183,14 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			new File(outputDir, file.getPackage().getLocation()).mkdirs();
 			
 			types.append("typedef struct ").append(file.getName()).append(' ').append(file.getName()).append(';').append('\n');
-			includes.append("#include <").append(file.getTarget().generateHeaderName()).append('>').append('\n');
+			includes.append("#include <").append(getWriter(file).generateHeaderName()).append('>').append('\n');
 			
 			try
 			{
 				if (!controller.isFlagEnabled(NO_C_OUTPUT))
 				{
-					File headerFile = FileUtils.writeFile(file.getTarget().generateHeaderName(), outputDir, header);
-					File sourceFile = FileUtils.writeFile(file.getTarget().generateSourceName(), outputDir, source);
+					File headerFile = FileUtils.writeFile(getWriter(file).generateHeaderName(), outputDir, header);
+					File sourceFile = FileUtils.writeFile(getWriter(file).generateSourceName(), outputDir, source);
 					
 					cHeaderFiles.add(headerFile);
 					cSourceFiles.add(sourceFile);
@@ -204,14 +250,14 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			nativeInterface.append("#include <" + file.getTarget().generateHeaderName() + ">\n");
+			nativeInterface.append("#include <" + getWriter(file).generateHeaderName() + ">\n");
 		}
 		
 		nativeInterface.append('\n');
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			file.getTarget().generateHeaderNativeInterface(nativeInterface).append("\n");
+			getWriter(file).generateHeaderNativeInterface(nativeInterface).append("\n");
 		}
 		
 		nativeInterface.append("\ntypedef struct nova_env\n");
@@ -221,7 +267,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		{
 			for (ClassDeclaration clazz : file.getClassDeclarations())
 			{
-				clazz.getTarget().generateSourceName(nativeInterface, "native").append(" ").append(clazz.getNativeLocation()).append(";\n");
+				getWriter(clazz).generateSourceName(nativeInterface, "native").append(" ").append(clazz.getNativeLocation()).append(";\n");
 			}
 		}
 		
@@ -252,7 +298,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			file.getTarget().generateSourceNativeInterface(nativeInterface).append('\n');
+			getWriter(file).generateSourceNativeInterface(nativeInterface).append('\n');
 		}
 		
 		nativeInterface.append("};\n");
@@ -299,17 +345,17 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (NovaMethodDeclaration method : methods)
 		{
-			SyntaxUtils.generateTypeDefinition(builder, method.getParentClass(), types);
-			SyntaxUtils.generateTypeDefinition(builder, method, types);
+			FileDeclarationWriter.generateTypeDefinition(builder, method.getParentClass(), types);
+			FileDeclarationWriter.generateTypeDefinition(builder, method, types);
 			
-			SyntaxUtils.addTypesToTypeList(builder, method, types);
+			FileDeclarationWriter.addTypesToTypeList(builder, method, types);
 		}
 		
 		for (ClosureDeclaration c : closures)
 		{
-			SyntaxUtils.addTypesToTypeList(builder, c, types);
+			FileDeclarationWriter.addTypesToTypeList(builder, c, types);
 			
-			c.getTarget().generateClosureDefinition(builder);
+			getWriter(c).generateClosureDefinition(builder);
 		}
 		
 		builder.append("\n");
@@ -318,7 +364,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (NovaMethodDeclaration method : methods)
 		{
-			method.getVirtualMethod().getTarget().generateInterfaceVTableHeader(builder);
+			getWriter(method.getVirtualMethod()).generateInterfaceVTableHeader(builder);
 		}
 		
 		builder.append("} ").append(InterfaceVTable.TYPE).append(";\n");
@@ -362,7 +408,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 							
 							VirtualMethodDeclaration virtual = n.getVirtualMethod();
 							
-							builder.append(ENVIRONMENT_VAR + "." + clazz.getNativeLocation() + "." + n.getTarget().generateSourceNativeName(new StringBuilder(), false) + " = " + clazz.getVTableNodes().getExtensionVTable().getName() + "." + itable + virtual.getTarget().generateVirtualMethodName() + ";\n");
+							builder.append(ENVIRONMENT_VAR + "." + clazz.getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + clazz.getVTableNodes().getExtensionVTable().getName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
 						}
 					}
 				}
@@ -431,8 +477,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 //			mainMethodText.append	("AllocConsole();").append('\n');
 			mainMethodText.append	("srand(currentTimeMillis());").append('\n');
 			mainMethodText.append	(Literal.GARBAGE_IDENTIFIER).append(" = malloc(sizeof(void*));").append('\n');
-			mainMethodText.append	(gcInit.getTarget().generateSource()).append('\n');
-			mainMethodText.append	("nova_null = ").append(nullConstructor.getTarget().generateSourceFragment()).append(';').append('\n');
+			mainMethodText.append	(getWriter(gcInit).generateSource()).append('\n');
+			mainMethodText.append	("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
 			mainMethodText.append	(nativeAssignments).append('\n');
 			mainMethodText.append	(staticBlockCalls).append('\n');
 			mainMethodText.append	("args = (nova_Nova_String**)NOVA_MALLOC(argc * sizeof(nova_Nova_String));").append('\n');
@@ -441,19 +487,19 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append	("{").append('\n');
 			mainMethodText.append		("char* str = (char*)NOVA_MALLOC(sizeof(char) * strlen(argvs[i]) + 1);").append('\n');
 			mainMethodText.append		("copy_string(str, argvs[i]);").append('\n');
-			mainMethodText.append		("args[i] = ").append(strConstructor.getTarget().generateSourceName()).append("(0, 0, str);").append('\n');
+			mainMethodText.append		("args[i] = ").append(getWriter(strConstructor).generateSourceName()).append("(0, 0, str);").append('\n');
 			mainMethodText.append	("}").append('\n');
 			mainMethodText.append	("nova_datastruct_list_Nova_Array* argsArray = nova_datastruct_list_Nova_Array_2_Nova_construct(0, exceptionData, (nova_Nova_Object**)args, argc);");
 			mainMethodText.append	('\n');
 			mainMethodText.append	("TRY").append('\n');
 			mainMethodText.append	('{').append('\n');
-			mainMethodText.append		(mainMethod.getTarget().generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", argsArray);").append('\n');
+			mainMethodText.append		(getWriter(mainMethod).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", argsArray);").append('\n');
 			mainMethodText.append	('}').append('\n');
 			mainMethodText.append	("CATCH (1)").append('\n');
 			mainMethodText.append	('{').append('\n');
 			mainMethodText.append		("nova_exception_Nova_Exception* base = (nova_exception_Nova_Exception*)").append(Exception.EXCEPTION_DATA_IDENTIFIER).append("->nova_exception_Nova_ExceptionData_Nova_thrownException;").append('\n');
 			mainMethodText.append		("printf(\"Exception in Thread 'main': %s\", base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars);").append('\n');
-			mainMethodText.append		(enter.getTarget().generateSource()).append('\n');
+			mainMethodText.append		(getWriter(enter).generateSource()).append('\n');
 			mainMethodText.append	('}').append('\n');
 			mainMethodText.append	("FINALLY").append('\n');
 			mainMethodText.append	('{').append('\n');
@@ -467,12 +513,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			}
 			
 			mainMethodText.append   ("NOVA_FREE(args);").append('\n');
-			mainMethodText.append	(gcColl.getTarget().generateSource()).append('\n');
+			mainMethodText.append	(getWriter(gcColl).generateSource()).append('\n');
 			mainMethodText.append	('\n');
 			mainMethodText.append	("return 0;").append('\n');
 			mainMethodText.append("}\n");
 			
-			String newSource = fileDeclaration.getTarget().generateSource() + mainMethodText.toString();
+			String newSource = getWriter(fileDeclaration).generateSource() + mainMethodText.toString();
 			
 			newSource = SyntaxUtils.formatText(newSource);
 			
@@ -496,7 +542,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				
 				for (int j = 0; j < blocks.getNumVisibleChildren(); j++)
 				{
-					TargetC.TargetStaticBlock.generateMethodCall(builder, clazz).append(';').append('\n');
+					StaticBlockWriter.generateMethodCall(builder, clazz).append(';').append('\n');
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public abstract class DimensionsWriter extends NodeWriter
 		{
 			Node child = node().getChild(i);
 			
-			builder.append(prefix).append(child.getTarget().generateSourceFragment()).append(postfix);
+			builder.append(prefix).append(getWriter(child).generateSourceFragment()).append(postfix);
 		}
 		
 		return builder;

@@ -23,18 +23,18 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			Value value = node().getReturnedNode();
 			
-			value.getTarget().generateTypeCast(builder);
+			getWriter(value).generateTypeCast(builder);
 			
 			builder.append('(');
 		}
 		
 		if (node().isSpecialFragment())
 		{
-			node().getTarget().generateSpecialFragment(builder);
+			getWriter(node()).generateSpecialFragment(builder);
 		}
 		else
 		{
-			generateUseOutput(builder).append(node().getTarget().generateChildrenSourceFragment());
+			generateUseOutput(builder).append(getWriter(node()).generateChildrenSourceFragment());
 		}
 		
 		if (node().isGenericType() && node().doesAccess())
@@ -274,7 +274,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			ClassDeclaration clazz = existing.getParentClass(true);
 			
-			clazz.getTarget().generateSourceName(builder).append('_');
+			getWriter(clazz).generateSourceName(builder).append('_');
 		}
 		
 		//		if (existing instanceof InstanceDeclaration)

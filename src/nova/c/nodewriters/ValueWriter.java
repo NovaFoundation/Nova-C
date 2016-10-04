@@ -1,6 +1,5 @@
 package nova.c.nodewriters;
 
-import net.fathomsoft.nova.target.NodeWriter;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.util.SyntaxUtils;
 
@@ -90,7 +89,7 @@ public abstract class ValueWriter extends NodeWriter
 			
 			if (clazz != null)
 			{
-				clazz.getTarget().generateSourceName(builder);
+				getWriter(clazz).generateSourceName(builder);
 			}
 			else
 			{
@@ -309,7 +308,7 @@ public abstract class ValueWriter extends NodeWriter
 	{
 		if (node().arrayAccess != null)
 		{
-			return node().arrayAccess.getTarget().generateSourceFragment(builder);
+			return getWriter(node().arrayAccess).generateSourceFragment(builder);
 		}
 		
 		return builder;

@@ -17,7 +17,7 @@ public abstract class UnaryOperationWriter extends IValueWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSourceFragment(builder);
+			getWriter(child).generateSourceFragment(builder);
 		}
 		
 		return builder;

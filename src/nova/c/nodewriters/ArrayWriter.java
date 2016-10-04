@@ -36,7 +36,7 @@ public abstract class ArrayWriter extends VariableDeclarationWriter
 		//			
 		//			dim.getVisibleChild(i).generateCSourceFragment(builder);
 		//		}
-		dim.getTarget().generateSourceFragment(builder, " * ", "");
+		getWriter(dim).generateSourceFragment(builder, " * ", "");
 		
 		//		builder.append(')');
 		
@@ -53,7 +53,7 @@ public abstract class ArrayWriter extends VariableDeclarationWriter
 				
 				Node child = dim.getVisibleChild(i);
 				
-				child.getTarget().generateSourceFragment(builder);
+				getWriter(child).generateSourceFragment(builder);
 			}
 			
 			builder.append(" }, 0, ").append(dim.getNumVisibleChildren() - 1).append(", ");

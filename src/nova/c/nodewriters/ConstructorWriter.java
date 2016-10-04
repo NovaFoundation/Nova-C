@@ -43,7 +43,7 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		{
 			ClassDeclaration clazz = node().getTypeClass();
 			
-			builder.append("CCLASS_NEW(").append(clazz.getTarget().generateSourceName()).append(", ").append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
+			builder.append("CCLASS_NEW(").append(getWriter(clazz).generateSourceName()).append(", ").append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
 			
 			if (!classDeclaration.containsNonStaticPrivateData())
 			{
@@ -61,7 +61,7 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		
 		VTable extension = node().getParentClass().getVTableNodes().getExtensionVTable();
 		
-		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append("->").append(VTable.IDENTIFIER).append(" = &").append(extension.getTarget().generateSourceName()).append(";\n");
+		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append("->").append(VTable.IDENTIFIER).append(" = &").append(getWriter(extension).generateSourceName()).append(";\n");
 		
 		{
 			Stack<AssignmentMethod> calls = new Stack<>();
@@ -81,7 +81,7 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 				
 				if (method != null)
 				{
-					method.getTarget().generateMethodCall(builder, true);
+					getWriter(method).generateMethodCall(builder, true);
 				}
 			}
 		}
@@ -96,19 +96,19 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 			{
 				MethodCall call = calls.pop();
 				
-				call.getTarget().generateSource(builder);
+				getWriter(call).generateSource(builder);
 			}
 		}
 		
 		AssignmentMethod assignmentMethod = node().getParentClass().getAssignmentMethodNode();
 		
-		assignmentMethod.getTarget().generateMethodCall(builder);
+		getWriter(assignmentMethod).generateMethodCall(builder);
 		
 		builder.append('\n');
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		builder.append('\n');
 		

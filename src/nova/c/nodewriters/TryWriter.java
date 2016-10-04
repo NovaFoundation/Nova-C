@@ -16,7 +16,7 @@ public abstract class TryWriter extends ExceptionHandlerWriter
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		builder.append('}').append('\n');
 		

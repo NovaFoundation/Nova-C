@@ -17,7 +17,7 @@ public abstract class ArgumentListWriter extends ListWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSourceFragment(builder);
+			getWriter(child).generateSourceFragment(builder);
 		}
 		
 		return builder;

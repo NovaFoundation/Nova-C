@@ -21,7 +21,7 @@ public abstract class PriorityWriter extends ValueWriter implements AccessibleWr
 		{
 			Value contents = node().getContents();
 			
-			return builder.append('(').append(contents.getTarget().generateSourceFragment()).append(')').append(generateArrayAccess()).append(generateChildrenSourceFragment());
+			return builder.append('(').append(getWriter(contents).generateSourceFragment()).append(')').append(generateArrayAccess()).append(generateChildrenSourceFragment());
 		}
 	}
 	
@@ -29,6 +29,6 @@ public abstract class PriorityWriter extends ValueWriter implements AccessibleWr
 	{
 		Value contents = node().getContents();
 		
-		return builder.append('(').append(contents.getTarget().generateSourceFragment()).append(')').append(generateArrayAccess());
+		return builder.append('(').append(getWriter(contents).generateSourceFragment()).append(')').append(generateArrayAccess());
 	}
 }

@@ -23,7 +23,7 @@ public abstract class DestructorWriter extends BodyMethodDeclarationWriter
 			
 			if (child != node().getParameterList())
 			{
-				child.getTarget().generateSource(builder);
+				getWriter(child).generateSource(builder);
 			}
 		}
 		
@@ -107,15 +107,15 @@ public abstract class DestructorWriter extends BodyMethodDeclarationWriter
 			{
 				//				void nova_free_array(void** array, int* dimensionSizes, int dimension, int dimensions, del_function function);
 				//				builder.append("nova_free_array(" + field.generateUseOutput(new StringBuilder(), true) + ", );");
-				builder.append("NOVA_FREE(" + field.getTarget().generateUseOutput(new StringBuilder(), true) + ");");
+				builder.append("NOVA_FREE(" + getWriter(field).generateUseOutput(new StringBuilder(), true) + ");");
 			}
 			else if (field.getTypeClass().getDestructor() != null)
 			{
 				Destructor dest = field.getTypeClass().getDestructor();
 				
-				dest.getTarget().generateSourceName(builder).append('(').append('&');
+				getWriter(dest).generateSourceName(builder).append('(').append('&');
 				
-				field.getTarget().generateUseOutput(builder, true).append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");");
+				getWriter(field).generateUseOutput(builder, true).append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");");
 			}
 		}
 		

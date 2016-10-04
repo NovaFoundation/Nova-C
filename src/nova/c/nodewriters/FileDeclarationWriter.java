@@ -24,7 +24,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		Package pkg = node().getPackage();
 		ClassDeclaration clazz = node().getClassDeclaration();
 		
-		return pkg.getTarget().generateHeaderLocation() + "/" + clazz.getTarget().generateSourceName() + ".h";
+		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName() + ".h";
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		Package pkg = node().getPackage();
 		ClassDeclaration clazz = node().getClassDeclaration();
 		
-		return pkg.getTarget().generateHeaderLocation() + "/" + clazz.getTarget().generateSourceName() + ".c";
+		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName() + ".c";
 	}
 	
 	public StringBuilder generateHeader(StringBuilder builder)
@@ -49,7 +49,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		{
 			ClassDeclaration clazz = node().getClassDeclaration();
 			
-			String definitionName = "FILE_" + clazz.getTarget().generateSourceName() + "_" + Nova.LANGUAGE_NAME.toUpperCase();
+			String definitionName = "FILE_" + getWriter(clazz).generateSourceName() + "_" + Nova.LANGUAGE_NAME.toUpperCase();
 			
 			builder.append("#pragma once").append('\n');
 			builder.append("#ifndef ").append(definitionName).append('\n');
@@ -61,7 +61,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			
 			ImportList imports = node().getImportList();
 			
-			imports.getTarget().generateHeader(builder);
+			getWriter(imports).generateHeader(builder);
 			
 			builder.append('\n');
 			
@@ -71,7 +71,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 				
 				if (child != imports)
 				{
-					child.getTarget().generateHeader(builder);
+					getWriter(child).generateHeader(builder);
 				}
 			}
 			
@@ -91,7 +91,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			
 			ImportList imports = node().getImportList();
 			
-			imports.getTarget().generateSource(builder).append('\n');
+			getWriter(imports).generateSource(builder).append('\n');
 			
 			generateSourceClosureContextDefinitions(builder).append('\n');
 			generateClosureDefinitions(builder, false).append('\n');
@@ -102,7 +102,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 				
 				if (child != node().getImportList())
 				{
-					child.getTarget().generateSource(builder);
+					getWriter(child).generateSource(builder);
 				}
 			}
 			
@@ -116,7 +116,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	{
 		for (ClassDeclaration clazz : node().getClassDeclarations())
 		{
-			clazz.getTarget().generateHeaderNativeInterface(builder);
+			getWriter(clazz).generateHeaderNativeInterface(builder);
 		}
 		
 		return builder;
@@ -126,7 +126,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	{
 		for (ClassDeclaration clazz : node().getClassDeclarations())
 		{
-			clazz.getTarget().generateSourceNativeInterface(builder);
+			getWriter(clazz).generateSourceNativeInterface(builder);
 		}
 		
 		return builder;
@@ -153,7 +153,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			{
 				ClassDeclaration clazz = (ClassDeclaration)child;
 				
-				builder.append("typedef struct ").append(clazz.getTarget().generateSourceName()).append(' ').append(clazz.getTarget().generateSourceName()).append(';').append('\n');
+				builder.append("typedef struct ").append(getWriter(clazz).generateSourceName()).append(' ').append(getWriter(clazz).generateSourceName()).append(';').append('\n');
 			}
 		}
 		
@@ -178,7 +178,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	{
 		for (ClosureContext context : node().contexts)
 		{
-			context.getTarget().generateSource(builder);
+			getWriter(context).generateSource(builder);
 		}
 		
 		return builder;
@@ -201,7 +201,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		{
 			if (closure.isPublic() == publicClosures)
 			{
-				SyntaxUtils.addTypesToTypeList(builder, closure, types);
+				addTypesToTypeList(builder, closure, types);
 			}
 		}
 		
@@ -214,7 +214,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		{
 			if (closure.isPublic() == publicClosures)
 			{
-				closure.getTarget().generateClosureDefinition(builder);
+				getWriter(closure).generateClosureDefinition(builder);
 			}
 		}
 		
@@ -245,5 +245,45 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		}
 		
 		node().setSource(SyntaxUtils.formatText(node().source.toString()));
+	}
+	
+	public static void generateTypeDefinition(StringBuilder builder, Value value, ArrayList<String> types)
+	{
+		if (value == null || value.getType() == null)
+		{
+			return;
+		}
+		
+		String type = getWriter(value).generateTypeName(new StringBuilder()).toString();
+		
+		if (!value.isPrimitiveType() && !types.contains(type))
+		{
+			builder.append("typedef struct ").append(type).append(" ").append(type).append(";\n");
+			
+			types.add(type.toString());
+		}
+	}
+	
+	public static void addTypesToTypeList(StringBuilder builder, CallableMethod closure, ArrayList<String> types)
+	{
+		ParameterList list = closure.getParameterList();
+		
+		int numParameters = list.getNumParameters();
+		
+		generateTypeDefinition(builder, list.getExceptionData(), types);
+		
+		for (int i = 0; i < numParameters; i++)
+		{
+			generateTypeDefinition(builder, list.getParameter(i), types);
+			
+			if (list.getParameter(i) instanceof ClosureDeclaration)
+			{
+				ClosureDeclaration c = (ClosureDeclaration)list.getParameter(i);
+				
+				addTypesToTypeList(builder, c, types);
+			}
+		}
+		
+		generateTypeDefinition(builder, closure.getTypeClass(), types);
 	}
 }

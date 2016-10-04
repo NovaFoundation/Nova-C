@@ -31,7 +31,7 @@ public abstract class ScopeWriter extends NodeWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		if (braces)

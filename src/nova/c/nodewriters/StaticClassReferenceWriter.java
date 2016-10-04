@@ -25,7 +25,7 @@ public abstract class StaticClassReferenceWriter extends IIdentifierWriter
 		
 		Identifier accessed = node().getAccessedNode();
 		
-		return accessed.getTarget().generateSourceFragment(builder);
+		return getWriter(accessed).generateSourceFragment(builder);
 	}
 	
 	public StringBuilder generateArgumentReference(StringBuilder builder, Identifier callingMethod)

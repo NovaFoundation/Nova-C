@@ -12,7 +12,7 @@ public abstract class IfStatementWriter extends ControlStatementWriter
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder);
+		getWriter(scope).generateSource(builder);
 		
 		return builder;
 	}
@@ -21,6 +21,6 @@ public abstract class IfStatementWriter extends ControlStatementWriter
 	{
 		Value condition = node().getCondition();
 		
-		return builder.append("if (").append(condition.getTarget().generateSourceFragment()).append(')');
+		return builder.append("if (").append(getWriter(condition).generateSourceFragment()).append(')');
 	}
 }

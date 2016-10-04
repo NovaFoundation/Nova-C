@@ -14,7 +14,7 @@ public abstract class MethodListWriter extends TypeListWriter
 			
 			if (!methodDeclaration.isExternal())
 			{
-				methodDeclaration.getTarget().generateHeader(builder);
+				getWriter(methodDeclaration).generateHeader(builder);
 			}
 		}
 		
@@ -41,7 +41,7 @@ public abstract class MethodListWriter extends TypeListWriter
 					builder.append('\n');
 				}
 				
-				methodDeclaration.getTarget().generateSource(builder);
+				getWriter(methodDeclaration).generateSource(builder);
 				
 				printed = true;
 			}
@@ -64,7 +64,7 @@ public abstract class MethodListWriter extends TypeListWriter
 		{
 			MethodDeclaration child = node().getChild(i);
 			
-			child.getTarget().generateSourcePrototype(builder).append('\n');
+			getWriter(child).generateSourcePrototype(builder).append('\n');
 		}
 		
 		return builder;

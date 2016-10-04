@@ -26,7 +26,7 @@ public abstract class BinaryOperationWriter extends IValueWriter
 		{
 			Value operand = node().getLeftOperand();
 			
-			return operand.getTarget().generateSourceFragment(builder);
+			return getWriter(operand).generateSourceFragment(builder);
 		}
 		
 		String leftCast = "";
@@ -39,15 +39,15 @@ public abstract class BinaryOperationWriter extends IValueWriter
 		
 		if (leftReturned.isOriginallyGenericType())
 		{
-			leftCast = leftReturned.getTarget().generateTypeCast(new StringBuilder(), true, false).toString();
+			leftCast = getWriter(leftReturned).generateTypeCast(new StringBuilder(), true, false).toString();
 		}
 		if (rightReturned.isOriginallyGenericType())
 		{
-			rightCast = rightReturned.getTarget().generateTypeCast(new StringBuilder(), true, false).toString();
+			rightCast = getWriter(rightReturned).generateTypeCast(new StringBuilder(), true, false).toString();
 		}
 		
-		return builder.append(leftCast).append(left.getTarget().generateSourceFragment()).append(' ')
-			.append(operator.getTarget().generateSourceFragment()).append(' ')
-			.append(rightCast).append(right.getTarget().generateSourceFragment());
+		return builder.append(leftCast).append(getWriter(left).generateSourceFragment()).append(' ')
+			.append(getWriter(operator).generateSourceFragment()).append(' ')
+			.append(rightCast).append(getWriter(right).generateSourceFragment());
 	}
 }

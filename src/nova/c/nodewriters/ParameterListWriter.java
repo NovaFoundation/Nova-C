@@ -29,7 +29,7 @@ public abstract class ParameterListWriter extends TypeListWriter
 			
 			Node child = node().getVisibleChild(i);
 			
-			child.getTarget().generateHeader(builder);
+			getWriter(child).generateHeader(builder);
 		}
 		
 		return builder;
@@ -48,7 +48,7 @@ public abstract class ParameterListWriter extends TypeListWriter
 			
 			Node child = node().getVisibleChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		return builder;
@@ -65,7 +65,7 @@ public abstract class ParameterListWriter extends TypeListWriter
 			
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateHeader(builder);
+			getWriter(child).generateHeader(builder);
 		}
 		
 		return builder;
@@ -82,7 +82,7 @@ public abstract class ParameterListWriter extends TypeListWriter
 			
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		return builder;

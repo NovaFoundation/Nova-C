@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import static java.util.Arrays.stream;
 import static net.fathomsoft.nova.Nova.*;
 import static net.fathomsoft.nova.util.FileUtils.formatPath;
+import static nova.c.nodewriters.Writer.getWriter;
 
 public class CCompileEngine extends CompileEngine
 {
@@ -191,7 +192,7 @@ public class CCompileEngine extends CompileEngine
 				dir = new File(controller.outputDirectories.get(sourceFile.getPackage().getRootFolder()));
 			}
 			
-			cmd.append(formatPath(dir.getAbsolutePath() + "/" + sourceFile.getTarget().generateSourceName())).append(' ');
+			cmd.append(formatPath(dir.getAbsolutePath() + "/" + getWriter(sourceFile).generateSourceName())).append(' ');
 		}
 
 		for (String external : controller.externalImports)

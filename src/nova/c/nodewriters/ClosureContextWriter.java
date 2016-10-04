@@ -19,7 +19,7 @@ public abstract class ClosureContextWriter extends TypeListWriter
 		for (ClosureVariableDeclaration var : node())
 		{
 			builder.append("/* ").append(var.originalDeclaration).append(" */ ");
-			var.getTarget().generateSource(builder);
+			getWriter(var).generateSource(builder);
 			
                 /*boolean original = var.originalDeclaration.isValueReference();
                 var.originalDeclaration.setIsValueReference(true);

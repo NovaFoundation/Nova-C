@@ -13,7 +13,7 @@ public abstract class StaticFieldListWriter extends ListWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateHeader(builder);
+			getWriter(child).generateHeader(builder);
 		}
 		
 		return builder;
@@ -25,7 +25,7 @@ public abstract class StaticFieldListWriter extends ListWriter
 		{
 			Node child = node().getChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		return builder;

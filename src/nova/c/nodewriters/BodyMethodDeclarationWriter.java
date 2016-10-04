@@ -27,6 +27,6 @@ public abstract class BodyMethodDeclarationWriter extends NovaMethodDeclarationW
 		
 		Scope scope = node().getScope();
 		
-		return scope.getTarget().generateSource(builder);
+		return getWriter(scope).generateSource(builder);
 	}
 }

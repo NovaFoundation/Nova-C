@@ -109,7 +109,7 @@ public abstract class MethodDeclarationWriter extends InstanceDeclarationWriter
 		
 		ParameterList params = node().getParameterList();
 		
-		params.getTarget().generateSource(builder);
+		getWriter(params).generateSource(builder);
 		
 		return builder.append(')');
 	}

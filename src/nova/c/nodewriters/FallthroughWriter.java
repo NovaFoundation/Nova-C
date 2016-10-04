@@ -13,7 +13,7 @@ public abstract class FallthroughWriter extends MatchChildWriter
 		
 		if (fall != null)
 		{
-			fall.getTarget().generateSourceFragment(builder).append(" = 1;\n");
+			getWriter(fall).generateSourceFragment(builder).append(" = 1;\n");
 		}
 		
 		return builder;

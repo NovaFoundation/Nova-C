@@ -44,7 +44,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			}
 			else
 			{
-				declaration.getTarget().generateArguments(builder, node(), node().getParentMethod());
+				getWriter(declaration).generateArguments(builder, node(), node().getParentMethod());
 			}
 		}
 		
@@ -67,7 +67,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			ClosureDeclaration declaration = (ClosureDeclaration)node().getDeclaration();
 			
 			builder.append(", ");
-			declaration.getTarget().generateObjectReferenceIdentifier(builder);
+			getWriter(declaration).generateObjectReferenceIdentifier(builder);
 		}
 		
 		return builder;

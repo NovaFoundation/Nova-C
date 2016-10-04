@@ -20,7 +20,7 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		{
 			VariableDeclaration variable = (VariableDeclaration)node().getChild(i);
 			
-			variable.getTarget().generateFreeOutput(builder);
+			getWriter(variable).generateFreeOutput(builder);
 		}
 		
 		return builder;
@@ -37,8 +37,8 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		{
 			LocalDeclaration child = (LocalDeclaration)node().getChild(i);
 			
-			child.getTarget().generateDeclarationFragment(builder).append(" = ");
-			child.getTarget().generateDefaultValue(builder);
+			getWriter(child).generateDeclarationFragment(builder).append(" = ");
+			getWriter(child).generateDefaultValue(builder);
 			
 			builder.append(";\n");
 		}

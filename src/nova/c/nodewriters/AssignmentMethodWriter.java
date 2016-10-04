@@ -27,12 +27,12 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 		{
 			Node child = node().getVisibleChild(i);
 			
-			child.getTarget().generateSource(builder);
+			getWriter(child).generateSource(builder);
 		}
 		
 		Scope scope = node().getScope();
 		
-		scope.getTarget().generateSource(builder, false);
+		getWriter(scope).generateSource(builder, false);
 		
 		builder.append('}').append('\n');
 		
@@ -56,7 +56,7 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 		{
 			ClassDeclaration clazz = node().getParentClass();
 			
-			builder.append('(').append(clazz.getTarget().generateType()).append(')');
+			builder.append('(').append(getWriter(clazz).generateType()).append(')');
 		}
 		
 		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
@@ -99,11 +99,11 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 			
 			if (!field.isExternal())
 			{
-				field.getTarget().generateUseOutput(builder).append(" = ");
+				getWriter(field).generateUseOutput(builder).append(" = ");
 				
 				if (!field.isPrimitiveType() && !field.isExternalType())
 				{
-					field.getTarget().generateNullOutput(builder);
+					getWriter(field).generateNullOutput(builder);
 				}
 				else
 				{

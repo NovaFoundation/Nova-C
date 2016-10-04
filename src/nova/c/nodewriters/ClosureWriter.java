@@ -16,28 +16,28 @@ public abstract class ClosureWriter extends VariableWriter
 	{
 		ClosureDeclaration decl = node().getClosureDeclaration();
 		
-		decl.getTarget().generateTypeCast(builder);
+		getWriter(decl).generateTypeCast(builder);
 		
 		if (node().getMethodDeclaration().isVirtual() && !node().isVirtualTypeKnown())
 		{
 			Accessible root = node().getRootReferenceNode();
 			
-			root.getTarget().generateArgumentReference(builder, node()).append("->").append(VTable.IDENTIFIER).append("->");
+			getWriter(root).generateArgumentReference(builder, node()).append("->").append(VTable.IDENTIFIER).append("->");
 			
 			VirtualMethodDeclaration virtual = node().getMethodDeclaration().getVirtualMethod();
 			
-			builder.append(virtual.getTarget().generateVirtualMethodName());
+			builder.append(getWriter(virtual).generateVirtualMethodName());
 		}
 		else
 		{
 			VariableDeclaration d = node().getDeclaration();
 			
-			builder.append('&').append(d.getTarget().generateSourceName());
+			builder.append('&').append(getWriter(d).generateSourceName());
 		}
 		
 		builder.append(", ");
 		
-		decl.getTarget().generateArguments(builder, node(), node().getMethodDeclaration());
+		getWriter(decl).generateArguments(builder, node(), node().getMethodDeclaration());
 		
 		return builder;
 	}

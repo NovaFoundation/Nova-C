@@ -97,7 +97,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		{
 			Destructor destructor = node().getTypeClass().getDestructor();
 			
-			destructor.getTarget().generateSourceName(builder).append('(').append('&');
+			getWriter(destructor).generateSourceName(builder).append('(').append('&');
 			
 			generateUseOutput(builder, true).append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");\n");
 		}
