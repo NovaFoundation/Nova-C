@@ -2,12 +2,102 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6cae7c69-2188-4377-b8bb-128920d8743b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Nova.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Nova C.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/CTarget.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/engines/CCodeGeneratorEngine.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/engines/CCompileEngine.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AbstractMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AccessibleWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AnnotationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArgumentListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArrayAccessWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ArrayWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AssignmentMethodWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/AssignmentWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BinaryOperationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BodyMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/BreakWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CaseWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CastWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/CatchWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClassDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureContextDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureContextWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureParameterListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ClosureWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ConstructorWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ContinueWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ControlStatementWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DefaultParameterInitializationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DefaultWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DestructorWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/DimensionsWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ElseStatementWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExceptionHandlerWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExtensionVTableWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ExternalMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FallthroughWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FieldDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FieldListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FileDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/FinallyWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ForEachLoopWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ForLoopWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IIdentifierWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IValueWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IdentifierWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/IfStatementWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ImportListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ImportWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstanceDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstanceFieldListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InstantiationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceVTableWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LambdaMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LiteralWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LocalDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/LoopWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchCaseWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchChildWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MatchWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallArgumentListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/MethodListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NodeWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NovaMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/NovaParameterListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/OperatorWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PackageWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ParameterListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ParameterWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PriorityWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ProgramWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/PropertyMethodWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/RepeatWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ReturnWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ScopeWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/SkeletonWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticBlockWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticClassReferenceWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/StaticFieldListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TernaryOperationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ThrowWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TryWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/TypeListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/UnaryOperationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/UntilWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VTableWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/ValueWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableDeclarationListWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VariableWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/VirtualMethodDeclarationWriter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/nova/c/nodewriters/WhileLoopWriter.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nova/c/CTarget.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Nova.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Nova.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Nova C.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,36 +117,22 @@
     <favorites_list name="Nova C" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="TargetC.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/TargetC.java">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="TernaryOperationWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/TernaryOperationWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="597">
-              <caret line="3030" column="29" selection-start-line="3030" selection-start-column="29" selection-end-line="3030" selection-end-column="29" />
+            <state relative-caret-position="238">
+              <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCodeGeneratorEngine.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/nova/c/engines/CCodeGeneratorEngine.java">
+      <file leaf-file-name="FieldListWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/FieldListWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1306#1307#0" expanded="true" />
-                <element signature="e#1375#1376#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CCompileEngine.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/nova/c/engines/CCompileEngine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+            <state relative-caret-position="204">
+              <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,11 +140,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CTarget.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/nova/c/CTarget.java">
+      <file leaf-file-name="InstanceFieldListWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/InstanceFieldListWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="978">
-              <caret line="3029" column="16" selection-start-line="3029" selection-start-column="16" selection-end-line="3029" selection-end-column="16" />
+            <state relative-caret-position="238">
+              <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,11 +152,73 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassDeclaration.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/tree/ClassDeclaration.java">
+      <file leaf-file-name="StaticFieldListWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/StaticFieldListWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1222">
-              <caret line="2409" column="25" selection-start-line="2409" selection-start-column="25" selection-end-line="2409" selection-end-column="25" />
+            <state relative-caret-position="119">
+              <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SkeletonWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/SkeletonWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="55" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExternalMethodDeclarationWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ExternalMethodDeclarationWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExternalMethodDeclaration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/tree/ExternalMethodDeclaration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MethodDeclarationWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/MethodDeclarationWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NovaMethodDeclarationWriter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/NovaMethodDeclarationWriter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -99,21 +237,72 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/CodeGeneratorEngine.java" />
-        <option value="$PROJECT_DIR$/src/nova/c/CodeGeneratorEngine.java" />
-        <option value="$PROJECT_DIR$/src/nova/c/CCodeGeneratorEngine.java" />
-        <option value="$PROJECT_DIR$/src/nova/c/CCompileEngine.java" />
-        <option value="$PROJECT_DIR$/src/nova/c/engines/CCompileEngine.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ClosureDeclarationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ParameterListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ClosureParameterListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ConstructorWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ContinueWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/DefaultParameterInitializationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/DestructorWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/DimensionsWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ElseStatementWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/IfStatementWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/VTableWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ExtensionVTableWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/InterfaceVTableWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ExternalMethodDeclarationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/FileDeclarationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/LoopWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ForEachLoopWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ForLoopWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ImportWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ImportListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/InstantiationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/InterfaceWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/LiteralWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/MethodCallWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/MethodCallArgumentListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/MethodListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/NovaParameterListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/OperatorWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/PackageWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/PriorityWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ProgramWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/PropertyMethodWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/RepeatWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ReturnWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ScopeWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/StaticBlockWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/StaticClassReferenceWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/TernaryOperationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ArrayWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/ArrayAccessWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/UnaryOperationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/UntilWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/WhileLoopWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/FieldListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/InstanceFieldListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/StaticFieldListWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/SkeletonWriter.java" />
         <option value="$PROJECT_DIR$/src/nova/c/CTarget.java" />
-        <option value="$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/TargetC.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodes/MethodDeclarationWriter.java" />
+        <option value="$PROJECT_DIR$/src/nova/c/nodewriters/NovaMethodDeclarationWriter.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-16" />
-    <option name="y" value="-16" />
-    <option name="width" value="3872" />
-    <option name="height" value="2092" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -122,7 +311,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -140,6 +329,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -175,6 +366,10 @@
               <option name="myItemId" value="c" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nodewriters" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -200,18 +395,21 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Nova/out/production/Nova" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Nova/bin/production/Nova" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="SearchEverywhereHistoryKey" value="novamethodde&#9;PSI&#9;JAVA://nova.c.nodes.NovaMethodDeclarationWriter&#10;skele&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/SkeletonWriter.java&#10;staticfi&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/StaticFieldListWriter.java&#10;instancefi&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/InstanceFieldListWriter.java&#10;fieldlistwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/FieldListWriter.java&#10;whilel&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/WhileLoopWriter.java&#10;until&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/UntilWriter.java&#10;unaryop&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/UnaryOperationWriter.java&#10;arrayacc&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ArrayAccessWriter.java&#10;arraywr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ArrayWriter.java&#10;ternaryop&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/TernaryOperationWriter.java&#10;staticclass&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/StaticClassReferenceWriter.java&#10;staticbl&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/StaticBlockWriter.java&#10;scopewr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ScopeWriter.java&#10;returnwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ReturnWriter.java&#10;repeatwri&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/RepeatWriter.java&#10;propertyme&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/PropertyMethodWriter.java&#10;progra&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ProgramWriter.java&#10;prio&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/PriorityWriter.java&#10;packagw&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/PackageWriter.java&#10;packagew&#9;PSI&#9;JAVA://com.sun.java.util.jar.pack.PackageWriter&#10;operatorwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/OperatorWriter.java&#10;novaparam&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/NovaParameterListWriter.java&#10;methodlistwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/MethodListWriter.java&#10;methodcallarg&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/MethodCallArgumentListWriter.java&#10;methodcallw&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/MethodCallWriter.java&#10;literal&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/LiteralWriter.java&#10;interfacewr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/InterfaceWriter.java&#10;instantw&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/InstantiationWriter.java&#10;importli&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ImportListWriter.java&#10;impor&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ImportWriter.java&#10;forlo&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ForLoopWriter.java&#10;fore&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ForEachLoopWriter.java&#10;loopw&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/LoopWriter.java&#10;filedecl&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/FileDeclarationWriter.java&#10;externalmet&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ExternalMethodDeclarationWriter.java&#10;interfacevtablew&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/InterfaceVTableWriter.java&#10;extensionv&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ExtensionVTableWriter.java&#10;vtablewr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/VTableWriter.java&#10;ifstat&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/IfStatementWriter.java&#10;elsestat&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ElseStatementWriter.java&#10;dimens&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/DimensionsWriter.java&#10;destructorwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/DestructorWriter.java&#10;defaultparameterin&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/DefaultParameterInitializationWriter.java&#10;continuewri&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ContinueWriter.java&#10;constructorwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ConstructorWriter.java&#10;closureparameterlistwr&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ClosureParameterListWriter.java&#10;parameterli&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ParameterListWriter.java&#10;closuredecl&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ClosureDeclarationWriter.java&#10;parame&#9;FILE&#9;file://C:/Users/Braden/GitHub/NovaWorkspace/Nova C/src/nova/c/nodes/ParameterWriter.java" />
+    <property name="ignore_missing_gitignore" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Braden\GitHub\NovaWorkspace\Nova C\src\nova\c\nodes" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="nova.c" />
     </key>
@@ -409,6 +607,36 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -465,6 +693,26 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <envs />
+      <method />
+    </configuration>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -480,33 +728,33 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-16" y="-16" width="3872" height="2092" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -529,94 +777,452 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/nova.c">
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ClosureParameterListWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Nova C.iml">
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ConstructorWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/tree/FileDeclaration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="325" column="5" selection-start-line="325" selection-start-column="5" selection-end-line="325" selection-end-column="5" />
-          <folding>
-            <element signature="e#8355#8356#0" expanded="false" />
-            <element signature="e#8421#8422#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_74/src.zip!/java/lang/Exception.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nova/c/CodeGeneratorEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="25" column="40" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nova/c/engines/CCodeGeneratorEngine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        <state relative-caret-position="272">
+          <caret line="19" column="52" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1306#1307#0" expanded="true" />
-            <element signature="e#1375#1376#0" expanded="true" />
+            <element signature="e#3077#3078#0" expanded="true" />
+            <element signature="e#3113#3114#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nova/c/engines/CCompileEngine.java">
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ContinueWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        <state relative-caret-position="153">
+          <caret line="12" column="1" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/DefaultParameterInitializationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/DestructorWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/tree/ClassDeclaration.java">
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/DimensionsWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1222">
-          <caret line="2409" column="25" selection-start-line="2409" selection-start-column="25" selection-end-line="2409" selection-end-column="25" />
+        <state relative-caret-position="220">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/TargetC.java">
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ElseStatementWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="3030" column="29" selection-start-line="3030" selection-start-column="29" selection-end-line="3030" selection-end-column="29" />
+        <state relative-caret-position="238">
+          <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/IfStatementWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/VTableWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ExtensionVTableWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceVTableWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/FileDeclarationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/LoopWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ForEachLoopWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ForLoopWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ImportWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ImportListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/InstantiationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="61" selection-start-line="10" selection-start-column="61" selection-end-line="10" selection-end-column="61" />
+          <folding>
+            <element signature="e#237#238#0" expanded="true" />
+            <element signature="e#296#297#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/InterfaceWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/LiteralWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#454#455#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/MethodCallArgumentListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="16" column="51" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/MethodListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="44" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/NovaParameterListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_102/jre/lib/rt.jar!/com/sun/java/util/jar/pack/PackageWriter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/OperatorWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/PackageWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#513#514#0" expanded="true" />
+            <element signature="e#563#564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/PriorityWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ProgramWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/PropertyMethodWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="27" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/RepeatWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ReturnWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#263#264#0" expanded="true" />
+            <element signature="e#322#323#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ScopeWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/StaticBlockWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/StaticClassReferenceWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ArrayWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="14" column="68" selection-start-line="14" selection-start-column="68" selection-end-line="14" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ArrayAccessWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/UnaryOperationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="18" column="12" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
+          <folding>
+            <element signature="e#234#235#0" expanded="true" />
+            <element signature="e#293#294#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/UntilWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/WhileLoopWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/FieldListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/InstanceFieldListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/StaticFieldListWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/nova/c/CTarget.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="978">
-          <caret line="3029" column="16" selection-start-line="3029" selection-start-column="16" selection-end-line="3029" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/TernaryOperationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/SkeletonWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="55" selection-start-line="2" selection-start-column="55" selection-end-line="2" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Nova/src/net/fathomsoft/nova/tree/ExternalMethodDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/ExternalMethodDeclarationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="69" selection-start-line="4" selection-start-column="69" selection-end-line="4" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/MethodDeclarationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nova/c/nodewriters/NovaMethodDeclarationWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>

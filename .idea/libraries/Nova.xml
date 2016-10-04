@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Nova">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../Nova/out/production/Nova" />
+      <root url="file://$PROJECT_DIR$/../Nova/bin/production/Nova" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
