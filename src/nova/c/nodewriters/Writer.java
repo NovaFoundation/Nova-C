@@ -23,6 +23,28 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof MutatorMethod)
+		{
+			return new MutatorMethodWriter()
+			{
+				@Override
+				public MutatorMethod node()
+				{
+					return (MutatorMethod)node;
+				}
+			};
+		}
+		else if (node instanceof AccessorMethod)
+		{
+			return new AccessorMethodWriter()
+			{
+				@Override
+				public AccessorMethod node()
+				{
+					return (AccessorMethod)node;
+				}
+			};
+		}
 		else if (node instanceof Array)
 		{
 			return new ArrayWriter()
@@ -989,6 +1011,16 @@ public class Writer
 				return (Node)node;
 			}
 		};
+	}
+	
+	public static MutatorMethodWriter getWriter(final MutatorMethod node)
+	{
+		return (MutatorMethodWriter)getWriter((Node)node);
+	}
+	
+	public static AccessorMethodWriter getWriter(final AccessorMethod node)
+	{
+		return (AccessorMethodWriter)getWriter((Node)node);
 	}
 	
 	public static AccessibleWriter getWriter(final Accessible node)
