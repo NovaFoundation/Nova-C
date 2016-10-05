@@ -151,34 +151,13 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		allHeaders.append("#include <ExceptionHandler.h>\n");
 		allHeaders.append("#include <setjmp.h>\n").append('\n');
 		
-		if (controller.outputDirectory == null)
-		{
-			try
-			{
-				controller.outputDirectory = Files.createTempDirectory("tempNovaOutput").toFile();
-				
-				controller.deleteOutputDirectory = true;
-			}
-			catch (IOException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-		
 		for (int i = 0; i < files.length; i++)
 		{
-			File outputDir = controller.outputDirectory;
-			
 			FileDeclaration file   = files[i];
 			String          header = headers[i];
 			String          source = sources[i];
 			
-			String basePackage = file.getPackage().getRootFolder();
-			
-			if (controller.outputDirectories.containsKey(basePackage))
-			{
-				outputDir = new File(controller.outputDirectories.get(basePackage));
-			}
+			File outputDir = getOutputDirectory(file);
 			
 			new File(outputDir, file.getPackage().getLocation()).mkdirs();
 			
