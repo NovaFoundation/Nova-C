@@ -70,8 +70,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			getWriter(method).generateSourceNativeName(builder, true).append(" ");
-			getWriter(method).generateSourceNativeName(builder, false).append(";\n");
+			if (method.isInstance())
+			{
+				getWriter(method).generateSourceNativeName(builder, true).append(" ");
+				getWriter(method).generateSourceNativeName(builder, false).append(";\n");
+			}
 		}
 		
 		builder.append("} " + name + ";\n");
@@ -92,19 +95,22 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			String value = "&" + getWriter(method).generateSourceName();
-			
-			if (method instanceof NovaMethodDeclaration)
+			if (method.isInstance())
 			{
-				NovaMethodDeclaration n = (NovaMethodDeclaration)method;
+				String value = "&" + getWriter(method).generateSourceName();
 				
-				if (n.isOverridden() && !(n instanceof Constructor))
+				if (method instanceof NovaMethodDeclaration)
 				{
-					value = "0";//getVTableNode().getName() + "." + n.generateVirtualMethodName();
+					NovaMethodDeclaration n = (NovaMethodDeclaration) method;
+					
+					if (n.isOverridden() && !(n instanceof Constructor))
+					{
+						value = "0";//getVTableNode().getName() + "." + n.generateVirtualMethodName();
+					}
 				}
+				
+				builder.append(value + ",\n");
 			}
-			
-			builder.append(value + ",\n");
 		}
 		
 		builder.append("},\n");

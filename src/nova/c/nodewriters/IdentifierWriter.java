@@ -302,6 +302,11 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 			builder.append(uniquePrefix).append('_');
 		}
 		
+		if (!node().isInstance())
+		{
+			builder.append("static_");
+		}
+		
 		builder.append(Nova.LANGUAGE_NAME).append("_");
 		
 		return builder.append(name);
