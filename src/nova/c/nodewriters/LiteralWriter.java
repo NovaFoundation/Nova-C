@@ -32,7 +32,7 @@ public abstract class LiteralWriter extends IValueWriter implements AccessibleWr
 	{
 		if (!node().isWithinExternalContext() && node().isStringInstantiation())
 		{
-			Instantiation str = Instantiation.decodeStatement(node().getParent(), "new String(" + node().value + ")", node().getLocationIn(), true);
+			Instantiation str = node().getStringInstantiation();
 			
 			return getWriter(str).generateSourceFragment(builder);
 		}
