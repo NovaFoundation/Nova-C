@@ -516,7 +516,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (int i = 0; i < root.getNumVisibleChildren(); i++)
 		{
-			FileDeclaration  file  = (FileDeclaration)root.getVisibleChild(i);
+			FileDeclaration  file  = root.getVisibleChild(i);
 			
 			for (ClassDeclaration clazz : file.getClassDeclarations())
 			{
