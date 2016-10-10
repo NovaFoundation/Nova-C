@@ -6,6 +6,7 @@ import net.fathomsoft.nova.tree.Package;
 import net.fathomsoft.nova.util.SyntaxUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class FileDeclarationWriter extends NodeWriter
 {
@@ -59,9 +60,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			
 			generateClosureDefinitions(builder, true).append('\n');
 			
-			ImportList imports = node().getImportList();
-			
-			getWriter(imports).generateHeader(builder);
+			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
 			
 			builder.append('\n');
 			
@@ -69,7 +68,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			{
 				Node child = node().getChild(i);
 				
-				if (child != imports)
+				if (child != node().getImportList())
 				{
 					getWriter(child).generateHeader(builder);
 				}
@@ -83,15 +82,42 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		return node().header;
 	}
 	
+	public Import[] getRequiredImports()
+	{
+		final ArrayList<Import> list = new ArrayList<>();
+		
+		Arrays.stream(node().getClassDeclarations()).forEach(clazz -> getRequiredImports(list, clazz));
+		
+		return list.toArray(new Import[0]);
+	}
+	
+	private void getRequiredImports(ArrayList<Import> list, ClassDeclaration clazz)
+	{
+		ImportList imports = clazz.getFileDeclaration().getImportList();
+		
+		for (Import i : imports)
+		{
+			if (list.stream().filter(x -> x.getClassLocation().equals(i.getClassLocation())).count() == 0)
+			{
+				list.add(i);
+			}
+		}
+		
+		if (clazz.doesExtendClass())
+		{
+			getRequiredImports(list, clazz.getExtendedClassDeclaration());
+		}
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		if (node().source == null)
 		{
 			builder.append("#include <precompiled.h>\n");
 			
-			ImportList imports = node().getImportList();
+			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateSource(builder));
 			
-			getWriter(imports).generateSource(builder).append('\n');
+			builder.append('\n');
 			
 			generateSourceClosureContextDefinitions(builder).append('\n');
 			generateClosureDefinitions(builder, false).append('\n');
