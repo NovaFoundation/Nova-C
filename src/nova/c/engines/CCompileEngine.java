@@ -344,6 +344,8 @@ public class CCompileEngine extends CompileEngine
 			{
 				if (controller.deleteOutputDirectory)
 				{
+					controller.log("Deleting output directory...");
+					
 					if (!FileUtils.deleteDirectory(controller.outputDirectory))
 					{
 						controller.log("Failed to delete temporary output directory at " + controller.outputDirectory.getAbsolutePath());
