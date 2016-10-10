@@ -200,7 +200,14 @@ public class CCompileEngine extends CompileEngine
 			cmd.append(formatPath(external)).append(' ');
 		}
 		
-		cmd.append("-o ").append(formatPath(controller.outputFile.getAbsolutePath())).append(' ');
+		String outputFileLocation = controller.outputFile.getAbsolutePath();
+		
+		if (FileUtils.getFileExtension(outputFileLocation) == null)
+		{
+			outputFileLocation += Nova.EXECUTABLE_EXTENSION;
+		}
+		
+		cmd.append("-o ").append(formatPath(outputFileLocation)).append(' ');
 		
 		if (OS == LINUX)
 		{
