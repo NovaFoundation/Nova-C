@@ -134,11 +134,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			}
 		}
 		
-		if (!controller.isFlagEnabled(NO_C_OUTPUT))
-		{
-			controller.log("Writing files...");
-		}
-		
 		StringBuilder allHeaders = new StringBuilder();
 		StringBuilder includes   = new StringBuilder();
 		StringBuilder types      = new StringBuilder();
@@ -187,11 +182,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		allHeaders.append(includes).append('\n');
 		
 		allHeaders.append("#endif");
-		
-		if (!controller.isFlagEnabled(NO_C_OUTPUT))
-		{
-			controller.log("Done writing files.");
-		}
 	}
 	
 	/**
