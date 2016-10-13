@@ -191,7 +191,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	 */
 	private String getLibraryDir()
 	{
-		return FileUtils.formatPath(controller.workingDir + "/lib");
+		return FileUtils.formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/lib");
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	 */
 	private String getIncludeDir()
 	{
-		return FileUtils.formatPath(controller.workingDir + "/include");
+		return FileUtils.formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include");
 	}
 	
 	private void generateNativeInterface()

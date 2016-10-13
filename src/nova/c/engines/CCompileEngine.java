@@ -114,7 +114,7 @@ public class CCompileEngine extends CompileEngine
 		
 		if (compiler == GCC)
 		{
-			compilerDir = controller.workingDir;
+			compilerDir = controller.targetEngineWorkingDir;
 			
 			cmd.append("gcc -pipe -mwindows -mconsole ");
 			
@@ -137,7 +137,7 @@ public class CCompileEngine extends CompileEngine
 		}
 		else if (compiler == TCC)
 		{
-			compilerDir = new File(StringUtils.removeSurroundingQuotes(formatPath(controller.workingDir + "/compiler/tcc")));
+			compilerDir = new File(StringUtils.removeSurroundingQuotes(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/compiler/tcc")));
 			
 			cmd.append("compiler/tcc/tcc.exe ");
 		}
@@ -160,6 +160,12 @@ public class CCompileEngine extends CompileEngine
 			cmd.append("-O2 ");
 		}
 		
+		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include"));
+		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/gc"));
+		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/nova_mysql"));
+		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/nova_openssl"));
+		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath()));
+		
 		controller.includeDirectories.forEach(dir -> cmd.append("-I").append(formatPath(dir)).append(' '));
 		
 		cmd.append("-I").append(formatPath(controller.outputDirectory.getAbsolutePath())).append(' ');
@@ -167,7 +173,8 @@ public class CCompileEngine extends CompileEngine
 		controller.outputDirectories.forEach((key, value) -> cmd.append("-I").append(formatPath(new File(value).getAbsolutePath())).append(' '));
 		
 		String libDir    = controller.outputFile.getParentFile().getAbsolutePath();
-		String incDir    = controller.workingDir + "/include/";
+		String incDir    = controller.targetEngineWorkingDir.getAbsolutePath() + "/include/";
+		
 
 //		String libNova   = formatPath(libDir + "libNova" + DYNAMIC_LIB_EXT);
 //		String libThread = formatPath(libDir + "libThread" + DYNAMIC_LIB_EXT);
@@ -246,7 +253,7 @@ public class CCompileEngine extends CompileEngine
 		
 		if (controller.isFlagEnabled(C_ARGS))
 		{
-			System.out.println(cmd);
+			controller.log(cmd.toString());
 		}
 		
 		if (controller.isFlagEnabled(DRY_RUN))
