@@ -229,14 +229,14 @@ typedef struct nova_native_Class
 nova_Nova_Class_native_Nova_construct Class;
 } nova_native_Class;
 
-typedef nova_Nova_String* (*nova_Nova_Object_native_Nova_toString)(nova_Nova_Object*, nova_exception_Nova_ExceptionData*);
 typedef char (*nova_Nova_Object_native_Nova_equals)(nova_Nova_Object*, nova_exception_Nova_ExceptionData*, nova_Nova_Object*);
+typedef nova_Nova_String* (*nova_Nova_Object_native_Nova_toString)(nova_Nova_Object*, nova_exception_Nova_ExceptionData*);
 typedef nova_Nova_Object* (*nova_Nova_Object_native_Nova_construct)(nova_Nova_Object*, nova_exception_Nova_ExceptionData*);
 
 typedef struct nova_native_Object
 {
-nova_Nova_Object_native_Nova_toString toString;
 nova_Nova_Object_native_Nova_equals equals;
+nova_Nova_Object_native_Nova_toString toString;
 nova_Nova_Object_native_Nova_construct Object;
 } nova_native_Object;
 
@@ -244,14 +244,13 @@ typedef nova_Nova_String* (*nova_Nova_String_native_Nova_concat)(nova_Nova_Strin
 typedef char (*nova_Nova_String_native_Nova_equals)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_replace)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_Nova_String*);
 typedef char (*nova_Nova_String_native_Nova_startsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
-typedef char (*nova_Nova_String_native_Nova_endsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
-typedef char (*nova_Nova_String_native_Nova_contains)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef int (*nova_Nova_String_native_Nova_contains)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef int (*nova_Nova_String_native_Nova_endsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef int (*nova_Nova_String_native_Nova_indexOf)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int, int);
-typedef int (*nova_Nova_String_native_Nova_lastIndexOf)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int);
+typedef int (*nova_Nova_String_native_Nova_lastIndexOf)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_substring)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int, int);
-typedef char (*nova_Nova_String_native_Nova_lastChar)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
-typedef char (*nova_Nova_String_native_Nova_charAt)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_trim)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int, int);
+typedef char (*nova_Nova_String_native_Nova_lastChar)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_toLowerCase)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_toUpperCase)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_capitalize)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
@@ -270,14 +269,13 @@ nova_Nova_String_native_Nova_concat concat;
 nova_Nova_String_native_Nova_equals equals;
 nova_Nova_String_native_Nova_replace replace;
 nova_Nova_String_native_Nova_startsWith startsWith;
-nova_Nova_String_native_Nova_endsWith endsWith;
 nova_Nova_String_native_Nova_contains contains;
+nova_Nova_String_native_Nova_endsWith endsWith;
 nova_Nova_String_native_Nova_indexOf indexOf;
 nova_Nova_String_native_Nova_lastIndexOf lastIndexOf;
 nova_Nova_String_native_Nova_substring substring;
-nova_Nova_String_native_Nova_lastChar lastChar;
-nova_Nova_String_native_Nova_charAt charAt;
 nova_Nova_String_native_Nova_trim trim;
+nova_Nova_String_native_Nova_lastChar lastChar;
 nova_Nova_String_native_Nova_toLowerCase toLowerCase;
 nova_Nova_String_native_Nova_toUpperCase toUpperCase;
 nova_Nova_String_native_Nova_capitalize capitalize;
@@ -606,14 +604,16 @@ nova_datastruct_list_Nova_ArrayIterator_native_Nova_reset reset;
 nova_datastruct_list_Nova_ArrayIterator_native_Nova_construct ArrayIterator;
 } nova_datastruct_list_native_ArrayIterator;
 
-typedef nova_datastruct_list_Nova_Array* (*nova_datastruct_list_Nova_CharArray_native_Nova_map)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure3_Nova_mapFunc nova_datastruct_list_Nova_CharArray_Nova_mapFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_mapFunc, void* mapFunc_context);
-typedef void (*nova_datastruct_list_Nova_CharArray_native_Nova_forEach)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure6_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
-typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_any)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure9_Nova_anyFunc nova_datastruct_list_Nova_CharArray_Nova_anyFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_anyFunc, void* anyFunc_context);
-typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_all)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure12_Nova_allFunc nova_datastruct_list_Nova_CharArray_Nova_allFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_allFunc, void* allFunc_context);
-typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArray_native_Nova_filter)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure15_Nova_filterFunc nova_datastruct_list_Nova_CharArray_Nova_filterFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_filterFunc, void* filterFunc_context);
+typedef long_long (*nova_datastruct_list_Nova_CharArray_native_Nova_sum)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure3_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
+typedef long_long (*nova_datastruct_list_Nova_CharArray_native_Nova_recurse)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure6_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
+typedef nova_datastruct_list_Nova_Array* (*nova_datastruct_list_Nova_CharArray_native_Nova_map)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure9_Nova_mapFunc nova_datastruct_list_Nova_CharArray_Nova_mapFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_mapFunc, void* mapFunc_context);
+typedef void (*nova_datastruct_list_Nova_CharArray_native_Nova_forEach)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure12_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
+typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_any)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure15_Nova_anyFunc nova_datastruct_list_Nova_CharArray_Nova_anyFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_anyFunc, void* anyFunc_context);
+typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_all)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure18_Nova_allFunc nova_datastruct_list_Nova_CharArray_Nova_allFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_allFunc, void* allFunc_context);
+typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArray_native_Nova_filter)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure21_Nova_filterFunc nova_datastruct_list_Nova_CharArray_Nova_filterFunc, void* nova_datastruct_list_Nova_CharArray_ref_Nova_filterFunc, void* filterFunc_context);
 typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArray_native_Nova_take)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, int);
 typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArray_native_Nova_skip)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, int);
-typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_firstWhere)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure18_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
+typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_firstWhere)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray_closure24_Nova_func nova_datastruct_list_Nova_CharArray_Nova_func, void* nova_datastruct_list_Nova_CharArray_ref_Nova_func, void* func_context);
 typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArray_native_Nova_reverse)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*);
 typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_get)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, int);
 typedef char (*nova_datastruct_list_Nova_CharArray_native_Nova_set)(nova_datastruct_list_Nova_CharArray*, nova_exception_Nova_ExceptionData*, int, char);
@@ -623,6 +623,8 @@ typedef nova_datastruct_list_Nova_CharArray* (*nova_datastruct_list_Nova_CharArr
 
 typedef struct nova_datastruct_list_native_CharArray
 {
+nova_datastruct_list_Nova_CharArray_native_Nova_sum sum;
+nova_datastruct_list_Nova_CharArray_native_Nova_recurse recurse;
 nova_datastruct_list_Nova_CharArray_native_Nova_map map;
 nova_datastruct_list_Nova_CharArray_native_Nova_forEach forEach;
 nova_datastruct_list_Nova_CharArray_native_Nova_any any;
@@ -669,8 +671,8 @@ typedef nova_Nova_String* (*nova_datastruct_list_Nova_DoubleArray_native_Nova_jo
 typedef double (*nova_datastruct_list_Nova_DoubleArray_native_Nova_get)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, int);
 typedef double (*nova_datastruct_list_Nova_DoubleArray_native_Nova_set)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, int, double);
 typedef nova_datastruct_list_Nova_DoubleArray* (*nova_datastruct_list_Nova_DoubleArray_native0_Nova_construct)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*);
-typedef nova_datastruct_list_Nova_DoubleArray* (*nova_datastruct_list_Nova_DoubleArray_native1_Nova_construct)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, int);
-typedef nova_datastruct_list_Nova_DoubleArray* (*nova_datastruct_list_Nova_DoubleArray_native2_Nova_construct)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, double*, int);
+typedef nova_datastruct_list_Nova_DoubleArray* (*nova_datastruct_list_Nova_DoubleArray_native1_Nova_construct)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, double*, int);
+typedef nova_datastruct_list_Nova_DoubleArray* (*nova_datastruct_list_Nova_DoubleArray_native2_Nova_construct)(nova_datastruct_list_Nova_DoubleArray*, nova_exception_Nova_ExceptionData*, int);
 
 typedef struct nova_datastruct_list_native_DoubleArray
 {
@@ -688,8 +690,8 @@ nova_datastruct_list_Nova_DoubleArray_native_Nova_join join;
 nova_datastruct_list_Nova_DoubleArray_native_Nova_get get;
 nova_datastruct_list_Nova_DoubleArray_native_Nova_set set;
 nova_datastruct_list_Nova_DoubleArray_native0_Nova_construct DoubleArray;
-nova_datastruct_list_Nova_DoubleArray_native1_Nova_construct DoubleArray__nova_primitive_number_Int;
-nova_datastruct_list_Nova_DoubleArray_native2_Nova_construct DoubleArray__Array1d_nova_primitive_number_Double__nova_primitive_number_Int;
+nova_datastruct_list_Nova_DoubleArray_native1_Nova_construct DoubleArray__Array1d_nova_primitive_number_Double__nova_primitive_number_Int;
+nova_datastruct_list_Nova_DoubleArray_native2_Nova_construct DoubleArray__nova_primitive_number_Int;
 } nova_datastruct_list_native_DoubleArray;
 
 typedef nova_datastruct_list_Nova_Iterator* (*nova_datastruct_list_Nova_DoubleArrayIterator_native_Nova_reset)(nova_datastruct_list_Nova_DoubleArrayIterator*, nova_exception_Nova_ExceptionData*);
@@ -1140,8 +1142,8 @@ typedef double (*nova_math_Nova_Math_native_static_Nova_tan)(nova_math_Nova_Math
 typedef double (*nova_math_Nova_Math_native_static_Nova_asin)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
 typedef double (*nova_math_Nova_Math_native_static_Nova_acos)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
 typedef double (*nova_math_Nova_Math_native_static_Nova_atan)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
-typedef double (*nova_math_Nova_Math_native_static_Nova_round)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
-typedef double (*nova_math_Nova_Math_native_static_Nova_floor)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
+typedef long_long (*nova_math_Nova_Math_native_static_Nova_round)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
+typedef long_long (*nova_math_Nova_Math_native_static_Nova_floor)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
 typedef long_long (*nova_math_Nova_Math_native_static_Nova_ceil)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*, double);
 typedef nova_math_Nova_Math* (*nova_math_Nova_Math_native_Nova_construct)(nova_math_Nova_Math*, nova_exception_Nova_ExceptionData*);
 
@@ -1460,26 +1462,26 @@ typedef struct nova_operators_native_Multiply
 nova_operators_Nova_Multiply_native0_Nova_multiply multiply__nova_Object;
 } nova_operators_native_Multiply;
 
-typedef nova_Nova_String* (*nova_primitive_Nova_Bool_native_static_Nova_toString)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*, char);
-typedef nova_Nova_String* (*nova_primitive_Nova_Bool_native_Nova_toString)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*);
 typedef char (*nova_primitive_Nova_Bool_native0_Nova_compareTo)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*, char);
+typedef nova_Nova_String* (*nova_primitive_Nova_Bool_native_Nova_toString)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*);
+typedef nova_Nova_String* (*nova_primitive_Nova_Bool_native_static_Nova_toString)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*, char);
 typedef nova_primitive_Nova_Bool* (*nova_primitive_Nova_Bool_native_Nova_construct)(nova_primitive_Nova_Bool*, nova_exception_Nova_ExceptionData*, char);
 
 typedef struct nova_primitive_native_Bool
 {
-nova_primitive_Nova_Bool_native_Nova_toString toString;
 nova_primitive_Nova_Bool_native0_Nova_compareTo compareTo__nova_primitive_Bool;
+nova_primitive_Nova_Bool_native_Nova_toString toString;
 nova_primitive_Nova_Bool_native_Nova_construct Bool;
 } nova_primitive_native_Bool;
 
-typedef nova_Nova_String* (*nova_primitive_Nova_Null_native_Nova_toString)(nova_primitive_Nova_Null*, nova_exception_Nova_ExceptionData*);
 typedef nova_Nova_String* (*nova_primitive_Nova_Null_native_Nova_concat)(nova_primitive_Nova_Null*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef nova_Nova_String* (*nova_primitive_Nova_Null_native_Nova_toString)(nova_primitive_Nova_Null*, nova_exception_Nova_ExceptionData*);
 typedef nova_primitive_Nova_Null* (*nova_primitive_Nova_Null_native_Nova_construct)(nova_primitive_Nova_Null*, nova_exception_Nova_ExceptionData*);
 
 typedef struct nova_primitive_native_Null
 {
-nova_primitive_Nova_Null_native_Nova_toString toString;
 nova_primitive_Nova_Null_native_Nova_concat concat;
+nova_primitive_Nova_Null_native_Nova_toString toString;
 nova_primitive_Nova_Null_native_Nova_construct Null;
 } nova_primitive_native_Null;
 
@@ -1490,38 +1492,38 @@ typedef struct nova_primitive_native_Primitive
 nova_primitive_Nova_Primitive_native_Nova_construct Primitive;
 } nova_primitive_native_Primitive;
 
-typedef int (*nova_primitive_number_Nova_Byte_native_static_Nova_numDigits)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Byte_native_static_Nova_toString)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Byte_native_Nova_toString)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*);
 typedef char (*nova_primitive_number_Nova_Byte_native0_Nova_compareTo)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
 typedef char (*nova_primitive_number_Nova_Byte_native_Nova_multiply)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Byte_native_Nova_toString)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*);
+typedef int (*nova_primitive_number_Nova_Byte_native_static_Nova_numDigits)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Byte_native_static_Nova_toString)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
 typedef nova_primitive_number_Nova_Byte* (*nova_primitive_number_Nova_Byte_native_Nova_construct)(nova_primitive_number_Nova_Byte*, nova_exception_Nova_ExceptionData*, char);
 
 typedef struct nova_primitive_number_native_Byte
 {
-nova_primitive_number_Nova_Byte_native_Nova_toString toString;
 nova_primitive_number_Nova_Byte_native0_Nova_compareTo compareTo__nova_primitive_number_Byte;
 nova_primitive_number_Nova_Byte_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Byte_native_Nova_toString toString;
 nova_primitive_number_Nova_Byte_native_Nova_construct Byte;
 } nova_primitive_number_native_Byte;
 
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Char_native_static_Nova_toString)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Char_native_Nova_toString)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
-typedef char (*nova_primitive_number_Nova_Char_native_Nova_toLowerCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
-typedef char (*nova_primitive_number_Nova_Char_native_Nova_toUpperCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
 typedef char (*nova_primitive_number_Nova_Char_native_static_Nova_toLowerCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
 typedef char (*nova_primitive_number_Nova_Char_native_static_Nova_toUpperCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
-typedef int (*nova_primitive_number_Nova_Char_native0_Nova_compareTo)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
+typedef char (*nova_primitive_number_Nova_Char_native_Nova_toLowerCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
+typedef char (*nova_primitive_number_Nova_Char_native_Nova_toUpperCase)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
+typedef char (*nova_primitive_number_Nova_Char_native0_Nova_compareTo)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
 typedef char (*nova_primitive_number_Nova_Char_native_Nova_multiply)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Char_native_Nova_toString)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Char_native_static_Nova_toString)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
 typedef nova_primitive_number_Nova_Char* (*nova_primitive_number_Nova_Char_native_Nova_construct)(nova_primitive_number_Nova_Char*, nova_exception_Nova_ExceptionData*, char);
 
 typedef struct nova_primitive_number_native_Char
 {
-nova_primitive_number_Nova_Char_native_Nova_toString toString;
 nova_primitive_number_Nova_Char_native_Nova_toLowerCase toLowerCase;
 nova_primitive_number_Nova_Char_native_Nova_toUpperCase toUpperCase;
 nova_primitive_number_Nova_Char_native0_Nova_compareTo compareTo__nova_primitive_number_Char;
 nova_primitive_number_Nova_Char_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Char_native_Nova_toString toString;
 nova_primitive_number_Nova_Char_native_Nova_construct Char;
 } nova_primitive_number_native_Char;
 
@@ -1532,50 +1534,48 @@ typedef int (*nova_primitive_number_Nova_Double_native_static_Nova_repetition)(n
 typedef int (*nova_primitive_number_Nova_Double_native_static_Nova_lastSignificantDigit)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, char*, int);
 typedef char* (*nova_primitive_number_Nova_Double_native_static_Nova_toCharArray)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, double);
 typedef nova_Nova_String* (*nova_primitive_number_Nova_Double_native_static_Nova_toString)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, double);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Double_native_Nova_toString)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*);
 typedef double (*nova_primitive_number_Nova_Double_native_static_Nova_parseDouble)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef double (*nova_primitive_number_Nova_Double_native0_Nova_compareTo)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, double);
 typedef double (*nova_primitive_number_Nova_Double_native_Nova_multiply)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, double);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Double_native_Nova_toString)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*);
 typedef nova_primitive_number_Nova_Double* (*nova_primitive_number_Nova_Double_native_Nova_construct)(nova_primitive_number_Nova_Double*, nova_exception_Nova_ExceptionData*, double);
 
 typedef struct nova_primitive_number_native_Double
 {
-nova_primitive_number_Nova_Double_native_Nova_toString toString;
 nova_primitive_number_Nova_Double_native0_Nova_compareTo compareTo__nova_primitive_number_Double;
 nova_primitive_number_Nova_Double_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Double_native_Nova_toString toString;
 nova_primitive_number_Nova_Double_native_Nova_construct Double;
 } nova_primitive_number_native_Double;
 
-typedef int (*nova_primitive_number_Nova_Float_native_static_Nova_numDigits)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Float_native_static_Nova_toString)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Float_native_Nova_toString)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*);
 typedef float (*nova_primitive_number_Nova_Float_native0_Nova_compareTo)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
 typedef float (*nova_primitive_number_Nova_Float_native_Nova_multiply)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Float_native_Nova_toString)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*);
+typedef int (*nova_primitive_number_Nova_Float_native_static_Nova_numDigits)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Float_native_static_Nova_toString)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, float);
 typedef nova_primitive_number_Nova_Float* (*nova_primitive_number_Nova_Float_native_Nova_construct)(nova_primitive_number_Nova_Float*, nova_exception_Nova_ExceptionData*, int);
 
 typedef struct nova_primitive_number_native_Float
 {
-nova_primitive_number_Nova_Float_native_Nova_toString toString;
 nova_primitive_number_Nova_Float_native0_Nova_compareTo compareTo__nova_primitive_number_Float;
 nova_primitive_number_Nova_Float_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Float_native_Nova_toString toString;
 nova_primitive_number_Nova_Float_native_Nova_construct Float;
 } nova_primitive_number_native_Float;
 
-typedef long_long (*nova_primitive_number_Nova_Int_native_Nova_getHashCodeLong)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*);
-typedef int (*nova_primitive_number_Nova_Int_native_static_Nova_numDigits)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Int_native_static_Nova_toString)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Int_native_Nova_toString)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*);
-typedef int (*nova_primitive_number_Nova_Int_native_static_Nova_parseInt)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef int (*nova_primitive_number_Nova_Int_native0_Nova_compareTo)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
 typedef int (*nova_primitive_number_Nova_Int_native_Nova_multiply)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Int_native_Nova_toString)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*);
+typedef int (*nova_primitive_number_Nova_Int_native_static_Nova_numDigits)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Int_native_static_Nova_toString)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
+typedef int (*nova_primitive_number_Nova_Int_native_static_Nova_parseInt)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_primitive_number_Nova_Int* (*nova_primitive_number_Nova_Int_native_Nova_construct)(nova_primitive_number_Nova_Int*, nova_exception_Nova_ExceptionData*, int);
 
 typedef struct nova_primitive_number_native_Int
 {
-nova_primitive_number_Nova_Int_native_Nova_getHashCodeLong getHashCodeLong;
-nova_primitive_number_Nova_Int_native_Nova_toString toString;
 nova_primitive_number_Nova_Int_native0_Nova_compareTo compareTo__nova_primitive_number_Int;
 nova_primitive_number_Nova_Int_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Int_native_Nova_toString toString;
 nova_primitive_number_Nova_Int_native_Nova_construct Int;
 } nova_primitive_number_native_Int;
 
@@ -1585,22 +1585,21 @@ typedef struct nova_primitive_number_native_Integer
 } nova_primitive_number_native_Integer;
 
 typedef int (*nova_primitive_number_Nova_Long_native_static_Nova_numDigits)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
-typedef char* (*nova_primitive_number_Nova_Long_native_static_Nova_toCharArray)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
 typedef nova_Nova_String* (*nova_primitive_number_Nova_Long_native_static_Nova_toString)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Long_native_Nova_toString)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*);
 typedef long_long (*nova_primitive_number_Nova_Long_native0_Nova_compareTo)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
 typedef long_long (*nova_primitive_number_Nova_Long_native_Nova_multiply)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Long_native_Nova_toString)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*);
 typedef nova_primitive_number_Nova_Long* (*nova_primitive_number_Nova_Long_native_Nova_construct)(nova_primitive_number_Nova_Long*, nova_exception_Nova_ExceptionData*, long_long);
 
 typedef struct nova_primitive_number_native_Long
 {
-nova_primitive_number_Nova_Long_native_Nova_toString toString;
 nova_primitive_number_Nova_Long_native0_Nova_compareTo compareTo__nova_primitive_number_Long;
 nova_primitive_number_Nova_Long_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Long_native_Nova_toString toString;
 nova_primitive_number_Nova_Long_native_Nova_construct Long;
 } nova_primitive_number_native_Long;
 
-typedef int (*nova_primitive_number_Nova_Number_native_static_Nova_numDigits)(nova_primitive_number_Nova_Number*, nova_exception_Nova_ExceptionData*, nova_primitive_number_Nova_Number*);
+typedef char (*nova_primitive_number_Nova_Number_native_static_Nova_numDigits)(nova_primitive_number_Nova_Number*, nova_exception_Nova_ExceptionData*, nova_primitive_number_Nova_Number*);
 typedef nova_primitive_number_Nova_Number* (*nova_primitive_number_Nova_Number_native_Nova_construct)(nova_primitive_number_Nova_Number*, nova_exception_Nova_ExceptionData*);
 
 typedef struct nova_primitive_number_native_Number
@@ -1613,18 +1612,18 @@ typedef struct nova_primitive_number_native_RealNumber
 {
 } nova_primitive_number_native_RealNumber;
 
-typedef int (*nova_primitive_number_Nova_Short_native_static_Nova_numDigits)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Short_native_static_Nova_toString)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
-typedef nova_Nova_String* (*nova_primitive_number_Nova_Short_native_Nova_toString)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*);
 typedef short (*nova_primitive_number_Nova_Short_native0_Nova_compareTo)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
 typedef short (*nova_primitive_number_Nova_Short_native_Nova_multiply)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Short_native_Nova_toString)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*);
+typedef int (*nova_primitive_number_Nova_Short_native_static_Nova_numDigits)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
+typedef nova_Nova_String* (*nova_primitive_number_Nova_Short_native_static_Nova_toString)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
 typedef nova_primitive_number_Nova_Short* (*nova_primitive_number_Nova_Short_native_Nova_construct)(nova_primitive_number_Nova_Short*, nova_exception_Nova_ExceptionData*, short);
 
 typedef struct nova_primitive_number_native_Short
 {
-nova_primitive_number_Nova_Short_native_Nova_toString toString;
 nova_primitive_number_Nova_Short_native0_Nova_compareTo compareTo__nova_primitive_number_Short;
 nova_primitive_number_Nova_Short_native_Nova_multiply multiply;
+nova_primitive_number_Nova_Short_native_Nova_toString toString;
 nova_primitive_number_Nova_Short_native_Nova_construct Short;
 } nova_primitive_number_native_Short;
 
@@ -1752,7 +1751,7 @@ nova_svg_no3_Nova_No3Selection_native_Nova_toJs toJs;
 nova_svg_no3_Nova_No3Selection_native_Nova_construct No3Selection;
 } nova_svg_no3_native_No3Selection;
 
-typedef void (*nova_thread_Nova_Thread_native_Nova_start)(nova_thread_Nova_Thread*, nova_exception_Nova_ExceptionData*);
+typedef NOVA_THREAD_HANDLE* (*nova_thread_Nova_Thread_native_Nova_start)(nova_thread_Nova_Thread*, nova_exception_Nova_ExceptionData*);
 typedef void (*nova_thread_Nova_Thread_native_Nova_join)(nova_thread_Nova_Thread*, nova_exception_Nova_ExceptionData*);
 typedef void (*nova_thread_Nova_Thread_native_Nova_kill)(nova_thread_Nova_Thread*, nova_exception_Nova_ExceptionData*);
 typedef void (*nova_thread_Nova_Thread_native_static_Nova_sleep)(nova_thread_Nova_Thread*, nova_exception_Nova_ExceptionData*, long_long);
@@ -1794,16 +1793,14 @@ nova_thread_async_Nova_AsyncResult_native_Nova_construct AsyncResult;
 
 typedef void (*nova_time_Nova_Date_native_Nova_decodeDate)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_Nova_String*);
 typedef void (*nova_time_Nova_Date_native_Nova_updateTime)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*);
-typedef nova_Nova_String* (*nova_time_Nova_Date_native0_Nova_formatDate)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
-typedef nova_Nova_String* (*nova_time_Nova_Date_native1_Nova_formatDate)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int, int, int, int, int);
+typedef nova_Nova_String* (*nova_time_Nova_Date_native_Nova_formatDate)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int, int, int, int, int);
 typedef nova_time_Nova_Date* (*nova_time_Nova_Date_native_Nova_construct)(nova_time_Nova_Date*, nova_exception_Nova_ExceptionData*);
 
 typedef struct nova_time_native_Date
 {
 nova_time_Nova_Date_native_Nova_decodeDate decodeDate;
 nova_time_Nova_Date_native_Nova_updateTime updateTime;
-nova_time_Nova_Date_native0_Nova_formatDate formatDate__nova_String;
-nova_time_Nova_Date_native1_Nova_formatDate formatDate__nova_String__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int;
+nova_time_Nova_Date_native_Nova_formatDate formatDate;
 nova_time_Nova_Date_native_Nova_construct Date;
 } nova_time_native_Date;
 

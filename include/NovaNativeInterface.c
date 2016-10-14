@@ -17,14 +17,13 @@ nova_env novaEnv = {
 &nova_Nova_String_Nova_equals,
 &nova_Nova_String_Nova_replace,
 &nova_Nova_String_Nova_startsWith,
-&nova_Nova_String_Nova_endsWith,
 &nova_Nova_String_Nova_contains,
+&nova_Nova_String_Nova_endsWith,
 &nova_Nova_String_Nova_indexOf,
 &nova_Nova_String_Nova_lastIndexOf,
 &nova_Nova_String_Nova_substring,
-&nova_Nova_String_Nova_lastChar,
-&nova_Nova_String_Nova_charAt,
 &nova_Nova_String_Nova_trim,
+&nova_Nova_String_Nova_lastChar,
 &nova_Nova_String_Nova_toLowerCase,
 &nova_Nova_String_Nova_toUpperCase,
 &nova_Nova_String_Nova_capitalize,
@@ -204,6 +203,8 @@ nova_env novaEnv = {
 },
 
 {
+&nova_datastruct_list_Nova_CharArray_Nova_sum,
+&nova_datastruct_list_Nova_CharArray_Nova_recurse,
 &nova_datastruct_list_Nova_CharArray_Nova_map,
 &nova_datastruct_list_Nova_CharArray_Nova_forEach,
 &nova_datastruct_list_Nova_CharArray_Nova_any,
@@ -641,14 +642,14 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_Nova_Bool_Nova_toString,
 &nova_primitive_Nova_Bool_0_Nova_compareTo,
+&nova_primitive_Nova_Bool_Nova_toString,
 &nova_primitive_Nova_Bool_Nova_construct,
 },
 
 {
-&nova_primitive_Nova_Null_Nova_toString,
 &nova_primitive_Nova_Null_Nova_concat,
+&nova_primitive_Nova_Null_Nova_toString,
 &nova_primitive_Nova_Null_Nova_construct,
 },
 
@@ -657,40 +658,39 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_number_Nova_Byte_Nova_toString,
 &nova_primitive_number_Nova_Byte_0_Nova_compareTo,
 &nova_primitive_number_Nova_Byte_Nova_multiply,
+&nova_primitive_number_Nova_Byte_Nova_toString,
 &nova_primitive_number_Nova_Byte_Nova_construct,
 },
 
 {
-&nova_primitive_number_Nova_Char_Nova_toString,
 &nova_primitive_number_Nova_Char_Nova_toLowerCase,
 &nova_primitive_number_Nova_Char_Nova_toUpperCase,
 &nova_primitive_number_Nova_Char_0_Nova_compareTo,
 &nova_primitive_number_Nova_Char_Nova_multiply,
+&nova_primitive_number_Nova_Char_Nova_toString,
 &nova_primitive_number_Nova_Char_Nova_construct,
 },
 
 {
-&nova_primitive_number_Nova_Double_Nova_toString,
 &nova_primitive_number_Nova_Double_0_Nova_compareTo,
 &nova_primitive_number_Nova_Double_Nova_multiply,
+&nova_primitive_number_Nova_Double_Nova_toString,
 &nova_primitive_number_Nova_Double_Nova_construct,
 },
 
 {
-&nova_primitive_number_Nova_Float_Nova_toString,
 &nova_primitive_number_Nova_Float_0_Nova_compareTo,
 &nova_primitive_number_Nova_Float_Nova_multiply,
+&nova_primitive_number_Nova_Float_Nova_toString,
 &nova_primitive_number_Nova_Float_Nova_construct,
 },
 
 {
-&nova_primitive_number_Nova_Int_Nova_getHashCodeLong,
-&nova_primitive_number_Nova_Int_Nova_toString,
 &nova_primitive_number_Nova_Int_0_Nova_compareTo,
 &nova_primitive_number_Nova_Int_Nova_multiply,
+&nova_primitive_number_Nova_Int_Nova_toString,
 &nova_primitive_number_Nova_Int_Nova_construct,
 },
 
@@ -698,9 +698,9 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_number_Nova_Long_Nova_toString,
 &nova_primitive_number_Nova_Long_0_Nova_compareTo,
 &nova_primitive_number_Nova_Long_Nova_multiply,
+&nova_primitive_number_Nova_Long_Nova_toString,
 &nova_primitive_number_Nova_Long_Nova_construct,
 },
 
@@ -712,9 +712,9 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_number_Nova_Short_Nova_toString,
 &nova_primitive_number_Nova_Short_0_Nova_compareTo,
 &nova_primitive_number_Nova_Short_Nova_multiply,
+&nova_primitive_number_Nova_Short_Nova_toString,
 &nova_primitive_number_Nova_Short_Nova_construct,
 },
 
@@ -810,8 +810,7 @@ nova_env novaEnv = {
 {
 &nova_time_Nova_Date_Nova_decodeDate,
 &nova_time_Nova_Date_Nova_updateTime,
-&nova_time_Nova_Date_0_Nova_formatDate,
-&nova_time_Nova_Date_1_Nova_formatDate,
+&nova_time_Nova_Date_Nova_formatDate,
 &nova_time_Nova_Date_Nova_construct,
 },
 
