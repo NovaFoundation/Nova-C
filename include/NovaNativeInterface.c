@@ -270,6 +270,8 @@ nova_env novaEnv = {
 &nova_datastruct_list_Nova_IntArray_Nova_firstWhere,
 &nova_datastruct_list_Nova_IntArray_Nova_reverse,
 &nova_datastruct_list_Nova_IntArray_Nova_join,
+&nova_datastruct_list_Nova_IntArray_Nova_get,
+&nova_datastruct_list_Nova_IntArray_Nova_set,
 &nova_datastruct_list_Nova_IntArray_0_Nova_construct,
 &nova_datastruct_list_Nova_IntArray_1_Nova_construct,
 &nova_datastruct_list_Nova_IntArray_2_Nova_construct,
@@ -971,6 +973,7 @@ nova_env novaEnv = {
 },
 
 {
+0,
 },
 
 {

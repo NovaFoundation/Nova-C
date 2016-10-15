@@ -80,10 +80,10 @@ public abstract class ValueWriter extends NodeWriter
 		{
 			FileDeclaration file = node().getReferenceFile();//getFileDeclaration();
 			
-                /*if (node() instanceof Identifier && !isGenericType())
-                {
-                    file = ((Identifier)node()).getDeclaringClass().getFileDeclaration();
-                }*/
+			/*if (node() instanceof Identifier && !isGenericType())
+			{
+				file = ((Identifier)node()).getDeclaringClass().getFileDeclaration();
+			}*/
 			
 			ClassDeclaration clazz = SyntaxUtils.getImportedClass(file, type);
 			

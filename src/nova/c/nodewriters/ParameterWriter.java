@@ -12,10 +12,10 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 		{
 			return generateTypeClassName(builder);
 		}
-            /*else if (getTypeClass() != null && getTypeClass().equals(getProgram().getClassDeclaration(Nova.getClassLocation("Number"))))
-            {
-                return builder.append("long_long");
-            }*/
+		/*else if (getTypeClass() != null && getTypeClass().equals(getProgram().getClassDeclaration(Nova.getClassLocation("Number"))))
+		{
+			return builder.append("long_long");
+		}*/
 		
 		return super.generateTypeName(builder);
 	}
