@@ -110,8 +110,7 @@ nova_env novaEnv = {
 &nova_datastruct_Nova_HashMap_Nova_containsKey,
 &nova_datastruct_Nova_HashMap_Nova_get,
 &nova_datastruct_Nova_HashMap_Nova_set,
-&nova_datastruct_Nova_HashMap_0_Nova_construct,
-&nova_datastruct_Nova_HashMap_1_Nova_construct,
+&nova_datastruct_Nova_HashMap_Nova_construct,
 },
 
 {
@@ -165,14 +164,6 @@ nova_env novaEnv = {
 },
 
 {
-&nova_datastruct_Nova_Vector_Nova_construct,
-},
-
-{
-&nova_datastruct_Nova_Vector2D_Nova_construct,
-},
-
-{
 &nova_datastruct_list_Nova_Array_Nova_fillRemaining,
 &nova_datastruct_list_Nova_Array_Nova_addAll,
 &nova_datastruct_list_Nova_Array_0_Nova_add,
@@ -204,7 +195,7 @@ nova_env novaEnv = {
 
 {
 &nova_datastruct_list_Nova_CharArray_Nova_sum,
-&nova_datastruct_list_Nova_CharArray_Nova_recurse,
+&nova_datastruct_list_Nova_CharArray_Nova_reduce,
 &nova_datastruct_list_Nova_CharArray_Nova_map,
 &nova_datastruct_list_Nova_CharArray_Nova_forEach,
 &nova_datastruct_list_Nova_CharArray_Nova_any,
@@ -283,9 +274,9 @@ nova_env novaEnv = {
 },
 
 {
-&nova_datastruct_list_Nova_IntRange_0_Nova_contains,
+&nova_datastruct_list_Nova_IntRange_Nova_contains,
 &nova_datastruct_list_Nova_IntRange_Nova_toArray,
-&nova_datastruct_list_Nova_IntRange_0_Nova_forEach,
+&nova_datastruct_list_Nova_IntRange_Nova_forEach,
 &nova_datastruct_list_Nova_IntRange_0_Nova_map,
 &nova_datastruct_list_Nova_IntRange_0_Nova_any,
 &nova_datastruct_list_Nova_IntRange_0_Nova_all,
@@ -349,6 +340,7 @@ nova_env novaEnv = {
 &nova_datastruct_list_Nova_List_Nova_firstNonNull,
 &nova_datastruct_list_Nova_List_Nova_zip,
 0,
+&nova_datastruct_list_Nova_List_Nova_reduce,
 0,
 },
 
@@ -644,7 +636,7 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_Nova_Bool_0_Nova_compareTo,
+&nova_primitive_Nova_Bool_Nova_compareTo,
 &nova_primitive_Nova_Bool_Nova_toString,
 &nova_primitive_Nova_Bool_Nova_construct,
 },
@@ -676,14 +668,14 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_number_Nova_Double_0_Nova_compareTo,
+&nova_primitive_number_Nova_Double_Nova_compareTo,
 &nova_primitive_number_Nova_Double_Nova_multiply,
 &nova_primitive_number_Nova_Double_Nova_toString,
 &nova_primitive_number_Nova_Double_Nova_construct,
 },
 
 {
-&nova_primitive_number_Nova_Float_0_Nova_compareTo,
+&nova_primitive_number_Nova_Float_Nova_compareTo,
 &nova_primitive_number_Nova_Float_Nova_multiply,
 &nova_primitive_number_Nova_Float_Nova_toString,
 &nova_primitive_number_Nova_Float_Nova_construct,
@@ -700,7 +692,7 @@ nova_env novaEnv = {
 },
 
 {
-&nova_primitive_number_Nova_Long_0_Nova_compareTo,
+&nova_primitive_number_Nova_Long_Nova_compareTo,
 &nova_primitive_number_Nova_Long_Nova_multiply,
 &nova_primitive_number_Nova_Long_Nova_toString,
 &nova_primitive_number_Nova_Long_Nova_construct,

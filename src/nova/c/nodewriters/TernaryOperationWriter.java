@@ -37,6 +37,6 @@ public abstract class TernaryOperationWriter extends IValueWriter implements Acc
 		
 		Value condition = node().getCondition();
 		
-		return getWriter(condition).generateSourceFragment(builder).append(" ? ").append(trueValue).append(" : ").append(falseValue);
+		return generateTypeCast(builder).append('(').append(getWriter(condition).generateSourceFragment()).append(" ? ").append(trueValue).append(" : ").append(falseValue).append(')');
 	}
 }
