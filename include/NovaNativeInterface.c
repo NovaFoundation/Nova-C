@@ -196,6 +196,7 @@ nova_env novaEnv = {
 {
 &nova_datastruct_list_Nova_CharArray_Nova_sum,
 &nova_datastruct_list_Nova_CharArray_Nova_reduce,
+&nova_datastruct_list_Nova_CharArray_Nova_contains,
 &nova_datastruct_list_Nova_CharArray_Nova_map,
 &nova_datastruct_list_Nova_CharArray_Nova_forEach,
 &nova_datastruct_list_Nova_CharArray_Nova_any,
@@ -1222,6 +1223,10 @@ nova_env novaEnv = {
 {
 &stabilitytest_Nova_NetworkStability_Nova_test,
 &stabilitytest_Nova_NetworkStability_Nova_construct,
+},
+
+{
+&stabilitytest_Nova_Node_Nova_construct,
 },
 
 {

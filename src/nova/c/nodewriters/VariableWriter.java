@@ -9,6 +9,12 @@ public abstract class VariableWriter extends IdentifierWriter
 {
 	public abstract Variable node();
 	
+	/*@Override
+	public StringBuilder generateTypeName(StringBuilder builder)
+	{
+		return getWriter(node().getDeclaration()).generateTypeName(builder);
+	}*/
+	
 	public StringBuilder generateSourcePrefix(StringBuilder builder)
 	{
 		super.generateSourcePrefix(builder);
