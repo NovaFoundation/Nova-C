@@ -27,6 +27,12 @@ public abstract class VariableWriter extends IdentifierWriter
 		return builder;
 	}
 	
+	@Override
+	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		return getWriter(node().getDeclaration()).generateSourceName(builder, uniquePrefix);
+	}
+	
 	public StringBuilder generateArgumentOutput(StringBuilder builder)
 	{
 		super.generateArgumentOutput(builder);
