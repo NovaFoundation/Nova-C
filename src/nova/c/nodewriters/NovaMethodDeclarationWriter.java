@@ -105,6 +105,11 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix, boolean outputOverload)
 	{
+		if (node().getParentClass().getField(node().getName()) != null)
+		{
+			uniquePrefix = (uniquePrefix == null ? "" : uniquePrefix) + "func";
+		}
+		
 		if (node().overloadID == -1)
 		{
 			return super.generateSourceName(builder, uniquePrefix);

@@ -244,8 +244,8 @@ typedef nova_Nova_String* (*nova_Nova_String_native_Nova_concat)(nova_Nova_Strin
 typedef char (*nova_Nova_String_native_Nova_equals)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_replace)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_Nova_String*);
 typedef char (*nova_Nova_String_native_Nova_startsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
-typedef int (*nova_Nova_String_native_Nova_contains)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
-typedef int (*nova_Nova_String_native_Nova_endsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef char (*nova_Nova_String_native_Nova_contains)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef char (*nova_Nova_String_native_Nova_endsWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef int (*nova_Nova_String_native_Nova_indexOf)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int, int);
 typedef int (*nova_Nova_String_native_Nova_lastIndexOf)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_substring)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int, int);
@@ -740,7 +740,7 @@ nova_datastruct_list_Nova_IntArrayIterator_native_Nova_reset reset;
 nova_datastruct_list_Nova_IntArrayIterator_native_Nova_construct IntArrayIterator;
 } nova_datastruct_list_native_IntArrayIterator;
 
-typedef int (*nova_datastruct_list_Nova_IntRange_native_Nova_contains)(nova_datastruct_list_Nova_IntRange*, nova_exception_Nova_ExceptionData*, int);
+typedef char (*nova_datastruct_list_Nova_IntRange_native0_Nova_contains)(nova_datastruct_list_Nova_IntRange*, nova_exception_Nova_ExceptionData*, int);
 typedef nova_datastruct_list_Nova_IntArray* (*nova_datastruct_list_Nova_IntRange_native_Nova_toArray)(nova_datastruct_list_Nova_IntRange*, nova_exception_Nova_ExceptionData*);
 typedef void (*nova_datastruct_list_Nova_IntRange_native_Nova_forEach)(nova_datastruct_list_Nova_IntRange*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_IntRange_closure3_Nova_func nova_datastruct_list_Nova_IntRange_Nova_func, void* nova_datastruct_list_Nova_IntRange_ref_Nova_func, void* func_context);
 typedef nova_datastruct_list_Nova_Array* (*nova_datastruct_list_Nova_IntRange_native0_Nova_map)(nova_datastruct_list_Nova_IntRange*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_IntRange_closure6_Nova_mapFunc nova_datastruct_list_Nova_IntRange_Nova_mapFunc, void* nova_datastruct_list_Nova_IntRange_ref_Nova_mapFunc, void* mapFunc_context);
@@ -758,7 +758,7 @@ typedef nova_datastruct_list_Nova_IntRange* (*nova_datastruct_list_Nova_IntRange
 
 typedef struct nova_datastruct_list_native_IntRange
 {
-nova_datastruct_list_Nova_IntRange_native_Nova_contains contains;
+nova_datastruct_list_Nova_IntRange_native0_Nova_contains contains__nova_primitive_number_Int;
 nova_datastruct_list_Nova_IntRange_native_Nova_toArray toArray;
 nova_datastruct_list_Nova_IntRange_native_Nova_forEach forEach;
 nova_datastruct_list_Nova_IntRange_native0_Nova_map map__nova_Object;
@@ -2211,11 +2211,11 @@ compiler_util_Nova_Location_native1_Nova_construct Location__compiler_util_Locat
 compiler_util_Nova_Location_native2_Nova_construct Location__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int;
 } compiler_util_native_Location;
 
-typedef compiler_util_Nova_OS* (*compiler_util_Nova_OS_native_Nova_construct)(compiler_util_Nova_OS*, nova_exception_Nova_ExceptionData*);
+typedef compiler_util_Nova_OS* (*compiler_util_Nova_OS_native_func_Nova_construct)(compiler_util_Nova_OS*, nova_exception_Nova_ExceptionData*);
 
 typedef struct compiler_util_native_OS
 {
-compiler_util_Nova_OS_native_Nova_construct OS;
+compiler_util_Nova_OS_native_func_Nova_construct OS;
 } compiler_util_native_OS;
 
 typedef char (*compiler_util_Nova_StringUtils_native_static_Nova_isSurroundedByQuotes)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);

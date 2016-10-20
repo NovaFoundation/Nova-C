@@ -274,7 +274,7 @@ nova_env novaEnv = {
 },
 
 {
-&nova_datastruct_list_Nova_IntRange_Nova_contains,
+&nova_datastruct_list_Nova_IntRange_0_Nova_contains,
 &nova_datastruct_list_Nova_IntRange_Nova_toArray,
 &nova_datastruct_list_Nova_IntRange_Nova_forEach,
 &nova_datastruct_list_Nova_IntRange_0_Nova_map,
@@ -1032,7 +1032,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_util_Nova_OS_Nova_construct,
+&compiler_util_Nova_OS__func_Nova_construct,
 },
 
 {
