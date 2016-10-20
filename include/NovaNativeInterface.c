@@ -247,8 +247,7 @@ nova_env novaEnv = {
 },
 
 {
-&nova_datastruct_list_Nova_EmptyStackException_0_Nova_construct,
-&nova_datastruct_list_Nova_EmptyStackException_1_Nova_construct,
+&nova_datastruct_list_Nova_EmptyStackException_Nova_construct,
 },
 
 {
@@ -351,13 +350,13 @@ nova_env novaEnv = {
 },
 
 {
-&nova_datastruct_list_Nova_NoSuchElementException_0_Nova_construct,
-&nova_datastruct_list_Nova_NoSuchElementException_1_Nova_construct,
+&nova_datastruct_list_Nova_NoSuchElementException_Nova_construct,
 },
 
 {
 &nova_datastruct_list_Nova_Queue_Nova_dequeue,
 &nova_datastruct_list_Nova_Queue_Nova_enqueue,
+&nova_datastruct_list_Nova_Queue_Nova_reverse,
 &nova_datastruct_list_Nova_Queue_Nova_toString,
 &nova_datastruct_list_Nova_Queue_0_Nova_construct,
 &nova_datastruct_list_Nova_Queue_1_Nova_construct,
@@ -379,8 +378,7 @@ nova_env novaEnv = {
 },
 
 {
-&nova_exception_Nova_Exception_0_Nova_construct,
-&nova_exception_Nova_Exception_1_Nova_construct,
+&nova_exception_Nova_Exception_Nova_construct,
 },
 
 {
@@ -391,6 +389,10 @@ nova_env novaEnv = {
 
 {
 &nova_exception_Nova_InvalidArgumentException_Nova_construct,
+},
+
+{
+&nova_exception_Nova_InvalidOperationException_Nova_construct,
 },
 
 {
@@ -467,14 +469,23 @@ nova_env novaEnv = {
 },
 
 {
+&nova_math_Nova_Matrix_Nova_clone,
+&nova_math_Nova_Matrix_Nova_inverse,
+&nova_math_Nova_Matrix_Nova_swapRows,
+&nova_math_Nova_Matrix_Nova_multiplyRow,
+&nova_math_Nova_Matrix_Nova_addRow,
+&nova_math_Nova_Matrix_Nova_subtractRow,
 &nova_math_Nova_Matrix_Nova_add,
 &nova_math_Nova_Matrix_Nova_subtract,
 &nova_math_Nova_Matrix_Nova_multiply,
 &nova_math_Nova_Matrix_Nova_transpose,
 &nova_math_Nova_Matrix_Nova_determinant,
 &nova_math_Nova_Matrix_Nova_toString,
+&nova_math_Nova_Matrix_Nova_get,
+&nova_math_Nova_Matrix_Nova_set,
 &nova_math_Nova_Matrix_0_Nova_construct,
 &nova_math_Nova_Matrix_1_Nova_construct,
+&nova_math_Nova_Matrix_2_Nova_construct,
 },
 
 {
@@ -1252,8 +1263,7 @@ nova_env novaEnv = {
 
 {
 &stabilitytest_Nova_StabilityTest_Nova_test,
-&stabilitytest_Nova_StabilityTest_0_Nova_fail,
-&stabilitytest_Nova_StabilityTest_1_Nova_fail,
+&stabilitytest_Nova_StabilityTest_Nova_fail,
 &stabilitytest_Nova_StabilityTest_Nova_construct,
 },
 

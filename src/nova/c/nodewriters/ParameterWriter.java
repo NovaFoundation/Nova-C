@@ -26,6 +26,22 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 		return super.generateTypeName(builder);
 	}
 	
+	@Override
+	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		if (this instanceof ClosureDeclarationWriter)
+		{
+			return super.generateSourceName(builder, uniquePrefix);
+		}
+		
+		if (uniquePrefix != null)
+		{
+			builder.append(uniquePrefix);
+		}
+		
+		return builder.append(node().getName());
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		return generateModifiersSource(builder);
