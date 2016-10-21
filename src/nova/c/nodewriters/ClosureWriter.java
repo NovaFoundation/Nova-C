@@ -12,12 +12,8 @@ public abstract class ClosureWriter extends VariableWriter
 		return generateSourceFragment(builder);
 	}
 	
-	public StringBuilder generateSourceFragment(StringBuilder builder)
+	public StringBuilder generateSourceFunctionReference(StringBuilder builder)
 	{
-		ClosureDeclaration decl = node().getClosureDeclaration();
-		
-		getWriter(decl).generateTypeCast(builder);
-		
 		if (node().getMethodDeclaration().isVirtual() && !node().isVirtualTypeKnown())
 		{
 			Accessible root = node().getRootReferenceNode();
@@ -34,6 +30,37 @@ public abstract class ClosureWriter extends VariableWriter
 			
 			builder.append('&').append(getWriter(d).generateSourceName());
 		}
+		
+		return builder;
+	}
+	
+	public StringBuilder generateClosureInstanceReference()
+	{
+		return generateClosureInstanceReference(new StringBuilder());
+	}
+	
+	public StringBuilder generateClosureInstanceReference(StringBuilder builder)
+	{
+		return getWriter(node().getClosureDeclaration()).generateClosureInstanceReference(builder, node());
+	}
+	
+	public StringBuilder generateClosureContextReference()
+	{
+		return generateClosureContextReference(new StringBuilder());
+	}
+	
+	public StringBuilder generateClosureContextReference(StringBuilder builder)
+	{
+		return getWriter(node().getClosureDeclaration()).generateClosureContextReference(builder, node().getMethodDeclaration());
+	}
+	
+	public StringBuilder generateSourceFragment(StringBuilder builder)
+	{
+		ClosureDeclaration decl = node().getClosureDeclaration();
+		
+		getWriter(decl).generateTypeCast(builder);
+		
+		generateSourceFunctionReference(builder);
 		
 		builder.append(", ");
 		
