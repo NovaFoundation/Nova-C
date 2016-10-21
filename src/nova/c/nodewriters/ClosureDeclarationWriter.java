@@ -33,6 +33,16 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 	
 	public StringBuilder generateArguments(StringBuilder builder, Variable context, NovaMethodDeclaration method)
 	{
+		generateClosureInstanceReference(builder, context);
+		
+		builder.append(", ");
+		generateClosureContextReference(builder, method);
+		
+		return builder;
+	}
+	
+	public StringBuilder generateClosureInstanceReference(StringBuilder builder, Variable context)
+	{
 		if (context.getRootReferenceNode() instanceof ClassDeclaration == false)
 		{
 			Accessible root = context.getRootReferenceNode();
@@ -44,10 +54,12 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 			builder.append(ClosureDeclaration.NULL_IDENTIFIER);//method.getParameterList().getObjectReference().generateNullOutput(builder);
 		}
 		
-		builder.append(", ");
-		getWriter(method).generateClosureContext(builder);
-		
 		return builder;
+	}
+	
+	public StringBuilder generateClosureContextReference(StringBuilder builder, NovaMethodDeclaration method)
+	{
+		return getWriter(method).generateClosureContext(builder);
 	}
 	
 	public StringBuilder generateObjectReferenceIdentifier(StringBuilder builder)
