@@ -40,7 +40,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			if (arg instanceof DefaultArgument)
 			{
-				DefaultArgument.generateDefaultArgumentOutput(builder, param);
+				DefaultArgumentWriter.generateDefaultArgumentOutput(builder, param);
 			}
 			else
 			{
@@ -92,7 +92,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			builder.append(", ");
 			
-			DefaultArgument.generateDefaultArgumentOutput(builder, params.getVisibleChild(i));
+			DefaultArgumentWriter.generateDefaultArgumentOutput(builder, params.getVisibleChild(i));
 			
 			i++;
 		}

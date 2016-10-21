@@ -202,6 +202,9 @@ typedef nova_Nova_Object* (*nova_datastruct_list_Nova_List_closure27_Nova_func)(
 typedef void (*nova_thread_async_Nova_Async_closure1_Nova_func)(void*, nova_exception_Nova_ExceptionData*, void*);
 typedef void (*nova_thread_async_Nova_Async_closure2_Nova_func)(void*, nova_exception_Nova_ExceptionData*, void*);
 typedef void (*nova_thread_async_Nova_Async_closure3_Nova_func)(void*, nova_exception_Nova_ExceptionData*, void*);
+typedef int (*compiler_util_Nova_StringUtils_closure1_Nova_advance)(void*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, char, int, int, void*);
+typedef int (*compiler_util_Nova_StringUtils_closure2_Nova_advance)(void*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, char, int, int, void*);
+typedef int (*compiler_util_Nova_StringUtils_closure3_Nova_advance)(void*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, char, int, int, void*);
 
 typedef struct nova_Interface_VTable
 {

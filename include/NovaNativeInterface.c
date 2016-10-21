@@ -32,6 +32,8 @@ nova_env novaEnv = {
 &nova_Nova_String_Nova_surroundWith,
 &nova_Nova_String_Nova_compareTo,
 0,
+&nova_Nova_String_Nova_get,
+&nova_Nova_String_Nova_set,
 &nova_Nova_String_0_Nova_construct,
 &nova_Nova_String_1_Nova_construct,
 &nova_Nova_String_2_Nova_construct,
@@ -729,6 +731,10 @@ nova_env novaEnv = {
 },
 
 {
+&nova_regex_Nova_Regex_Nova_construct,
+},
+
+{
 &nova_security_Nova_MD5_Nova_construct,
 },
 
@@ -906,6 +912,11 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_node_Nova_ArrayAccess_Nova_tryParse,
+&compiler_tree_node_Nova_ArrayAccess_Nova_construct,
+},
+
+{
 &compiler_tree_node_Nova_Import_Nova_getClassLocation,
 &compiler_tree_node_Nova_Import_Nova_tryParse,
 &compiler_tree_node_Nova_Import_Nova_construct,
@@ -973,7 +984,16 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_node_Nova_Skeleton_Nova_tryParse,
+&compiler_tree_node_Nova_Skeleton_Nova_construct,
+},
+
+{
 &compiler_tree_node_Nova_ValidationResult_Nova_construct,
+},
+
+{
+&compiler_tree_node_Nova_Value_Nova_construct,
 },
 
 {
@@ -1032,7 +1052,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_util_Nova_OS__func_Nova_construct,
+&compiler_util_Nova_OS_func_Nova_construct,
 },
 
 {

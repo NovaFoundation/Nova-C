@@ -107,6 +107,7 @@
 #include <nova/primitive/number/nova_primitive_number_Nova_RealNumber.h>
 #include <nova/primitive/number/nova_primitive_number_Nova_Short.h>
 #include <nova/process/nova_process_Nova_Process.h>
+#include <nova/regex/nova_regex_Nova_Regex.h>
 #include <nova/security/nova_security_Nova_MD5.h>
 #include <nova/star/nova_star_Nova_Frame.h>
 #include <nova/star/nova_star_Nova_Window.h>
@@ -142,6 +143,7 @@
 #include <compiler/compiler_Nova_SyntaxErrorException.h>
 #include <compiler/error/compiler_error_Nova_UnimplementedOperationException.h>
 #include <compiler/tree/compiler_tree_Nova_SyntaxTree.h>
+#include <compiler/tree/node/compiler_tree_node_Nova_ArrayAccess.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_Import.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_ImportList.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_Listener.h>
@@ -152,7 +154,9 @@
 #include <compiler/tree/node/compiler_tree_node_Nova_Package.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_Program.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_Scope.h>
+#include <compiler/tree/node/compiler_tree_node_Nova_Skeleton.h>
 #include <compiler/tree/node/compiler_tree_node_Nova_ValidationResult.h>
+#include <compiler/tree/node/compiler_tree_node_Nova_Value.h>
 #include <compiler/tree/node/annotation/compiler_tree_node_annotation_Nova_Annotatable.h>
 #include <compiler/tree/node/annotation/compiler_tree_node_annotation_Nova_Annotation.h>
 #include <compiler/tree/node/closures/compiler_tree_node_closures_Nova_ClosureContext.h>
@@ -259,6 +263,8 @@ typedef nova_Nova_String* (*nova_Nova_String_native_Nova_getStringBetween)(nova_
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_surroundWith)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int);
 typedef int (*nova_Nova_String_native_Nova_compareTo)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_Nova_String* (*nova_Nova_String_native_Nova_toString)(nova_Nova_String*, nova_exception_Nova_ExceptionData*);
+typedef char (*nova_Nova_String_native_Nova_get)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int);
+typedef char (*nova_Nova_String_native_Nova_set)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, int, char);
 typedef nova_Nova_String* (*nova_Nova_String_native0_Nova_construct)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, char);
 typedef nova_Nova_String* (*nova_Nova_String_native1_Nova_construct)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, char*);
 typedef nova_Nova_String* (*nova_Nova_String_native2_Nova_construct)(nova_Nova_String*, nova_exception_Nova_ExceptionData*, nova_datastruct_list_Nova_CharArray*);
@@ -284,6 +290,8 @@ nova_Nova_String_native_Nova_getStringBetween getStringBetween;
 nova_Nova_String_native_Nova_surroundWith surroundWith;
 nova_Nova_String_native_Nova_compareTo compareTo;
 nova_Nova_String_native_Nova_toString toString;
+nova_Nova_String_native_Nova_get get;
+nova_Nova_String_native_Nova_set set;
 nova_Nova_String_native0_Nova_construct String__nova_primitive_number_Char;
 nova_Nova_String_native1_Nova_construct String__Array1d_nova_primitive_number_Char;
 nova_Nova_String_native2_Nova_construct String__nova_datastruct_list_CharArray;
@@ -1648,6 +1656,14 @@ typedef struct nova_process_native_Process
 nova_process_Nova_Process_native_Nova_construct Process;
 } nova_process_native_Process;
 
+typedef char (*nova_regex_Nova_Regex_native_static_Nova_containsMatch)(nova_regex_Nova_Regex*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_Nova_String*);
+typedef nova_regex_Nova_Regex* (*nova_regex_Nova_Regex_native_Nova_construct)(nova_regex_Nova_Regex*, nova_exception_Nova_ExceptionData*);
+
+typedef struct nova_regex_native_Regex
+{
+nova_regex_Nova_Regex_native_Nova_construct Regex;
+} nova_regex_native_Regex;
+
 typedef nova_Nova_String* (*nova_security_Nova_MD5_native_static_Nova_encrypt)(nova_security_Nova_MD5*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_security_Nova_MD5* (*nova_security_Nova_MD5_native_Nova_construct)(nova_security_Nova_MD5*, nova_exception_Nova_ExceptionData*);
 
@@ -1974,9 +1990,18 @@ typedef struct compiler_tree_native_SyntaxTree
 compiler_tree_Nova_SyntaxTree_native_Nova_construct SyntaxTree;
 } compiler_tree_native_SyntaxTree;
 
+typedef compiler_tree_node_Nova_ArrayAccess* (*compiler_tree_node_Nova_ArrayAccess_native_Nova_tryParse)(compiler_tree_node_Nova_ArrayAccess*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*, int);
+typedef compiler_tree_node_Nova_ArrayAccess* (*compiler_tree_node_Nova_ArrayAccess_native_Nova_construct)(compiler_tree_node_Nova_ArrayAccess*, nova_exception_Nova_ExceptionData*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*);
+
+typedef struct compiler_tree_node_native_ArrayAccess
+{
+compiler_tree_node_Nova_ArrayAccess_native_Nova_tryParse tryParse;
+compiler_tree_node_Nova_ArrayAccess_native_Nova_construct ArrayAccess;
+} compiler_tree_node_native_ArrayAccess;
+
 typedef nova_Nova_String* (*compiler_tree_node_Nova_Import_native_Nova_getClassLocation)(compiler_tree_node_Nova_Import*, nova_exception_Nova_ExceptionData*, int);
-typedef compiler_tree_node_Nova_Import* (*compiler_tree_node_Nova_Import_native_Nova_tryParse)(compiler_tree_node_Nova_Import*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*, compiler_tree_node_Nova_Import*);
-typedef compiler_tree_node_Nova_Import* (*compiler_tree_node_Nova_Import_native_Nova_construct)(compiler_tree_node_Nova_Import*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*);
+typedef compiler_tree_node_Nova_Import* (*compiler_tree_node_Nova_Import_native_Nova_tryParse)(compiler_tree_node_Nova_Import*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*, int);
+typedef compiler_tree_node_Nova_Import* (*compiler_tree_node_Nova_Import_native_Nova_construct)(compiler_tree_node_Nova_Import*, nova_exception_Nova_ExceptionData*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*);
 
 typedef struct compiler_tree_node_native_Import
 {
@@ -2099,12 +2124,28 @@ compiler_tree_node_Nova_Scope_native_Nova_clone clone;
 compiler_tree_node_Nova_Scope_native_Nova_construct Scope;
 } compiler_tree_node_native_Scope;
 
+typedef compiler_tree_node_Nova_Skeleton* (*compiler_tree_node_Nova_Skeleton_native_Nova_tryParse)(compiler_tree_node_Nova_Skeleton*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*, int);
+typedef compiler_tree_node_Nova_Skeleton* (*compiler_tree_node_Nova_Skeleton_native_Nova_construct)(compiler_tree_node_Nova_Skeleton*, nova_exception_Nova_ExceptionData*, compiler_tree_node_Nova_Node*, compiler_util_Nova_Location*);
+
+typedef struct compiler_tree_node_native_Skeleton
+{
+compiler_tree_node_Nova_Skeleton_native_Nova_tryParse tryParse;
+compiler_tree_node_Nova_Skeleton_native_Nova_construct Skeleton;
+} compiler_tree_node_native_Skeleton;
+
 typedef compiler_tree_node_Nova_ValidationResult* (*compiler_tree_node_Nova_ValidationResult_native_Nova_construct)(compiler_tree_node_Nova_ValidationResult*, nova_exception_Nova_ExceptionData*, compiler_tree_node_Nova_Node*);
 
 typedef struct compiler_tree_node_native_ValidationResult
 {
 compiler_tree_node_Nova_ValidationResult_native_Nova_construct ValidationResult;
 } compiler_tree_node_native_ValidationResult;
+
+typedef compiler_tree_node_Nova_Value* (*compiler_tree_node_Nova_Value_native_Nova_construct)(compiler_tree_node_Nova_Value*, nova_exception_Nova_ExceptionData*);
+
+typedef struct compiler_tree_node_native_Value
+{
+compiler_tree_node_Nova_Value_native_Nova_construct Value;
+} compiler_tree_node_native_Value;
 
 typedef void (*compiler_tree_node_annotation_Nova_Annotatable_native_Nova_addAnnotation)(compiler_tree_node_annotation_Nova_Annotatable*, nova_exception_Nova_ExceptionData*, compiler_tree_node_annotation_Nova_Annotation*);
 
@@ -2211,15 +2252,22 @@ compiler_util_Nova_Location_native1_Nova_construct Location__compiler_util_Locat
 compiler_util_Nova_Location_native2_Nova_construct Location__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int__nova_primitive_number_Int;
 } compiler_util_native_Location;
 
-typedef compiler_util_Nova_OS* (*compiler_util_Nova_OS_native_func_Nova_construct)(compiler_util_Nova_OS*, nova_exception_Nova_ExceptionData*);
+typedef compiler_util_Nova_OS* (*compiler_util_Nova_OS_nativefunc_Nova_construct)(compiler_util_Nova_OS*, nova_exception_Nova_ExceptionData*);
 
 typedef struct compiler_util_native_OS
 {
-compiler_util_Nova_OS_native_func_Nova_construct OS;
+compiler_util_Nova_OS_nativefunc_Nova_construct OS;
 } compiler_util_native_OS;
 
 typedef char (*compiler_util_Nova_StringUtils_native_static_Nova_isSurroundedByQuotes)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
 typedef nova_Nova_String* (*compiler_util_Nova_StringUtils_native_static_Nova_removeSurroundingQuotes)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*);
+typedef char (*compiler_util_Nova_StringUtils_native0_static_Nova_containsString)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_datastruct_list_Nova_Array*, int);
+typedef char (*compiler_util_Nova_StringUtils_native1_static_Nova_containsString)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_Nova_String*, int);
+typedef int (*compiler_util_Nova_StringUtils_native_static_Nova_defaultCharacterCheck)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, char, int, int);
+typedef int (*compiler_util_Nova_StringUtils_native_static_Nova_findEndingChar)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, char, int, int, compiler_util_Nova_StringUtils_closure3_Nova_advance compiler_util_Nova_StringUtils_Nova_advance, void* compiler_util_Nova_StringUtils_ref_Nova_advance, void* advance_context, int);
+typedef int (*compiler_util_Nova_StringUtils_native_static_Nova_findEndingQuote)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, int);
+typedef int (*compiler_util_Nova_StringUtils_native0_static_Nova_findEndingMatch)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, char, char, int, int);
+typedef int (*compiler_util_Nova_StringUtils_native1_static_Nova_findEndingMatch)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, int, nova_Nova_String*, nova_Nova_String*, int, int, int);
 typedef compiler_util_Nova_StringUtils* (*compiler_util_Nova_StringUtils_native_Nova_construct)(compiler_util_Nova_StringUtils*, nova_exception_Nova_ExceptionData*);
 
 typedef struct compiler_util_native_StringUtils
@@ -2227,6 +2275,7 @@ typedef struct compiler_util_native_StringUtils
 compiler_util_Nova_StringUtils_native_Nova_construct StringUtils;
 } compiler_util_native_StringUtils;
 
+typedef int (*compiler_util_Nova_SyntaxUtils_native_static_Nova_findStringInBaseScope)(compiler_util_Nova_SyntaxUtils*, nova_exception_Nova_ExceptionData*, nova_Nova_String*, nova_datastruct_list_Nova_Array*, int, int, int);
 typedef compiler_util_Nova_SyntaxUtils* (*compiler_util_Nova_SyntaxUtils_native_Nova_construct)(compiler_util_Nova_SyntaxUtils*, nova_exception_Nova_ExceptionData*);
 
 typedef struct compiler_util_native_SyntaxUtils
@@ -2834,6 +2883,7 @@ nova_primitive_number_native_Number nova_primitive_number_Number;
 nova_primitive_number_native_RealNumber nova_primitive_number_RealNumber;
 nova_primitive_number_native_Short nova_primitive_number_Short;
 nova_process_native_Process nova_process_Process;
+nova_regex_native_Regex nova_regex_Regex;
 nova_security_native_MD5 nova_security_MD5;
 nova_star_native_Frame nova_star_Frame;
 nova_star_native_Window nova_star_Window;
@@ -2869,6 +2919,7 @@ compiler_native_Compiler compiler_Compiler;
 compiler_native_SyntaxErrorException compiler_SyntaxErrorException;
 compiler_error_native_UnimplementedOperationException compiler_error_UnimplementedOperationException;
 compiler_tree_native_SyntaxTree compiler_tree_SyntaxTree;
+compiler_tree_node_native_ArrayAccess compiler_tree_node_ArrayAccess;
 compiler_tree_node_native_Import compiler_tree_node_Import;
 compiler_tree_node_native_ImportList compiler_tree_node_ImportList;
 compiler_tree_node_native_Listener compiler_tree_node_Listener;
@@ -2879,7 +2930,9 @@ compiler_tree_node_native_NovaFile compiler_tree_node_NovaFile;
 compiler_tree_node_native_Package compiler_tree_node_Package;
 compiler_tree_node_native_Program compiler_tree_node_Program;
 compiler_tree_node_native_Scope compiler_tree_node_Scope;
+compiler_tree_node_native_Skeleton compiler_tree_node_Skeleton;
 compiler_tree_node_native_ValidationResult compiler_tree_node_ValidationResult;
+compiler_tree_node_native_Value compiler_tree_node_Value;
 compiler_tree_node_annotation_native_Annotatable compiler_tree_node_annotation_Annotatable;
 compiler_tree_node_annotation_native_Annotation compiler_tree_node_annotation_Annotation;
 compiler_tree_node_closures_native_ClosureContext compiler_tree_node_closures_ClosureContext;
