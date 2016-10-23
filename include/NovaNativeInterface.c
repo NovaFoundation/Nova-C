@@ -15,7 +15,13 @@ nova_env novaEnv = {
 {
 0,
 &nova_Nova_String_Nova_equals,
-&nova_Nova_String_Nova_replace,
+&nova_Nova_String_0_Nova_replace,
+&nova_Nova_String_1_Nova_replace,
+&nova_Nova_String_Nova_containsWord,
+&nova_Nova_String_Nova_nextWordIndex,
+&nova_Nova_String_Nova_nextNonWhitespaceIndex,
+&nova_Nova_String_Nova_nextWhitespaceIndex,
+&nova_Nova_String_Nova_nextIndexThatContains,
 &nova_Nova_String_Nova_startsWith,
 &nova_Nova_String_Nova_contains,
 &nova_Nova_String_Nova_endsWith,
@@ -31,6 +37,7 @@ nova_env novaEnv = {
 &nova_Nova_String_Nova_getStringBetween,
 &nova_Nova_String_Nova_surroundWith,
 &nova_Nova_String_Nova_compareTo,
+&nova_Nova_String_Nova_split,
 0,
 &nova_Nova_String_Nova_get,
 &nova_Nova_String_Nova_set,
@@ -731,6 +738,15 @@ nova_env novaEnv = {
 },
 
 {
+&nova_regex_Nova_Match_Nova_toString,
+&nova_regex_Nova_Match_Nova_construct,
+},
+
+{
+&nova_regex_Nova_Pattern_Nova_construct,
+},
+
+{
 &nova_regex_Nova_Regex_Nova_construct,
 },
 
@@ -900,7 +916,12 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_Nova_SyntaxErrorException_Nova_construct,
+&compiler_Nova_SyntaxErrorException_0_Nova_construct,
+&compiler_Nova_SyntaxErrorException_1_Nova_construct,
+},
+
+{
+&compiler_Nova_SyntaxMessage_Nova_construct,
 },
 
 {
@@ -912,8 +933,27 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_node_Nova_ArrayAccess_Nova_tryParse,
-&compiler_tree_node_Nova_ArrayAccess_Nova_construct,
+0,
+},
+
+{
+&compiler_tree_node_Nova_Accessible_0_Nova_getNextAccessingOfType,
+&compiler_tree_node_Nova_Accessible_1_Nova_getNextAccessingOfType,
+&compiler_tree_node_Nova_Accessible_2_Nova_getNextAccessingOfType,
+&compiler_tree_node_Nova_Accessible_0_Nova_getLastAccessingOfType,
+&compiler_tree_node_Nova_Accessible_1_Nova_getLastAccessingOfType,
+&compiler_tree_node_Nova_Accessible_0_Nova_getLastAccessedOfType,
+&compiler_tree_node_Nova_Accessible_1_Nova_getLastAccessedOfType,
+&compiler_tree_node_Nova_Accessible_Nova_getLastAccessed,
+&compiler_tree_node_Nova_Accessible_0_Nova_getNextAccessedOfType,
+&compiler_tree_node_Nova_Accessible_1_Nova_getNextAccessedOfType,
+&compiler_tree_node_Nova_Accessible_Nova_getRootReferenceNode,
+&compiler_tree_node_Nova_Accessible_Nova_getReferenceNode,
+},
+
+{
+0,
+&compiler_tree_node_Nova_Identifier_Nova_construct,
 },
 
 {
@@ -960,6 +1000,11 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_node_Nova_NovaClass_Nova_tryParse,
+&compiler_tree_node_Nova_NovaClass_Nova_parseModifier,
+&compiler_tree_node_Nova_NovaClass_Nova_writeAbstract,
+&compiler_tree_node_Nova_NovaClass_Nova_writeModifiers,
+&compiler_tree_node_Nova_NovaClass_Nova_toString,
 &compiler_tree_node_Nova_NovaClass_Nova_construct,
 },
 
@@ -967,6 +1012,10 @@ nova_env novaEnv = {
 &compiler_tree_node_Nova_NovaFile_Nova_addImport,
 &compiler_tree_node_Nova_NovaFile_Nova_containsImport,
 &compiler_tree_node_Nova_NovaFile_Nova_construct,
+},
+
+{
+&compiler_tree_node_Nova_NovaInterface_Nova_construct,
 },
 
 {
@@ -1006,6 +1055,11 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_node_arrays_Nova_ArrayAccess_Nova_tryParse,
+&compiler_tree_node_arrays_Nova_ArrayAccess_Nova_construct,
+},
+
+{
 &compiler_tree_node_closures_Nova_ClosureContext_Nova_construct,
 },
 
@@ -1023,6 +1077,23 @@ nova_env novaEnv = {
 
 {
 &compiler_tree_node_functions_Nova_NovaFunction_Nova_construct,
+},
+
+{
+0,
+0,
+&compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeVisibility,
+&compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeStatic,
+0,
+&compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_construct,
+},
+
+{
+0,
+0,
+&compiler_tree_node_variables_Nova_VariableDeclaration_Nova_parseModifiers,
+&compiler_tree_node_variables_Nova_VariableDeclaration_Nova_getInvalidModifiers,
+&compiler_tree_node_variables_Nova_VariableDeclaration_Nova_construct,
 },
 
 {
@@ -1274,6 +1345,11 @@ nova_env novaEnv = {
 {
 &stabilitytest_Nova_PolymorphismStability_Nova_test,
 &stabilitytest_Nova_PolymorphismStability_Nova_construct,
+},
+
+{
+&stabilitytest_Nova_RegexStability_Nova_test,
+&stabilitytest_Nova_RegexStability_Nova_construct,
 },
 
 {
