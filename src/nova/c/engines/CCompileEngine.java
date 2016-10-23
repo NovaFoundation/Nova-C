@@ -248,7 +248,7 @@ public class CCompileEngine extends CompileEngine
 		}
 		else if (OS == WINDOWS)
 		{
-			cmd.append("-lws2_32 -lmysql ");
+			cmd.append("-lws2_32 -lmysql -lpcre2-8-0 ");
 		}
 		
 		if (controller.isFlagEnabled(C_ARGS))
