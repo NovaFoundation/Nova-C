@@ -11,7 +11,7 @@ public abstract class DefaultWriter extends MatchCaseWriter
 	{
 		Scope scope = node().getScope();
 		
-		if (node().getParentSwitch().isConventionalSwitch())
+		if (node().getParentMatch().isConventionalSwitch())
 		{
 			builder.append("default:").append('\n');
 			
