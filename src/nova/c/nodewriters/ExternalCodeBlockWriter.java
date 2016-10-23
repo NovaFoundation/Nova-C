@@ -9,6 +9,6 @@ public abstract class ExternalCodeBlockWriter extends NodeWriter
 	@Override
 	public StringBuilder generateSource(StringBuilder builder)
 	{
-		return builder.append(node().joinContents(x -> getWriter(x).generateSourceFragment().toString())).append('\n');
+		return builder.append(node().joinContents((x, expression) -> (expression ? getWriter(x).generateSourceFragment() : getWriter(x).generateSource()).toString())).append('\n');
 	}
 }
