@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.variables.Super;
 import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 
 public abstract class MethodCallWriter extends VariableWriter
@@ -67,26 +68,16 @@ public abstract class MethodCallWriter extends VariableWriter
 		{
 			NovaMethodDeclaration novaMethod = (NovaMethodDeclaration)method;
 			
-                /*if (!isAccessed())
-                {
-                    builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append("->");
-                }
-                
-                if (getParent() instanceof Variable)
-                {
-                    //((Variable)getParent()).generateUseOutput(builder).append("->");
-                }
-                
-                builder.append(VTable.IDENTIFIER).append("->");
-                
-                if (method.getParentClass() instanceof Interface)
-                {
-                    builder.append(InterfaceVTable.IDENTIFIER).append(".");
-                }*/
+			if (node().getParent() instanceof Super)
+			{
+				novaMethod = (NovaMethodDeclaration)node().getParentClass().getExtendedClassDeclaration().getMethod((GenericCompatible)null, novaMethod.getName(), novaMethod.getParameterList().getTypes());
+			}
+			else
+			{
+				novaMethod = novaMethod.getVirtualMethod();
+			}
 			
-			VirtualMethodDeclaration virtual = novaMethod.getVirtualMethod();
-			
-			getWriter(virtual).generateSourceName(builder);
+			getWriter(novaMethod).generateSourceName(builder);
 		}
 		else
 		{

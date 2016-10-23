@@ -2,6 +2,7 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
+import net.fathomsoft.nova.tree.variables.Super;
 import net.fathomsoft.nova.tree.variables.Variable;
 import net.fathomsoft.nova.util.SyntaxUtils;
 
@@ -197,7 +198,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			boolean sameType = SyntaxUtils.isSameType((Value)call.getReferenceNode(), method.getParentClass(), false);
 			
-			if (method.isVirtual() && !call.isVirtualTypeKnown())
+			if (call.getParent() instanceof Super == false && method.isVirtual() && !call.isVirtualTypeKnown())
 			{
 				castClass = ((NovaMethodDeclaration)method).getVirtualMethod().getParentClass();
 			}
