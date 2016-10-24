@@ -23,6 +23,17 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof ExtensionDeclaration)
+		{
+			return new ExtensionDeclarationWriter()
+			{
+				@Override
+				public ExtensionDeclaration node()
+				{
+					return (ExtensionDeclaration)node;
+				}
+			};
+		}
 		else if (node instanceof ClosureVariableDeclaration)
 		{
 			return new ClosureVariableDeclarationWriter()
