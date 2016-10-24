@@ -17,11 +17,6 @@ nova_env novaEnv = {
 &nova_Nova_String_Nova_equals,
 &nova_Nova_String_0_Nova_replace,
 &nova_Nova_String_1_Nova_replace,
-&nova_Nova_String_Nova_containsWord,
-&nova_Nova_String_Nova_nextWordIndex,
-&nova_Nova_String_Nova_nextNonWhitespaceIndex,
-&nova_Nova_String_Nova_nextWhitespaceIndex,
-&nova_Nova_String_Nova_nextIndexThatContains,
 &nova_Nova_String_Nova_startsWith,
 &nova_Nova_String_Nova_contains,
 &nova_Nova_String_Nova_endsWith,
@@ -755,6 +750,11 @@ nova_env novaEnv = {
 },
 
 {
+&nova_security_Nova_Sha256_Nova_digest,
+&nova_security_Nova_Sha256_Nova_construct,
+},
+
+{
 &nova_star_Nova_Frame_Nova_construct,
 },
 
@@ -1094,6 +1094,25 @@ nova_env novaEnv = {
 &compiler_tree_node_variables_Nova_VariableDeclaration_Nova_parseModifiers,
 &compiler_tree_node_variables_Nova_VariableDeclaration_Nova_getInvalidModifiers,
 &compiler_tree_node_variables_Nova_VariableDeclaration_Nova_construct,
+},
+
+{
+&compiler_util_Nova_CompilerStringFunctions_Nova_containsWord,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextWordIndex,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextNonWhitespaceIndex,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextWhitespaceIndex,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextIndexThatContains,
+&compiler_util_Nova_CompilerStringFunctions_Nova_isSurroundedByQuotes,
+&compiler_util_Nova_CompilerStringFunctions_Nova_removeSurroundingQuotes,
+&compiler_util_Nova_CompilerStringFunctions_0_Nova_containsString,
+&compiler_util_Nova_CompilerStringFunctions_1_Nova_containsString,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findEndingChar,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findEndingQuote,
+&compiler_util_Nova_CompilerStringFunctions_0_Nova_findEndingMatch,
+&compiler_util_Nova_CompilerStringFunctions_1_Nova_findEndingMatch,
+&compiler_util_Nova_CompilerStringFunctions_Nova_splitCommas,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findCharInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findStringInBaseScope,
 },
 
 {

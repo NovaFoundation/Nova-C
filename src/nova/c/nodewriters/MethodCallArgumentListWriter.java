@@ -196,7 +196,14 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			MethodCall call     = node().getMethodCall();
 			ClassDeclaration castClass = null;
 			
-			boolean sameType = SyntaxUtils.isSameType((Value)call.getReferenceNode(), method.getParentClass(), false);
+			ClassDeclaration referenceClass = method.getParentClass();
+			
+			if (call.getInferredDeclaration() instanceof ExtensionMethodDeclaration)
+			{
+				referenceClass = ((ExtensionMethodDeclaration)call.getInferredDeclaration()).getParameterList().getReferenceParameter().getTypeClass();
+			}
+			
+			boolean sameType = SyntaxUtils.isSameType((Value)call.getReferenceNode(), referenceClass, false);
 			
 			if (call.getParent() instanceof Super == false && method.isVirtual() && !call.isVirtualTypeKnown())
 			{
