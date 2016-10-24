@@ -21,6 +21,10 @@ public abstract class OperatorWriter extends IValueWriter
 		{
 			return builder.append(Operator.OR_C);
 		}
+		else if (node().operator.equals(Operator.UR_SHIFT))
+		{
+			return builder.append(Operator.UR_SHIFT_C);
+		}
 		
 		return builder.append(node().operator);
 	}

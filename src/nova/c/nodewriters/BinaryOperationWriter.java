@@ -46,6 +46,11 @@ public abstract class BinaryOperationWriter extends IValueWriter
 			rightCast = getWriter(rightReturned).generateTypeCast(new StringBuilder(), true, false).toString();
 		}
 		
+		if (operator.operator.equals(Operator.UR_SHIFT))
+		{
+			leftCast = "(unsigned int)" + leftCast;
+		}
+		
 		return builder.append(leftCast).append(getWriter(left).generateSourceFragment()).append(' ')
 			.append(getWriter(operator).generateSourceFragment()).append(' ')
 			.append(rightCast).append(getWriter(right).generateSourceFragment());
