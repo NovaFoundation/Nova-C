@@ -173,7 +173,8 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	 */
 	private StringBuilder checkReference(StringBuilder builder)
 	{
-		CallableMethod method = node().getMethodCall().getInferredDeclaration();
+		MethodCall     call   = node().getMethodCall();
+		CallableMethod method = call.getInferredDeclaration();
 		
 		if (method instanceof Constructor || !node().getMethodCall().getDeclaration().isInstance())
 		{
@@ -193,14 +194,13 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			}
 			
 			Accessible context  = node().getMethodCallContext();
-			MethodCall call     = node().getMethodCall();
 			ClassDeclaration castClass = null;
 			
 			ClassDeclaration referenceClass = method.getParentClass();
 			
-			if (call.getInferredDeclaration() instanceof ExtensionMethodDeclaration)
+			if (method instanceof NovaMethodDeclaration)
 			{
-				referenceClass = ((ExtensionMethodDeclaration)call.getInferredDeclaration()).getParameterList().getReferenceParameter().getTypeClass();
+				referenceClass = ((NovaMethodDeclaration)method).getParameterList().getReferenceParameter().getTypeClass(false);
 			}
 			
 			boolean sameType = SyntaxUtils.isSameType((Value)call.getReferenceNode(), referenceClass, false);
@@ -211,7 +211,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			}
 			else if (!sameType)
 			{
-				castClass = method.getParentClass();
+				castClass = referenceClass;//method.getParentClass();
 			}
 			
 			if (castClass != null)

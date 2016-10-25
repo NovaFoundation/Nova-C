@@ -17,10 +17,15 @@ nova_env novaEnv = {
 &nova_Nova_String_Nova_equals,
 &nova_Nova_String_0_Nova_replace,
 &nova_Nova_String_1_Nova_replace,
-&nova_Nova_String_Nova_startsWith,
-&nova_Nova_String_Nova_contains,
-&nova_Nova_String_Nova_endsWith,
-&nova_Nova_String_Nova_indexOf,
+&nova_Nova_String_0_Nova_startsWith,
+&nova_Nova_String_1_Nova_startsWith,
+&nova_Nova_String_0_Nova_contains,
+&nova_Nova_String_1_Nova_contains,
+&nova_Nova_String_0_Nova_endsWith,
+&nova_Nova_String_1_Nova_endsWith,
+&nova_Nova_String_Nova_matches,
+&nova_Nova_String_0_Nova_indexOf,
+&nova_Nova_String_1_Nova_indexOf,
 &nova_Nova_String_Nova_lastIndexOf,
 &nova_Nova_String_Nova_substring,
 &nova_Nova_String_Nova_trim,
@@ -952,13 +957,11 @@ nova_env novaEnv = {
 },
 
 {
-0,
 &compiler_tree_node_Nova_Identifier_Nova_construct,
 },
 
 {
 &compiler_tree_node_Nova_Import_Nova_getClassLocation,
-&compiler_tree_node_Nova_Import_Nova_tryParse,
 &compiler_tree_node_Nova_Import_Nova_construct,
 },
 
@@ -1000,10 +1003,11 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_node_Nova_NovaClass_Nova_tryParse,
 &compiler_tree_node_Nova_NovaClass_Nova_parseModifier,
 &compiler_tree_node_Nova_NovaClass_Nova_writeAbstract,
 &compiler_tree_node_Nova_NovaClass_Nova_writeModifiers,
+&compiler_tree_node_Nova_NovaClass_Nova_writeExtension,
+&compiler_tree_node_Nova_NovaClass_Nova_writeImplementedInterfaces,
 &compiler_tree_node_Nova_NovaClass_Nova_toString,
 &compiler_tree_node_Nova_NovaClass_Nova_construct,
 },
@@ -1033,7 +1037,6 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_node_Nova_Skeleton_Nova_tryParse,
 &compiler_tree_node_Nova_Skeleton_Nova_construct,
 },
 
@@ -1081,7 +1084,6 @@ nova_env novaEnv = {
 
 {
 0,
-0,
 &compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeVisibility,
 &compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeStatic,
 0,
@@ -1089,7 +1091,6 @@ nova_env novaEnv = {
 },
 
 {
-0,
 0,
 &compiler_tree_node_variables_Nova_VariableDeclaration_Nova_parseModifiers,
 &compiler_tree_node_variables_Nova_VariableDeclaration_Nova_getInvalidModifiers,
