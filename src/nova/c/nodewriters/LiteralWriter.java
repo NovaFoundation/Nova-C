@@ -25,7 +25,7 @@ public abstract class LiteralWriter extends IValueWriter implements AccessibleWr
 			return generateSpecialFragment(builder);
 		}
 		
-		return generateUseOutput(builder);
+		return generateUseOutput(builder).append(generateChildrenSourceFragment());
 	}
 	
 	public StringBuilder generateUseOutput(StringBuilder builder)
