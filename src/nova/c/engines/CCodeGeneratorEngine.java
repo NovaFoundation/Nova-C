@@ -4,6 +4,7 @@ import net.fathomsoft.nova.CodeGeneratorEngine;
 import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.error.SyntaxMessage;
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.annotations.PrimitiveArrayAnnotation;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.util.FileUtils;
 import net.fathomsoft.nova.util.StringUtils;
@@ -431,7 +432,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			Value enter  = (Value)SyntaxTree.decodeIdentifierAccess(mainMethod, "Console.waitForEnter()", mainMethod.getLocationIn(), true);
 			
 			Instantiation nullConstructor = Instantiation.decodeStatement(mainMethod, "new Null()", mainMethod.getLocationIn(), true);
+			
+			PrimitiveArrayAnnotation annotation = PrimitiveArrayAnnotation.decodeStatement(mainMethod, "PrimitiveArray", "", mainMethod.getLocationIn(), true);
+			annotation.onAfterDecoded();
 			Constructor   strConstructor  = (Constructor)((MethodCall)Instantiation.decodeStatement(mainMethod, "new String(new Char[0])", mainMethod.getLocationIn(), true).getIdentifier()).getDeclaration();
+			strConstructor.addAnnotation(annotation);
 			
 			StringBuilder mainMethodText = new StringBuilder();
 			

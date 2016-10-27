@@ -173,6 +173,21 @@ nova_env novaEnv = {
 },
 
 {
+&nova_datastruct_Nova_Tuple_0_Nova_contains,
+&nova_datastruct_Nova_Tuple_Nova_toArray,
+&nova_datastruct_Nova_Tuple_0_Nova_forEach,
+&nova_datastruct_Nova_Tuple_0_Nova_any,
+&nova_datastruct_Nova_Tuple_0_Nova_all,
+&nova_datastruct_Nova_Tuple_0_Nova_filter,
+&nova_datastruct_Nova_Tuple_Nova_take,
+&nova_datastruct_Nova_Tuple_Nova_skip,
+&nova_datastruct_Nova_Tuple_0_Nova_firstWhere,
+&nova_datastruct_Nova_Tuple_Nova_reverse,
+&nova_datastruct_Nova_Tuple_0_Nova_map,
+&nova_datastruct_Nova_Tuple_Nova_construct,
+},
+
+{
 &nova_datastruct_list_Nova_Array_Nova_fillRemaining,
 &nova_datastruct_list_Nova_Array_Nova_addAll,
 &nova_datastruct_list_Nova_Array_0_Nova_add,
@@ -380,6 +395,10 @@ nova_env novaEnv = {
 {
 &nova_datastruct_list_Nova_StringCharArray_0_Nova_construct,
 &nova_datastruct_list_Nova_StringCharArray_1_Nova_construct,
+},
+
+{
+&nova_exception_Nova_Backtraces_Nova_construct,
 },
 
 {
@@ -934,6 +953,11 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_Nova_StatementIterator_Nova_reset,
+&compiler_tree_Nova_StatementIterator_Nova_construct,
+},
+
+{
 &compiler_tree_Nova_SyntaxTree_Nova_construct,
 },
 
@@ -976,29 +1000,28 @@ nova_env novaEnv = {
 &compiler_tree_node_Nova_Node_Nova_getAdjacentNode,
 &compiler_tree_node_Nova_Node_Nova_addAnnotation,
 &compiler_tree_node_Nova_Node_0_Nova_detach,
-&compiler_tree_node_Nova_Node_Nova_containsChild,
 &compiler_tree_node_Nova_Node_Nova_onAdded,
 &compiler_tree_node_Nova_Node_Nova_onRemoved,
-&compiler_tree_node_Nova_Node_Nova_addChild,
-&compiler_tree_node_Nova_Node_Nova_inheritChildren,
-&compiler_tree_node_Nova_Node_0_Nova_removeChild,
-&compiler_tree_node_Nova_Node_1_Nova_removeChild,
-&compiler_tree_node_Nova_Node_Nova_replaceWith,
-&compiler_tree_node_Nova_Node_Nova_replace,
-&compiler_tree_node_Nova_Node_Nova_slaughterChildren,
 &compiler_tree_node_Nova_Node_Nova_onAfterDecoded,
-&compiler_tree_node_Nova_Node_Nova_onStackPopped,
 &compiler_tree_node_Nova_Node_Nova_onNextStatementDecoded,
+&compiler_tree_node_Nova_Node_Nova_onStackPopped,
 &compiler_tree_node_Nova_Node_Nova_followedByScope,
 &compiler_tree_node_Nova_Node_Nova_onChildReplaced,
 &compiler_tree_node_Nova_Node_Nova_onReplaced,
+&compiler_tree_node_Nova_Node_Nova_onChildDetached,
 &compiler_tree_node_Nova_Node_Nova_validate,
-&compiler_tree_node_Nova_Node_Nova_rollback,
 0,
 &compiler_tree_node_Nova_Node_Nova_construct,
 },
 
 {
+&compiler_tree_node_Nova_NodeList_Nova_replace,
+&compiler_tree_node_Nova_NodeList_Nova_addChild,
+&compiler_tree_node_Nova_NodeList_Nova_containsChild,
+&compiler_tree_node_Nova_NodeList_Nova_inheritChildren,
+&compiler_tree_node_Nova_NodeList_0_Nova_removeChild,
+&compiler_tree_node_Nova_NodeList_1_Nova_removeChild,
+&compiler_tree_node_Nova_NodeList_Nova_slaughterChildren,
 &compiler_tree_node_Nova_NodeList_Nova_construct,
 },
 
@@ -1032,7 +1055,6 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_node_Nova_Scope_Nova_clone,
 &compiler_tree_node_Nova_Scope_Nova_construct,
 },
 
@@ -1083,6 +1105,18 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_node_generics_Nova_GenericTypeArgument_Nova_construct,
+},
+
+{
+&compiler_tree_node_operations_Nova_Operator_Nova_construct,
+},
+
+{
+&compiler_tree_node_operations_Nova_UnaryOperation_Nova_construct,
+},
+
+{
 0,
 &compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeVisibility,
 &compiler_tree_node_variables_Nova_InstanceDeclaration_Nova_writeStatic,
@@ -1098,11 +1132,25 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_util_Nova_Bounds_Nova_extractString,
+&compiler_util_Nova_Bounds_Nova_extractPreString,
+&compiler_util_Nova_Bounds_Nova_extractPostString,
+&compiler_util_Nova_Bounds_Nova_trimString,
+&compiler_util_Nova_Bounds_Nova_invalidate,
+&compiler_util_Nova_Bounds_Nova_equals,
+&compiler_util_Nova_Bounds_Nova_toString,
+&compiler_util_Nova_Bounds_Nova_cloneTo,
+&compiler_util_Nova_Bounds_Nova_clone,
+&compiler_util_Nova_Bounds_Nova_construct,
+},
+
+{
 &compiler_util_Nova_CompilerStringFunctions_Nova_containsWord,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWordIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextNonWhitespaceIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWhitespaceIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextIndexThatContains,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextLetterIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_isSurroundedByQuotes,
 &compiler_util_Nova_CompilerStringFunctions_Nova_removeSurroundingQuotes,
 &compiler_util_Nova_CompilerStringFunctions_0_Nova_containsString,
@@ -1112,8 +1160,18 @@ nova_env novaEnv = {
 &compiler_util_Nova_CompilerStringFunctions_0_Nova_findEndingMatch,
 &compiler_util_Nova_CompilerStringFunctions_1_Nova_findEndingMatch,
 &compiler_util_Nova_CompilerStringFunctions_Nova_splitCommas,
-&compiler_util_Nova_CompilerStringFunctions_Nova_findCharInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_0_Nova_findCharInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_1_Nova_findCharInBaseScope,
 &compiler_util_Nova_CompilerStringFunctions_Nova_findStringInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_Nova_calculateStatementEnd,
+&compiler_util_Nova_CompilerStringFunctions_Nova_calculateReturnValue,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextWordBounds,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findGroupedSymbols,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findGroupedChars,
+&compiler_util_Nova_CompilerStringFunctions_Nova_checkStatementContinuation,
+&compiler_util_Nova_CompilerStringFunctions_Nova_containsUnaryOperator,
+&compiler_util_Nova_CompilerStringFunctions_Nova_findStrings,
+&compiler_util_Nova_CompilerStringFunctions_Nova_searchGenericType,
 },
 
 {
@@ -1144,10 +1202,6 @@ nova_env novaEnv = {
 
 {
 &compiler_util_Nova_OS_func_Nova_construct,
-},
-
-{
-&compiler_util_Nova_StringUtils_Nova_construct,
 },
 
 {
