@@ -57,6 +57,11 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				
 				boolean sameType = SyntaxUtils.isSameType(arg.getReturnedNode(), param, false) || param.isPrimitiveType() && arg.isPrimitiveType();
 				
+				if (arg instanceof Variable && ((Variable)arg).getDeclaration() instanceof ClosureDeclaration)
+				{
+					getWriter(param).generateTypeCast(builder);
+				}
+				
 				if (!sameType)
 				{
 					Value ret = arg.getReturnedNode();
