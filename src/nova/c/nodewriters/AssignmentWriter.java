@@ -61,8 +61,6 @@ public abstract class AssignmentWriter extends ValueWriter
 			}
 		}
 		
-		Value asignment = node().getAssignmentNode();
-		
 		if (!sameType)
 		{
 			Value assigned = node().getAssignedNodeValue();
