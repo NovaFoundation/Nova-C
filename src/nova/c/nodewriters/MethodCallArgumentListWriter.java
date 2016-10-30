@@ -19,7 +19,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	{
 		MethodCall call = node().getMethodCall();
 		
-		CallableMethod method = call.getInferredDeclaration();
+		CallableMethod method = (CallableMethod)call.getMethodDeclaration();
 		
 		builder.append('(');
 		
@@ -47,11 +47,14 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			{
 				if (method.isVirtual() && !call.isVirtualTypeKnown())
 				{
-					VirtualMethodDeclaration virtual = ((NovaMethodDeclaration)method).getVirtualMethod();
-					
-					if (virtual != null)
+					if (call.getParent() instanceof Super == false)
 					{
-						param = virtual.getParameter(i);
+						VirtualMethodDeclaration virtual = ((NovaMethodDeclaration)method).getVirtualMethod();
+						
+						if (virtual != null)
+						{
+							param = virtual.getParameter(i);
+						}
 					}
 				}
 				
