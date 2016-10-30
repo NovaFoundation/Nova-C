@@ -70,7 +70,7 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			if (node().getParent() instanceof Super)
 			{
-				novaMethod = (NovaMethodDeclaration)node().getParentClass().getExtendedClassDeclaration().getMethod((GenericCompatible)null, novaMethod.getName(), novaMethod.getParameterList().getTypes());
+				novaMethod = (NovaMethodDeclaration)method;
 			}
 			else
 			{
