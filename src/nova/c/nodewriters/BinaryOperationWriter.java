@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.util.SyntaxUtils;
 
 public abstract class BinaryOperationWriter extends IValueWriter
 {
@@ -37,13 +38,39 @@ public abstract class BinaryOperationWriter extends IValueWriter
 		Value leftReturned = left.getReturnedNode();
 		Value rightReturned = right.getReturnedNode();
 		
-		if (leftReturned.isOriginallyGenericType())
+		boolean checkType = false;
+		
+		switch (node().getOperator().getOperator())
 		{
-			leftCast = getWriter(leftReturned).generateTypeCast(new StringBuilder(), true, false).toString();
+			case (Operator.EQUALS):
+			case (Operator.NOT_EQUAL): checkType = true; break;
+			default: checkType = false;
 		}
-		if (rightReturned.isOriginallyGenericType())
+		
+		if (checkType && !leftReturned.isPrimitive())
 		{
-			rightCast = getWriter(rightReturned).generateTypeCast(new StringBuilder(), true, false).toString();
+			if (!leftReturned.getType().equals(rightReturned.getType()))
+			{
+				Value common = SyntaxUtils.getTypeInCommon(leftReturned, rightReturned);
+				
+				if (common != null)
+				{
+					leftCast = getWriter(common).generateTypeCast(new StringBuilder(), true, false).toString();
+					rightCast = leftCast;
+				}
+			}
+		}
+		
+		if (leftCast == "" && rightCast == "")
+		{
+			if (leftReturned.isOriginallyGenericType())
+			{
+				leftCast = getWriter(leftReturned).generateTypeCast(new StringBuilder(), true, false).toString();
+			}
+			if (rightReturned.isOriginallyGenericType())
+			{
+				rightCast = getWriter(rightReturned).generateTypeCast(new StringBuilder(), true, false).toString();
+			}
 		}
 		
 		if (operator.operator.equals(Operator.UR_SHIFT))
