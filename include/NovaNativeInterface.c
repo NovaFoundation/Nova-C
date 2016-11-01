@@ -1015,7 +1015,6 @@ nova_env novaEnv = {
 
 {
 &compiler_tree_nodes_Nova_Node_Nova_getAdjacentNode,
-0,
 &compiler_tree_nodes_Nova_Node_Nova_addAnnotation,
 &compiler_tree_nodes_Nova_Node_0_Nova_detach,
 &compiler_tree_nodes_Nova_Node_Nova_onAdded,
@@ -1029,6 +1028,7 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_Node_Nova_onChildDetached,
 &compiler_tree_nodes_Nova_Node_Nova_validate,
 &compiler_tree_nodes_Nova_Node_Nova_findVariableDeclaration,
+0,
 0,
 0,
 0,
@@ -1047,7 +1047,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_Nova_NovaClass_Nova_parseChild,
+&compiler_tree_nodes_Nova_NovaClass_Nova_parseStatement,
 &compiler_tree_nodes_Nova_NovaClass_Nova_parseModifier,
 &compiler_tree_nodes_Nova_NovaClass_Nova_writeAbstract,
 &compiler_tree_nodes_Nova_NovaClass_Nova_writeModifiers,
@@ -1058,7 +1058,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_Nova_NovaFile_Nova_parseChild,
+&compiler_tree_nodes_Nova_NovaFile_Nova_parseStatement,
 &compiler_tree_nodes_Nova_NovaFile_Nova_addImport,
 &compiler_tree_nodes_Nova_NovaFile_Nova_containsImport,
 &compiler_tree_nodes_Nova_NovaFile_Nova_toString,
@@ -1134,7 +1134,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parseChild,
+&compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parseStatement,
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_construct,
 },
 

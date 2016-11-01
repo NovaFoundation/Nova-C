@@ -118,6 +118,18 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		return builder;
 	}
 	
+	public StringBuilder writeClassDataDeclaration(StringBuilder builder)
+	{
+		return builder.append("NovaClassData classData;\n");
+	}
+	
+	public StringBuilder writeClassData(StringBuilder builder)
+	{
+		
+		
+		return builder;
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		VTableList vtables = node().getVTableNodes();
@@ -133,6 +145,8 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			VTable extension = node().getVTableNodes().getExtensionVTable();
 			
 			builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
+			
+			//writeClassDataDeclaration(builder);
 			
 			FieldList fields = node().getFieldList();
 			
