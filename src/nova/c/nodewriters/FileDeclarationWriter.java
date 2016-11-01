@@ -44,6 +44,11 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName() + ".c";
 	}
 	
+	public String getIncludeStatement()
+	{
+		return "#include <" + generateHeaderName() + ">";
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		if (node().header == null)
@@ -63,6 +68,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			builder.append("#include <Nova.h>\n");
 			builder.append("#include <InterfaceVTAble.h>\n");
 			builder.append("#include <ExceptionHandler.h>\n");
+			builder.append("#include <NovaClassData.h>\n");
 			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
 			
 			builder.append('\n');
