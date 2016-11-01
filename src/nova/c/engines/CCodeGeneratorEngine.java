@@ -14,7 +14,7 @@ import nova.c.nodewriters.StaticBlockWriter;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import static net.fathomsoft.nova.Nova.*;
@@ -183,6 +183,139 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		allHeaders.append(includes).append('\n');
 		
 		allHeaders.append("#endif");
+		
+		writeClassData();
+	}
+	
+	public Interface[] getAllInterfaces()
+	{
+		ArrayList<Interface> list = new ArrayList<>();
+		
+		for (FileDeclaration file : tree.getFiles())
+		{
+			if (file.getClassDeclaration() instanceof Interface)
+			{
+				list.add((Interface)file.getClassDeclaration());
+			}
+		}
+		
+		return list.toArray(new Interface[0]);
+	}
+	
+	public ClassDeclaration[] getAllClasses()
+	{
+		return getAllClasses(true);
+	}
+	
+	public ClassDeclaration[] getAllClasses(boolean includeInterfaces)
+	{
+		ArrayList<ClassDeclaration> list = new ArrayList<>();
+		
+		for (FileDeclaration file : tree.getFiles())
+		{
+			if (includeInterfaces || file.getClassDeclaration() instanceof Interface == false)
+			{
+				list.add(file.getClassDeclaration());
+			}
+		}
+		
+		return list.toArray(new ClassDeclaration[0]);
+	}
+	
+	public VirtualMethodDeclaration[] getAllVirtualMethods()
+	{
+		ArrayList<VirtualMethodDeclaration> list = new ArrayList<>();
+		
+		for (ClassDeclaration c : getAllClasses())
+		{
+			for (NovaMethodDeclaration method : c.getExtensionVirtualMethods(false))
+			{
+				VirtualMethodDeclaration virtual = method.getVirtualMethod();
+				
+				if (virtual != null && !list.contains(virtual))
+				{
+					list.add(virtual);
+				}
+			}
+		}
+		
+		return list.toArray(new VirtualMethodDeclaration[0]);
+	}
+	
+	public boolean writeClassData()
+	{
+		try
+		{
+			PrintWriter writer = FileUtils.getFileWriter("NovaClassData.h", controller.outputDirectory);
+			
+			writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
+			
+			ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/Class");
+			
+			writer.print("typedef struct NovaClassData NovaClassData;\n\n");
+			
+			Interface[] interfaces = getAllInterfaces();
+			
+			for (Interface i : interfaces)
+			{
+				getWriter(i).writeVTableTypedef(writer);
+			}
+			
+			for (Interface i : interfaces)
+			{
+				getWriter(i).writeDefaultVTableDeclaration(writer);
+			}
+			
+			writer.print("\n");
+			writer.write(getAllIncludes());
+			writer.print("\n");
+			
+			for (Interface i : interfaces)
+			{
+				getWriter(i).writeVTableAssignment(writer);
+				writer.print("\n");
+			}
+			
+			writer.print("\n");
+			
+			writer.print("\nstruct NovaClassData {\n");
+			
+			writer.print(getWriter(clazz).generateType().toString() + " instance_class;\n\n");
+			
+			for (Interface i : interfaces)
+			{
+				getWriter(i).writeVTableDeclaration(writer);
+			}
+			
+			writer.print("\n");
+			
+			for (VirtualMethodDeclaration virtual : getAllVirtualMethods())
+			{
+				getWriter(virtual).writeVTableDeclaration(writer);
+			}
+			
+			writer.print("};\n");
+			
+			writer.print("\n#endif");
+			writer.close();
+			
+			writer = FileUtils.getFileWriter("NovaClassData.c", controller.outputDirectory);
+			
+			writer.write("#include <NovaClassData.h>\n\n");
+			
+			for (Interface i : interfaces)
+			{
+				getWriter(i).writeDefaultVTable(writer);
+			}
+			
+			writer.close();
+		}
+		catch (IOException e)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -211,6 +344,18 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		generateNativeInterfaceSource();
 	}
 	
+	public String getAllIncludes()
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		for (FileDeclaration file : tree.getFiles())
+		{
+			builder.append(getWriter(file).getIncludeStatement()).append("\n");
+		}
+		
+		return builder.toString();
+	}
+	
 	private void generateNativeInterfaceHeader()
 	{
 		StringBuilder nativeInterface = new StringBuilder();
@@ -218,10 +363,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		nativeInterface.append("#ifndef NOVA_NATIVE_INTERFACE\n");
 		nativeInterface.append("#define NOVA_NATIVE_INTERFACE\n\n");
 		
-		for (FileDeclaration file : tree.getFiles())
-		{
-			nativeInterface.append("#include <" + getWriter(file).generateHeaderName() + ">\n");
-		}
+		nativeInterface.append(getAllIncludes());
 		
 		nativeInterface.append('\n');
 		
