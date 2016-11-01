@@ -191,6 +191,7 @@ nova_env novaEnv = {
 {
 &nova_datastruct_list_Nova_Array_Nova_fillRemaining,
 &nova_datastruct_list_Nova_Array_Nova_addAll,
+0,
 &nova_datastruct_list_Nova_Array_0_Nova_add,
 &nova_datastruct_list_Nova_Array_1_Nova_add,
 &nova_datastruct_list_Nova_Array_0_Nova_remove,
@@ -221,6 +222,7 @@ nova_env novaEnv = {
 {
 &nova_datastruct_list_Nova_CharArray_Nova_sum,
 &nova_datastruct_list_Nova_CharArray_Nova_reduce,
+&nova_datastruct_list_Nova_CharArray_Nova_addUnique,
 &nova_datastruct_list_Nova_CharArray_Nova_contains,
 &nova_datastruct_list_Nova_CharArray_Nova_map,
 &nova_datastruct_list_Nova_CharArray_Nova_forEach,
@@ -359,6 +361,7 @@ nova_env novaEnv = {
 0,
 0,
 0,
+&nova_datastruct_list_Nova_List_Nova_filterEmpty,
 0,
 0,
 0,
@@ -980,15 +983,22 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_Accessible_1_Nova_getNextAccessedOfType,
 &compiler_tree_nodes_Nova_Accessible_Nova_getRootReferenceNode,
 &compiler_tree_nodes_Nova_Accessible_Nova_getReferenceNode,
+&compiler_tree_nodes_Nova_Accessible_Nova_writeAccessedNodes,
 },
 
 {
+&compiler_tree_nodes_Nova_ArgumentList_Nova_construct,
+},
+
+{
+0,
 0,
 &compiler_tree_nodes_Nova_Identifier_Nova_construct,
 },
 
 {
 &compiler_tree_nodes_Nova_Import_Nova_getClassLocation,
+&compiler_tree_nodes_Nova_Import_Nova_toString,
 &compiler_tree_nodes_Nova_Import_Nova_construct,
 },
 
@@ -997,6 +1007,10 @@ nova_env novaEnv = {
 },
 
 {
+},
+
+{
+&compiler_tree_nodes_Nova_Literal_Nova_construct,
 },
 
 {
@@ -1014,6 +1028,8 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_Node_Nova_onReplaced,
 &compiler_tree_nodes_Nova_Node_Nova_onChildDetached,
 &compiler_tree_nodes_Nova_Node_Nova_validate,
+&compiler_tree_nodes_Nova_Node_Nova_findVariableDeclaration,
+0,
 0,
 0,
 &compiler_tree_nodes_Nova_Node_Nova_construct,
@@ -1064,13 +1080,17 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_Nova_Scope_Nova_parseChild,
+&compiler_tree_nodes_Nova_Scope_Nova_parseStatement,
 &compiler_tree_nodes_Nova_Scope_Nova_parseAccessible,
 &compiler_tree_nodes_Nova_Scope_Nova_construct,
 },
 
 {
 &compiler_tree_nodes_Nova_Skeleton_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_Nova_StaticClassReference_Nova_construct,
 },
 
 {
@@ -1119,12 +1139,21 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_findSignature,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_findParameters,
+&compiler_tree_nodes_functions_Nova_FunctionArgumentList_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_functions_Nova_FunctionCall_Nova_toString,
+&compiler_tree_nodes_functions_Nova_FunctionCall_Nova_construct,
+},
+
+{
 &compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseSignature,
 &compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseParameter,
 &compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseParameters,
+&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_writeReturnType,
 &compiler_tree_nodes_functions_Nova_NovaFunction_Nova_toString,
+&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_cloneTo,
 &compiler_tree_nodes_functions_Nova_NovaFunction_Nova_construct,
 },
 
@@ -1142,6 +1171,12 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_operations_Nova_Operation_Nova_toString,
+&compiler_tree_nodes_operations_Nova_Operation_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_operations_Nova_Operator_Nova_toString,
 &compiler_tree_nodes_operations_Nova_Operator_Nova_construct,
 },
 
@@ -1159,11 +1194,16 @@ nova_env novaEnv = {
 &compiler_tree_nodes_variables_Nova_InstanceDeclaration_Nova_writeVisibility,
 &compiler_tree_nodes_variables_Nova_InstanceDeclaration_Nova_writeStatic,
 0,
+0,
 &compiler_tree_nodes_variables_Nova_InstanceDeclaration_Nova_construct,
 },
 
 {
 &compiler_tree_nodes_variables_Nova_LocalDeclaration_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_variables_Nova_Variable_Nova_construct,
 },
 
 {
@@ -1173,7 +1213,7 @@ nova_env novaEnv = {
 &compiler_tree_nodes_variables_Nova_VariableDeclaration_Nova_getInvalidModifiers,
 0,
 0,
-&compiler_tree_nodes_variables_Nova_VariableDeclaration_Nova_cloneTo,
+0,
 &compiler_tree_nodes_variables_Nova_VariableDeclaration_Nova_construct,
 },
 
@@ -1191,12 +1231,14 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_util_Nova_CompilerStringFunctions_Nova_containsAllWhitespaceAfter,
 &compiler_util_Nova_CompilerStringFunctions_Nova_containsWord,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWordIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWord,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextNonWhitespaceChar,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextNonWhitespaceIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWhitespaceIndex,
+&compiler_util_Nova_CompilerStringFunctions_Nova_nextIndexThatDoesntContain,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextIndexThatContains,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextLetterIndex,
 &compiler_util_Nova_CompilerStringFunctions_Nova_isSurroundedByQuotes,
@@ -1210,7 +1252,8 @@ nova_env novaEnv = {
 &compiler_util_Nova_CompilerStringFunctions_Nova_splitAtCommas,
 &compiler_util_Nova_CompilerStringFunctions_0_Nova_findCharInBaseScope,
 &compiler_util_Nova_CompilerStringFunctions_1_Nova_findCharInBaseScope,
-&compiler_util_Nova_CompilerStringFunctions_Nova_findStringInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_0_Nova_findStringInBaseScope,
+&compiler_util_Nova_CompilerStringFunctions_1_Nova_findStringInBaseScope,
 &compiler_util_Nova_CompilerStringFunctions_Nova_calculateStatementEnd,
 &compiler_util_Nova_CompilerStringFunctions_Nova_calculateReturnValue,
 &compiler_util_Nova_CompilerStringFunctions_Nova_nextWordBounds,

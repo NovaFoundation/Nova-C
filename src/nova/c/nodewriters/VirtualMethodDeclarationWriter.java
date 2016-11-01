@@ -2,6 +2,8 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 
+import java.io.PrintWriter;
+
 public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarationWriter
 {
 	public abstract VirtualMethodDeclaration node();
@@ -92,5 +94,17 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		}
 		
 		return generateSourceName(builder, prefix, true);
+	}
+	
+	public PrintWriter writeVTableDeclaration(PrintWriter writer)
+	{
+		writer.print(generateType());
+		writer.print(" (*");
+		writer.print(generateVirtualMethodName());
+		writer.print(")(");
+		writer.print(getWriter(node().getParameterList()).generateHeader());
+		writer.print(");\n");
+		
+		return writer;
 	}
 }
