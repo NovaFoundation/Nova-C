@@ -18,4 +18,22 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 		
 		return builder;
 	}
+	
+	@Override
+	public StringBuilder writeChildrenHeader(StringBuilder builder)
+	{
+		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/Class"));
+		
+		clazz.generateType(builder).append(" ").append(clazz.getClassInstanceVTableName()).append(";\n");
+		
+		return super.writeChildrenHeader(builder);
+	}
+	
+	@Override
+	public StringBuilder writeChildrenSource(StringBuilder builder)
+	{
+		builder.append("0,\n");
+		
+		return super.writeChildrenSource(builder);
+	}
 }
