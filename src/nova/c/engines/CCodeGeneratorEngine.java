@@ -391,7 +391,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		{
 			File include = new File(StringUtils.removeSurroundingQuotes(getIncludeDir()));
 			
-			nativeInterfaceHeader = FileUtils.writeFile(NATIVE_INTERFACE_FILE_NAME + ".h", include, nativeInterface.toString());
+			nativeInterfaceHeader = FileUtils.writeFile(NATIVE_INTERFACE_FILE_NAME + ".h", controller.outputDirectory, nativeInterface.toString());
 		}
 		catch (IOException e)
 		{
@@ -417,9 +417,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		try
 		{
-			File include = new File(StringUtils.removeSurroundingQuotes(getIncludeDir()));
-			
-			nativeInterfaceSource = FileUtils.writeFile(NATIVE_INTERFACE_FILE_NAME + ".c", include, nativeInterface.toString());
+			nativeInterfaceSource = FileUtils.writeFile(NATIVE_INTERFACE_FILE_NAME + ".c", controller.outputDirectory, nativeInterface.toString());
 		}
 		catch (IOException e)
 		{
@@ -433,9 +431,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		try
 		{
-			File include = new File(StringUtils.removeSurroundingQuotes(getIncludeDir()));
-			
-			interfaceVTableHeader = FileUtils.writeFile(INTERFACE_VTABLE_FILE_NAME + ".h", include, header);
+			interfaceVTableHeader = FileUtils.writeFile(INTERFACE_VTABLE_FILE_NAME + ".h", controller.outputDirectory, header);
 		}
 		catch (IOException e)
 		{
