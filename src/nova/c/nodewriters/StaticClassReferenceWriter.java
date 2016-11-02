@@ -8,7 +8,10 @@ public abstract class StaticClassReferenceWriter extends IIdentifierWriter
 	
 	public StringBuilder generateUseOutput(StringBuilder builder, boolean pointer, boolean checkAccesses)
 	{
-		return builder.append(0);
+		getWriter(node().getStaticTypeClass().getVTableNodes().getExtensionVTable()).generateSourceName(builder);
+		builder.append(".").append(ClassDeclarationWriter.getClassInstanceVTableName());
+		
+		return builder;//.append(0);
 	}
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
