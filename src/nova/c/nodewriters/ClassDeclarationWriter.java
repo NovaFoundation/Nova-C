@@ -3,8 +3,12 @@ package nova.c.nodewriters;
 import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.Package;
+import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.tree.variables.FieldList;
 import net.fathomsoft.nova.tree.variables.InstanceFieldList;
+import net.fathomsoft.nova.util.Location;
+
+import java.io.PrintWriter;
 
 public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 {
@@ -128,6 +132,99 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		
 		return builder;
+	}
+	
+	public PrintWriter writeClassInstanceDeclaration(PrintWriter writer)
+	{
+		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/Class"));
+		
+		writer.print("extern " + clazz.generateType() + " " + getClassInstanceName() + ";\n");
+		
+		return writer;
+	}
+	
+	public String getClassInstanceName()
+	{
+		return generateSourceName(getClassInstanceVTableName()).toString();
+	}
+	
+	public String getVTableClassInstance()
+	{
+		return getWriter(node().getVTableNodes().getExtensionVTable()).generateSourceName() + "." + getClassInstanceVTableName();
+	}
+	
+	public StringBuilder generateVTableClassInstanceAssignment(StringBuilder builder, NovaMethodDeclaration method)
+	{
+		ExtensionVTableWriter vtable = getWriter(node().getVTableNodes().getExtensionVTable());
+		
+		if (!vtable.containsData())
+		{
+			return builder;
+		}
+		
+		MethodDeclaration constructor = node().getProgram().getClassDeclaration("nova/Class").getConstructorList().getChild(0);
+		
+		//Assignment a = Assignment.generateDefault(method, Location.INVALID);
+		
+		MethodCall call = MethodCall.decodeStatement(method, "Class(\"" + node().getClassLocation() + "\", " + (node() instanceof Interface ? "true" : "false") + ")", Location.INVALID, true, false, constructor);
+		
+		//Literal classData = new Literal(method, Location.INVALID);
+		//classData.value = "";
+		
+		//a.getAssignee().toValue().replaceWith(classData);
+		//a.getAssignmentNode().replaceWith(call);
+		
+		MethodCallWriter callWriter = getWriter(call);
+		
+		builder.append(getVTableClassInstance() + " = " + callWriter.generateSourceFragment() + ";\n");
+		
+		
+		return builder;
+	}
+	
+	public StringBuilder generateVTableClassPropertyAssignments(StringBuilder builder)
+	{
+		generateVTableExtensionAssignment(builder);
+		generateVTableInterfaceAssignments(builder);
+		
+		return builder;
+	}
+	
+	public StringBuilder generateVTableExtensionAssignment(StringBuilder builder)
+	{
+		if (node().doesExtendClass())
+		{
+			ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
+			
+			builder.append(getVTableClassInstance()).append("->").append(getWriter(clazz.getField("extension")).generateSourceName()).append(" = ")
+				.append(getWriter(node().getExtendedClassDeclaration()).getVTableClassInstance()).append(";\n");
+		}
+		
+		return builder;
+	}
+	
+	public StringBuilder generateVTableInterfaceAssignments(StringBuilder builder)
+	{
+		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
+		ClassDeclaration array = node().getProgram().getClassDeclaration("nova/datastruct/list/Array");
+		
+		String interfaces = getVTableClassInstance() + "->" + getWriter(clazz.getField("interfaces")).generateSourceName();
+		
+		NovaMethodDeclaration add = (NovaMethodDeclaration)array.getMethods("add", 1)[0];
+		String cast = getWriter(add.getParameterList().getParameter(0)).generateTypeCast().toString();
+		
+		for (Interface i : node().getImplementedInterfaces(false))
+		{
+			builder.append(getWriter(add).generateSourceName()).append("(").append(interfaces).append(", ")
+				.append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", ").append(cast).append(getWriter(i).getVTableClassInstance()).append(");\n");
+		}
+		
+		return builder;
+	}
+	
+	public static String getClassInstanceVTableName()
+	{
+		return "classInstance";
 	}
 	
 	public StringBuilder generateHeader(StringBuilder builder)
