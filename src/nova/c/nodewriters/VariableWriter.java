@@ -63,6 +63,17 @@ public abstract class VariableWriter extends IdentifierWriter
 		return builder;
 	}
 	
+	@Override
+	public StringBuilder generateUseOutput(StringBuilder builder, boolean pointer, boolean checkAccesses)
+	{
+		if (node().declaration instanceof ClassInstanceDeclaration)
+		{
+			return builder.append("vtable->").append(ClassDeclarationWriter.getClassInstanceVTableName());
+		}
+		
+		return super.generateUseOutput(builder, pointer, checkAccesses);
+	}
+	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
 		super.generateSourceFragment(builder);
