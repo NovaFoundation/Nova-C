@@ -157,11 +157,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		ExtensionVTableWriter vtable = getWriter(node().getVTableNodes().getExtensionVTable());
 		
-		if (!vtable.containsData())
-		{
-			return builder;
-		}
-		
 		MethodDeclaration constructor = node().getProgram().getClassDeclaration("nova/Class").getConstructorList().getChild(0);
 		
 		//Assignment a = Assignment.generateDefault(method, Location.INVALID);
@@ -177,7 +172,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		MethodCallWriter callWriter = getWriter(call);
 		
 		builder.append(getVTableClassInstance() + " = " + callWriter.generateSourceFragment() + ";\n");
-		
 		
 		return builder;
 	}
