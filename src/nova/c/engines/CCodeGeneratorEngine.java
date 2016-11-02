@@ -280,7 +280,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			
 			writer.print("\nstruct NovaClassData {\n");
 			
-			writer.print(getWriter(clazz).generateType().toString() + " instance_class;\n\n");
+			//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
 			
 			for (Interface i : interfaces)
 			{
@@ -487,6 +487,30 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return builder.toString();
 	}
 	
+	private StringBuilder generateVTableClassInstanceAssignments(NovaMethodDeclaration method)
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		for (ClassDeclaration c : getAllClasses())
+		{
+			getWriter(c).generateVTableClassInstanceAssignment(builder, method);
+		}
+		
+		return builder.append("\n");
+	}
+	
+	private StringBuilder generateVTableClassInstancePropertyAssignments()
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		for (ClassDeclaration c : getAllClasses())
+		{
+			getWriter(c).generateVTableClassPropertyAssignments(builder);
+		}
+		
+		return builder.append("\n");
+	}
+	
 	private StringBuilder generateNativeVirtualMethodAssignments()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -562,6 +586,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		StringBuilder staticBlockCalls  = generateStaticBlockCalls();
 		StringBuilder nativeAssignments = generateNativeVirtualMethodAssignments();
+		StringBuilder vtableClassInstanceAssignments = generateVTableClassInstanceAssignments((NovaMethodDeclaration)mainMethod);
+		StringBuilder vtableClassInstancePropertyAssignments = generateVTableClassInstancePropertyAssignments();
 		
 		FileDeclaration fileDeclaration = mainMethod.getFileDeclaration();
 		
@@ -599,6 +625,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append	(getWriter(gcInit).generateSource()).append('\n');
 			mainMethodText.append	("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
 			mainMethodText.append	(nativeAssignments).append('\n');
+			mainMethodText.append	(vtableClassInstanceAssignments).append('\n');
+			mainMethodText.append	(vtableClassInstancePropertyAssignments).append('\n');
 			mainMethodText.append	(staticBlockCalls).append('\n');
 			mainMethodText.append	("args = (nova_Nova_String**)NOVA_MALLOC(argc * sizeof(nova_Nova_String));").append('\n');
 			mainMethodText.append	('\n');
