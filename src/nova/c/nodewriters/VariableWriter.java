@@ -33,8 +33,21 @@ public abstract class VariableWriter extends IdentifierWriter
 		return getWriter(node().getDeclaration()).generateSourceName(builder, uniquePrefix);
 	}
 	
+	public StringBuilder generateVolatileDereference(StringBuilder builder)
+	{
+		if (node().isVolatile() && !node().isPrimitive())
+		{
+			generateTypeCast(builder);
+			//builder.append("*(").append(generateTypeName()).append(")&");
+		}
+		
+		return builder;
+	}
+	
 	public StringBuilder generateArgumentOutput(StringBuilder builder)
 	{
+		generateVolatileDereference(builder);
+		
 		super.generateArgumentOutput(builder);
 		
 		generateExtraArguments(builder);

@@ -996,6 +996,7 @@ nova_env novaEnv = {
 
 {
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_addChild,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_replace,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_parseStatement,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_parseModifier,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_validateTypes,
@@ -1053,6 +1054,8 @@ nova_env novaEnv = {
 0,
 0,
 0,
+0,
+0,
 &compiler_tree_nodes_Nova_Node_Nova_construct,
 },
 
@@ -1072,6 +1075,7 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_NovaFile_Nova_parseStatement,
 &compiler_tree_nodes_Nova_NovaFile_Nova_addImport,
 &compiler_tree_nodes_Nova_NovaFile_Nova_containsImport,
+&compiler_tree_nodes_Nova_NovaFile_Nova_toNova,
 &compiler_tree_nodes_Nova_NovaFile_Nova_toString,
 &compiler_tree_nodes_Nova_NovaFile_Nova_construct,
 },
@@ -1081,6 +1085,7 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_Nova_Package_Nova_toNova,
 &compiler_tree_nodes_Nova_Package_Nova_construct,
 },
 
@@ -1098,6 +1103,7 @@ nova_env novaEnv = {
 {
 &compiler_tree_nodes_Nova_Scope_Nova_parseStatement,
 &compiler_tree_nodes_Nova_Scope_Nova_parseAccessible,
+&compiler_tree_nodes_Nova_Scope_Nova_parsePlaceholders,
 &compiler_tree_nodes_Nova_Scope_Nova_construct,
 },
 
@@ -1151,6 +1157,7 @@ nova_env novaEnv = {
 
 {
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parseStatement,
+&compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parsePlaceholders,
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_construct,
 },
 
@@ -1167,6 +1174,7 @@ nova_env novaEnv = {
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseSignature,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameter,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameters,
+0,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_writeReturnType,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_toString,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_cloneTo,
@@ -1174,6 +1182,7 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_functions_Nova_Parameter_Nova_parsePlaceholders,
 &compiler_tree_nodes_functions_Nova_Parameter_Nova_construct,
 },
 

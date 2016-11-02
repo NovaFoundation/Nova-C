@@ -245,6 +245,11 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			Accessible ref = context.getCArgumentReferenceContext();
 			
+			if (ref instanceof Variable)
+			{
+				getWriter((Variable)ref).generateVolatileDereference(builder);
+			}
+			
 			getWriter(ref).generateArgumentReference(builder, call);
 			
 			if (castClass != null)
