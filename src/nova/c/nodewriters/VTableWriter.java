@@ -12,19 +12,9 @@ public abstract class VTableWriter extends IIdentifierWriter
 		
 		builder.append("typedef struct ").append(generateTypeName()).append(' ').append(generateTypeName()).append(";\n");
 		
-		if (methods.length <= 0)
-		{
-			return builder;
-		}
-		
 		builder.append("struct ").append(generateTypeName()).append("\n{\n");
 		
-		for (int i = 0; i < node().getNumChildren(); i++)
-		{
-			Node child = node().getChild(i);
-			
-			getWriter(child).generateHeaderFragment(builder).append(";\n");
-		}
+		writeChildrenHeader(builder);
 		
 		generateVirtualMethodDeclarations(builder, methods);
 		
@@ -33,29 +23,41 @@ public abstract class VTableWriter extends IIdentifierWriter
 		return builder;
 	}
 	
+	public StringBuilder writeChildrenHeader(StringBuilder builder)
+	{
+		for (int i = 0; i < node().getNumChildren(); i++)
+		{
+			Node child = node().getChild(i);
+			
+			getWriter(child).generateHeaderFragment(builder).append(";\n");
+		}
+		
+		return builder;
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		NovaMethodDeclaration methods[] = node().getVirtualMethods();
 		
-		if (methods.length <= 0)
-		{
-			return builder;
-		}
+		generateType(builder).append(' ').append(generateSourceName()).append(" =\n{\n");
 		
-		generateType(builder).append(' ').append(generateSourceName()).append(" =\n");
+		writeChildrenSource(builder);
 		
-		builder.append("{\n");
+		generateVirtualMethodValues(builder, methods);
 		
+		builder.append("};\n");
+		
+		return builder;
+	}
+	
+	public StringBuilder writeChildrenSource(StringBuilder builder)
+	{
 		for (int i = 0; i < node().getNumChildren(); i++)
 		{
 			Node child = node().getChild(i);
 			
 			getWriter(child).generateSourceFragment(builder).append(",\n");
 		}
-		
-		generateVirtualMethodValues(builder, methods);
-		
-		builder.append("};\n");
 		
 		return builder;
 	}

@@ -3,6 +3,8 @@
 
 nova_env novaEnv = {
 {
+&nova_Nova_Class_Nova_isOfType,
+&nova_Nova_Class_Nova_toString,
 &nova_Nova_Class_Nova_construct,
 },
 
@@ -197,6 +199,7 @@ nova_env novaEnv = {
 &nova_datastruct_list_Nova_Array_0_Nova_remove,
 &nova_datastruct_list_Nova_Array_1_Nova_remove,
 &nova_datastruct_list_Nova_Array_Nova_indexOf,
+&nova_datastruct_list_Nova_Array_Nova_replace,
 &nova_datastruct_list_Nova_Array_Nova_swap,
 &nova_datastruct_list_Nova_Array_Nova_toArray,
 0,
@@ -967,7 +970,7 @@ nova_env novaEnv = {
 },
 
 {
-0,
+&compiler_tree_nodes_Nova_Abstractable_Nova_writeAbstract,
 },
 
 {
@@ -987,7 +990,21 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_Nova_ArgumentList_Nova_toString,
 &compiler_tree_nodes_Nova_ArgumentList_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_addChild,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_parseStatement,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_parseModifier,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_validateTypes,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_parsePlaceholders,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeModifiers,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeExtension,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeImplementedInterfaces,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_toString,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_construct,
 },
 
 {
@@ -1010,6 +1027,7 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_Nova_Literal_Nova_toString,
 &compiler_tree_nodes_Nova_Literal_Nova_construct,
 },
 
@@ -1026,8 +1044,11 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_Node_Nova_onChildReplaced,
 &compiler_tree_nodes_Nova_Node_Nova_onReplaced,
 &compiler_tree_nodes_Nova_Node_Nova_onChildDetached,
+0,
 &compiler_tree_nodes_Nova_Node_Nova_validate,
 &compiler_tree_nodes_Nova_Node_Nova_findVariableDeclaration,
+0,
+0,
 0,
 0,
 0,
@@ -1047,17 +1068,7 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_Nova_NovaClass_Nova_parseStatement,
-&compiler_tree_nodes_Nova_NovaClass_Nova_parseModifier,
-&compiler_tree_nodes_Nova_NovaClass_Nova_writeAbstract,
-&compiler_tree_nodes_Nova_NovaClass_Nova_writeModifiers,
-&compiler_tree_nodes_Nova_NovaClass_Nova_writeExtension,
-&compiler_tree_nodes_Nova_NovaClass_Nova_writeImplementedInterfaces,
-&compiler_tree_nodes_Nova_NovaClass_Nova_toString,
-&compiler_tree_nodes_Nova_NovaClass_Nova_construct,
-},
-
-{
+&compiler_tree_nodes_Nova_NovaFile_Nova_addChild,
 &compiler_tree_nodes_Nova_NovaFile_Nova_parseStatement,
 &compiler_tree_nodes_Nova_NovaFile_Nova_addImport,
 &compiler_tree_nodes_Nova_NovaFile_Nova_containsImport,
@@ -1071,6 +1082,11 @@ nova_env novaEnv = {
 
 {
 &compiler_tree_nodes_Nova_Package_Nova_construct,
+},
+
+{
+&compiler_tree_nodes_Nova_PlaceholderValue_Nova_toString,
+&compiler_tree_nodes_Nova_PlaceholderValue_Nova_construct,
 },
 
 {
@@ -1148,13 +1164,13 @@ nova_env novaEnv = {
 },
 
 {
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseSignature,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseParameter,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_parseParameters,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_writeReturnType,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_toString,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_cloneTo,
-&compiler_tree_nodes_functions_Nova_NovaFunction_Nova_construct,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseSignature,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameter,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameters,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_writeReturnType,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_toString,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_cloneTo,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_construct,
 },
 
 {
@@ -1185,6 +1201,7 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_variables_Nova_FieldDeclaration_Nova_parsePlaceholders,
 &compiler_tree_nodes_variables_Nova_FieldDeclaration_Nova_toString,
 &compiler_tree_nodes_variables_Nova_FieldDeclaration_Nova_construct,
 },
