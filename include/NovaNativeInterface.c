@@ -1001,9 +1001,11 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_parseModifier,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_validateTypes,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_parsePlaceholders,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeHeader,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeModifiers,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeExtension,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_writeImplementedInterfaces,
+&compiler_tree_nodes_Nova_ClassDeclaration_Nova_toNova,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_toString,
 &compiler_tree_nodes_Nova_ClassDeclaration_Nova_construct,
 },
@@ -1104,6 +1106,7 @@ nova_env novaEnv = {
 &compiler_tree_nodes_Nova_Scope_Nova_parseStatement,
 &compiler_tree_nodes_Nova_Scope_Nova_parseAccessible,
 &compiler_tree_nodes_Nova_Scope_Nova_parsePlaceholders,
+&compiler_tree_nodes_Nova_Scope_Nova_toNova,
 &compiler_tree_nodes_Nova_Scope_Nova_construct,
 },
 
@@ -1156,8 +1159,10 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_functions_Nova_BodyFunction_Nova_addChild,
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parseStatement,
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_parsePlaceholders,
+&compiler_tree_nodes_functions_Nova_BodyFunction_Nova_toNova,
 &compiler_tree_nodes_functions_Nova_BodyFunction_Nova_construct,
 },
 
@@ -1166,6 +1171,7 @@ nova_env novaEnv = {
 },
 
 {
+&compiler_tree_nodes_functions_Nova_FunctionCall_Nova_toNova,
 &compiler_tree_nodes_functions_Nova_FunctionCall_Nova_toString,
 &compiler_tree_nodes_functions_Nova_FunctionCall_Nova_construct,
 },
@@ -1175,7 +1181,9 @@ nova_env novaEnv = {
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameter,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_parseParameters,
 0,
+&compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_writeHeader,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_writeReturnType,
+0,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_toString,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_cloneTo,
 &compiler_tree_nodes_functions_Nova_FunctionDeclaration_Nova_construct,
