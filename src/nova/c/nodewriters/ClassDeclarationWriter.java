@@ -227,29 +227,26 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		getWriter(vtables).generateHeader(builder).append('\n');
 		
-		if (node().containsNonStaticData() || node().containsVirtualMethods())
+		builder.append("CCLASS_CLASS").append('\n').append('(').append('\n');
+		
+		generateSourceName(builder).append(", ").append('\n').append('\n');
+		
+		VTable extension = node().getVTableNodes().getExtensionVTable();
+		
+		builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
+		
+		//writeClassDataDeclaration(builder);
+		
+		FieldList list = node().getFieldList();
+		
+		getWriter(list).generateNonStaticHeader(builder);
+		
+		if (node().containsNonStaticPrivateData())
 		{
-			builder.append("CCLASS_CLASS").append('\n').append('(').append('\n');
-			
-			generateSourceName(builder).append(", ").append('\n').append('\n');
-			
-			VTable extension = node().getVTableNodes().getExtensionVTable();
-			
-			builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
-			
-			//writeClassDataDeclaration(builder);
-			
-			FieldList fields = node().getFieldList();
-			
-			getWriter(fields).generateNonStaticHeader(builder);
-			
-			if (node().containsNonStaticPrivateData())
-			{
-				builder.append("struct Private* prv;").append('\n');
-			}
-			
-			builder.append(')').append('\n');
+			builder.append("struct Private* prv;").append('\n');
 		}
+		
+		builder.append(')').append('\n');
 		
 		FieldList fields = node().getFieldList();
 		
