@@ -535,7 +535,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 								
 								String itable = "";
 								
-								if (n.getParentClass() instanceof Interface)
+								if (n.getRootDeclaration().getParentClass() instanceof Interface)
 								{
 									itable = InterfaceVTable.IDENTIFIER + ".";
 								}
