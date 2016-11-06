@@ -57,8 +57,18 @@ public abstract class ClosureWriter extends VariableWriter
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
 		ClosureDeclaration decl = node().getClosureDeclaration();
+		ClosureDeclaration base = decl;
 		
-		getWriter(decl).generateTypeCast(builder);
+		MethodCall call = node().getMethodCall();
+		
+		NovaMethodDeclaration method = call.getNovaMethod();
+		
+		if (method != null && !call.isVirtualTypeKnown())
+		{
+			base = (ClosureDeclaration)method.getVirtualMethod().getParameterList().getParameter(decl.getIndex());
+		}
+		
+		getWriter(base).generateTypeCast(builder);
 		
 		generateSourceFunctionReference(builder);
 		
