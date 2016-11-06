@@ -72,9 +72,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		builder.append("\ntypedef struct " + name + "\n");
 		builder.append("{\n");
 		
-		for (MethodDeclaration method : methods)
+		for (MethodDeclaration m : methods)
 		{
-			if (method.isInstance())
+			NovaMethodDeclaration method = (NovaMethodDeclaration)m;
+			
+			if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 			{
 				getWriter(method).generateSourceNativeName(builder, true).append(" ");
 				getWriter(method).generateSourceNativeName(builder, false).append(";\n");
@@ -97,9 +99,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		//		builder.append("struct " + name + "\n");
 		builder.append("{\n");
 		
-		for (MethodDeclaration method : methods)
+		for (MethodDeclaration m : methods)
 		{
-			if (method.isInstance())
+			NovaMethodDeclaration method = (NovaMethodDeclaration)m;
+			
+			if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 			{
 				String value = "&" + getWriter(method).generateSourceName();
 				
