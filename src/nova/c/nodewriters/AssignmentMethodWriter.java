@@ -97,7 +97,7 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 		{
 			FieldDeclaration field = (FieldDeclaration)fields.getChild(i);
 			
-			if (!field.isExternal())
+			if (!field.isExternal() && !field.isExternalType())
 			{
 				getWriter(field).generateUseOutput(builder).append(" = ");
 				
