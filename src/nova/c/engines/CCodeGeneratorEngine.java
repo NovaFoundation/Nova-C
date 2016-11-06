@@ -641,7 +641,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append	("CATCH (1)").append('\n');
 			mainMethodText.append	('{').append('\n');
 			mainMethodText.append		("nova_exception_Nova_Exception* base = (nova_exception_Nova_Exception*)").append(Exception.EXCEPTION_DATA_IDENTIFIER).append("->nova_exception_Nova_ExceptionData_Nova_thrownException;").append('\n');
-			mainMethodText.append		("printf(\"Exception in Thread 'main': %s\", base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars);").append('\n');
+			mainMethodText.append		("printf(\"Exception in Thread 'main': %s\", base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_Array_Nova_data);").append('\n');
 			mainMethodText.append		(getWriter(enter).generateSource()).append('\n');
 			mainMethodText.append	('}').append('\n');
 			mainMethodText.append	("FINALLY").append('\n');
