@@ -186,6 +186,7 @@ public class CCompileEngine extends CompileEngine
 		
 		cmd.append(formatPath(((CCodeGeneratorEngine)controller.codeGeneratorEngine).nativeInterfaceSource.getAbsolutePath())).append(' ');
 		cmd.append(formatPath(incDir + "Nova.c")).append(' ');
+		cmd.append(formatPath(incDir + "NovaExceptionHandling.c")).append(' ');
 //		cmd.append(formatPath(incDir + "LibNovaThread.c")).append(' ');
 		
 		FileDeclaration[] files = tree.getFiles();
@@ -248,7 +249,7 @@ public class CCompileEngine extends CompileEngine
 		}
 		else if (OS == WINDOWS)
 		{
-			cmd.append("-lws2_32 -lmysql -lpcre2-8-0 ");
+			cmd.append("-lws2_32 -lmysql -lpcre2-8-0 -limagehlp ");
 		}
 		
 		if (controller.isFlagEnabled(C_ARGS))

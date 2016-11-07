@@ -610,6 +610,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append('\n');
 			mainMethodText.append("int main(int argc, char** argvs)").append('\n');
 			mainMethodText.append("{").append('\n');
+			mainMethodText.append	("setProgramName(argvs[0]);").append('\n');
+			mainMethodText.append	("//signal(SIGSEGV, nova_signal_handler);").append('\n');
+			mainMethodText.append	("SetUnhandledExceptionFilter(nova_exception_handler);").append('\n');
 			mainMethodText.append	("nova_Nova_String** args;").append('\n');
 			mainMethodText.append	("int      i;").append('\n').append('\n');
 			mainMethodText.append	("nova_exception_Nova_ExceptionData* ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(" = 0;").append('\n');
