@@ -49,6 +49,7 @@
 	while(0)
 
 #define THROW(x, exception) \
+	exceptionData = novaEnv.nova_exception_ExceptionData.getDataByCode(exceptionData, 0, x);\
 	exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException = (nova_exception_Nova_Exception*)exception;\
 	novaEnv.nova_exception_ExceptionData.jumpToBuffer(exceptionData, 0, x);
 
