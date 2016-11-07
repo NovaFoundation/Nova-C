@@ -29,9 +29,10 @@ public class CCompileEngine extends CompileEngine
 	public static final int		TCC           = 2;
 	public static final int		CLANG         = 3;
 	
-	public static final long	NO_ERRORS     = 0x100l;
-	public static final long	NO_WARNINGS   = 0x010l;
-	public static final long	NO_NOTES      = 0x001l;
+	public static final long	NO_ERRORS     = 0x1000l;
+	public static final long	NO_WARNINGS   = 0x0100l;
+	public static final long	NO_NOTES      = 0x0010l;
+	public static final long	LINE_NUMBERS  = 0x0001l;
 	
 	public CCompileEngine(Nova controller)
 	{
@@ -95,6 +96,10 @@ public class CCompileEngine extends CompileEngine
 		{
 			flags |= NO_ERRORS;
 		}
+		else if (arg.equals("-line-numbers"))
+		{
+			flags |= LINE_NUMBERS;
+		}
 		else 
 		{
 			return false;
@@ -117,6 +122,11 @@ public class CCompileEngine extends CompileEngine
 			compilerDir = controller.targetEngineWorkingDir;
 			
 			cmd.append("gcc -pipe -mwindows -mconsole ");
+			
+			if ((flags & LINE_NUMBERS) != 0)
+			{
+				cmd.append("-g ");
+			}
 			
 			if (Nova.OS == WINDOWS)
 			{
