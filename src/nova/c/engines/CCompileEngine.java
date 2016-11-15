@@ -121,7 +121,12 @@ public class CCompileEngine extends CompileEngine
 		{
 			compilerDir = controller.targetEngineWorkingDir;
 			
-			cmd.append("gcc -pipe -mwindows -mconsole ");
+			cmd.append("gcc -pipe ");
+			
+			if (Nova.OS == WINDOWS)
+			{
+				cmd.append("-mwindows -mconsole ");
+			}
 			
 			if ((flags & LINE_NUMBERS) != 0)
 			{
@@ -255,7 +260,7 @@ public class CCompileEngine extends CompileEngine
 		}
 		if (OS == LINUX)// || OS == MACOSX)
 		{
-			cmd.append("-lm -ldl -lc -lmysqlclient ");
+			cmd.append("-lm -ldl -lc -lmysqlclient -lpcre2-8 ");
 		}
 		else if (OS == WINDOWS)
 		{
