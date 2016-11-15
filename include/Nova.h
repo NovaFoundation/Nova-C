@@ -14,9 +14,7 @@
 //#define nova_Object void*
 //#define nova_Anything void*
 
-#ifdef _WIN32
 #define PCRE2_CODE_UNIT_WIDTH 8
-#endif
 
 #include <stdio.h>
 
