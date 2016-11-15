@@ -610,9 +610,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append('\n');
 			mainMethodText.append("int main(int argc, char** argvs)").append('\n');
 			mainMethodText.append("{").append('\n');
-			mainMethodText.append	("setProgramName(argvs[0]);").append('\n');
+			mainMethodText.append	("#ifdef _WIN32\nsetProgramName(argvs[0]);").append('\n');
 			mainMethodText.append	("//signal(SIGSEGV, nova_signal_handler);").append('\n');
-			mainMethodText.append	("SetUnhandledExceptionFilter(nova_exception_handler);").append('\n');
+			mainMethodText.append	("SetUnhandledExceptionFilter(nova_exception_handler);\n#endif").append('\n');
 			mainMethodText.append	("nova_Nova_String** args;").append('\n');
 			mainMethodText.append	("int      i;").append('\n').append('\n');
 			mainMethodText.append	("nova_exception_Nova_ExceptionData* ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(" = 0;").append('\n');
@@ -648,7 +648,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append		("if (base != 0 && base->nova_exception_Nova_Exception_Nova_message != 0 && base->nova_exception_Nova_Exception_Nova_message != (nova_Nova_String*)nova_null) {").append('\n');
 			mainMethodText.append			("printf(\"%s: %s\", message, base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_Array_Nova_data);").append('\n');
 			mainMethodText.append		("} else {").append('\n');
-			mainMethodText.append			("printf(message);").append('\n');
+			mainMethodText.append			("puts(message);").append('\n');
 			mainMethodText.append		("}").append('\n');
 			mainMethodText.append		(getWriter(enter).generateSource()).append('\n');
 			mainMethodText.append	('}').append('\n');
