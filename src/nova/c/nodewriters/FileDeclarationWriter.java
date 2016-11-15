@@ -66,7 +66,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			generateClosureDefinitions(builder, true).append('\n');
 			
 			builder.append("#include <Nova.h>\n");
-			builder.append("#include <InterfaceVTAble.h>\n");
+			builder.append("#include <InterfaceVTable.h>\n");
 			builder.append("#include <ExceptionHandler.h>\n");
 			builder.append("#include <NovaClassData.h>\n");
 			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
