@@ -8,7 +8,7 @@ public abstract class PriorityWriter extends ValueWriter implements AccessibleWr
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
-		return generateSourceFragment(builder);
+		return generateSourceFragment(builder).append(";\n");
 	}
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
