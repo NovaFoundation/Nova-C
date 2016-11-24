@@ -23,6 +23,17 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof Cast)
+		{
+			return new CastWriter()
+			{
+				@Override
+				public Cast node()
+				{
+					return (Cast)node;
+				}
+			};
+		}
 		else if (node instanceof ExtensionDeclaration)
 		{
 			return new ExtensionDeclarationWriter()
@@ -1238,6 +1249,11 @@ public class Writer
 	public static ElseStatementWriter getWriter(final ElseStatement node)
 	{
 		return (ElseStatementWriter)getWriter((Node)node);
+	}
+	
+	public static CastWriter getWriter(final Cast node)
+	{
+		return (CastWriter)getWriter((Node)node);
 	}
 	
 	public static ExceptionHandlerWriter getWriter(final ExceptionHandler node)
