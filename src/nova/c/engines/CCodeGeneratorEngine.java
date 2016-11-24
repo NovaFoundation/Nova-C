@@ -641,7 +641,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append	('{').append('\n');
 			mainMethodText.append		(getWriter(mainMethod).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", argsArray);").append('\n');
 			mainMethodText.append	('}').append('\n');
-			mainMethodText.append	("CATCH (1)").append('\n');
+			mainMethodText.append	("CATCH (").append(getWriter(tree.getRoot().getProgram().getClassDeclaration("nova/exception/Exception")).getVTableClassInstance()).append(')').append('\n');
 			mainMethodText.append	('{').append('\n');
 			mainMethodText.append		("char* message = \"Exception in Thread 'main'\";").append('\n');
 			mainMethodText.append		("nova_exception_Nova_Exception* base = (nova_exception_Nova_Exception*)").append(Exception.EXCEPTION_DATA_IDENTIFIER).append("->nova_exception_Nova_ExceptionData_Nova_thrownException;").append('\n');

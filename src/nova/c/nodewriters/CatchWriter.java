@@ -2,6 +2,8 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Catch;
+import net.fathomsoft.nova.tree.variables.Variable;
+import net.fathomsoft.nova.util.Location;
 
 public abstract class CatchWriter extends ExceptionHandlerWriter
 {
@@ -9,7 +11,9 @@ public abstract class CatchWriter extends ExceptionHandlerWriter
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
-		builder.append("CATCH ").append('(').append(node().getException().getID()).append(')').append('\n');
+		ClassDeclarationWriter writer = getWriter(node().getException().type);
+		
+		builder.append("CATCH ").append('(').append(writer.getVTableClassInstance()).append(")\n");
 		
 		Scope scope = node().getScope();
 		

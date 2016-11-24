@@ -27,7 +27,7 @@
 		if (exception_code == 0)
 
 #define CATCH(x)\
-	else if (exception_code == x)
+	else if (nova_Nova_Class_Nova_isOfType(exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException->vtable->classInstance, 0, x))
 
 #define FINALLY
 
@@ -39,7 +39,6 @@
 			{\
 				exceptionData = newData;\
 			}\
-			\
 			if (oldData != 0)\
 			{\
 				NOVA_FREE(oldData);\
@@ -48,9 +47,12 @@
 	}\
 	while(0)
 
-#define THROW(x, exception) \
-	exceptionData = novaEnv.nova_exception_ExceptionData.getDataByCode(exceptionData, 0, x);\
-	exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException = (nova_exception_Nova_Exception*)exception;\
-	novaEnv.nova_exception_ExceptionData.jumpToBuffer(exceptionData, 0, x);
+#define THROW(exception) \
+	exceptionData = novaEnv.nova_exception_ExceptionData.getDataByException(exceptionData, 0, (nova_exception_Nova_Exception*)exception);\
+	if (nova_Nova_Class_Nova_isOfType(exception->vtable->classInstance, 0, nova_exception_SoftException_Extension_VTable_val.classInstance)) {\
+	} else {\
+        exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException = (nova_exception_Nova_Exception*)exception;\
+        novaEnv.nova_exception_ExceptionData.jumpToBuffer(exceptionData, 0, (nova_exception_Nova_Exception*)exception);\
+	}
 
 #endif

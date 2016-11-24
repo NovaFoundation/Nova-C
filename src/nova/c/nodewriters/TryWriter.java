@@ -33,11 +33,11 @@ public abstract class TryWriter extends ExceptionHandlerWriter
 	{
 		String variableName = Exception.EXCEPTION_DATA_IDENTIFIER;
 		
-		for (int i = 0; i < node().codes.size(); i++)
+		for (int i = 0; i < node().exceptions.size(); i++)
 		{
-			int code = node().codes.get(i);
+			ClassDeclarationWriter c = getWriter(node().exceptions.get(i));
 			
-			builder.append("novaEnv.nova_exception_ExceptionData.addCode(").append(variableName).append(", ").append(variableName).append(", ").append(code).append(");").append('\n');
+			builder.append("novaEnv.nova_exception_ExceptionData.addCaught(").append(variableName).append(", ").append(variableName).append(", ").append(c.getVTableClassInstance()).append(");").append('\n');
 		}
 		
 		return builder;
