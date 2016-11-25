@@ -35,9 +35,10 @@ public abstract class TryWriter extends ExceptionHandlerWriter
 		
 		for (int i = 0; i < node().exceptions.size(); i++)
 		{
-			ClassDeclarationWriter c = getWriter(node().exceptions.get(i));
+			Exception exception = node().exceptions.get(i);
+			ClassDeclarationWriter c = getWriter(exception.type);
 			
-			builder.append("novaEnv.nova_exception_ExceptionData.addCaught(").append(variableName).append(", ").append(variableName).append(", ").append(c.getVTableClassInstance()).append(");").append('\n');
+			builder.append("novaEnv.nova_exception_ExceptionData.addCaught(").append(variableName).append(", ").append(variableName).append(", ").append(c.getVTableClassInstance()).append(", ").append(exception.soft ? 1 : 0).append(");").append('\n');
 		}
 		
 		return builder;
