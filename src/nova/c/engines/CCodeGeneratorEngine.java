@@ -391,6 +391,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		{
 			File include = new File(StringUtils.removeSurroundingQuotes(getIncludeDir()));
 			
+			controller.outputDirectory.mkdirs();
+			
 			nativeInterfaceHeader = FileUtils.writeFile(NATIVE_INTERFACE_FILE_NAME + ".h", controller.outputDirectory, nativeInterface.toString());
 		}
 		catch (IOException e)
