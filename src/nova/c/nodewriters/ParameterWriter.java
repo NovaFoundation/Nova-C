@@ -9,7 +9,7 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 	public StringBuilder generateTypeName(StringBuilder builder)
 	{
 		// Upsize the type in case a pointer is passed
-		if (node().isOptional() && (node().getTypeClass().isOfType("nova/primitive/number/Char") || node().getTypeClass().isOfType("nova/primitive/Bool")))
+		if (node().isOptional() && node().getType() != null && (node().getTypeClass().isOfType("nova/primitive/number/Char") || node().getTypeClass().isOfType("nova/primitive/Bool")))
 		{
 			return builder.append("int");
 		}
