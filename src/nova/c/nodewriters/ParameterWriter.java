@@ -39,6 +39,11 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 			builder.append(uniquePrefix);
 		}
 		
+		if (node().getName().equals("default"))
+		{
+			builder.append("_");
+		}
+		
 		return builder.append(node().getName());
 	}
 	
