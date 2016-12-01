@@ -6,9 +6,11 @@ import net.fathomsoft.nova.error.SyntaxMessage;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.annotations.NativeAnnotation;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
+import net.fathomsoft.nova.tree.variables.FieldDeclaration;
 import net.fathomsoft.nova.util.FileUtils;
 import net.fathomsoft.nova.util.StringUtils;
 import net.fathomsoft.nova.util.SyntaxUtils;
+import nova.c.nodewriters.ClassDeclarationWriter;
 import nova.c.nodewriters.FileDeclarationWriter;
 import nova.c.nodewriters.StaticBlockWriter;
 
@@ -545,6 +547,48 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return builder.append("\n");
 	}
 	
+	private StringBuilder generateVTableClassArray()
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		ClassDeclaration[] classes = getAllClasses();
+		
+		ClassDeclaration classClass = tree.getRoot().getClassDeclaration("nova/Class");
+		ClassDeclaration arrayClass = tree.getRoot().getClassDeclaration("nova/datastruct/list/ImmutableArray");
+		
+		ClassDeclarationWriter clazz = getWriter(classClass);
+		
+		String name = "nova_all_classes";
+		
+		builder.append(clazz.generateSourceName()).append("** ").append(name).append(" = NOVA_MALLOC(sizeof(").append(clazz.generateSourceName()).append("*) * ").append(classes.length).append(");\n");
+		
+		int i = 0;
+		
+		for (ClassDeclaration c : classes)
+		{
+			builder.append(name).append("[").append(i++).append("] = ").append(getWriter(c).getVTableClassInstance()).append(";\n");
+		}
+		
+		FieldDeclaration allArray = classClass.getField("ALL", false);
+		
+		NovaMethodDeclaration[] constructors = arrayClass.getConstructorList().getMethods();
+		
+		NovaMethodDeclaration method = null;
+		
+		for (NovaMethodDeclaration c : constructors)
+		{
+			if (c.getParameterList().getNumParameters() == 2 && c.getParameter(0).isPrimitiveArray())
+			{
+				method = c;
+			}
+		}
+		
+		builder.append(getWriter(allArray).generateSourceName()).append(" = ")
+			.append(getWriter(method).generateSourceName()).append("(0, exceptionData, (nova_Nova_Object**)").append(name).append(", ").append(classes.length).append(");\n");
+		
+		return builder.append("\n");
+	}
+	
 	private StringBuilder generateNativeVirtualMethodAssignments()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -621,6 +665,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		StringBuilder staticBlockCalls  = generateStaticBlockCalls();
 		StringBuilder nativeAssignments = generateNativeVirtualMethodAssignments();
 		StringBuilder vtableClassInstanceAssignments = generateVTableClassInstanceAssignments((NovaMethodDeclaration)mainMethod);
+		StringBuilder vtableClassArray = generateVTableClassArray();
 		StringBuilder vtableClassInstancePropertyAssignments = generateVTableClassInstancePropertyAssignments();
 		
 		FileDeclaration fileDeclaration = mainMethod.getFileDeclaration();
@@ -664,6 +709,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append	(nativeAssignments).append('\n');
 			mainMethodText.append	(vtableClassInstanceAssignments).append('\n');
 			mainMethodText.append	(vtableClassInstancePropertyAssignments).append('\n');
+			mainMethodText.append	(vtableClassArray).append('\n');
 			mainMethodText.append	(staticBlockCalls).append('\n');
 			mainMethodText.append	("args = (nova_Nova_String**)NOVA_MALLOC(argc * sizeof(nova_Nova_String));").append('\n');
 			mainMethodText.append	('\n');
