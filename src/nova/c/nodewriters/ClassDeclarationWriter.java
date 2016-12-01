@@ -211,18 +211,37 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	public StringBuilder generateVTableInterfaceAssignments(StringBuilder builder)
 	{
 		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
-		ClassDeclaration array = node().getProgram().getClassDeclaration("nova/datastruct/list/Array");
+		ClassDeclaration array = node().getProgram().getClassDeclaration("nova/datastruct/list/ImmutableArray");
+		
+		NovaMethodDeclaration[] constructors = array.getConstructorList().getMethods();
+		
+		NovaMethodDeclaration method = null;
+		
+		for (NovaMethodDeclaration c : constructors)
+		{
+			if (c.getParameterList().getNumParameters() == 2 && c.getParameter(0).isPrimitiveArray())
+			{
+				method = c;
+			}
+		}
+		
+		Interface[] interfaceList = node().getImplementedInterfaces(false);
+		
+		String name = "nova_class_interfaces";
+		
+		builder.append(name).append(" = NOVA_MALLOC(sizeof(nova_Nova_Object**) * ").append(interfaceList.length).append(");\n");
+		
+		int i = 0;
+		
+		for (Interface inter : interfaceList)
+		{
+			builder.append(name).append("[").append(i++).append("] = (nova_Nova_Object*)").append(getWriter(inter).getVTableClassInstance()).append(";\n");
+		}
 		
 		String interfaces = getVTableClassInstance() + "->" + getWriter(clazz.getField("interfaces")).generateSourceName();
 		
-		NovaMethodDeclaration add = (NovaMethodDeclaration)array.getMethods("add", 1)[0];
-		String cast = getWriter(add.getParameterList().getParameter(0)).generateTypeCast().toString();
-		
-		for (Interface i : node().getImplementedInterfaces(false))
-		{
-			builder.append(getWriter(add).generateSourceName()).append("(").append(interfaces).append(", ")
-				.append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", ").append(cast).append(getWriter(i).getVTableClassInstance()).append(");\n");
-		}
+		builder.append(interfaces).append(" = ")
+			.append(getWriter(method).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", (nova_Nova_Object**)").append(name).append(", ").append(interfaceList.length).append(");\n");
 		
 		return builder;
 	}

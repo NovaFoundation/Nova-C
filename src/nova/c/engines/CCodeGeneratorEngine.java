@@ -539,6 +539,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		StringBuilder builder = new StringBuilder();
 		
+		builder.append("nova_Nova_Object** nova_class_interfaces;\n\n");
+		
 		for (ClassDeclaration c : getAllClasses())
 		{
 			getWriter(c).generateVTableClassPropertyAssignments(builder);
@@ -584,7 +586,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		builder.append(getWriter(allArray).generateSourceName()).append(" = ")
-			.append(getWriter(method).generateSourceName()).append("(0, exceptionData, (nova_Nova_Object**)").append(name).append(", ").append(classes.length).append(");\n");
+			.append(getWriter(method).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", (nova_Nova_Object**)").append(name).append(", ").append(classes.length).append(");\n");
 		
 		return builder.append("\n");
 	}
