@@ -11,10 +11,4 @@ public abstract class ExtensionDeclarationWriter extends ClassDeclarationWriter
 	{
 		return super.generateSource(builder);
 	}
-	
-	@Override
-	public StringBuilder generateVTableClassInstanceAssignment(StringBuilder builder, NovaMethodDeclaration method)
-	{
-		return builder;
-	}
 }
