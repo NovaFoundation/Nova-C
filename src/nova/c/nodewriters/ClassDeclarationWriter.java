@@ -190,13 +190,20 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateVTableExtensionAssignment(StringBuilder builder)
 	{
+		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
+		
+		String value;
+		
 		if (node().doesExtendClass())
 		{
-			ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
-			
-			builder.append(getVTableClassInstance()).append("->").append(getWriter(clazz.getField("extension")).generateSourceName()).append(" = ")
-				.append(getWriter(node().getExtendedClassDeclaration()).getVTableClassInstance()).append(";\n");
+			value = getWriter(node().getExtendedClassDeclaration()).getVTableClassInstance();
 		}
+		else
+		{
+			value = "(" + getWriter(clazz).generateSourceName() + "*)nova_null";
+		}
+		
+		builder.append(getVTableClassInstance()).append("->").append(getWriter(clazz.getField("extension")).generateSourceName()).append(" = ").append(value).append(";\n");
 		
 		return builder;
 	}
