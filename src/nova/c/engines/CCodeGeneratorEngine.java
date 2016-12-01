@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static net.fathomsoft.nova.Nova.*;
 import static nova.c.nodewriters.NodeWriter.getWriter;
@@ -30,6 +31,41 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	private static final String NATIVE_INTERFACE_FILE_NAME = "NovaNativeInterface";
 	private static final String INTERFACE_VTABLE_FILE_NAME = "InterfaceVTable";
 	private static final String ENVIRONMENT_VAR            = "novaEnv";
+	
+	public static final HashSet<String> KEYWORDS = new HashSet<String>() {{
+		add("auto");
+		add("break");
+		add("case");
+		add("char");
+		add("const");
+		add("continue");
+		add("default");
+		add("do");
+		add("double");
+		add("else");
+		add("enum");
+		add("extern");
+		add("float");
+		add("for");
+		add("goto");
+		add("if");
+		add("int");
+		add("long");
+		add("register");
+		add("return");
+		add("short");
+		add("signed");
+		add("sizeof");
+		add("static");
+		add("struct");
+		add("switch");
+		add("typedef");
+		add("union");
+		add("unsigned");
+		add("void");
+		add("volatile");
+		add("while");
+	}};
 	
 	public CCodeGeneratorEngine(Nova controller)
 	{

@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import nova.c.engines.CCodeGeneratorEngine;
 
 public abstract class ParameterWriter extends LocalDeclarationWriter
 {
@@ -39,7 +40,7 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 			builder.append(uniquePrefix);
 		}
 		
-		if (node().getName().equals("default"))
+		if (CCodeGeneratorEngine.KEYWORDS.contains(node().getName()))
 		{
 			builder.append("_");
 		}
