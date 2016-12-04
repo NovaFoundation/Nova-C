@@ -47,12 +47,6 @@
 	}\
 	while(0)
 
-#define THROW(exception, soft) \
-	nova_exception_Nova_ExceptionData* catchExceptionData = novaEnv.nova_exception_ExceptionData.getDataByException(exceptionData, 0, (nova_exception_Nova_Exception*)exception, soft);\
-	if (catchExceptionData != (nova_exception_Nova_ExceptionData*)nova_null) {\
-	    exceptionData = catchExceptionData;\
-        exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException = (nova_exception_Nova_Exception*)exception;\
-        novaEnv.nova_exception_ExceptionData.jumpToBuffer(exceptionData, 0, (nova_exception_Nova_Exception*)exception, soft);\
-	}
+#define THROW(exception, soft) novaEnv.nova_exception_ExceptionData.throwException(exceptionData, exceptionData, &exceptionData, (nova_exception_Nova_Exception*)exception, soft)
 
 #endif
