@@ -31,52 +31,6 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		return builder;
 	}
 	
-	public StringBuilder generateArguments(StringBuilder builder, Variable context, NovaMethodDeclaration method)
-	{
-		generateClosureInstanceReference(builder, context);
-		
-		builder.append(", ");
-		generateClosureContextReference(builder, method);
-		
-		return builder;
-	}
-	
-	public StringBuilder generateClosureInstanceReference(StringBuilder builder, Variable context)
-	{
-		if (context.getRootReferenceNode() instanceof ClassDeclaration == false)
-		{
-			Accessible root = context.getRootReferenceNode();
-			
-			getWriter(root).generateArgumentReference(builder, context);
-		}
-		else
-		{
-			builder.append(ClosureDeclaration.NULL_IDENTIFIER);//method.getParameterList().getObjectReference().generateNullOutput(builder);
-		}
-		
-		return builder;
-	}
-	
-	public StringBuilder generateClosureContextReference(StringBuilder builder, NovaMethodDeclaration method)
-	{
-		return getWriter(method).generateClosureContext(builder);
-	}
-	
-	public StringBuilder generateObjectReferenceIdentifier(StringBuilder builder)
-	{
-		return builder.append(generateSourceName("ref"));
-	}
-	
-	public StringBuilder generateContextParameter()
-	{
-		return generateContextParameter(new StringBuilder());
-	}
-	
-	public StringBuilder generateContextParameter(StringBuilder builder)
-	{
-		return builder.append("void* ").append(node().getContextName());
-	}
-	
 	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
 	{
 		return builder.append(generateSourceName("closure" + node().id));
