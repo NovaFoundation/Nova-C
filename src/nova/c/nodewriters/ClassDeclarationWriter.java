@@ -109,7 +109,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 				
 				if (method instanceof NovaMethodDeclaration)
 				{
-					NovaMethodDeclaration n = (NovaMethodDeclaration) method;
+					NovaMethodDeclaration n = method;
 					
 					if (n.isOverridden() && !(n instanceof Constructor))
 					{
@@ -271,6 +271,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		getWriter(list).generateNonStaticHeader(builder);
 		
+		ClosureVariable[] variables = node().getPublicClosureVariables();
+		
+		for (ClosureVariable c : variables)
+		{
+			getWriter(c).generateDeclaration(builder);
+		}
+		
 		if (node().containsNonStaticPrivateData())
 		{
 			builder.append("struct Private* prv;").append('\n');
@@ -389,6 +396,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			ClassDeclaration clazz = node().getExtendedClassDeclaration();
 			
 			getWriter(clazz).generatePrivateFieldsSource(builder);
+		}
+		
+		ClosureVariable[] variables = node().getPrivateClosureVariables();
+		
+		for (ClosureVariable c : variables)
+		{
+			getWriter(c).generateDeclaration(builder);
 		}
 		
 		InstanceFieldList fields = node().getFieldList().getPrivateFieldList();
