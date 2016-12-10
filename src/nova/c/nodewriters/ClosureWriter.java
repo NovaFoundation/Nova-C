@@ -74,7 +74,7 @@ public abstract class ClosureWriter extends VariableWriter
 		
 		builder.append(", ");
 		
-		getWriter(decl).generateArguments(builder, node(), node().getMethodDeclaration());
+		getWriter(decl).generateClosureArguments(builder, node(), node().getMethodDeclaration());
 		
 		return builder;
 	}
