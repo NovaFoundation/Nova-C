@@ -2,6 +2,7 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
+import net.fathomsoft.nova.tree.variables.Variable;
 import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 
 public abstract class VariableDeclarationWriter extends IIdentifierWriter
@@ -28,6 +29,52 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 	public StringBuilder generateDeclarationFragment(StringBuilder builder)
 	{
 		return generateModifiersSource(builder).append(' ').append(generateSourceName());
+	}
+	
+	public StringBuilder generateClosureArguments(StringBuilder builder, Variable context, NovaMethodDeclaration method)
+	{
+		generateClosureInstanceReference(builder, context);
+		
+		builder.append(", ");
+		generateClosureContextReference(builder, method);
+		
+		return builder;
+	}
+	
+	public StringBuilder generateClosureInstanceReference(StringBuilder builder, Variable context)
+	{
+		if (context.getRootReferenceNode() instanceof ClassDeclaration == false)
+		{
+			Accessible root = context.getRootReferenceNode();
+			
+			getWriter(root).generateArgumentReference(builder, context);
+		}
+		else
+		{
+			builder.append(ClosureDeclaration.NULL_IDENTIFIER);//method.getParameterList().getObjectReference().generateNullOutput(builder);
+		}
+		
+		return builder;
+	}
+	
+	public StringBuilder generateClosureContextReference(StringBuilder builder, NovaMethodDeclaration method)
+	{
+		return getWriter(method).generateClosureContext(builder);
+	}
+	
+	public StringBuilder generateObjectReferenceIdentifier(StringBuilder builder)
+	{
+		return builder.append(generateSourceName("ref"));
+	}
+	
+	public StringBuilder generateContextParameter()
+	{
+		return generateContextParameter(new StringBuilder());
+	}
+	
+	public StringBuilder generateContextParameter(StringBuilder builder)
+	{
+		return builder.append("void* ").append(node().getContextName());
 	}
 	
 	/**
