@@ -80,6 +80,13 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		return generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName()).append(")(").append(getWriter(params).generateHeader()).append(");\n");
 	}
 	
+	public StringBuilder generateFunctionPointer(StringBuilder builder)
+	{
+		NovaParameterList params = node().getParameterList();
+		
+		return generateType(builder).append(" (*").append(generateSourceName()).append(")(").append(getWriter(params).generateHeader()).append(")");
+	}
+	
 	/**
 	 * Generate the identifier that will be used to call the method.
 	 *
