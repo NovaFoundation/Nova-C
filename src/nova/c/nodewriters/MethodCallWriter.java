@@ -64,7 +64,18 @@ public abstract class MethodCallWriter extends VariableWriter
 			generateTypeCast(builder);
 		}
 		
-		if (callable.isVirtual() && ((NovaMethodDeclaration)method).getVirtualMethod() != null && !node().isVirtualTypeKnown())
+		if (callable instanceof ClosureVariable)
+		{
+			ClosureVariable var = (ClosureVariable)callable;
+			
+			if (!node().isAccessed())
+			{
+				getWriter(var).writeInstanceAccess(builder);
+			}
+			
+			getWriter(var).generateSourceFragment(builder);
+		}
+		else if (callable.isVirtual() && ((NovaMethodDeclaration)method).getVirtualMethod() != null && !node().isVirtualTypeKnown())
 		{
 			NovaMethodDeclaration novaMethod = (NovaMethodDeclaration)method;
 			
