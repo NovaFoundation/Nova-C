@@ -97,7 +97,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		//			builder.append(generateDataTypeOutput());
 		//		}
 		
-		FieldDeclaration field = null;
+		InstanceDeclaration field = null;
 		
 		Node parent = node().getParent();
 		
@@ -114,9 +114,9 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			VariableDeclaration decl = ((Variable)node()).getDeclaration();
 			
-			if (decl instanceof FieldDeclaration)
+			if (decl instanceof InstanceDeclaration)
 			{
-				field = (FieldDeclaration)decl;
+				field = (InstanceDeclaration)decl;
 			}
 		}
 		else if (node() instanceof FieldDeclaration)
@@ -134,26 +134,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 				{
 					if (!node().isAccessed())
 					{
-						if (pointer)
-						{
-							builder.append('(').append('*');
-						}
-						
-						builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
-						
-						if (pointer)
-						{
-							builder.append(')');
-						}
-					}
-					
-					if (!node().isAccessed())//ref.isContainingClass(node()))
-					{
-						builder.append("->");
-					}
-					if (field.getVisibility() == FieldDeclaration.PRIVATE)
-					{
-						builder.append("prv").append("->");
+						getWriter(field).writeInstanceAccess(builder, pointer);
 					}
 					//					else
 					//					{
@@ -187,7 +168,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
             return getGenericTypeArgumentFromParameter(param.getType());
         }*/
 	
-	public String getCName()
+	public String getName()
 	{
 		return node().getName();
 	}
@@ -243,7 +224,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 	 */
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
-		String name = getCName();
+		String name = getName();
 		
 		if (node().doesForceOriginalName())
 		{
@@ -276,19 +257,6 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 			
 			getWriter(clazz).generateSourceName(builder).append('_');
 		}
-		
-		//		if (existing instanceof InstanceDeclaration)
-		//		{
-		//			InstanceDeclaration node = (InstanceDeclaration)existing;
-		//			
-		//			if (node().isStatic())
-		//			{
-		//				if (!(node instanceof MethodDeclaration && ((MethodDeclaration)node).isInstance()))
-		//				{
-		//					builder.append("static_");
-		//				}
-		//			}
-		//		}
 		
 		if (existing instanceof LocalDeclaration && existing instanceof Parameter == false)
 		{
