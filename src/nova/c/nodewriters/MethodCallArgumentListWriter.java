@@ -110,6 +110,17 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			builder.append(", ").append(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration()).getContextName());
 		}
+		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureVariable)
+		{
+			builder.append(", ");
+			
+			if (!call.isAccessed())
+			{
+				getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).writeInstanceAccess(builder);
+			}
+			
+			builder.append(getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).generateContextName());
+		}
 		
 		return builder.append(')');
 	}
@@ -193,6 +204,15 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			ClosureDeclaration closure = (ClosureDeclaration)method;
 			
 			getWriter(closure).generateObjectReferenceIdentifier(builder);
+		}
+		else if (method instanceof ClosureVariable)
+		{
+			if (!call.isAccessed())
+			{
+				getWriter((ClosureVariable)method).writeInstanceAccess(builder);
+			}
+			
+			getWriter((ClosureVariable)method).generateReferenceName(builder);
 		}
 		else
 		{
