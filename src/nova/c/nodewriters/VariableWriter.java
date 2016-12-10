@@ -69,7 +69,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			}
 			else
 			{
-				getWriter(declaration).generateArguments(builder, node(), node().getParentMethod());
+				getWriter(declaration).generateClosureArguments(builder, node(), node().getParentMethod());
 			}
 		}
 		
@@ -84,7 +84,24 @@ public abstract class VariableWriter extends IdentifierWriter
 			return builder.append("vtable->").append(ClassDeclarationWriter.getClassInstanceVTableName());
 		}
 		
-		return super.generateUseOutput(builder, pointer, checkAccesses);
+		super.generateUseOutput(builder, pointer, checkAccesses);
+		
+		if (node().doesAccess())
+		{
+			InstanceDeclaration instance = node().getTypeClass().getField(node().getAccessedNode().getName());
+			
+			if (instance == null)
+			{
+				instance = node().getTypeClass().getClosureVariable(node().getAccessedNode().getName());
+			}
+			
+			if (instance != null && instance.getVisibility() == InstanceDeclaration.PRIVATE)
+			{
+				builder.append("->prv");
+			}
+		}
+		
+		return builder;
 	}
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
