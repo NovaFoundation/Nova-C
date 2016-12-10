@@ -49,7 +49,7 @@ public abstract class AssignmentWriter extends ValueWriter
 		String assignmentType = assignment.getReturnedNode().getType();
 		String assignedType = node().getAssignedNodeValue().getType();
 		
-		boolean sameType = assignmentType.equals(assignedType);
+		boolean sameType = assignedType == null || assignmentType.equals(assignedType);
 		
 		if (sameType && assignment instanceof Accessible)
 		{
