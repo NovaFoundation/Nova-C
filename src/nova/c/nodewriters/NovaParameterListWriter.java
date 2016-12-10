@@ -22,6 +22,10 @@ public abstract class NovaParameterListWriter extends ParameterListWriter
 		{
 			builder.append(", ").append(((LambdaMethodDeclaration)node().getMethodDeclaration()).context.getName()).append("* ").append(ClosureVariableDeclaration.CONTEXT_VARIABLE_NAME);
 		}
+		if (node().getMethodDeclaration() instanceof ClosureVariable)
+		{
+			builder.append(", void*");
+		}
 		
 		return builder;
 	}
@@ -40,6 +44,10 @@ public abstract class NovaParameterListWriter extends ParameterListWriter
 		if (node().getMethodDeclaration() instanceof LambdaMethodDeclaration)
 		{
 			builder.append(", ").append(((LambdaMethodDeclaration)node().getMethodDeclaration()).context.getName()).append('*');
+		}
+		if (node().getMethodDeclaration() instanceof ClosureVariable)
+		{
+			builder.append(", void*");
 		}
 		
 		return builder;
