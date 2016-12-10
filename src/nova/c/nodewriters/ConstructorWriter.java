@@ -119,7 +119,7 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		return builder;
 	}
 	
-	public String getCName()
+	public String getName()
 	{
 		return Constructor.IDENTIFIER;
 	}
