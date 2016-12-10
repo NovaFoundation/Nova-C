@@ -23,6 +23,17 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof ClosureVariable)
+		{
+			return new ClosureVariableWriter()
+			{
+				@Override
+				public ClosureVariable node()
+				{
+					return (ClosureVariable)node;
+				}
+			};
+		}
 		else if (node instanceof Cast)
 		{
 			return new CastWriter()
@@ -1234,6 +1245,11 @@ public class Writer
 	public static DefaultWriter getWriter(final Default node)
 	{
 		return (DefaultWriter)getWriter((Node)node);
+	}
+	
+	public static ClosureVariableWriter getWriter(final ClosureVariable node)
+	{
+		return (ClosureVariableWriter)getWriter((Node)node);
 	}
 	
 	public static DestructorWriter getWriter(final Destructor node)
