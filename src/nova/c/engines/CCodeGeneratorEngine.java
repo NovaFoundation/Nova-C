@@ -692,6 +692,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append('\n').append('\n');
 			mainMethodText.append("nova_primitive_Nova_Null* nova_null;").append('\n');
 			mainMethodText.append("void* ").append(Literal.GARBAGE_IDENTIFIER).append(';').append('\n');
+			mainMethodText.append("typedef void (*thread_join_function_type)(void*, nova_exception_Nova_ExceptionData*, nova_Nova_Object*, int, nova_datastruct_list_Nova_Array*, void*);\n");
+			mainMethodText.append("void novaJoinActiveThreads(void* this, nova_exception_Nova_ExceptionData* exceptionData, nova_thread_Nova_Thread* _1, int _2, void* _3, void* context)\n");
+			mainMethodText.append("{\n");
+			mainMethodText.append		("nova_thread_Nova_Thread_Nova_join(_1, exceptionData);\n");
+			mainMethodText.append("}\n");
 			mainMethodText.append('\n');
 			mainMethodText.append("int main(int argc, char** argvs)").append('\n');
 			mainMethodText.append("{").append('\n');
@@ -736,13 +741,14 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			mainMethodText.append		("} else {").append('\n');
 			mainMethodText.append			("puts(message);").append('\n');
 			mainMethodText.append		("}").append('\n');
-			mainMethodText.append		(getWriter(enter).generateSource()).append('\n');
+//			mainMethodText.append		(getWriter(enter).generateSource()).append('\n');
 			mainMethodText.append	('}').append('\n');
 			mainMethodText.append	("FINALLY").append('\n');
 			mainMethodText.append	('{').append('\n');
 			mainMethodText.append		('\n');
 			mainMethodText.append	('}').append('\n');
 			mainMethodText.append	("END_TRY;").append('\n');
+			mainMethodText.append	("nova_datastruct_list_Nova_ImmutableArray_Nova_forEach((nova_datastruct_list_Nova_ImmutableArray*)nova_thread_Nova_Thread_Nova_ACTIVE_THREADS, exceptionData, (thread_join_function_type)&novaJoinActiveThreads, 0, 0);\n");
 			
 			if (OS == WINDOWS)
 			{
