@@ -8,6 +8,6 @@ public abstract class LambdaMethodDeclarationWriter extends BodyMethodDeclaratio
 	
 	public StringBuilder generateClosureContext(StringBuilder builder)
 	{
-		return builder.append('&').append(node().contextDeclaration.getName());
+		return builder.append(node().contextDeclaration.getName());
 	}
 }
