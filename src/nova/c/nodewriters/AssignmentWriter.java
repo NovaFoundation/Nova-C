@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.variables.Variable;
 
 public abstract class AssignmentWriter extends ValueWriter
 {
@@ -23,7 +24,23 @@ public abstract class AssignmentWriter extends ValueWriter
 		
 		Value assignee = node().getAssigneeNode();
 		
-		return getWriter(assignee).generateSourceFragment(builder).append(" = ").append(generateAssignmentSource());
+		getWriter(assignee).generateSourceFragment(builder).append(" = ").append(generateAssignmentSource());
+		
+		if (node().getAssignedNodeValue() instanceof Variable && node().getAssignedNode().declaration instanceof ClosureVariable)
+		{
+			builder.append(";\n");
+			
+			ClosureVariable var = (ClosureVariable)node().getAssignedNode().declaration;
+			ClosureDeclaration closure = (ClosureDeclaration)((Variable)node().getAssignmentNode().getReturnedNode()).declaration;
+			
+			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
+			builder.append(getWriter(var).generateReferenceName()).append(" = ").append(getWriter(closure).generateObjectReferenceIdentifier(new StringBuilder())).append(";\n");
+			
+			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
+			builder.append(getWriter(var).generateContextName()).append(" = ").append(closure.getContextName());
+		}
+		
+		return builder;
 	}
 	
 	/**
