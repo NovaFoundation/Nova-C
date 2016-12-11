@@ -8,19 +8,21 @@ public abstract class ClosureContextDeclarationWriter extends LocalDeclarationWr
 	
 	public StringBuilder generateDeclarationFragment(StringBuilder builder)
 	{
-		return builder.append(node().context.getName()).append(' ').append(node().getName());
+		return builder.append(node().context.getName()).append("* ").append(node().getName());
 	}
 	
 	public StringBuilder generateDefaultValue(StringBuilder builder)
 	{
-		builder.append("\n{\n");
+		builder.append("NOVA_MALLOC(sizeof(").append(node().context.getName()).append("))");
 		
 		for (ClosureVariableDeclaration var : node().context)
 		{
+			builder.append(";\n").append(node().getName()).append("->");
+			builder.append(getWriter(var).generateSourceName()).append(" = ");
 			generateDeclarationValue(builder, var);
 		}
 		
-		return builder.append("}");
+		return builder;
 	}
 	
 	public StringBuilder generateDeclarationValue(StringBuilder builder, ClosureVariableDeclaration var)
@@ -36,8 +38,6 @@ public abstract class ClosureContextDeclarationWriter extends LocalDeclarationWr
 			builder.append('&');
 		}
 		
-		getWriter(var.originalDeclaration).generateSourceName(builder);
-		
-		return builder.append(",\n");
+		return getWriter(var.originalDeclaration).generateSourceName(builder);
 	}
 }
