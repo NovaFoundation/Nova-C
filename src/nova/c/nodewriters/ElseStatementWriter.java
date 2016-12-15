@@ -24,7 +24,7 @@ public abstract class ElseStatementWriter extends ControlStatementWriter
 		
 		builder.append('\n');
 		
-		Scope scope = node().getScope();
+		Scope scope = node().getDecodedParent().getScope();
 		
 		return getWriter(scope).generateSource(builder);
 	}
