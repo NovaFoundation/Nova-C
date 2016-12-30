@@ -658,7 +658,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		StringBuilder builder = new StringBuilder();
 
-		builder.append("#include <precompiled.h>\n");
+//		builder.append("#include <precompiled.h>\n");
 		builder.append("#include \"" + VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
 
 		for (ClassDeclaration c : getAllClasses())
