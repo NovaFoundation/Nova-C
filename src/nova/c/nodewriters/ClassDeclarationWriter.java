@@ -253,18 +253,14 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
-		VTableList vtables = node().getVTableNodes();
-		
-		getWriter(vtables).generateHeader(builder).append('\n');
-		
 		builder.append("CCLASS_CLASS").append('\n').append('(').append('\n');
 		
 		generateSourceName(builder).append(", ").append('\n').append('\n');
-		
+
 		VTable extension = node().getVTableNodes().getExtensionVTable();
-		
+
 		builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
-		
+
 		//writeClassDataDeclaration(builder);
 		
 		FieldList list = node().getFieldList();
@@ -310,10 +306,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
-		VTableList vtables = node().getVTableNodes();
-		
-		getWriter(vtables).generateSource(builder).append('\n');
-		
 		if (node().containsNonStaticPrivateData())
 		{
 			builder.append("CCLASS_PRIVATE").append('\n').append('(').append('\n').append(generatePrivateFieldsSource()).append(')').append('\n');
