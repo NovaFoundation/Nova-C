@@ -1,4 +1,5 @@
 out
 .idea
-Nova-C.iml
-Nova-C.iml
+*.iml
+*.gch
+*.o
