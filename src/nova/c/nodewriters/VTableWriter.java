@@ -5,13 +5,18 @@ import net.fathomsoft.nova.tree.*;
 public abstract class VTableWriter extends IIdentifierWriter
 {
 	public abstract VTable node();
-	
+
+	public StringBuilder generateTypedef(StringBuilder builder)
+	{
+		builder.append("typedef struct ").append(generateTypeName()).append(' ').append(generateTypeName()).append(";");
+
+		return builder;
+	}
+
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		NovaMethodDeclaration methods[] = node().getVirtualMethods();
-		
-		builder.append("typedef struct ").append(generateTypeName()).append(' ').append(generateTypeName()).append(";\n");
-		
+
 		builder.append("struct ").append(generateTypeName()).append("\n{\n");
 		
 		writeChildrenHeader(builder);
