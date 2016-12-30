@@ -21,7 +21,7 @@ public class CCompileEngine extends CompileEngine
 {
 	private int compiler;
 	
-	private long flags;
+	public long flags;
 	
 	private String[]            visibleCompilerMessages;
 	
@@ -29,10 +29,11 @@ public class CCompileEngine extends CompileEngine
 	public static final int		TCC           = 2;
 	public static final int		CLANG         = 3;
 	
-	public static final long	NO_ERRORS     = 0x1000l;
-	public static final long	NO_WARNINGS   = 0x0100l;
-	public static final long	NO_NOTES      = 0x0010l;
-	public static final long	LINE_NUMBERS  = 0x0001l;
+	public static final long	NO_ERRORS       = 0x10000l;
+	public static final long	NO_WARNINGS     = 0x01000l;
+	public static final long	NO_NOTES        = 0x00100l;
+	public static final long	LINE_NUMBERS    = 0x00010l;
+	public static final long	FORCE_RECOMPILE = 0x00001l;
 	
 	public CCompileEngine(Nova controller)
 	{
@@ -99,6 +100,10 @@ public class CCompileEngine extends CompileEngine
 		else if (arg.equals("-line-numbers"))
 		{
 			flags |= LINE_NUMBERS;
+		}
+		else if (arg.equals("-f") || arg.equals("-force"))
+		{
+			flags |= FORCE_RECOMPILE;
 		}
 		else 
 		{
