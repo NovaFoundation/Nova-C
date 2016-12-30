@@ -21,24 +21,34 @@ _OBJ = VTableDeclarations.o NovaClassData.o NovaNativeInterface.o nova/nova_Nova
 NOBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 FOBJ = $(patsubst %,$(FODIR)/%,$(_OBJ))
 QOBJ = $(patsubst %,"$(ODIR)/%",$(_OBJ))
-NOOBJ = C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/Nova.o C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/NovaExceptionHandling.o $(NOBJ) C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeObject.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeSystem.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/database/NativeDBConnector.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/gc/NativeGC.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeConsole.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeFile.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeClientSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeServerSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/security/NativeMD5.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/star/NativeWindow.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/thread/NativeThread.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeDate.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeTime.o
-aA = "C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/Nova.o" "C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/NovaExceptionHandling.o" $(QOBJ) "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeObject.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeSystem.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/database/NativeDBConnector.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/gc/NativeGC.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeConsole.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeFile.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeClientSocket.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeSocket.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeServerSocket.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/security/NativeMD5.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/star/NativeWindow.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/thread/NativeThread.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeDate.o" "C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeTime.o"
+EXTRAOBJ = C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/Nova.o C:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/NovaExceptionHandling.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeObject.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeSystem.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/database/NativeDBConnector.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/gc/NativeGC.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeConsole.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeFile.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeClientSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeServerSocket.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/security/NativeMD5.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/star/NativeWindow.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/thread/NativeThread.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeDate.o C:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeTime.o
+NOOBJ = $(EXTRAOBJ) $(NOBJ)
+aA = $(patsubst %,"%",$(EXTRAOBJ)) $(QOBJ)
+ALLOBJ = $(EXTRAOBJ) $(NOBJ)
+bB = $(patsubst %,"%",$(ALLOBJ:.o=.gch))
 QOOBJ = $(subst $(slash),$(bslash),$(aA))
+QOGCH = $(subst $(slash),$(bslash),$(bB))
 OBJ = C\:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/Nova.o C\:/Users/Braden/GitHub/NovaWorkspace/Nova-C/include/NovaExceptionHandling.o $(FOBJ) C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeObject.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/NativeSystem.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/database/NativeDBConnector.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/gc/NativeGC.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeConsole.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/io/NativeFile.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeClientSocket.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeSocket.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/network/NativeServerSocket.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/security/NativeMD5.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/star/NativeWindow.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/thread/NativeThread.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeDate.o C\:/Users/Braden/GitHub/NovaWorkspace/Standard-Library/nova/time/NativeTime.o
 
-%.o: %.c %.gch $(DEPS)
-	$(CC) -c -o $@ $(word 1, $^) -L$(LDIR) $(LIBS)
-	$(CC) $@ $(word 2, $^) -L$(LDIR) $(LIBS)
+%.gch: %.h
+	$(CC) -c -o $@ $<
+
+%.o: %.c $(DEPS)
+	$(CC) -c -fPIC -o $@ $< -L$(LDIR) $(LIBS)
 
 install: $(OBJ)
 	cd "$(LDIR)"
-	$(CC) $(CFLAGS) $^ -o $(EXEC_PATH) -L$(LDIR) $(LIBS)
+	$(CC) $^ -o $(EXEC_PATH) -L$(LDIR) $(LIBS)
+
+headers: $(OBJ:.o=.gch)
+	echo done headers
 
 .PHONY: clean
 
 clean:
 ifeq ($(OS),Windows_NT)
 	for %%a in ($(QOOBJ)) do del "%%a"
+	for %%a in ($(QOGCH)) do del "%%a"
 else
 	rm -f $(NOOBJ) *~ core
 endif
