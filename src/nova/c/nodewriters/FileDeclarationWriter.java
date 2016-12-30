@@ -57,18 +57,19 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			
 			String definitionName = "FILE_" + getWriter(clazz).generateSourceName() + "_" + Nova.LANGUAGE_NAME.toUpperCase();
 			
-			builder.append("#pragma once").append('\n');
+//			builder.append("#pragma once").append('\n');
 			builder.append("#ifndef ").append(definitionName).append('\n');
 			builder.append("#define ").append(definitionName).append("\n\n");
-			
+
 			generateDummyTypes(builder).append('\n');
 			
 			generateClosureDefinitions(builder, true).append('\n');
 			
 			builder.append("#include <Nova.h>\n");
+//			builder.append("#include <VTableDeclarations.h>\n");
 			builder.append("#include <InterfaceVTable.h>\n");
 			builder.append("#include <ExceptionHandler.h>\n");
-			builder.append("#include <NovaClassData.h>\n");
+//			builder.append("#include <NovaClassData.h>\n");
 			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
 			
 			builder.append('\n');
