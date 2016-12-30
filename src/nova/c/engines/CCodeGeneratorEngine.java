@@ -28,10 +28,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	private ArrayList<File>		cSourceFiles, cHeaderFiles;
 	
 	public File					nativeInterfaceSource, nativeInterfaceHeader;
-	public File					interfaceVTableHeader;
+	public File					interfaceVTableHeader, vtableDeclarationsHeader, vtableDeclarationsSource;
 	
 	private static final String NATIVE_INTERFACE_FILE_NAME = "NovaNativeInterface";
 	private static final String INTERFACE_VTABLE_FILE_NAME = "InterfaceVTable";
+	private static final String VTABLE_DECLARATIONS_FILE_NAME = "VTableDeclarations";
 	private static final String ENVIRONMENT_VAR            = "novaEnv";
 	
 	public static final HashSet<String> KEYWORDS = new HashSet<String>() {{
@@ -159,7 +160,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		generateNativeInterface();
 		generateInterfaceVTable();
-		
+
+		generateVTableDeclarations();
+
 		String headers[] = getCHeaderOutput();
 		String sources[] = getCSourceOutput();
 		FileDeclaration files[] = tree.getFiles();
@@ -202,8 +205,21 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				if (!controller.isFlagEnabled(NO_C_OUTPUT))
 				{
-					File headerFile = FileUtils.writeFile(getWriter(file).generateHeaderName(), outputDir, header);
-					File sourceFile = FileUtils.writeFile(getWriter(file).generateSourceName(), outputDir, source);
+					File headerFile = new File(outputDir, getWriter(file).generateHeaderName());
+					File sourceFile = new File(outputDir, getWriter(file).generateSourceName());
+
+					boolean force = isFlagEnabled(((CCompileEngine)controller.compileEngine).flags, CCompileEngine.FORCE_RECOMPILE);
+
+					if (force || file.getFile().lastModified() > headerFile.lastModified())
+					{
+						headerFile = FileUtils.writeFile(getWriter(file).generateHeaderName(), outputDir, header);
+						controller.log("Wrote " + headerFile.getCanonicalPath());
+					}
+					if (force || file.getFile().lastModified() > sourceFile.lastModified())
+					{
+						sourceFile = FileUtils.writeFile(getWriter(file).generateSourceName(), outputDir, source);
+						controller.log("Wrote " + sourceFile.getCanonicalPath());
+					}
 					
 					cHeaderFiles.add(headerFile);
 					cSourceFiles.add(sourceFile);
@@ -338,7 +354,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			writer.close();
 			
 			writer = FileUtils.getFileWriter("NovaClassData.c", controller.outputDirectory);
-			
+
+			writer.write("#include <precompiled.h>\n");
 			writer.write("#include <NovaClassData.h>\n\n");
 			
 			for (Interface i : interfaces)
@@ -635,6 +652,66 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		return builder;
+	}
+
+	private void generateVTableDeclarations()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("#include <precompiled.h>\n");
+		builder.append("#include \"" + VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
+
+		for (ClassDeclaration c : getAllClasses())
+		{
+			VTableList vtables = c.getVTableNodes();
+
+			getWriter(vtables).generateSource(builder).append('\n');
+		}
+
+		try
+		{
+			vtableDeclarationsSource = FileUtils.writeFile(VTABLE_DECLARATIONS_FILE_NAME + ".c", controller.outputDirectory, SyntaxUtils.formatText(builder.toString()));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		builder = new StringBuilder();
+
+		builder.append("#ifndef NOVA_VTABLE_DECLARATIONS\n");
+		builder.append("#define NOVA_VTABLE_DECLARATIONS\n\n");
+
+		for (ClassDeclaration c : getAllClasses())
+		{
+			VTableList vtables = c.getVTableNodes();
+
+			getWriter(vtables.getExtensionVTable()).generateTypedef(builder).append('\n');
+			getWriter(vtables.getExtensionVTable()).generateExternDeclaration(builder).append('\n');
+		}
+
+		builder.append("\n#include <Nova.h>\n");
+
+		builder.append(getAllIncludes()).append('\n');
+
+		for (ClassDeclaration c : getAllClasses())
+		{
+			VTableList vtables = c.getVTableNodes();
+
+			getWriter(vtables).generateHeader(builder).append('\n');
+//			getWriter(vtables).generateSource(builder).append('\n');
+		}
+
+		builder.append("#endif");
+
+		try
+		{
+			vtableDeclarationsHeader = FileUtils.writeFile(VTABLE_DECLARATIONS_FILE_NAME + ".h", controller.outputDirectory, SyntaxUtils.formatText(builder.toString()));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
