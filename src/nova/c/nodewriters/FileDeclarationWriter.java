@@ -123,8 +123,6 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	{
 		if (node().source == null)
 		{
-			builder.append("#include <precompiled.h>\n");
-			
 			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateSource(builder));
 			
 			builder.append('\n');

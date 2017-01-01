@@ -355,7 +355,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			
 			writer = FileUtils.getFileWriter("NovaClassData.c", controller.outputDirectory);
 
-			writer.write("#include <precompiled.h>\n");
 			writer.write("#include <NovaClassData.h>\n\n");
 			
 			for (Interface i : interfaces)
@@ -460,7 +459,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		StringBuilder nativeInterface = new StringBuilder();
 		
-		nativeInterface.append("#include <precompiled.h>\n");
 		nativeInterface.append("#include \"" + NATIVE_INTERFACE_FILE_NAME + ".h\"\n\n");
 		
 		nativeInterface.append("nova_env " + ENVIRONMENT_VAR + " = {\n");
@@ -658,7 +656,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		StringBuilder builder = new StringBuilder();
 
-//		builder.append("#include <precompiled.h>\n");
 		builder.append("#include \"" + VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
 
 		for (ClassDeclaration c : getAllClasses())

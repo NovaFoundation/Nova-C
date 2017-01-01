@@ -1,4 +1,3 @@
-#include <precompiled.h>
 #include "Nova.h"
 
 /**
