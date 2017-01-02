@@ -17,7 +17,11 @@ import nova.c.nodewriters.StaticBlockWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import static net.fathomsoft.nova.Nova.*;
@@ -162,6 +166,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		generateInterfaceVTable();
 
 		generateVTableDeclarations();
+		
+		writeMakefile();
 
 		String headers[] = getCHeaderOutput();
 		String sources[] = getCSourceOutput();
@@ -294,6 +300,110 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		return list.toArray(new VirtualMethodDeclaration[0]);
+	}
+	
+	public boolean writeMakefile()
+	{
+		try
+		{
+//			File makefile = new File(controller.outputDirectory, "makefile");
+//			
+//			long lastModified = makefile.exists() ? makefile.lastModified() : 0;
+			
+			PrintWriter writer = FileUtils.getFileWriter("makefile", controller.outputDirectory);
+			
+			writer.print("NOVA_DEPS =");
+			
+			for (FileDeclaration file : tree.getFiles())
+			{
+				writer.print(" " + getWriter(file).generateFullLocation() + ".h");
+			}
+			
+			for (String external : controller.externalImports)
+			{
+				Path outputPath = Paths.get(controller.outputDirectory.toURI());
+				Path targetPath = Paths.get(new File(external).toURI());
+				
+				String relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
+				
+				writer.print(" " + relative.substring(0, relative.length() - 2) + ".h");
+			}
+			
+			writer.print("\n");
+			
+			writer.print("NOVA_OBJ =");
+			
+			for (FileDeclaration file : tree.getFiles())
+			{
+				writer.print(" " + getWriter(file).generateFullLocation() + ".o");
+			}
+			
+			for (String external : controller.externalImports)
+			{
+				Path outputPath = Paths.get(controller.outputDirectory.toURI());
+				Path targetPath = Paths.get(new File(external).toURI());
+				
+				String relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
+				
+				if (new File(external.substring(0, external.length() - 2) + ".c").exists())
+				{
+					writer.print(" " + relative.substring(0, relative.length() - 2) + ".o");
+				}
+			}
+			
+			writer.print("\n\n");
+			
+			Path outputPath = Paths.get(controller.outputDirectory.getCanonicalPath());
+			Path targetPath = Paths.get(controller.targetEngineWorkingDir.getCanonicalPath());
+			
+			String relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
+			
+			writer.print("NOVA_COMPILE_HOME = ");
+			writer.print(relative.length() > 0 ? relative : ".");
+			writer.print("\n");
+			
+			targetPath = Paths.get(controller.targetEngineWorkingDir.getParentFile().getCanonicalPath());
+			relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
+			
+			writer.print("NOVA_STDLIB_LOCATION = ");
+			writer.print(relative.length() > 0 ? relative : ".");
+			writer.print("/StandardLibrary\n\n");
+			
+			writer.print("MAKEFILE_LOCATION = ");
+			writer.print("$(NOVA_COMPILE_HOME)/makefile.nova\n\n");
+			
+			writer.print("export NOVA_DEPS\n");
+			writer.print("export NOVA_OBJ\n");
+			writer.print("export NOVA_STDLIB_LOCATION\n");
+			writer.print("export NOVA_COMPILE_HOME\n\n");
+			
+			String[] targets = new String[] { "install", "link", "headers", "clean" };
+			
+			writer.print(".PHONY: ");
+			writer.print(String.join(" ", targets));
+			writer.print("\n\n");
+			
+			for (String target : targets)
+			{
+				writer.print(target);
+				writer.print(":; $(MAKE) -f $(MAKEFILE_LOCATION) ");
+				writer.print(target);
+				writer.print("\n");
+			}
+			
+			writer.close();
+			
+//			if (lastModified > 0)
+//			{
+//				makefile.setLastModified(lastModified);
+//			}
+		}
+		catch (IOException e)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public boolean writeClassData()

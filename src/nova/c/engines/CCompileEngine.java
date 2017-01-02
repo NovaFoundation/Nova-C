@@ -218,7 +218,7 @@ public class CCompileEngine extends CompileEngine
 			
 			controller.log(script);
 			
-			final Command command = new Command(script, compilerDir);
+			final Command command = new Command(script, controller.outputDirectory);
 			
 			command.addCommandListener(new CommandListener()
 			{
