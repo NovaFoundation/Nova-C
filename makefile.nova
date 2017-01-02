@@ -8,7 +8,7 @@ space=
 home = $(NOVA_COMPILE_HOME)
 stdlib = $(NOVA_STDLIB_LOCATION)
 IDIR=-I$(home) -I$(home)/include/gc -I$(home)/include -I$(home)/../Misc -I$(home)/include/nova_mysql -I$(home)/include/nova_openssl -I$(stdlib) -I.
-CFLAGS=$(IDIR)
+CFLAGS=
 
 CC = $(NOVA_CC)
 
@@ -21,8 +21,6 @@ ifndef NOVA_CC
 endif
 
 ifeq ($(CC), gcc)
-	CFLAGS += $(space)-pipe -Wl,--enable-stdcall-fixup
-	
 	ifdef LINE_NUMBERS
 		CFLAGS += $(space)-g
 	endif
@@ -31,10 +29,12 @@ ifeq ($(CC), gcc)
 	else ifndef NO_OPTIMIZE
 		CFLAGS += $(space)-O2
 	endif
+	
+	CFLAGS += $(space)-pipe -Wl,--enable-stdcall-fixup
 endif
 
 ifdef USE_GC
-	CFLAG += $(space)-DUSE_GC
+	CFLAGS += $(space)-DUSE_GC
 	LIBS += $(space)-lgc
 endif
 ifeq ($(OS), Windows_NT)
@@ -83,20 +83,20 @@ OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(NOVA_OBJ)
 GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
 %.gch: %.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c -o $@ $< $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
 
 .PHONY: install link headers clean
 
 install: $(ALLOBJ)
 	@echo "Linking program"
-	$(CC) $(CFLAGS) $^ -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) $(IDIR) $^ -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 link:
 	@echo "Linking program"
-	$(CC) $(CFLAGS) $(ALLOBJ) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) $(IDIR) $(ALLOBJ) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 headers: $(OBJ:.o=.gch)
 	echo done headers
