@@ -22,10 +22,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	 */
 	public String generateHeaderName()
 	{
-		Package pkg = node().getPackage();
-		ClassDeclaration clazz = node().getClassDeclaration();
-		
-		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName() + ".h";
+		return generateFullLocation() + ".h";
 	}
 	
 	/**
@@ -38,10 +35,15 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	 */
 	public String generateSourceName()
 	{
+		return generateFullLocation() + ".c";
+	}
+	
+	public String generateFullLocation()
+	{
 		Package pkg = node().getPackage();
 		ClassDeclaration clazz = node().getClassDeclaration();
 		
-		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName() + ".c";
+		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName();
 	}
 	
 	public String getIncludeStatement()
