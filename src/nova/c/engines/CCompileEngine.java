@@ -10,7 +10,13 @@ import net.fathomsoft.nova.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.stream;
 import static net.fathomsoft.nova.Nova.*;
@@ -122,284 +128,218 @@ public class CCompileEngine extends CompileEngine
 		
 		File compilerDir  = null;
 		
-		if (compiler == GCC)
+		final String extension = OS == WINDOWS ? ".exe" : ""; 
+		
+		Optional<String> make = Arrays.stream(new String[] { "make", "mingw32-make" }).filter(x ->
+			Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
+				.map(Paths::get)
+				.anyMatch(path -> Files.exists(path.resolve(x + extension)))).findFirst();
+		
+		if (make.isPresent())
 		{
+			String extraArgs = "";
+			
 			compilerDir = controller.targetEngineWorkingDir;
 			
-			cmd.append("gcc -pipe ");
-			
-			if (Nova.OS == WINDOWS)
+			if (compiler == GCC)
 			{
-				cmd.append("-mwindows -mconsole ");
-			}
-			
-			if ((flags & LINE_NUMBERS) != 0)
-			{
-				cmd.append("-g ");
-			}
-			
-			if (Nova.OS == WINDOWS)
-			{
-				cmd.append("-Wl,--enable-stdcall-fixup ");
-			}
-			
-			if (!controller.isFlagEnabled(NO_OPTIMIZE))
-			{
-				if (controller.isFlagEnabled(SMALL_BIN))
+				extraArgs += "NOVA_CC=gcc ";
+				
+				if ((flags & LINE_NUMBERS) != 0)
 				{
-					cmd.append("-ffast-math ");
-				}
-				else
-				{
-					cmd.append("-march=native -fomit-frame-pointer ");
-				}
-			}
-		}
-		else if (compiler == TCC)
-		{
-			compilerDir = new File(StringUtils.removeSurroundingQuotes(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/compiler/tcc")));
-			
-			cmd.append("compiler/tcc/tcc.exe ");
-		}
-		else if (compiler == CLANG)
-		{
-			cmd.append("clang ");
-		}
-		
-		if (!controller.isFlagEnabled(NO_GC))
-		{
-			cmd.append("-DUSE_GC ");
-		}
-		
-		if (controller.isFlagEnabled(SMALL_BIN))
-		{
-			cmd.append("-Os -s ");
-		}
-		else if (!controller.isFlagEnabled(NO_OPTIMIZE))
-		{
-			cmd.append("-O2 ");
-		}
-		
-		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include"));
-		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/gc"));
-		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/nova_mysql"));
-		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include/nova_openssl"));
-		controller.includeDirectories.add(formatPath(controller.targetEngineWorkingDir.getAbsolutePath()));
-		
-		controller.includeDirectories.forEach(dir -> cmd.append("-I").append(formatPath(dir)).append(' '));
-		
-		cmd.append("-I").append(formatPath(controller.outputDirectory.getAbsolutePath())).append(' ');
-		
-		controller.outputDirectories.forEach((key, value) -> cmd.append("-I").append(formatPath(new File(value).getAbsolutePath())).append(' '));
-		
-		String libDir    = controller.outputFile.getParentFile().getAbsolutePath();
-		String incDir    = controller.targetEngineWorkingDir.getAbsolutePath() + "/include/";
-		
-
-//		String libNova   = formatPath(libDir + "libNova" + DYNAMIC_LIB_EXT);
-//		String libThread = formatPath(libDir + "libThread" + DYNAMIC_LIB_EXT);
-//		String libGC     = formatPath(libDir + "gc" + DYNAMIC_LIB_EXT);
-
-//		cmd.append(libNova).append(' ');
-//		cmd.append(libThread).append(' ');
-//		cmd.append(libGC).append(' ');
-		
-		cmd.append(formatPath(((CCodeGeneratorEngine)controller.codeGeneratorEngine).nativeInterfaceSource.getAbsolutePath())).append(' ');
-		cmd.append(formatPath(incDir + "Nova.c")).append(' ');
-		cmd.append(formatPath(incDir + "NovaExceptionHandling.c")).append(' ');
-//		cmd.append(formatPath(incDir + "LibNovaThread.c")).append(' ');
-		
-		FileDeclaration[] files = tree.getFiles();
-		
-		for (FileDeclaration sourceFile : files)
-		{
-			File dir = controller.outputDirectory;
-			
-			if (controller.outputDirectories.containsKey(sourceFile.getPackage().getRootFolder()))
-			{
-				dir = new File(controller.outputDirectories.get(sourceFile.getPackage().getRootFolder()));
-			}
-			
-			cmd.append(formatPath(dir.getAbsolutePath() + "/" + getWriter(sourceFile).generateSourceName())).append(' ');
-		}
-
-		for (String external : controller.externalImports)
-		{
-			cmd.append(formatPath(external)).append(' ');
-		}
-		
-		String outputFileLocation = controller.outputFile.getAbsolutePath();
-		
-		if (FileUtils.getFileExtension(outputFileLocation) == null)
-		{
-			outputFileLocation += Nova.EXECUTABLE_EXTENSION;
-		}
-		
-		cmd.append("-o ").append(formatPath(outputFileLocation)).append(' ');
-		
-		if (OS == LINUX)
-		{
-			cmd.append("-L/usr/include/openssl ");
-		}
-		
-		cmd.append("-L" + formatPath(libDir) + " -lcrypto ");
-
-//		cmd.append("-Ofast ");
-//		cmd.append("-s ");
-		
-		if (!controller.isFlagEnabled(NO_GC))
-		{
-			String l = "-L";//OS == WINDOWS ? "" : "-L";
-			
-			cmd.append("-lgc ");//-Wl," + l + formatPath(libDir) + " ");
-			
-			if (OS != MACOSX)
-			{
-				//	cmd.append("-Wl,-R ");
-			}
-		}
-		
-		if (OS == LINUX || OS == MACOSX)
-		{
-			cmd.append("-lpthread ");
-		}
-		if (OS == LINUX)// || OS == MACOSX)
-		{
-			cmd.append("-lm -ldl -lc -lmysqlclient -lpcre2-8 ");
-		}
-		else if (OS == WINDOWS)
-		{
-			cmd.append("-lws2_32 -lmysql -lpcre2-8-0 -limagehlp ");
-		}
-		
-		if (controller.isFlagEnabled(C_ARGS))
-		{
-			controller.log(cmd.toString());
-		}
-		
-		if (controller.isFlagEnabled(DRY_RUN))
-		{
-			controller.completed(true);
-		}
-		
-		controller.log("Compiling C sources...");
-		
-		final Command command = new Command(cmd.toString(), compilerDir);
-		
-		command.addCommandListener(new CommandListener()
-		{
-			boolean failed = false;
-			
-			int errorCount, warningCount;
-			
-			String currentMessage = "";
-			
-			@Override
-			public void resultReceived(int result)
-			{
-				if (stream(visibleCompilerMessages).anyMatch(x -> currentMessage.contains(x + ":")))
-				{
-					System.err.println(currentMessage.trim());
+					extraArgs += "LINE_NUMBERS=true ";
 				}
 				
-				if (!failed)
+				if (!controller.isFlagEnabled(NO_OPTIMIZE))
 				{
-					//	log("Compilation succeeded.");
-				}
-				else
-				{
-					//System.err.println("Compilation failed.");
-				}
-			}
-			
-			@Override
-			public void messageReceived(String message)
-			{
-				System.out.println(message);
-			}
-			
-			@Override
-			public void errorReceived(String message)
-			{
-				if (compiler == TCC)
-				{
-					if (message.contains("error: "))
+					if (controller.isFlagEnabled(SMALL_BIN))
 					{
-						failed = true;
-					}
-				}
-				else if (compiler == GCC)
-				{
-					if (message.contains("\nerror: ") || message.contains(": error: ") || message.contains(": fatal error: "))
-					{
-						failed = true;
+						extraArgs += "SMALL_BIN=true ";
 					}
 				}
 				else
 				{
-					failed = true;
+					extraArgs += "NO_OPTIMIZE=true ";
+				}
+			}
+			else if (compiler == TCC)
+			{
+//				compilerDir = new File(StringUtils.removeSurroundingQuotes(formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/compiler/tcc")));
+				
+				extraArgs += "NOVA_CC=tcc ";
+			}
+			else if (compiler == CLANG)
+			{
+				extraArgs += "NOVA_CC=clang ";
+			}
+			
+			if (!controller.isFlagEnabled(Nova.NO_GC))
+			{
+				extraArgs += "USE_GC=true ";
+			}
+			
+			FileDeclaration[] files = tree.getFiles();
+			
+			for (FileDeclaration sourceFile : files)
+			{
+				File dir = controller.outputDirectory;
+				
+				if (controller.outputDirectories.containsKey(sourceFile.getPackage().getRootFolder()))
+				{
+					dir = new File(controller.outputDirectories.get(sourceFile.getPackage().getRootFolder()));
 				}
 				
-				currentMessage += message;
+				cmd.append(formatPath(dir.getAbsolutePath() + "/" + getWriter(sourceFile).generateSourceName())).append(' ');
+			}
+			
+			for (String external : controller.externalImports)
+			{
+				cmd.append(formatPath(external)).append(' ');
+			}
+			
+			//		cmd.append("-Ofast ");
+			//		cmd.append("-s ");
+			
+			if (controller.isFlagEnabled(C_ARGS))
+			{
+				controller.log(cmd.toString());
+			}
+			
+			if (controller.isFlagEnabled(DRY_RUN))
+			{
+				controller.completed(true);
+			}
+			
+			controller.log("Compiling C sources...");
+			
+			extraArgs = extraArgs.length() > 0 ? " " + extraArgs.trim() : "";
+			
+			String script = make.get() + " install -j" + extraArgs;
+			
+			controller.log(script);
+			
+			final Command command = new Command(script, compilerDir);
+			
+			command.addCommandListener(new CommandListener()
+			{
+				boolean failed = false;
 				
-				if (message.trim().startsWith("^"))
+				int errorCount, warningCount;
+				
+				String currentMessage = "";
+				
+				@Override
+				public void resultReceived(int result)
 				{
-					//"(.+?(:\\s*?(\\d+:[\\n\\r]|((warning|error):[^^]+))))+"
-					String[] matches = stream(visibleCompilerMessages).filter(x -> currentMessage.contains(x + ":")).toArray(String[]::new);
+					if (stream(visibleCompilerMessages).anyMatch(x -> currentMessage.contains(x + ":")))
+					{
+						System.err.println(currentMessage.trim());
+					}
 					
-					if (matches.length > 0)
+					if (!failed)
 					{
-						stream(matches).map(String::toLowerCase).forEach(x -> {
-							if (x.contains("error"))
-								errorCount++;
-							else if (x.contains("warning"))
-								warningCount++;
-						});
+						//	log("Compilation succeeded.");
+					}
+					else
+					{
+						//System.err.println("Compilation failed.");
+					}
+				}
+				
+				@Override
+				public void messageReceived(String message)
+				{
+					System.out.println(message);
+				}
+				
+				@Override
+				public void errorReceived(String message)
+				{
+					if (compiler == TCC)
+					{
+						if (message.contains("error: "))
+						{
+							failed = true;
+						}
+					}
+					else if (compiler == GCC)
+					{
+						if (message.contains("\nerror: ") || message.contains(": error: ") || message.contains(": fatal error: "))
+						{
+							failed = true;
+						}
+					}
+					else
+					{
+						failed = true;
+					}
+					
+					currentMessage += message;
+					
+					if (message.trim().startsWith("^"))
+					{
+						//"(.+?(:\\s*?(\\d+:[\\n\\r]|((warning|error):[^^]+))))+"
+						String[] matches = stream(visibleCompilerMessages).filter(x -> currentMessage.contains(x + ":")).toArray(String[]::new);
 						
-						System.err.println(currentMessage);
+						if (matches.length > 0)
+						{
+							stream(matches).map(String::toLowerCase).forEach(x ->
+							{
+								if (x.contains("error"))
+									errorCount++;
+								else if (x.contains("warning"))
+									warningCount++;
+							});
+							
+							System.err.println(currentMessage);
+						}
+						
+						currentMessage = "";
 					}
-					
-					currentMessage = "";
-				}
-				else
-				{
-					currentMessage += "\n";
-				}
-			}
-			
-			@Override
-			public void commandExecuted()
-			{
-				if (controller.deleteOutputDirectory)
-				{
-					controller.log("Deleting output directory...");
-					
-					if (!FileUtils.deleteDirectory(controller.outputDirectory))
+					else
 					{
-						controller.log("Failed to delete temporary output directory at " + controller.outputDirectory.getAbsolutePath());
+						currentMessage += "\n";
 					}
 				}
 				
-				try
+				@Override
+				public void commandExecuted()
 				{
-					command.terminate();
+					if (controller.deleteOutputDirectory)
+					{
+						controller.log("Deleting output directory...");
+						
+						if (!FileUtils.deleteDirectory(controller.outputDirectory))
+						{
+							controller.log("Failed to delete temporary output directory at " + controller.outputDirectory.getAbsolutePath());
+						}
+					}
 					
-					controller.completed(!failed, warningCount, errorCount);
+					try
+					{
+						command.terminate();
+						
+						controller.completed(!failed, warningCount, errorCount);
+					}
+					catch (InterruptedException e)
+					{
+						e.printStackTrace();
+					}
 				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
+			});
+			
+			try
+			{
+				command.execute();
 			}
-		});
-		
-		try
-		{
-			command.execute();
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
-		catch (IOException e)
+		else
 		{
-			e.printStackTrace();
+			controller.error("Could not find make in PATH");
 		}
 	}
 }
