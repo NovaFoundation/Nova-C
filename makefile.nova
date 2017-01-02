@@ -96,9 +96,9 @@ endif
 
 .PHONY: install link headers clean
 
-install: $(COMPILE_ITEMS)
+install: $(COMPILE_ITEMS) $(DEPS)
 	@echo "Linking program"
-	$(CC) $(CFLAGS) $(IDIR) $^ -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 link:
 	@echo "Linking program"
