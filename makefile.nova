@@ -5,15 +5,16 @@ colon=\:
 comma=,
 space= 
 
-stdlib = StandardLibrary
-IDIR=-I. -Iinclude/gc -Iinclude -I../Misc -Iinclude/nova_mysql -Iinclude/nova_openssl -I../$(stdlib) -I../NovaCompilerOutput/c
+home = $(NOVA_COMPILE_HOME)
+stdlib = $(NOVA_STDLIB_LOCATION)
+IDIR=-I$(home) -I$(home)/include/gc -I$(home)/include -I$(home)/../Misc -I$(home)/include/nova_mysql -I$(home)/include/nova_openssl -I$(stdlib) -I.
 CFLAGS=$(IDIR)
 
 CC = $(NOVA_CC)
 
-FODIR=../NovaCompilerOutput/c
-ODIR=../NovaCompilerOutput/c
-LDIRS=-L../Misc/example/bin
+FODIR=.
+ODIR=.
+LDIRS=-L$(home)/../Misc/example/bin
 
 LIBS = -lcrypto
 
@@ -62,35 +63,48 @@ ifndef NO_OPTIMIZE
 	endif
 endif
 
-EXEC_PATH=../Misc/example/bin/Executable.exe
+EXEC_PATH = $(home)/../Misc/example/bin/Executable.exe
 
 EXTRADEPS = VTableDeclarations.h\
 			NovaClassData.h\
 			NovaNativeInterface.h\
 			InterfaceVTable.h\
-			LibNovaThread.h\
-			include/Nova.h\
-			include/NovaExceptionHandling.h
+			$(home)/include/Nova.h\
+			$(home)/include/NovaExceptionHandling.h\
+			$(stdlib)/nova/NativeObject.h\
+			$(stdlib)/nova/NativeSystem.h\
+			$(stdlib)/nova/database/NativeDBConnector.h\
+			$(stdlib)/nova/gc/NativeGC.h\
+			$(stdlib)/nova/io/NativeConsole.h\
+			$(stdlib)/nova/io/NativeFile.h\
+			$(stdlib)/nova/network/NativeClientSocket.h\
+			$(stdlib)/nova/network/NativeSocket.h\
+			$(stdlib)/nova/network/NativeServerSocket.h\
+			$(stdlib)/nova/security/NativeMD5.h\
+			$(stdlib)/nova/star/NativeWindow.h\
+			$(stdlib)/nova/thread/NativeThread.h\
+			$(stdlib)/nova/time/NativeDate.h\
+			$(stdlib)/nova/time/NativeTime.h
 
-EXTRAOBJ = $(ODIR)/VTableDeclarations.o\
-			$(ODIR)/NovaClassData.o\
-			$(ODIR)/NovaNativeInterface.o\
-			include/Nova.o\
-			include/NovaExceptionHandling.o\
-			../$(stdlib)/nova/NativeObject.o\
-			../$(stdlib)/nova/NativeSystem.o\
-			../$(stdlib)/nova/database/NativeDBConnector.o\
-			../$(stdlib)/nova/gc/NativeGC.o\
-			../$(stdlib)/nova/io/NativeConsole.o\
-			../$(stdlib)/nova/io/NativeFile.o\
-			../$(stdlib)/nova/network/NativeClientSocket.o\
-			../$(stdlib)/nova/network/NativeSocket.o\
-			../$(stdlib)/nova/network/NativeServerSocket.o\
-			../$(stdlib)/nova/security/NativeMD5.o\
-			../$(stdlib)/nova/star/NativeWindow.o\
-			../$(stdlib)/nova/thread/NativeThread.o\
-			../$(stdlib)/nova/time/NativeDate.o\
-			../$(stdlib)/nova/time/NativeTime.o
+EXTRAOBJ = VTableDeclarations.o\
+			NovaClassData.o\
+			NovaNativeInterface.o\
+			$(home)/include/Nova.o\
+			$(home)/include/NovaExceptionHandling.o\
+			$(stdlib)/nova/NativeObject.o\
+			$(stdlib)/nova/NativeSystem.o\
+			$(stdlib)/nova/database/NativeDBConnector.o\
+			$(stdlib)/nova/gc/NativeGC.o\
+			$(stdlib)/nova/io/NativeConsole.o\
+			$(stdlib)/nova/io/NativeFile.o\
+			$(stdlib)/nova/network/NativeClientSocket.o\
+			$(stdlib)/nova/network/NativeSocket.o\
+			$(stdlib)/nova/network/NativeServerSocket.o\
+			$(stdlib)/nova/security/NativeMD5.o\
+			$(stdlib)/nova/star/NativeWindow.o\
+			$(stdlib)/nova/thread/NativeThread.o\
+			$(stdlib)/nova/time/NativeDate.o\
+			$(stdlib)/nova/time/NativeTime.o
 
 DEPS = $(patsubst %,%,$(NOVA_DEPS) $(EXTRADEPS))
 
@@ -110,8 +124,7 @@ GENERATED_FILES = $(QOOBJ) $(QOGCH)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 %.o: %.c $(DEPS)
-	@echo "Compiling '$<'"
-	$(CC) $(CFLAGS) -c -fPIC -o $@ $< $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) -c -o $@ $< $(LDIRS) $(LIBS)
 
 .PHONY: install link headers clean
 
@@ -120,6 +133,7 @@ install: $(ALLOBJ)
 	$(CC) $(CFLAGS) $^ -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 link:
+	@echo "Linking program"
 	$(CC) $(CFLAGS) $(ALLOBJ) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 headers: $(OBJ:.o=.gch)
