@@ -22,38 +22,38 @@ endif
 
 ifeq ($(CC), gcc)
 	ifdef LINE_NUMBERS
-		CFLAGS += $(space)-g
+		CFLAGS += -g
 	endif
 	ifdef SMALL_BIN
-		CFLAGS += $(space)-Os -s
+		CFLAGS += -Os -s
 	else ifndef NO_OPTIMIZE
-		CFLAGS += $(space)-O2
+		CFLAGS += -O2
 	endif
 	
-	CFLAGS += $(space)-pipe -Wl,--enable-stdcall-fixup
+	CFLAGS += -pipe -Wl,--enable-stdcall-fixup
 endif
 
 ifndef NO_GC
-	CFLAGS += $(space)-DUSE_GC
-	LIBS += $(space)-lgc
+	CFLAGS += -DUSE_GC
+	LIBS += -lgc
 endif
 ifeq ($(OS), Windows_NT)
-	CFLAGS += $(space)-mwindows -mconsole
-	LIBS += $(space)-lws2_32 -lmysql -lpcre2-8-0 -limagehlp
+	CFLAGS += -mwindows -mconsole
+	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
 else
 	ifeq ($(shell uname), Linux)
-		LDIRS += $(space)-L/usr/include/openssl
-		LIBS += $(space)-lm -ldl -lc -lmysqlclient -lpcre2-8
+		LDIRS += -L/usr/include/openssl
+		LIBS += -lm -ldl -lc -lmysqlclient -lpcre2-8
 	endif
 	
-	LIBS += $(space)-lpthread
+	LIBS += -lpthread
 endif
 
 ifndef NO_OPTIMIZE
 	ifdef SMALL_BIN
-		CFLAGS += $(space)-ffast-math
+		CFLAGS += -ffast-math
 	else
-		CFLAGS += $(space)-march=native -fomit-frame-pointer
+		CFLAGS += -march=native -fomit-frame-pointer
 	endif
 endif
 
