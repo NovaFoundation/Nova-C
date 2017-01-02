@@ -12,8 +12,6 @@ CFLAGS=$(IDIR)
 
 CC = $(NOVA_CC)
 
-FODIR=.
-ODIR=.
 LDIRS=-L$(home)/../Misc/example/bin
 
 LIBS = -lcrypto
@@ -51,10 +49,6 @@ else
 	LIBS += $(space)-lpthread
 endif
 
-ifeq ($(strip $(ODIR)),)
-	ODIR = .
-endif
-
 ifndef NO_OPTIMIZE
 	ifdef SMALL_BIN
 		CFLAGS += $(space)-ffast-math
@@ -80,14 +74,12 @@ EXTRAOBJ = VTableDeclarations.o\
 
 DEPS = $(patsubst %,%,$(NOVA_DEPS) $(EXTRADEPS))
 
-NOBJ = $(patsubst %,$(ODIR)/%,$(NOVA_OBJ))
-FOBJ = $(patsubst %,$(FODIR)/%,$(NOVA_OBJ))
-QOBJ = $(patsubst %\,%,$(patsubst %,$(ODIR)/$(subst $(space),$(bslash)$(space),%),$(NOVA_OBJ)))
-NOOBJ = $(EXTRAOBJ) $(NOBJ)
+QOBJ = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(NOVA_OBJ)))
+NOOBJ = $(EXTRAOBJ) $(NOVA_OBJ)
 QOOBJ = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(EXTRAOBJ))) $(QOBJ)
-ALLOBJ = $(EXTRAOBJ) $(NOBJ)
+ALLOBJ = $(EXTRAOBJ) $(NOVA_OBJ)
 QOGCH = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(ALLOBJ:.o=.gch)))
-OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(FOBJ)
+OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(NOVA_OBJ)
 GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
 %.gch: %.h
