@@ -33,7 +33,7 @@ ifeq ($(CC), gcc)
 	CFLAGS += $(space)-pipe -Wl,--enable-stdcall-fixup
 endif
 
-ifdef USE_GC
+ifndef NO_GC
 	CFLAGS += $(space)-DUSE_GC
 	LIBS += $(space)-lgc
 endif

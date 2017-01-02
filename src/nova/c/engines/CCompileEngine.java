@@ -126,8 +126,6 @@ public class CCompileEngine extends CompileEngine
 	{
 		final StringBuilder cmd = new StringBuilder();
 		
-		File compilerDir  = null;
-		
 		final String extension = OS == WINDOWS ? ".exe" : ""; 
 		
 		Optional<String> make = Arrays.stream(new String[] { "make", "mingw32-make" }).filter(x ->
@@ -138,8 +136,6 @@ public class CCompileEngine extends CompileEngine
 		if (make.isPresent())
 		{
 			String extraArgs = "";
-			
-			compilerDir = controller.targetEngineWorkingDir;
 			
 			if (compiler == GCC)
 			{
@@ -173,9 +169,9 @@ public class CCompileEngine extends CompileEngine
 				extraArgs += "NOVA_CC=clang ";
 			}
 			
-			if (!controller.isFlagEnabled(Nova.NO_GC))
+			if (controller.isFlagEnabled(Nova.NO_GC))
 			{
-				extraArgs += "USE_GC=true ";
+				extraArgs += "NO_GC=true ";
 			}
 			
 			FileDeclaration[] files = tree.getFiles();
