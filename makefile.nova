@@ -70,41 +70,13 @@ EXTRADEPS = VTableDeclarations.h\
 			NovaNativeInterface.h\
 			InterfaceVTable.h\
 			$(home)/include/Nova.h\
-			$(home)/include/NovaExceptionHandling.h\
-			$(stdlib)/nova/NativeObject.h\
-			$(stdlib)/nova/NativeSystem.h\
-			$(stdlib)/nova/database/NativeDBConnector.h\
-			$(stdlib)/nova/gc/NativeGC.h\
-			$(stdlib)/nova/io/NativeConsole.h\
-			$(stdlib)/nova/io/NativeFile.h\
-			$(stdlib)/nova/network/NativeClientSocket.h\
-			$(stdlib)/nova/network/NativeSocket.h\
-			$(stdlib)/nova/network/NativeServerSocket.h\
-			$(stdlib)/nova/security/NativeMD5.h\
-			$(stdlib)/nova/star/NativeWindow.h\
-			$(stdlib)/nova/thread/NativeThread.h\
-			$(stdlib)/nova/time/NativeDate.h\
-			$(stdlib)/nova/time/NativeTime.h
+			$(home)/include/NovaExceptionHandling.h
 
 EXTRAOBJ = VTableDeclarations.o\
 			NovaClassData.o\
 			NovaNativeInterface.o\
 			$(home)/include/Nova.o\
-			$(home)/include/NovaExceptionHandling.o\
-			$(stdlib)/nova/NativeObject.o\
-			$(stdlib)/nova/NativeSystem.o\
-			$(stdlib)/nova/database/NativeDBConnector.o\
-			$(stdlib)/nova/gc/NativeGC.o\
-			$(stdlib)/nova/io/NativeConsole.o\
-			$(stdlib)/nova/io/NativeFile.o\
-			$(stdlib)/nova/network/NativeClientSocket.o\
-			$(stdlib)/nova/network/NativeSocket.o\
-			$(stdlib)/nova/network/NativeServerSocket.o\
-			$(stdlib)/nova/security/NativeMD5.o\
-			$(stdlib)/nova/star/NativeWindow.o\
-			$(stdlib)/nova/thread/NativeThread.o\
-			$(stdlib)/nova/time/NativeDate.o\
-			$(stdlib)/nova/time/NativeTime.o
+			$(home)/include/NovaExceptionHandling.o
 
 DEPS = $(patsubst %,%,$(NOVA_DEPS) $(EXTRADEPS))
 
@@ -115,8 +87,6 @@ NOOBJ = $(EXTRAOBJ) $(NOBJ)
 QOOBJ = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(EXTRAOBJ))) $(QOBJ)
 ALLOBJ = $(EXTRAOBJ) $(NOBJ)
 QOGCH = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(ALLOBJ:.o=.gch)))
-#QOOBJ = $(subst $(slash),$(bslash),$(aA))
-#QOGCH = $(subst $(slash),$(bslash),$(bB))
 OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(FOBJ)
 GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
