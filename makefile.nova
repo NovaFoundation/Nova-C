@@ -1,0 +1,90 @@
+stdlib = StandardLibrary
+IDIR=-I. -Iinclude/gc -Iinclude -I../Misc -Iinclude/nova_mysql -Iinclude/nova_openssl -I../$(stdlib) -I../NovaCompilerOutput/c
+CFLAGS=-pipe -mwindows -mconsole -g -Wl,--enable-stdcall-fixup -DUSE_GC $(IDIR)
+CC=gcc $(CFLAGS)
+
+FODIR=../NovaCompilerOutput/c
+ODIR=../NovaCompilerOutput/c
+LDIR=../Misc/example/bin
+
+LIBS=-lcrypto -lgc -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
+
+EXEC_PATH=../Misc/example/bin/Executable.exe
+
+slash=/
+E =
+bslash=\$(E)
+colon=\:
+comma=,
+space= 
+
+EXTRADEPS = VTableDeclarations.h\
+			NovaClassData.h\
+			NovaNativeInterface.h\
+			InterfaceVTable.h\
+			LibNovaThread.h\
+			include/Nova.h\
+			include/NovaExceptionHandling.h
+
+EXTRAOBJ = $(ODIR)/VTableDeclarations.o\
+			$(ODIR)/NovaClassData.o\
+			$(ODIR)/NovaNativeInterface.o\
+			include/Nova.o\
+			include/NovaExceptionHandling.o\
+			../$(stdlib)/nova/NativeObject.o\
+			../$(stdlib)/nova/NativeSystem.o\
+			../$(stdlib)/nova/database/NativeDBConnector.o\
+			../$(stdlib)/nova/gc/NativeGC.o\
+			../$(stdlib)/nova/io/NativeConsole.o\
+			../$(stdlib)/nova/io/NativeFile.o\
+			../$(stdlib)/nova/network/NativeClientSocket.o\
+			../$(stdlib)/nova/network/NativeSocket.o\
+			../$(stdlib)/nova/network/NativeServerSocket.o\
+			../$(stdlib)/nova/security/NativeMD5.o\
+			../$(stdlib)/nova/star/NativeWindow.o\
+			../$(stdlib)/nova/thread/NativeThread.o\
+			../$(stdlib)/nova/time/NativeDate.o\
+			../$(stdlib)/nova/time/NativeTime.o
+
+DEPS = $(patsubst %,%,$(NOVA_DEPS) $(EXTRADEPS))
+
+NOBJ = $(patsubst %,$(ODIR)/%,$(NOVA_OBJ))
+FOBJ = $(patsubst %,$(FODIR)/%,$(NOVA_OBJ))
+QOBJ = $(patsubst %,"$(ODIR)/%",$(NOVA_OBJ))
+NOOBJ = $(EXTRAOBJ) $(NOBJ)
+aA = $(patsubst %,"%",$(EXTRAOBJ)) $(QOBJ)
+ALLOBJ = $(EXTRAOBJ) $(NOBJ)
+bB = $(patsubst %,"%",$(ALLOBJ:.o=.gch))
+QOOBJ = $(subst $(slash),$(bslash),$(aA))
+QOGCH = $(subst $(slash),$(bslash),$(bB))
+OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(FOBJ)
+GENERATED_FILES = $(QOOBJ) $(QOGCH)
+
+%.gch: %.h
+	$(CC) -c -o $@ $<
+
+%.o: %.c $(DEPS)
+	@echo "Compiling '$<'"
+	$(CC) -c -fPIC -o $@ $< -L$(LDIR) $(LIBS)
+
+.PHONY: install link headers clean
+
+install: $(OBJ)
+	@echo "Linking program"
+	$(CC) $^ -o $(EXEC_PATH) -L$(LDIR) $(LIBS)
+
+link:
+	cd "$(LDIR)"
+	$(CC) $(ALLOBJ) -o $(EXEC_PATH) -L$(LDIR) $(LIBS)
+
+headers: $(OBJ:.o=.gch)
+	echo done headers
+
+clean:
+ifeq ($(OS), Windows_NT)
+#	$(foreach f, $(GENERATED_FILES), echo $(f);)
+#	$(shell for %%a in ($(GENERATED_FILES)) do if exist "%%a" del "%%a")
+	echo $(GENERATED_FILES)
+else
+	rm -f $(GENERATED_FILES) *~ core
+endif
