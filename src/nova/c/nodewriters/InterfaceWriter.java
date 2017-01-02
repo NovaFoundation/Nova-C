@@ -2,6 +2,7 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public abstract class InterfaceWriter extends ClassDeclarationWriter
@@ -13,16 +14,16 @@ public abstract class InterfaceWriter extends ClassDeclarationWriter
 		return super.generateSource(builder);
 	}
 	
-	public PrintWriter writeVTableDeclaration(PrintWriter writer)
+	public java.io.Writer writeVTableDeclaration(java.io.Writer writer) throws IOException
 	{
-		writer.print(getVTableType() + " " + getVTableValueName() + ";\n");
+		writer.write(getVTableType() + " " + getVTableValueName() + ";\n");
 		
 		return writer;
 	}
 	
-	public PrintWriter writeDefaultVTable(PrintWriter writer)
+	public java.io.Writer writeDefaultVTable(java.io.Writer writer) throws IOException
 	{
-		writer.print(getVTableTypeName() + " " + getVTableDefaultValueName() + " = {");
+		writer.write(getVTableTypeName() + " " + getVTableDefaultValueName() + " = {");
 		
 		NovaMethodDeclaration[] methods = node().getInterfaceVirtualMethods(false);
 		
@@ -32,10 +33,10 @@ public abstract class InterfaceWriter extends ClassDeclarationWriter
 			{
 				if (i > 0)
 				{
-					writer.print(",");
+					writer.write(",");
 				}
 				
-				writer.print("0");
+				writer.write("0");
 			}
 		}
 		else
@@ -43,14 +44,14 @@ public abstract class InterfaceWriter extends ClassDeclarationWriter
 			writer.write("0");
 		}
 		
-		writer.print("};\n");
+		writer.write("};\n");
 		
 		return writer;
 	}
 	
-	public PrintWriter writeVTableAssignment(PrintWriter writer)
+	public java.io.Writer writeVTableAssignment(java.io.Writer writer) throws IOException
 	{
-		writer.print("struct " + getVTableTypeName() + " {\n");
+		writer.write("struct " + getVTableTypeName() + " {\n");
 		
 		NovaMethodDeclaration[] methods = node().getInterfaceVirtualMethods(false);
 		
@@ -66,7 +67,7 @@ public abstract class InterfaceWriter extends ClassDeclarationWriter
 			writer.write("char x;\n");
 		}
 		
-		writer.print("};\n");
+		writer.write("};\n");
 		
 		return writer;
 	}
@@ -91,18 +92,18 @@ public abstract class InterfaceWriter extends ClassDeclarationWriter
 		return getVTableTypeName() + "*";
 	}
 	
-	public PrintWriter writeVTableTypedef(PrintWriter writer)
+	public java.io.Writer writeVTableTypedef(java.io.Writer writer) throws IOException
 	{
 		String name = getVTableTypeName();
 		
-		writer.print("typedef struct " + name + " " + name + ";\n");
+		writer.write("typedef struct " + name + " " + name + ";\n");
 		
 		return writer;
 	}
 	
-	public PrintWriter writeDefaultVTableDeclaration(PrintWriter writer)
+	public java.io.Writer writeDefaultVTableDeclaration(java.io.Writer writer) throws IOException
 	{
-		writer.print("extern " + getVTableTypeName() + " " + getVTableDefaultValueName() + ";\n");
+		writer.write("extern " + getVTableTypeName() + " " + getVTableDefaultValueName() + ";\n");
 		
 		return writer;
 	}

@@ -24,6 +24,8 @@ import static nova.c.nodewriters.Writer.getWriter;
 
 public class CCompileEngine extends CompileEngine
 {
+	public boolean forceRecompile;
+	
 	private int compiler;
 	
 	public long flags;
@@ -109,6 +111,8 @@ public class CCompileEngine extends CompileEngine
 		else if (arg.equals("-f") || arg.equals("-force"))
 		{
 			flags |= FORCE_RECOMPILE;
+			
+			forceRecompile = true;
 		}
 		else 
 		{
