@@ -6,7 +6,6 @@ import net.fathomsoft.nova.tree.FileDeclaration;
 import net.fathomsoft.nova.util.Command;
 import net.fathomsoft.nova.util.CommandListener;
 import net.fathomsoft.nova.util.FileUtils;
-import net.fathomsoft.nova.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class CCompileEngine extends CompileEngine
 	
 	public long flags;
 	
-	private String[]            visibleCompilerMessages;
+	private String[] hiddenCompilerMessages;
 	
 	public static final int		GCC           = 1;
 	public static final int		TCC           = 2;
@@ -56,21 +55,21 @@ public class CCompileEngine extends CompileEngine
 		
 		ArrayList<String> compileMessages = new ArrayList<>();
 		
-		if ((flags & NO_NOTES) == 0)
+		if ((flags & NO_NOTES) != 0)
 		{
 			compileMessages.add("note");
 		}
-		if ((flags & NO_WARNINGS) == 0)
+		if ((flags & NO_WARNINGS) != 0)
 		{
 			compileMessages.add("warning");
 		}
-		if ((flags & NO_ERRORS) == 0)
+		if ((flags & NO_ERRORS) != 0)
 		{
 			compileMessages.add("error");
 			compileMessages.add("fatal error");
 		}
 		
-		visibleCompilerMessages = compileMessages.toArray(new String[0]);
+		hiddenCompilerMessages = compileMessages.toArray(new String[0]);
 	}
 	
 	@Override
@@ -227,7 +226,7 @@ public class CCompileEngine extends CompileEngine
 				@Override
 				public void resultReceived(int result)
 				{
-					if (stream(visibleCompilerMessages).anyMatch(x -> currentMessage.contains(x + ":")))
+					if (!stream(hiddenCompilerMessages).anyMatch(x -> currentMessage.contains(x + ":")))
 					{
 						System.err.println(currentMessage.trim());
 					}
@@ -245,7 +244,14 @@ public class CCompileEngine extends CompileEngine
 				@Override
 				public void messageReceived(String message)
 				{
-					System.out.println(message);
+					if (message.contains(": ***"))
+					{
+						addError(message);
+					}
+					else
+					{
+						System.out.println(message);
+					}
 				}
 				
 				@Override
@@ -255,27 +261,37 @@ public class CCompileEngine extends CompileEngine
 					{
 						if (message.contains("error: "))
 						{
-							failed = true;
+							addError(message);
 						}
 					}
 					else if (compiler == GCC)
 					{
 						if (message.contains("\nerror: ") || message.contains(": error: ") || message.contains(": fatal error: "))
 						{
-							failed = true;
+							addError(message);
 						}
 					}
 					else
 					{
-						failed = true;
+						addError(message);
 					}
+					
+					if (message.contains(": ***") || message.contains("ld.exe: "))
+					{
+						addError(message);
+					}
+				}
+				
+				private void addError(String message)
+				{
+					failed = true;
 					
 					currentMessage += message;
 					
-					if (message.trim().startsWith("^"))
+					if (message.trim().startsWith("^")) // position indicator
 					{
 						//"(.+?(:\\s*?(\\d+:[\\n\\r]|((warning|error):[^^]+))))+"
-						String[] matches = stream(visibleCompilerMessages).filter(x -> currentMessage.contains(x + ":")).toArray(String[]::new);
+						String[] matches = stream(hiddenCompilerMessages).filter(x -> !currentMessage.contains(x + ":")).toArray(String[]::new);
 						
 						if (matches.length > 0)
 						{
