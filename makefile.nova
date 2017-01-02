@@ -7,29 +7,60 @@ space=
 
 stdlib = StandardLibrary
 IDIR=-I. -Iinclude/gc -Iinclude -I../Misc -Iinclude/nova_mysql -Iinclude/nova_openssl -I../$(stdlib) -I../NovaCompilerOutput/c
-CFLAGS=-pipe -mwindows -mconsole -g -Wl,--enable-stdcall-fixup -DUSE_GC $(IDIR)
+CFLAGS=$(IDIR)
 
 CC = $(NOVA_CC)
-
-ifndef NOVA_CC
-	CC=gcc
-endif
 
 FODIR=../NovaCompilerOutput/c
 ODIR=../NovaCompilerOutput/c
 LDIRS=-L../Misc/example/bin
 
-ifndef SYSTEMROOT
+LIBS = -lcrypto
+
+ifndef NOVA_CC
+	CC=gcc
+endif
+
+ifeq ($(CC), gcc)
+	CFLAGS += $(space)-pipe -Wl,--enable-stdcall-fixup
+	
+	ifdef LINE_NUMBERS
+		CFLAGS += $(space)-g
+	endif
+	ifdef SMALL_BIN
+		CFLAGS += $(space)-Os -s
+	else ifndef NO_OPTIMIZE
+		CFLAGS += $(space)-O2
+	endif
+endif
+
+ifdef USE_GC
+	CFLAG += $(space)-DUSE_GC
+	LIBS += $(space)-lgc
+endif
+ifeq ($(OS), Windows_NT)
+	CFLAGS += $(space)-mwindows -mconsole
+	LIBS += $(space)-lws2_32 -lmysql -lpcre2-8-0 -limagehlp
+else
 	ifeq ($(shell uname), Linux)
 		LDIRS += $(space)-L/usr/include/openssl
+		LIBS += $(space)-lm -ldl -lc -lmysqlclient -lpcre2-8
 	endif
+	
+	LIBS += $(space)-lpthread
 endif
 
 ifeq ($(strip $(ODIR)),)
 	ODIR = .
 endif
 
-LIBS=-lcrypto -lgc -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
+ifndef NO_OPTIMIZE
+	ifdef SMALL_BIN
+		CFLAGS += $(space)-ffast-math
+	else
+		CFLAGS += $(space)-march=native -fomit-frame-pointer
+	endif
+endif
 
 EXEC_PATH=../Misc/example/bin/Executable.exe
 
