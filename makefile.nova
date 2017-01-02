@@ -82,6 +82,12 @@ QOGCH = $(patsubst %\,%,$(patsubst %,$(subst $(space),$(bslash)$(space),%),$(ALL
 OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(NOVA_OBJ)
 GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
+ifdef COMPILE_C_FILES
+	COMPILE_ITEMS = $(ALLOBJ:.o=.c)
+else
+	COMPILE_ITEMS = $(ALLOBJ)
+endif
+
 %.gch: %.h
 	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
 
@@ -90,13 +96,13 @@ GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
 .PHONY: install link headers clean
 
-install: $(ALLOBJ)
+install: $(COMPILE_ITEMS)
 	@echo "Linking program"
 	$(CC) $(CFLAGS) $(IDIR) $^ -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 link:
 	@echo "Linking program"
-	$(CC) $(CFLAGS) $(IDIR) $(ALLOBJ) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 headers: $(OBJ:.o=.gch)
 	echo done headers
