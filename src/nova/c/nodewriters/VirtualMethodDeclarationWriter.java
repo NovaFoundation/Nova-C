@@ -37,9 +37,9 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		
 		builder.append(VTable.IDENTIFIER).append("->");
 		
-		if (node().getParentClass() instanceof Interface)
+		if (node().getParentClass() instanceof Trait)
 		{
-			builder.append(InterfaceVTable.IDENTIFIER).append(".");
+			builder.append(TraitVTable.IDENTIFIER).append(".");
 		}
 		
 		String call = node().getName() + "(";

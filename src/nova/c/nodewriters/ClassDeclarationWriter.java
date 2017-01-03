@@ -165,7 +165,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		//Assignment a = Assignment.generateDefault(method, Location.INVALID);
 		
-		MethodCall call = MethodCall.decodeStatement(method, "Class(\"" + node().getClassLocation() + "\", " + (node() instanceof Interface ? "true" : "false") + ")", Location.INVALID, true, false, constructor);
+		MethodCall call = MethodCall.decodeStatement(method, "Class(\"" + node().getClassLocation() + "\", " + (node() instanceof Trait ? "true" : "false") + ")", Location.INVALID, true, false, constructor);
 		
 		//Literal classData = new Literal(method, Location.INVALID);
 		//classData.value = "";
@@ -225,7 +225,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			}
 		}
 		
-		Interface[] interfaceList = node().getImplementedInterfaces(false);
+		Trait[] interfaceList = node().getImplementedInterfaces(false);
 		
 		String name = "nova_class_interfaces";
 		
@@ -233,7 +233,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		int i = 0;
 		
-		for (Interface inter : interfaceList)
+		for (Trait inter : interfaceList)
 		{
 			builder.append(name).append("[").append(i++).append("] = (nova_Nova_Object*)").append(getWriter(inter).getVTableClassInstance()).append(";\n");
 		}

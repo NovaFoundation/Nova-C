@@ -8,7 +8,7 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
-		InterfaceVTable table = node().getInterfaceVTable();
+		TraitVTable table = node().getInterfaceVTable();
 		
 		getWriter(table).generateHeader(builder).append('\n');
 		

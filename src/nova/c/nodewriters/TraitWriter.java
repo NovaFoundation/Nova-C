@@ -5,9 +5,9 @@ import net.fathomsoft.nova.tree.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public abstract class InterfaceWriter extends ClassDeclarationWriter
+public abstract class TraitWriter extends ClassDeclarationWriter
 {
-	public abstract Interface node();
+	public abstract Trait node();
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{

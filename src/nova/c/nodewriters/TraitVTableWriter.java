@@ -2,9 +2,9 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 
-public abstract class InterfaceVTableWriter extends VTableWriter
+public abstract class TraitVTableWriter extends VTableWriter
 {
-	public abstract InterfaceVTable node();
+	public abstract TraitVTable node();
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
@@ -13,7 +13,7 @@ public abstract class InterfaceVTableWriter extends VTableWriter
 	
 	public StringBuilder generateHeaderFragment(StringBuilder builder)
 	{
-		return generateType(builder).append(" ").append(InterfaceVTable.IDENTIFIER);
+		return generateType(builder).append(" ").append(TraitVTable.IDENTIFIER);
 	}
 	
 	public StringBuilder generateSource(StringBuilder builder)

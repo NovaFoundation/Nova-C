@@ -518,25 +518,25 @@ public class Writer
 				}
 			};
 		}
-		else if (node instanceof InterfaceVTable)
+		else if (node instanceof TraitVTable)
 		{
-			return new InterfaceVTableWriter()
+			return new TraitVTableWriter()
 			{
 				@Override
-				public InterfaceVTable node()
+				public TraitVTable node()
 				{
-					return (InterfaceVTable)node;
+					return (TraitVTable)node;
 				}
 			};
 		}
-		else if (node instanceof Interface)
+		else if (node instanceof Trait)
 		{
-			return new InterfaceWriter()
+			return new TraitWriter()
 			{
 				@Override
-				public Interface node()
+				public Trait node()
 				{
-					return (Interface)node;
+					return (Trait)node;
 				}
 			};
 		}
@@ -1352,14 +1352,14 @@ public class Writer
 		return (InstantiationWriter)getWriter((Node)node);
 	}
 	
-	public static InterfaceVTableWriter getWriter(final InterfaceVTable node)
+	public static TraitVTableWriter getWriter(final TraitVTable node)
 	{
-		return (InterfaceVTableWriter)getWriter((Node)node);
+		return (TraitVTableWriter)getWriter((Node)node);
 	}
 	
-	public static InterfaceWriter getWriter(final Interface node)
+	public static TraitWriter getWriter(final Trait node)
 	{
-		return (InterfaceWriter)getWriter((Node)node);
+		return (TraitWriter)getWriter((Node)node);
 	}
 	
 	public static IValueWriter getWriter(final IValue node)

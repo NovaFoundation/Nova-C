@@ -257,19 +257,19 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		writeClassData();
 	}
 	
-	public Interface[] getAllInterfaces()
+	public Trait[] getAllInterfaces()
 	{
-		ArrayList<Interface> list = new ArrayList<>();
+		ArrayList<Trait> list = new ArrayList<>();
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (file.getClassDeclaration() instanceof Interface)
+			if (file.getClassDeclaration() instanceof Trait)
 			{
-				list.add((Interface)file.getClassDeclaration());
+				list.add((Trait)file.getClassDeclaration());
 			}
 		}
 		
-		return list.toArray(new Interface[0]);
+		return list.toArray(new Trait[0]);
 	}
 	
 	public ClassDeclaration[] getAllClasses()
@@ -283,7 +283,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (includeInterfaces || file.getClassDeclaration() instanceof Interface == false)
+			if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
 			{
 				list.add(file.getClassDeclaration());
 			}
@@ -409,7 +409,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		try
 		{
-			final Interface[] interfaces = getAllInterfaces();
+			final Trait[] interfaces = getAllInterfaces();
 			
 			File header = new File(controller.outputDirectory, "NovaClassData.h");
 			
@@ -423,12 +423,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				
 				try
 				{
-					for (Interface i : interfaces)
+					for (Trait i : interfaces)
 					{
 						getWriter(i).writeVTableTypedef(writer);
 					}
 					
-					for (Interface i : interfaces)
+					for (Trait i : interfaces)
 					{
 						getWriter(i).writeDefaultVTableDeclaration(writer);
 					}
@@ -437,7 +437,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.write(getAllIncludes());
 					writer.print("\n");
 					
-					for (Interface i : interfaces)
+					for (Trait i : interfaces)
 					{
 						getWriter(i).writeVTableAssignment(writer);
 						writer.print("\n");
@@ -449,7 +449,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
 					
-					for (Interface i : interfaces)
+					for (Trait i : interfaces)
 					{
 						getWriter(i).writeVTableDeclaration(writer);
 					}
@@ -479,7 +479,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				
 				try
 				{
-					for (Interface i : interfaces)
+					for (Trait i : interfaces)
 					{
 						getWriter(i).writeDefaultVTable(writer);
 					}
@@ -651,7 +651,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		builder.append("\n");
-		builder.append("typedef struct ").append(InterfaceVTable.TYPE).append("\n");
+		builder.append("typedef struct ").append(TraitVTable.TYPE).append("\n");
 		builder.append("{\n");
 		
 		for (NovaMethodDeclaration method : methods)
@@ -659,7 +659,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			getWriter(method.getVirtualMethod()).generateInterfaceVTableHeader(builder);
 		}
 		
-		builder.append("} ").append(InterfaceVTable.TYPE).append(";\n");
+		builder.append("} ").append(TraitVTable.TYPE).append(";\n");
 		
 		builder.append("\n");
 		builder.append("#endif\n");
@@ -763,9 +763,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 								
 								String itable = "";
 								
-								if (n.getRootDeclaration().getParentClass() instanceof Interface)
+								if (n.getRootDeclaration().getParentClass() instanceof Trait)
 								{
-									itable = InterfaceVTable.IDENTIFIER + ".";
+									itable = TraitVTable.IDENTIFIER + ".";
 								}
 								
 								VirtualMethodDeclaration virtual = n.getVirtualMethod();
