@@ -98,8 +98,10 @@ ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
 %.gch: %.h
 	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
 
-%.o: %.c
+%.o: %.c %.d
 	$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
+
+%.d:;
 
 .PHONY: install link headers clean
 
