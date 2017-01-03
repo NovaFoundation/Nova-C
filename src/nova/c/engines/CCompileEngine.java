@@ -131,7 +131,7 @@ public class CCompileEngine extends CompileEngine
 		
 		final String extension = OS == WINDOWS ? ".exe" : ""; 
 		
-		Optional<String> make = Arrays.stream(new String[] { "make", "mingw32-make" }).filter(x ->
+		Optional<String> make = Arrays.stream(new String[] { "make", "mingw32-make", "nmake" }).filter(x ->
 			Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
 				.map(Paths::get)
 				.anyMatch(path -> Files.exists(path.resolve(x + extension)))).findFirst();
