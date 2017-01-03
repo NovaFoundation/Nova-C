@@ -38,7 +38,7 @@ public abstract class PackageWriter extends NodeWriter
 			return builder;
 		}
 		
-		String output = node().location.replace('/', '_');
+		String output = node().location.replace('/', '_').replace('.', '_');
 		
 		return builder.append(output);
 	}
