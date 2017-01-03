@@ -63,12 +63,14 @@ EXTRADEPS = VTableDeclarations.h\
 			NovaClassData.h\
 			NovaNativeInterface.h\
 			InterfaceVTable.h\
+			MainFunction.h\
 			$(home)/include/Nova.h\
 			$(home)/include/NovaExceptionHandling.h
 
 EXTRAOBJ = VTableDeclarations.o\
 			NovaClassData.o\
 			NovaNativeInterface.o\
+			MainFunction.o\
 			$(home)/include/Nova.o\
 			$(home)/include/NovaExceptionHandling.o
 
@@ -88,15 +90,20 @@ else
 	COMPILE_ITEMS = $(ALLOBJ)
 endif
 
+#rwildcard=$(foreach d,$(wildcard $1*/),$(call rwildcard,$d*/) echo $d)
+rwildcard=$(sort $(dir $(foreach d,$(wildcard $1*/),$(sort $(dir $(call rwildcard,$d*/) $d)))))
+
+ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
+
 %.gch: %.h
 	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
 
-%.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
+%.o: %.c
+	$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
 
 .PHONY: install link headers clean
 
-install: $(COMPILE_ITEMS) $(DEPS)
+install: $(COMPILE_ITEMS)
 	@echo "Linking program"
 	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
@@ -105,14 +112,19 @@ link:
 	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 headers: $(OBJ:.o=.gch)
-	echo done headers
+	@echo "done headers"
 
 clean:
 #ifeq ($(OS), Windows_NT)
 #	$(foreach f, $(GENERATED_FILES), echo $(f);)
 #	$(shell for %%a in ($(GENERATED_FILES)) do if exist "%%a" del "%%a")
 #	@echo "Deleting all *.o and *.gch files"
-#	@del /S $(ODIR)/*.o $(ODIR)/*.gch
+#	del /S ./*.o ./*.gch ./*.d
 #else
-	rm -f $(GENERATED_FILES)
+#	rm -f $(GENERATED_FILES)
 #endif
+#	@echo $(ALL_DIRS)
+#	@echo $(sort $(dir $(wildcard ./*/)))
+	$(foreach var,$(ALL_DIRS),rm -f $(var)*.o $(var)*.gch $(var)*.d;)
+
+-include $(ALLOBJ:.o=.d)
