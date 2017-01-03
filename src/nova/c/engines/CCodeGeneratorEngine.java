@@ -228,12 +228,20 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						{
 							controller.log("Wrote " + headerFile.getCanonicalPath());
 						}
+						else if (compileEngine.forceRecompile)
+						{
+							controller.log("No differences to file " + headerFile.getCanonicalPath());
+						}
 					}
 					if (compileEngine.forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
 					{
 						if (FileUtils.writeIfDifferent(sourceFile, source))
 						{
 							controller.log("Wrote " + sourceFile.getCanonicalPath());
+						}
+						else if (compileEngine.forceRecompile)
+						{
+							controller.log("No differences to file " + sourceFile.getCanonicalPath());
 						}
 					}
 					
@@ -285,7 +293,10 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		{
 			if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
 			{
-				list.add(file.getClassDeclaration());
+				for (ClassDeclaration c : file.getClassDeclarations())
+				{
+					list.add(c);
+				}
 			}
 		}
 		
