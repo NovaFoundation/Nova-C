@@ -27,7 +27,7 @@
 		if (exception_code == 0)
 
 #define CATCH(x)\
-	else if (nova_Nova_Class_Nova_isOfType(exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException->vtable->classInstance, 0, x))
+	else if (nova_meta_Nova_Class_Nova_isOfType(exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException->vtable->classInstance, 0, x))
 
 #define FINALLY
 

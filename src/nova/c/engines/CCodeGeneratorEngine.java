@@ -417,7 +417,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
 				
-				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/Class");
+				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/meta/Class");
 				
 				writer.print("typedef struct NovaClassData NovaClassData;\n\n");
 				
@@ -699,7 +699,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		ClassDeclaration[] classes = getAllClasses();
 		
-		ClassDeclaration classClass = tree.getRoot().getClassDeclaration("nova/Class");
+		ClassDeclaration classClass = tree.getRoot().getClassDeclaration("nova/meta/Class");
 		ClassDeclaration arrayClass = tree.getRoot().getClassDeclaration("nova/datastruct/list/ImmutableArray");
 		
 		ClassDeclarationWriter clazz = getWriter(classClass);

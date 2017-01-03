@@ -25,7 +25,7 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 	@Override
 	public StringBuilder writeChildrenHeader(StringBuilder builder)
 	{
-		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/Class"));
+		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/meta/Class"));
 		
 		clazz.generateType(builder).append(" ").append(clazz.getClassInstanceVTableName()).append(";\n");
 		

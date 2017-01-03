@@ -140,7 +140,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public PrintWriter writeClassInstanceDeclaration(PrintWriter writer)
 	{
-		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/Class"));
+		ClassDeclarationWriter clazz = getWriter(node().getProgram().getClassDeclaration("nova/meta/Class"));
 		
 		writer.print("extern " + clazz.generateType() + " " + getClassInstanceName() + ";\n");
 		
@@ -161,7 +161,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		ExtensionVTableWriter vtable = getWriter(node().getVTableNodes().getExtensionVTable());
 		
-		MethodDeclaration constructor = node().getProgram().getClassDeclaration("nova/Class").getConstructorList().getChild(0);
+		MethodDeclaration constructor = node().getProgram().getClassDeclaration("nova/meta/Class").getConstructorList().getChild(0);
 		
 		//Assignment a = Assignment.generateDefault(method, Location.INVALID);
 		
@@ -190,7 +190,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateVTableExtensionAssignment(StringBuilder builder)
 	{
-		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
+		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/meta/Class");
 		
 		String value;
 		
@@ -210,7 +210,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateVTableInterfaceAssignments(StringBuilder builder)
 	{
-		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/Class");
+		ClassDeclaration clazz = node().getProgram().getClassDeclaration("nova/meta/Class");
 		ClassDeclaration array = node().getProgram().getClassDeclaration("nova/datastruct/list/ImmutableArray");
 		
 		NovaMethodDeclaration[] constructors = array.getConstructorList().getMethods();
