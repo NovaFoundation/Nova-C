@@ -253,6 +253,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
+		if (node().getFileDeclaration().getClassDeclaration() != node())
+		{
+			builder.append('\n');
+		}
+		
 		builder.append("CCLASS_CLASS").append('\n').append('(').append('\n');
 		
 		generateSourceName(builder).append(", ").append('\n').append('\n');
@@ -306,6 +311,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
+		if (node().getFileDeclaration().getClassDeclaration() != node())
+		{
+			builder.append('\n');
+		}
+		
 		if (node().containsNonStaticPrivateData())
 		{
 			builder.append("CCLASS_PRIVATE").append('\n').append('(').append('\n').append(generatePrivateFieldsSource()).append(')').append('\n');
