@@ -31,6 +31,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 {
 	private ArrayList<File>		cSourceFiles, cHeaderFiles;
 	
+	public boolean forceRecompile;
+	
 	public File					nativeInterfaceSource, nativeInterfaceHeader;
 	public File					interfaceVTableHeader, vtableDeclarationsHeader, vtableDeclarationsSource;
 	
@@ -222,7 +224,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					File headerFile = new File(outputDir, getWriter(file).generateHeaderName());
 					File sourceFile = new File(outputDir, getWriter(file).generateSourceName());
 					
-					if (compileEngine.forceRecompile || file.getFile().lastModified() > headerFile.lastModified())
+					if (forceRecompile || file.getFile().lastModified() > headerFile.lastModified())
 					{
 						if (FileUtils.writeIfDifferent(headerFile, header))
 						{
@@ -233,7 +235,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 							controller.log("No differences to file " + headerFile.getCanonicalPath());
 						}
 					}
-					if (compileEngine.forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
+					if (forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
 					{
 						if (FileUtils.writeIfDifferent(sourceFile, source))
 						{
@@ -401,7 +403,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					throw new RuntimeException(e);
 				}
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 			
 //			if (lastModified > 0)
 //			{
@@ -480,7 +482,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				writer.print("};\n");
 				
 				writer.print("\n#endif");
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 			
 			File source = new File(controller.outputDirectory, "NovaClassData.c");
 			
@@ -499,7 +501,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					throw new RuntimeException(e);
 				}
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 		}
 		catch (IOException e)
 		{
@@ -583,7 +585,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				writer.append("} nova_env;\n\n");
 				writer.append("extern nova_env " + ENVIRONMENT_VAR + ";\n\n");
 				writer.append("\n#endif\n");
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 		}
 		catch (IOException e)
 		{
@@ -609,7 +611,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				}
 				
 				writer.append("};\n");
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 		}
 		catch (IOException e)
 		{
@@ -626,7 +628,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			FileUtils.writeIfDifferent(header, writer ->
 			{
 				writer.append(generateInterfaceVTableHeader());
-			}, compileEngine.forceRecompile);
+			}, forceRecompile);
 		}
 		catch (IOException e)
 		{
@@ -862,7 +864,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				writer.append("#endif");
 			}, forceRecompile);
 			
-			compileEngine.forceRecompile = forceRecompile;
+			this.forceRecompile = forceRecompile;
 		}
 		catch (IOException e)
 		{
