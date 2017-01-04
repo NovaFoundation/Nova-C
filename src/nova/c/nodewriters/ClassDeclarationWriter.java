@@ -281,7 +281,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		if (node().containsNonStaticPrivateData())
 		{
-			builder.append("struct Private* prv;").append('\n');
+			builder.append("struct Private_").append(generateSourceName()).append("* prv;").append('\n');
 		}
 		
 		builder.append(')').append('\n');
@@ -309,16 +309,23 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		return builder;
 	}
 	
+	public StringBuilder generatePrivateDataDeclaration(StringBuilder builder)
+	{
+		if (node().containsNonStaticPrivateData())
+		{
+			builder.append("CCLASS_PRIVATE").append('\n').append('(').append('\n')
+				.append(generateSourceName()).append(",\n")
+				.append(generatePrivateFieldsSource()).append(')').append('\n');
+		}
+		
+		return builder;
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		if (node().getFileDeclaration().getClassDeclaration() != node())
 		{
 			builder.append('\n');
-		}
-		
-		if (node().containsNonStaticPrivateData())
-		{
-			builder.append("CCLASS_PRIVATE").append('\n').append('(').append('\n').append(generatePrivateFieldsSource()).append(')').append('\n');
 		}
 		
 		builder.append(generatePrivateMethodPrototypes());
