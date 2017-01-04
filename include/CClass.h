@@ -7,7 +7,7 @@
 #define CCLASS_NEW3(_CLASS_, _OBJ_, _CCLASS_PRIVATE_)\
 	_OBJ_ = CCLASS_NEW1(_CLASS_);\
 	_CCLASS_PRIVATE_
-#define CCLASS_NEW2(_CLASS_, _OBJ_) CCLASS_NEW3(_CLASS_, _OBJ_, _OBJ_->prv = new_Private())
+#define CCLASS_NEW2(_CLASS_, _OBJ_) CCLASS_NEW3(_CLASS_, _OBJ_, _OBJ_->prv = new_Private_ ## _CLASS_())
 
 #define CCLASS_CLASS_DEF(_NAME_, _BODY_) struct _NAME_ { _BODY_ }
 #define CCLASS_CLASS2(_NAME_, _BODY_) CCLASS_CLASS_DEF(_NAME_, _BODY_)
@@ -37,16 +37,16 @@
 		return _OBJ_;\
 	} while (0)
 
-#define CCLASS_PRIVATE(_CCLASS_PRIVATE_VARIABLES_)\
-	typedef struct Private { _CCLASS_PRIVATE_VARIABLES_ } Private;\
+#define CCLASS_PRIVATE(_NAME_, _CCLASS_PRIVATE_VARIABLES_)\
+	typedef struct Private_ ## _NAME_{ _CCLASS_PRIVATE_VARIABLES_ } Private_ ## _NAME_;\
 	\
-	static Private* new_Private()\
+	static Private_ ## _NAME_* new_Private_ ## _NAME_()\
 	{\
-		Private* p;\
+		Private_ ## _NAME_* p;\
 		\
-		CCLASS_INSTANTIATE(Private, p,);\
+		CCLASS_INSTANTIATE(Private_ ## _NAME_, p,);\
 	}\
-	static void del_Private(Private* p)\
+	static void del_Private_ ## _NAME_(Private_ ## _NAME_* p)\
 	{\
 		CCLASS_DELETE(p);\
 	}
