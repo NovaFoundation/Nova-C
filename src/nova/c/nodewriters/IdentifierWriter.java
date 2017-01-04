@@ -134,7 +134,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 				{
 					if (!node().isAccessed())
 					{
-						getWriter(field).writeInstanceAccess(builder, pointer);
+						getWriter(field).writeInstanceAccess(builder, pointer, node());
 					}
 					//					else
 					//					{

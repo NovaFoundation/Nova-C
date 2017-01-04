@@ -14,6 +14,17 @@ public abstract class InstanceDeclarationWriter extends VariableDeclarationWrite
 	
 	public StringBuilder writeInstanceAccess(StringBuilder builder, boolean pointer)
 	{
+		return writeInstanceAccess(builder, pointer, null);
+	}
+	
+	public StringBuilder writeInstanceAccess(StringBuilder builder, boolean pointer, Node context)
+	{
+		boolean trait = context != null && context.getParentClass() instanceof Trait;
+		
+		if (trait)
+		{
+			builder.append('(').append(getWriter(node().getParentClass()).generateTypeCast());
+		}
 		if (pointer)
 		{
 			builder.append('(').append('*');
@@ -22,6 +33,10 @@ public abstract class InstanceDeclarationWriter extends VariableDeclarationWrite
 		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
 		
 		if (pointer)
+		{
+			builder.append(')');
+		}
+		if (trait)
 		{
 			builder.append(')');
 		}
