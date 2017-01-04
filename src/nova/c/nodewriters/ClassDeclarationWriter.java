@@ -268,9 +268,12 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 
 		//writeClassDataDeclaration(builder);
 		
-		FieldList list = node().getFieldList();
-		
-		getWriter(list).generateNonStaticHeader(builder);
+		if (node() instanceof Trait == false)
+		{
+			FieldList list = node().getFieldList();
+			
+			getWriter(list).generateNonStaticHeader(builder);
+		}
 		
 		ClosureVariable[] variables = node().getPublicClosureVariables();
 		
