@@ -132,6 +132,11 @@ public abstract class FileDeclarationWriter extends NodeWriter
 			generateSourceClosureContextDefinitions(builder).append('\n');
 			generateClosureDefinitions(builder, false).append('\n');
 			
+			for (ClassDeclaration c : node().getClassDeclarations())
+			{
+				getWriter(c).generatePrivateDataDeclaration(builder);
+			}
+			
 			for (int i = 0; i < node().getNumChildren(); i++)
 			{
 				Node child = node().getChild(i);
