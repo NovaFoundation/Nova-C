@@ -1038,12 +1038,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			
 			for (ClassDeclaration clazz : file.getClassDeclarations())
 			{
-				TypeList<StaticBlock> blocks = clazz.getStaticBlockList();
-				
-				for (int j = 0; j < blocks.getNumVisibleChildren(); j++)
-				{
+//				TypeList<StaticBlock> blocks = clazz.getStaticBlockList();
+//				
+//				for (int j = 0; j < blocks.getNumVisibleChildren(); j++)
+//				{
 					StaticBlockWriter.generateMethodCall(builder, clazz).append(';').append('\n');
-				}
+//				}
 			}
 		}
 		
