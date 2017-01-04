@@ -3,6 +3,7 @@ package nova.c.nodewriters;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.generics.GenericTypeArgument;
 import net.fathomsoft.nova.tree.generics.GenericTypeArgumentList;
+import net.fathomsoft.nova.tree.variables.ObjectReference;
 import net.fathomsoft.nova.tree.variables.Variable;
 
 public abstract class VariableWriter extends IdentifierWriter
@@ -84,7 +85,19 @@ public abstract class VariableWriter extends IdentifierWriter
 			return builder.append("vtable->").append(ClassDeclarationWriter.getClassInstanceVTableName());
 		}
 		
+		boolean trait = node().getParentClass() instanceof Trait && node().declaration instanceof ReferenceParameter && node().doesAccess();
+		
+		if (trait)
+		{
+			builder.append('(').append(getWriter(node().getAccessedNode().getDeclaringClass()).generateTypeCast());
+		}
+		
 		super.generateUseOutput(builder, pointer, checkAccesses);
+		
+		if (trait)
+		{
+			builder.append(')');
+		}
 		
 		if (node().doesAccess())
 		{
