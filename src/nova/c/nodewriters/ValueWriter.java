@@ -168,6 +168,11 @@ public abstract class ValueWriter extends NodeWriter
 	
 	public StringBuilder generateTypeName(StringBuilder builder)
 	{
+		if (node() instanceof Accessible && ((Accessible)node()).getCast() != null)
+		{
+			return getWriter(((Accessible)node()).getCast()).generateTypeName(builder);
+		}
+		
 		String type = node().getType();
 		
 		if (node().isGenericType())
