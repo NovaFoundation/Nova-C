@@ -76,7 +76,12 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	 */
 	public StringBuilder generateVirtualMethodName()
 	{
-		return generateVirtualMethodName(new StringBuilder());
+		return generateVirtualMethodName(node().base);
+	}
+	
+	public StringBuilder generateVirtualMethodName(NovaMethodDeclaration reference)
+	{
+		return generateVirtualMethodName(new StringBuilder(), reference);
 	}
 	
 	/**
@@ -87,14 +92,36 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	 */
 	public StringBuilder generateVirtualMethodName(StringBuilder builder)
 	{
+		return generateVirtualMethodName(builder, node().base);
+	}
+	
+	public StringBuilder generateVirtualMethodName(StringBuilder builder, NovaMethodDeclaration reference)
+	{
 		String prefix = "virtual";
+		String postPrefix = "";
 		
 		if (node().base instanceof PropertyMethod)
 		{
 			prefix += "_" + ((PropertyMethod)node().base).getMethodPrefix();
 		}
+		if (reference != null)
+		{
+			if (reference.getParentClass().isPropertyTrue("functionMap"))
+			{
+				NovaMethodDeclaration corresponding = (NovaMethodDeclaration)reference.getProperty("correspondingFunction");
+				
+				if (corresponding instanceof Constructor)
+				{
+					postPrefix += corresponding.getName();
+				}
+//				if (reference.getOverloadID() != -1)
+//				{
+//					prefix += reference.getOverloadID();
+//				}
+			}
+		}
 		
-		return generateSourceName(builder, prefix, true);
+		return generateSourceName(builder, prefix, reference != null ? reference.overloadID : node().overloadID, postPrefix);
 	}
 	
 	public java.io.Writer writeVTableDeclaration(java.io.Writer writer) throws IOException
