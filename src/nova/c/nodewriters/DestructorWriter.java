@@ -9,6 +9,12 @@ public abstract class DestructorWriter extends BodyMethodDeclarationWriter
 {
 	public abstract Destructor node();
 	
+	@Override
+	public String getFunctionMapPrefix()
+	{
+		return "";
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		generateSourceSignature(builder).append('\n').append('{').append('\n');

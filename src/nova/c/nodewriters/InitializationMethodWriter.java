@@ -6,5 +6,9 @@ public abstract class InitializationMethodWriter extends BodyMethodDeclarationWr
 {
 	public abstract InitializationMethod node();
 	
-	
+	@Override
+	public String getFunctionMapPrefix()
+	{
+		return "";
+	}
 }

@@ -13,6 +13,12 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		return generateTypeClassName(builder);
 	}
 	
+	@Override
+	public String getFunctionMapPrefix()
+	{
+		return "";
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		if (node().isVisibilityValid())

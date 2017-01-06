@@ -10,6 +10,12 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 {
 	public abstract AssignmentMethod node();
 	
+	@Override
+	public String getFunctionMapPrefix()
+	{
+		return "";
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		return generateSourcePrototype(builder).append('\n');
