@@ -38,25 +38,33 @@ public abstract class BinaryOperationWriter extends IValueWriter
 		Value leftReturned = left.getReturnedNode();
 		Value rightReturned = right.getReturnedNode();
 		
-		boolean checkType = false;
+		boolean zero = leftReturned instanceof Literal && ((Literal)leftReturned).value.equals("0") || rightReturned instanceof Literal && ((Literal)rightReturned).value.equals("0");
 		
-		switch (node().getOperator().getOperator())
+		if (!zero)
 		{
-			case (Operator.EQUALS):
-			case (Operator.NOT_EQUAL): checkType = true; break;
-			default: checkType = false;
-		}
-		
-		if (checkType && !leftReturned.isPrimitive())
-		{
-			if (!leftReturned.getType().equals(rightReturned.getType()))
+			boolean checkType = false;
+			
+			switch (node().getOperator().getOperator())
 			{
-				Value common = SyntaxUtils.getTypeInCommon(leftReturned, rightReturned);
-				
-				if (common != null)
+				case (Operator.EQUALS):
+				case (Operator.NOT_EQUAL):
+					checkType = true;
+					break;
+				default:
+					checkType = false;
+			}
+			
+			if (checkType && !leftReturned.isPrimitive())
+			{
+				if (!leftReturned.getType().equals(rightReturned.getType()))
 				{
-					leftCast = getWriter(common).generateTypeCast(new StringBuilder(), true, false).toString();
-					rightCast = leftCast;
+					Value common = SyntaxUtils.getTypeInCommon(leftReturned, rightReturned);
+					
+					if (common != null)
+					{
+						leftCast = getWriter(common).generateTypeCast(new StringBuilder(), true, false).toString();
+						rightCast = leftCast;
+					}
 				}
 			}
 		}
