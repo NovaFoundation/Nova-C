@@ -98,7 +98,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		VirtualMethodDeclaration virtual = method.getVirtualMethod();
 		ParameterList params = method.getParameterList();
 		
-		return getWriter(method).generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName()).append(")(").append(getWriter(params).generateHeader()).append(");\n");
+		return getWriter(method).generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName(method)).append(")(").append(getWriter(params).generateHeader()).append(");\n");
 	}
 	
 	/**
