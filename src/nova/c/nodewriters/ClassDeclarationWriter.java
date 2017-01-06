@@ -60,13 +60,16 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			builder.append("typedef " + getWriter(method).generateType() + " (*");
-			
-			getWriter(method).generateSourceNativeName(builder, true).append(")(");
-			
-			ParameterList params = method.getParameterList();
-			
-			getWriter(params).generateHeader(builder).append(");\n");
+//			if (method instanceof Constructor == false || !node().isPropertyTrue("functionMap"))
+			{
+				builder.append("typedef " + getWriter(method).generateType() + " (*");
+				
+				getWriter(method).generateSourceNativeName(builder, true).append(")(");
+				
+				ParameterList params = method.getParameterList();
+				
+				getWriter(params).generateHeader(builder).append(");\n");
+			}
 		}
 		
 		builder.append("\ntypedef struct " + name + "\n");
@@ -101,23 +104,26 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration m : methods)
 		{
-			NovaMethodDeclaration method = (NovaMethodDeclaration)m;
-			
-			if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
+//			if (m instanceof Constructor == false || !node().isPropertyTrue("functionMap"))
 			{
-				String value = "&" + getWriter(method).generateSourceName();
+				NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 				
-				if (method instanceof NovaMethodDeclaration)
+				if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 				{
-					NovaMethodDeclaration n = method;
+					String value = "&" + getWriter(method).generateSourceName();
 					
-					if (n.isOverridden() && !(n instanceof Constructor))
+					if (method instanceof NovaMethodDeclaration)
 					{
-						value = "0";//getVTableNode().getName() + "." + n.generateVirtualMethodName();
+						NovaMethodDeclaration n = method;
+						
+						if (n.isOverridden() && !(n instanceof Constructor))
+						{
+							value = "0";//getVTableNode().getName() + "." + n.generateVirtualMethodName();
+						}
 					}
+					
+					builder.append(value + ",\n");
 				}
-				
-				builder.append(value + ",\n");
 			}
 		}
 		
@@ -159,25 +165,40 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateVTableClassInstanceAssignment(StringBuilder builder, NovaMethodDeclaration method)
 	{
+		builder.append("// ").append(node().getClassLocation()).append('\n');
+		
 		ExtensionVTableWriter vtable = getWriter(node().getVTableNodes().getExtensionVTable());
 		
-		MethodDeclaration constructor = node().getProgram().getClassDeclaration("nova/meta/Class").getConstructorList().getChild(0);
+		ClassDeclaration classClass = node().getProgram().getClassDeclaration("nova/meta/Class");
 		
-		//Assignment a = Assignment.generateDefault(method, Location.INVALID);
+		MethodDeclaration constructor = classClass.getConstructorList().getChild(0);
 		
-		MethodCall call = MethodCall.decodeStatement(method, "Class(\"" + node().getClassLocation() + "\", " + (node() instanceof Trait ? "true" : "false") + ")", Location.INVALID, true, false, constructor);
+		MethodCall constructorCall = MethodCall.decodeStatement(method, "Class(\"" + node().getClassLocation() + "\", " + (node() instanceof Trait ? "true" : "false") + ")", Location.INVALID, true, false, constructor);
 		
-		//Literal classData = new Literal(method, Location.INVALID);
-		//classData.value = "";
-		
-		//a.getAssignee().toValue().replaceWith(classData);
-		//a.getAssignmentNode().replaceWith(call);
-		
-		MethodCallWriter callWriter = getWriter(call);
+		MethodCallWriter callWriter = getWriter(constructorCall);
 		
 		builder.append(getVTableClassInstance() + " = " + callWriter.generateSourceFragment() + ";\n");
 		
-		return builder;
+		/////////////////////////////
+		
+		String funMapName = node().getName() + "FunctionMap";
+		
+		ClassDeclaration clazz = node().getFileDeclaration().getClassDeclaration(funMapName);
+		
+		if (clazz != null)
+		{
+			constructor = clazz.getConstructorList().getChild(0);
+			
+			constructorCall = MethodCall.decodeStatement(method, funMapName + "()", Location.INVALID, true, false, constructor);
+			
+			callWriter = getWriter(constructorCall);
+			
+			FieldDeclarationWriter functionMap = getWriter(classClass.getField("functionMap"));
+			
+			builder.append(getVTableClassInstance() + "->" + functionMap.generateSourceName() + " = " + functionMap.generateTypeCast() + callWriter.generateSourceFragment() + ";\n");
+		}
+		
+		return builder.append('\n');
 	}
 	
 	public StringBuilder generateVTableClassPropertyAssignments(StringBuilder builder)
