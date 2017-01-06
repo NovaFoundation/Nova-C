@@ -110,25 +110,51 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		return generateSourceName(builder, uniquePrefix, true);
 	}
 	
+	public String getFunctionMapPrefix()
+	{
+		String output = "";
+		
+		if (node().getParentClass().isPropertyTrue("functionMap"))
+		{
+			output += "functionMap";
+		}
+		
+		return output;
+	}
+	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix, boolean outputOverload)
 	{
+		String postPrefix = "";
+		
+		NovaMethodDeclaration corresponding = (NovaMethodDeclaration)node().getProperty("correspondingFunction");
+		
+		if (corresponding instanceof Constructor)
+		{
+			postPrefix += node().getParameterList().getReferenceParameter().getType();
+		}
+		
+		return generateSourceName(builder, uniquePrefix, outputOverload ? node().overloadID : -1, postPrefix);
+	}
+	
+	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix, int overloadId, String postPrefix)
+	{
+		uniquePrefix = uniquePrefix == null ? "" : uniquePrefix;
+		
 		if (node().getParentClass().getField(node().getName()) != null)
 		{
-			uniquePrefix = (uniquePrefix == null ? "" : uniquePrefix) + "func";
+			uniquePrefix += "func";
 		}
 		
-		if (node().overloadID == -1)
-		{
-			return super.generateSourceName(builder, uniquePrefix);
-		}
+		uniquePrefix += getFunctionMapPrefix();
+		uniquePrefix += postPrefix;
 		
-		if (uniquePrefix == null)
+		if (overloadId == -1)
 		{
-			uniquePrefix = "";
+			return super.generateSourceName(builder, uniquePrefix.length() == 0 ? null : uniquePrefix);
 		}
-		if (outputOverload)
+		else
 		{
-			uniquePrefix += node().overloadID;
+			uniquePrefix += overloadId;
 		}
 		
 		return super.generateSourceName(builder, uniquePrefix);
