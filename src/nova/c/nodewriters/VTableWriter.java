@@ -23,7 +23,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		
 		generateVirtualMethodDeclarations(builder, methods);
 		
-		builder.append("}").append(";\n\n");
+		builder.append("}").append(";");
 		
 		return builder;
 	}
