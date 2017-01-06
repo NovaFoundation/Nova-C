@@ -99,7 +99,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			builder.append(')');
 		}
 		
-		if (node().doesAccess())
+		if (node().doesAccess() && node().getAccessedNode() instanceof MethodCall == false)
 		{
 			InstanceDeclaration instance = node().getTypeClass().getField(node().getAccessedNode().getName());
 			
