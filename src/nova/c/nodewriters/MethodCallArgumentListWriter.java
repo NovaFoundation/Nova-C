@@ -195,7 +195,9 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		MethodCall     call   = node().getMethodCall();
 		CallableMethod method = call.getInferredDeclaration();
 		
-		if (method instanceof Constructor || !node().getMethodCall().getDeclaration().isInstance())
+		if (method instanceof Constructor ||
+			(!node().getMethodCall().getDeclaration().isInstance() &&
+				call.isAccessedWithinStaticContext()))
 		{
 			builder.append(0);
 		}
