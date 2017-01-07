@@ -16,6 +16,18 @@ LDIRS=-L$(home)/../Misc/example/bin
 
 LIBS = -lcrypto
 
+ifdef VERBOSE
+	V=
+	ECHO=@echo
+else
+	V=@
+	ifdef QUIET
+		ECHO=@true
+	else
+		ECHO=@echo
+	endif
+endif
+
 ifndef NOVA_CC
 	CC=gcc
 endif
@@ -96,25 +108,27 @@ rwildcard=$(sort $(dir $(foreach d,$(wildcard $1*/),$(sort $(dir $(call rwildcar
 ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
 
 %.gch: %.h
-	$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
+	$(ECHO) "Compiling '$<'"
+	$(V)$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
 
 %.o: %.c %.d
-	$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
+	$(ECHO) "Compiling '$<'"
+	$(V)$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
 
 %.d:;
 
 .PHONY: install link headers clean
 
 install: $(COMPILE_ITEMS)
-	@echo "Linking program"
-	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(ECHO) "Linking program"
+	$(V)$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 link:
-	@echo "Linking program"
-	$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
+	$(ECHO) "Linking program"
+	$(V)$(CC) $(CFLAGS) $(IDIR) $(COMPILE_ITEMS) -o $(EXEC_PATH) $(LDIRS) $(LIBS)
 
 headers: $(OBJ:.o=.gch)
-	@echo "done headers"
+	$(ECHO) "done headers"
 
 clean:
 #ifeq ($(OS), Windows_NT)
@@ -127,6 +141,6 @@ clean:
 #endif
 #	@echo $(ALL_DIRS)
 #	@echo $(sort $(dir $(wildcard ./*/)))
-	$(foreach var,$(ALL_DIRS),rm -f $(var)*.o $(var)*.gch $(var)*.d;)
+	$(V)$(foreach var,$(ALL_DIRS),rm -f $(var)*.o $(var)*.gch $(var)*.d;)
 
 -include $(ALLOBJ:.o=.d)
