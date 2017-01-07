@@ -18,7 +18,11 @@ LIBS = -lcrypto
 
 ifdef VERBOSE
 	V=
-	ECHO=@echo
+	ifdef QUIET
+		ECHO=@true
+	else
+		ECHO=@echo
+	endif
 else
 	V=@
 	ifdef QUIET
