@@ -38,6 +38,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	
 	private static final String NATIVE_INTERFACE_FILE_NAME = "NovaNativeInterface";
 	private static final String INTERFACE_VTABLE_FILE_NAME = "InterfaceVTable";
+	private static final String SINGLE_FILE_BUILD_FILE_NAME = "NovaOutput";
 	private static final String MAIN_FUNCTION_FILE_NAME = "MainFunction";
 	private static final String VTABLE_DECLARATIONS_FILE_NAME = "VTableDeclarations";
 	private static final String ENVIRONMENT_VAR            = "novaEnv";
@@ -204,46 +205,115 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		allHeaders.append("#include <ExceptionHandler.h>\n");
 		allHeaders.append("#include <setjmp.h>\n").append('\n');
 		
-		for (int i = 0; i < files.length; i++)
+		File headerFile = new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".h");
+		File sourceFile = new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".c");
+		
+		long headerTime = 0;
+		long sourceTime = 0;
+		
+		PrintWriter headerWriter = null;
+		PrintWriter sourceWriter = null;
+		
+		String previousHeader = null;
+		String previousSource = null;
+		
+		try
 		{
-			FileDeclaration file   = files[i];
-			String          header = headers[i];
-			String          source = sources[i];
-			
-			File outputDir = getOutputDirectory(file);
-			
-			new File(outputDir, file.getPackage().getLocation()).mkdirs();
-			
-			types.append("typedef struct ").append(file.getName()).append(' ').append(file.getName()).append(';').append('\n');
-			includes.append("#include <").append(getWriter(file).generateHeaderName()).append('>').append('\n');
-			
-			try
+			if (compileEngine.singleFile)
 			{
+				if (headerFile.isFile())
+				{
+					headerTime = headerFile.lastModified();
+					previousHeader = FileUtils.readFile(headerFile);
+				}
+				
+				if (sourceFile.isFile())
+				{
+					sourceTime = sourceFile.lastModified();
+					previousSource = FileUtils.readFile(sourceFile);
+				}
+				
+				headerWriter = FileUtils.getFileWriter(headerFile, true);
+				sourceWriter = FileUtils.getFileWriter(sourceFile, true);
+				
+				FileUtils.clearFile(headerFile);
+				FileUtils.clearFile(sourceFile);
+				
+				sourceWriter.print("#include \"" + SINGLE_FILE_BUILD_FILE_NAME + ".h\"\n\n");
+				
+				headerWriter.print("#ifndef NOVA_OUTPUT\n");
+				headerWriter.print("#define NOVA_OUTPUT\n\n");
+				
+				for (int i = 0; i < files.length; i++)
+				{
+					FileDeclaration file = files[i];
+					
+					headerWriter.print(getWriter(file).generateDummyTypes(new StringBuilder()).toString());
+				}
+				
+				headerWriter.print("#include <MacroLib.h>\n\n");
+				
+				for (int i = 0; i < files.length; i++)
+				{
+					FileDeclaration file = files[i];
+					
+					headerWriter.print(getWriter(file).generateClosureDefinitions(new StringBuilder()).toString());
+				}
+				
+				headerWriter.print("\n#include <Nova.h>\n");
+				headerWriter.print("#include <pcre/pcre2.h>\n");
+				headerWriter.print("#include <ExceptionHandler.h>\n");
+				
+				headerWriter.print(getAllExternalIncludes() + "\n");
+				headerWriter.print("#include <VTableDeclarations.h>\n\n");
+			}
+			
+			for (int i = 0; i < files.length; i++)
+			{
+				FileDeclaration file   = files[i];
+				String          header = headers[i];
+				String          source = sources[i];
+				
+				File outputDir = getOutputDirectory(file);
+				
+				new File(outputDir, file.getPackage().getLocation()).mkdirs();
+				
+				types.append("typedef struct ").append(file.getName()).append(' ').append(file.getName()).append(';').append('\n');
+				includes.append("#include <").append(getWriter(file).generateHeaderName()).append('>').append('\n');
+			
 				if (!controller.isFlagEnabled(NO_C_OUTPUT))
 				{
-					File headerFile = new File(outputDir, getWriter(file).generateHeaderName());
-					File sourceFile = new File(outputDir, getWriter(file).generateSourceName());
-					
-					if (forceRecompile || file.getFile().lastModified() > headerFile.lastModified())
+					if (compileEngine.singleFile)
 					{
-						if (FileUtils.writeIfDifferent(headerFile, header))
-						{
-							controller.log("Wrote " + headerFile.getCanonicalPath());
-						}
-						else if (compileEngine.forceRecompile)
-						{
-							controller.log("No differences to file " + headerFile.getCanonicalPath());
-						}
+						headerWriter.print(header);
+						sourceWriter.print(source);
 					}
-					if (forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
+					else
 					{
-						if (FileUtils.writeIfDifferent(sourceFile, source))
+						headerFile = new File(outputDir, getWriter(file).generateHeaderName());
+						sourceFile = new File(outputDir, getWriter(file).generateSourceName());
+						
+						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > headerFile.lastModified())
 						{
-							controller.log("Wrote " + sourceFile.getCanonicalPath());
+							if (FileUtils.writeIfDifferent(headerFile, header))
+							{
+								controller.log("Wrote " + headerFile.getCanonicalPath());
+							}
+							else if (compileEngine.forceRecompile)
+							{
+								controller.log("No differences to file " + headerFile.getCanonicalPath());
+							}
 						}
-						else if (compileEngine.forceRecompile)
+						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
 						{
-							controller.log("No differences to file " + sourceFile.getCanonicalPath());
+							if (FileUtils.writeIfDifferent(sourceFile, source))
+							{
+								controller.log("Wrote " + sourceFile.getCanonicalPath());
+							}
+							else if (compileEngine.forceRecompile)
+							{
+								controller.log("No differences to file " + sourceFile.getCanonicalPath());
+							}
 						}
 					}
 					
@@ -251,12 +321,29 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					cSourceFiles.add(sourceFile);
 				}
 			}
-			catch (IOException e)
+			
+			if (compileEngine.singleFile)
 			{
-				e.printStackTrace();
+				headerWriter.print("\n#endif");
 				
-				controller.completed(false);
+				headerWriter.close();
+				sourceWriter.close();
+				
+				if (FileUtils.checkModified(headerFile, headerTime, previousHeader, FileUtils.readFile(headerFile)))
+				{
+					controller.log("Wrote " + headerFile.getCanonicalPath());
+				}
+				if (FileUtils.checkModified(sourceFile, sourceTime, previousSource, FileUtils.readFile(sourceFile)))
+				{
+					controller.log("Wrote " + sourceFile.getCanonicalPath());
+				}
 			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			
+			controller.completed(false);
 		}
 		
 		allHeaders.append(types).append('\n');
@@ -325,6 +412,14 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new VirtualMethodDeclaration[0]);
 	}
 	
+	public String getExternalLocation(String external)
+	{
+		Path outputPath = Paths.get(controller.outputDirectory.toURI());
+		Path targetPath = Paths.get(new File(external).toURI());
+		
+		return outputPath.relativize(targetPath).toString().replace("\\", "/");
+	}
+	
 	public boolean writeMakefile()
 	{
 		try
@@ -337,28 +432,39 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				writer.print("NOVA_DEPS =");
 				
-				for (FileDeclaration file : tree.getFiles())
+				if (compileEngine.singleFile)
 				{
-					writer.print(" " + getWriter(file).generateFullLocation() + ".h");
+					writer.print(" " + SINGLE_FILE_BUILD_FILE_NAME + ".h");
+				}
+				else
+				{
+					for (FileDeclaration file : tree.getFiles())
+					{
+						writer.print(" " + getWriter(file).generateFullLocation() + ".h");
+					}
 				}
 				
 				for (String external : controller.externalImports)
 				{
-					Path outputPath = Paths.get(controller.outputDirectory.toURI());
-					Path targetPath = Paths.get(new File(external).toURI());
+					String location = getExternalLocation(external);
 					
-					String relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
-					
-					writer.print(" " + relative.substring(0, relative.length() - 2) + ".h");
+					writer.print(" " + location.substring(0, location.length() - 2) + ".h");
 				}
 				
 				writer.print("\n");
 				
 				writer.print("NOVA_OBJ =");
 				
-				for (FileDeclaration file : tree.getFiles())
+				if (compileEngine.singleFile)
 				{
-					writer.print(" " + getWriter(file).generateFullLocation() + ".o");
+					writer.print(" " + SINGLE_FILE_BUILD_FILE_NAME + ".o");
+				}
+				else
+				{
+					for (FileDeclaration file : tree.getFiles())
+					{
+						writer.print(" " + getWriter(file).generateFullLocation() + ".o");
+					}
 				}
 				
 				for (String external : controller.externalImports)
@@ -446,9 +552,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						getWriter(i).writeDefaultVTableDeclaration(writer);
 					}
 					
-					writer.print("\n");
-					writer.write(getAllIncludes());
-					writer.print("\n");
+					if (!compileEngine.singleFile)
+					{
+						writer.print("\n");
+						writer.write(getAllIncludes());
+						writer.print("\n");
+					}
 					
 					for (Trait i : interfaces)
 					{
@@ -537,6 +646,18 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		generateNativeInterfaceSource();
 	}
 	
+	public String getAllExternalIncludes()
+	{
+		String output = "";
+		
+		for (String s : controller.externalIncludes)
+		{
+			output += "#include <" + s + ">\n";
+		}
+		
+		return output;
+	}
+	
 	public String getAllIncludes()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -562,7 +683,16 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				writer.append("#ifndef NOVA_NATIVE_INTERFACE\n");
 				writer.append("#define NOVA_NATIVE_INTERFACE\n\n");
 				
-				writer.append(getAllIncludes());
+				if (compileEngine.singleFile)
+				{
+					writer.append("#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
+					writer.append("#include <ExceptionHandler.h>\n");
+					writer.append(getAllExternalIncludes());
+				}
+				else
+				{
+					writer.append(getAllIncludes());
+				}
 				
 				writer.append('\n');
 				
@@ -841,10 +971,21 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 //				{
 //					throw new RuntimeException(e);
 //				}
+				if (compileEngine.singleFile)
+				{
+					writer.append("\n#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
+				}
 				
 				writer.append("\n#include <Nova.h>\n");
-				
-				writer.append(getAllIncludes()).append('\n');
+					
+				if (compileEngine.singleFile)
+				{
+					writer.append("#include <InterfaceVTable.h>\n");
+				}
+				else
+				{
+					writer.append(getAllIncludes()).append('\n');
+				}
 				
 //				try
 //				{
@@ -932,13 +1073,25 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.write("#ifndef NOVA_MAIN_FUNCTION_HEADER\n");
 					writer.write("#define NOVA_MAIN_FUNCTION_HEADER\n\n");
 					
-					writer.write("#include <Nova.h>\n");
+					if (!compileEngine.singleFile)
+					{
+						writer.write("#include <Nova.h>\n");
+					}
+					else
+					{
+						writer.write("#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
+						writer.write("#include <NovaExceptionHandling.h>\n");
+					}
+					
 					writer.write("#include <InterfaceVTable.h>\n");
 					writer.write("#include <ExceptionHandler.h>\n");
 					
-					writer.write("#include <");
-					writer.write(getWriter(fileDeclaration).generateHeaderName());
-					writer.write(">\n");
+					if (!compileEngine.singleFile)
+					{
+						writer.write("#include <");
+						writer.write(getWriter(fileDeclaration).generateHeaderName());
+						writer.write(">\n");
+					}
 					
 					writer.write("\n#endif");
 				});

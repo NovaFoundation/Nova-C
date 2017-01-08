@@ -24,7 +24,7 @@ import static nova.c.nodewriters.Writer.getWriter;
 
 public class CCompileEngine extends CompileEngine
 {
-	public boolean forceRecompile;
+	public boolean forceRecompile, forceCheck, singleFile;
 	
 	private int compiler;
 	
@@ -113,6 +113,10 @@ public class CCompileEngine extends CompileEngine
 			flags |= FORCE_RECOMPILE;
 			
 			forceRecompile = true;
+		}
+		else if (arg.equals("-single-file"))
+		{
+			singleFile = true;
 		}
 		else 
 		{

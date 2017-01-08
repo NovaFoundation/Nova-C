@@ -51,30 +51,46 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		return "#include <" + generateHeaderName() + ">";
 	}
 	
+	public StringBuilder generateDeclarations(StringBuilder builder)
+	{
+		generateDummyTypes(builder).append('\n');
+		
+		generateClosureDefinitions(builder).append('\n');
+		
+		return builder;
+	}
+	
+	public StringBuilder generateClosureDefinitions(StringBuilder builder)
+	{
+		return generateClosureDefinitions(builder, true);
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		if (node().header == null)
 		{
 			ClassDeclaration clazz = node().getClassDeclaration();
 			
-			String definitionName = "FILE_" + getWriter(clazz).generateSourceName() + "_" + Nova.LANGUAGE_NAME.toUpperCase();
-			
-//			builder.append("#pragma once").append('\n');
-			builder.append("#ifndef ").append(definitionName).append('\n');
-			builder.append("#define ").append(definitionName).append("\n\n");
-
-			generateDummyTypes(builder).append('\n');
-			
-			generateClosureDefinitions(builder, true).append('\n');
-			
-			builder.append("#include <Nova.h>\n");
-//			builder.append("#include <VTableDeclarations.h>\n");
-			builder.append("#include <InterfaceVTable.h>\n");
-			builder.append("#include <ExceptionHandler.h>\n");
-//			builder.append("#include <NovaClassData.h>\n");
-			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
-			
-			builder.append('\n');
+			if (!getCompileEngine().singleFile)
+			{
+				String definitionName = "FILE_" + getWriter(clazz).generateSourceName() + "_" + Nova.LANGUAGE_NAME.toUpperCase();
+				
+				//			builder.append("#pragma once").append('\n');
+				builder.append("#ifndef ").append(definitionName).append('\n');
+				builder.append("#define ").append(definitionName).append("\n\n");
+				
+				generateDeclarations(builder);
+				
+				builder.append("#include <Nova.h>\n");
+	//			builder.append("#include <VTableDeclarations.h>\n");
+				builder.append("#include <InterfaceVTable.h>\n");
+				builder.append("#include <ExceptionHandler.h>\n");
+	//			builder.append("#include <NovaClassData.h>\n");
+				
+				Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateHeader(builder));
+				
+				builder.append('\n');
+			}
 			
 			for (int i = 0; i < node().getNumChildren(); i++)
 			{
@@ -86,7 +102,10 @@ public abstract class FileDeclarationWriter extends NodeWriter
 				}
 			}
 			
-			builder.append('\n').append("#endif").append('\n');
+			if (!getCompileEngine().singleFile)
+			{
+				builder.append('\n').append("#endif").append('\n');
+			}
 			
 			node().header = builder;
 		}
@@ -125,7 +144,10 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	{
 		if (node().source == null)
 		{
-			Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateSource(builder));
+			if (!getCompileEngine().singleFile)
+			{
+				Arrays.stream(getRequiredImports()).forEach(i -> getWriter(i).generateSource(builder));
+			}
 			
 			builder.append('\n');
 			
@@ -182,7 +204,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 	 * @return The generated code used for generating the dummy class
 	 * 		types.
 	 */
-	private StringBuilder generateDummyTypes(StringBuilder builder)
+	public StringBuilder generateDummyTypes(StringBuilder builder)
 	{
 		//		builder.append("typedef struct ExceptionData ExceptionData;\n");
 		
