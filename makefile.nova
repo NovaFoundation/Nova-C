@@ -76,7 +76,6 @@ endif
 EXEC_PATH = $(home)/../Misc/example/bin/Executable.exe
 
 EXTRADEPS = VTableDeclarations.h\
-			NovaClassData.h\
 			NovaNativeInterface.h\
 			InterfaceVTable.h\
 			MainFunction.h\
@@ -84,7 +83,6 @@ EXTRADEPS = VTableDeclarations.h\
 			$(home)/include/NovaExceptionHandling.h
 
 EXTRAOBJ = VTableDeclarations.o\
-			NovaClassData.o\
 			NovaNativeInterface.o\
 			MainFunction.o\
 			$(home)/include/Nova.o\
