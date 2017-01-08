@@ -49,9 +49,16 @@
 #	define DEFINED(...) CALL_OVERLOAD(DEFINED, __VA_ARGS__)
 #endif
 
+#ifdef _MSC_VER
+    typedef __int64 int64;
+#else
+#   include <stdint.h>
+    typedef int64_t int64;
+#endif
+
 #if defined(_WIN32) && defined(USE_GC)
-#	define unsigned_long_long unsigned __int64
-#	define long_long __int64
+#	define unsigned_long_long unsigned int64
+#	define long_long int64
 #else
 #	define unsigned_long_long unsigned long long
 #	define long_long long long
