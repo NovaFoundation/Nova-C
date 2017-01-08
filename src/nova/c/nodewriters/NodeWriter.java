@@ -8,10 +8,16 @@ import net.fathomsoft.nova.tree.exceptionhandling.*;
 import net.fathomsoft.nova.tree.lambda.LambdaMethodDeclaration;
 import net.fathomsoft.nova.tree.match.*;
 import net.fathomsoft.nova.tree.variables.*;
+import nova.c.engines.CCompileEngine;
 
 public abstract class NodeWriter extends Writer
 {
 	public abstract Node node();
+	
+	public CCompileEngine getCompileEngine()
+	{
+		return (CCompileEngine)node().getProgram().getController().compileEngine;
+	}
 	
 	/**
 	 * Method that each Node overrides. Returns a String that translates
