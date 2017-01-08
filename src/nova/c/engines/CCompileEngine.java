@@ -114,6 +114,10 @@ public class CCompileEngine extends CompileEngine
 			
 			forceRecompile = true;
 		}
+		else if (arg.equals("-force-check"))
+		{
+			forceCheck = true;
+		}
 		else if (arg.equals("-single-file"))
 		{
 			singleFile = true;
