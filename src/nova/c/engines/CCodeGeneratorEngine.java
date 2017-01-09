@@ -414,8 +414,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	
 	public String getExternalLocation(String external)
 	{
-		Path outputPath = Paths.get(controller.outputDirectory.toURI());
-		Path targetPath = Paths.get(new File(external).toURI());
+		Path outputPath = Paths.get(FileUtils.formAbsolutePath(controller.outputDirectory.getAbsolutePath()));
+		Path targetPath = Paths.get(new File(FileUtils.formAbsolutePath(external)).toURI());
 		
 		return outputPath.relativize(targetPath).toString().replace("\\", "/");
 	}
@@ -469,14 +469,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				
 				for (String external : controller.externalImports)
 				{
-					Path outputPath = Paths.get(controller.outputDirectory.toURI());
-					Path targetPath = Paths.get(new File(external).toURI());
+					String location = getExternalLocation(external);
 					
-					String relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
-					
-					if (new File(external.substring(0, external.length() - 2) + ".c").exists())
+					if (new File(controller.outputDirectory, location.substring(0, location.length() - 2) + ".c").isFile())
 					{
-						writer.print(" " + relative.substring(0, relative.length() - 2) + ".o");
+						writer.print(" " + location.substring(0, location.length() - 2) + ".o");
 					}
 				}
 				
