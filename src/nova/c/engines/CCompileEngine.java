@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -72,6 +73,14 @@ public class CCompileEngine extends CompileEngine
 		}
 		
 		hiddenCompilerMessages = compileMessages.toArray(new String[0]);
+	}
+	
+	@Override
+	public void addIncludeDirectories(HashSet<String> directories)
+	{
+		super.addIncludeDirectories(directories);
+		
+		directories.add(controller.targetEngineWorkingDir.getAbsolutePath());
 	}
 	
 	@Override
