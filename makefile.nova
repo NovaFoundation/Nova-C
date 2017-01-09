@@ -14,7 +14,7 @@ CC = $(NOVA_CC)
 
 LDIRS=-L$(home)/../Misc/example/bin
 
-LIBS = -lcrypto
+LIBS = -lcrypto -lcurl
 
 ifdef VERBOSE
 	V=
