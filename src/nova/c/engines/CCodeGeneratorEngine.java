@@ -1060,6 +1060,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			Constructor   strConstructor  = (Constructor)((MethodCall)Instantiation.decodeStatement(mainMethod, "new String(new Char[0])", mainMethod.getLocationIn(), true).getIdentifier()).getDeclaration();
 			strConstructor.addAnnotation(annotation);
 			
+			String immutableForEach = getWriter(mainMethod.getProgram().getClassDeclaration("nova/datastruct/list/ImmutableArray").getMethods("forEach")[0]).generateSourceName().toString();
+			
 			File header = new File(controller.outputDirectory, MAIN_FUNCTION_FILE_NAME + ".h");
 			File source = new File(controller.outputDirectory, MAIN_FUNCTION_FILE_NAME + ".c");
 			
@@ -1155,7 +1157,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append('\n');
 					writer.append('}').append('\n');
 					writer.append("END_TRY;").append('\n');
-					writer.append("nova_datastruct_list_Nova_ImmutableArray_Nova_forEach((nova_datastruct_list_Nova_ImmutableArray*)nova_thread_Nova_Thread_Nova_ACTIVE_THREADS, exceptionData, (thread_join_function_type)&novaJoinActiveThreads, 0, 0);\n");
+					writer.append(immutableForEach).append("((nova_datastruct_list_Nova_ImmutableArray*)nova_thread_Nova_Thread_Nova_ACTIVE_THREADS, exceptionData, (thread_join_function_type)&novaJoinActiveThreads, 0, 0);\n");
 					
 					if (OS == WINDOWS)
 					{
