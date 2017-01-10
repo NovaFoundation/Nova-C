@@ -35,6 +35,8 @@ char* curl_get_string(char* url)
     CURL *curl;
     CURLcode res;
 
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+
     curl = curl_easy_init();
     
     if(curl) {
@@ -44,8 +46,10 @@ char* curl_get_string(char* url)
         curl_easy_setopt(curl, CURLOPT_URL, url);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writefunc);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &s);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
         res = curl_easy_perform(curl);
-
+        
         /* always cleanup */
         curl_easy_cleanup(curl);
         
