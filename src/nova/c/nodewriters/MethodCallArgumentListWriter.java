@@ -19,7 +19,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	{
 		MethodCall call = node().getMethodCall();
 		
-		CallableMethod method = (CallableMethod)call.getMethodDeclaration();
+		CallableMethod method = call.getCallableMethodBase();
 		
 		builder.append('(');
 		

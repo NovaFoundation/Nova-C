@@ -64,6 +64,8 @@ public abstract class MethodCallWriter extends VariableWriter
 			generateTypeCast(builder);
 		}
 		
+		CallableMethod base = node().getCallableMethodBase();
+		
 		if (callable instanceof ClosureVariable)
 		{
 			ClosureVariable var = (ClosureVariable)callable;
@@ -75,24 +77,9 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			getWriter(var).generateSourceFragment(builder);
 		}
-		else if (callable.isVirtual() && ((NovaMethodDeclaration)method).getVirtualMethod() != null && !node().isVirtualTypeKnown())
-		{
-			NovaMethodDeclaration novaMethod = (NovaMethodDeclaration)method;
-			
-			if (node().getParent() instanceof Super)
-			{
-				novaMethod = (NovaMethodDeclaration)method;
-			}
-			else
-			{
-				novaMethod = novaMethod.getVirtualMethod();
-			}
-			
-			getWriter(novaMethod).generateSourceName(builder);
-		}
 		else
 		{
-			getWriter(method).generateSourceName(builder);
+			getWriter((Identifier)base).generateSourceName(builder);
 		}
 		
 		MethodCallArgumentList args = node().getArgumentList();
