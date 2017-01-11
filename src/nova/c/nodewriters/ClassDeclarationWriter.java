@@ -181,24 +181,33 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		/////////////////////////////
 		
-		String funMapName = node().getName() + "FunctionMap";
+		generateMap(builder, "FunctionMap", method, classClass);
+		generateMap(builder, "PropertyMap", method, classClass);
+		
+		return builder.append('\n');
+	}
+	
+	public StringBuilder generateMap(StringBuilder builder, String type, NovaMethodDeclaration method, ClassDeclaration classClass)
+	{
+		String lower = Character.toLowerCase(type.charAt(0)) + type.substring(1);
+		String funMapName = node().getName() + type;
 		
 		ClassDeclaration clazz = node().getFileDeclaration().getClassDeclaration(funMapName);
 		
 		if (clazz != null)
 		{
-			constructor = clazz.getConstructorList().getChild(0);
+			MethodDeclaration constructor = clazz.getConstructorList().getChild(0);
 			
-			constructorCall = MethodCall.decodeStatement(method, funMapName + "()", Location.INVALID, true, false, constructor);
+			MethodCall constructorCall = MethodCall.decodeStatement(method, funMapName + "()", Location.INVALID, true, false, constructor);
 			
-			callWriter = getWriter(constructorCall);
+			MethodCallWriter callWriter = getWriter(constructorCall);
 			
-			FieldDeclarationWriter functionMap = getWriter(classClass.getField("functionMap"));
+			FieldDeclarationWriter functionMap = getWriter(classClass.getField(lower));
 			
 			builder.append(getVTableClassInstance() + "->" + functionMap.generateSourceName() + " = " + functionMap.generateTypeCast() + callWriter.generateSourceFragment() + ";\n");
 		}
 		
-		return builder.append('\n');
+		return builder;
 	}
 	
 	public StringBuilder generateVTableClassPropertyAssignments(StringBuilder builder)
