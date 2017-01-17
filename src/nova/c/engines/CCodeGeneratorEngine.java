@@ -1146,7 +1146,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("char* message = \"Exception in Thread 'main'\";").append('\n');
 					writer.append("nova_exception_Nova_Exception* base = (nova_exception_Nova_Exception*)").append(Exception.EXCEPTION_DATA_IDENTIFIER).append("->nova_exception_Nova_ExceptionData_Nova_thrownException;").append('\n');
 					writer.append("if (base != 0 && base->nova_exception_Nova_Exception_Nova_message != 0 && base->nova_exception_Nova_Exception_Nova_message != (nova_Nova_String*)nova_null) {").append('\n');
-					writer.append("printf(\"%s: %s\", message, base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_Array_Nova_data);").append('\n');
+					writer.append("printf(\"%s: %s\", message, base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_StringCharArray_Nova_data);").append('\n');
 					writer.append("} else {").append('\n');
 					writer.append("puts(message);").append('\n');
 					writer.append("}").append('\n');
