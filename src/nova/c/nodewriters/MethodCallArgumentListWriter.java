@@ -174,7 +174,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		
 		if (parameter.getDataType() != child.getReturnedNode().getDataType())
 		{
-			if (!node().getMethodCall().getReferenceNode().toValue().isPrimitiveGenericTypeWrapper())//parameter.getArrayDimensions() == 0 || parameter.isWithinExternalContext() || parameter.getArrayDimensions() != child.getReturnedNode().getArrayDimensions())
+//			if (!node().getMethodCall().getReferenceNode().toValue().isPrimitiveGenericTypeWrapper())//parameter.getArrayDimensions() == 0 || parameter.isWithinExternalContext() || parameter.getArrayDimensions() != child.getReturnedNode().getArrayDimensions())
 			{
 				builder.append(parameter.generateDataTypeOutput(child.getReturnedNode().getDataType()));
 			}
