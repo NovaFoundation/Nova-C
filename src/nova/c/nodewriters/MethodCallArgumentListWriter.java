@@ -33,7 +33,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			if (i > 0)
 			{
-				builder.append(", ");
+				builder.append(",\n");
 			}
 			
 			Value arg = values[i];
@@ -99,7 +99,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		
 		while (i < params.getNumVisibleChildren())
 		{
-			builder.append(", ");
+			builder.append(",\n ");
 			
 			DefaultArgumentWriter.generateDefaultArgumentOutput(builder, params.getVisibleChild(i));
 			
@@ -108,11 +108,11 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		
 		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
 		{
-			builder.append(", ").append(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration()).getContextName());
+			builder.append(",\n ").append(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration()).getContextName());
 		}
 		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureVariable)
 		{
-			builder.append(", ");
+			builder.append(",\n ");
 			
 			if (!call.isAccessed())
 			{
@@ -141,7 +141,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			if (node().getNumChildren() > 0)
 			{
-				builder.append(", ");
+				builder.append(",\n ");
 			}
 		}
 		
