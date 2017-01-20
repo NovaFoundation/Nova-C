@@ -233,7 +233,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				referenceClass = ((NovaMethodDeclaration)method).getParameterList().getReferenceParameter().getTypeClass(false);
 			}
 			
-			boolean sameType = SyntaxUtils.isSameType((Value)call.getReferenceNode(), referenceClass, false);
+			boolean sameType = false;//SyntaxUtils.isSameType((Value)call.getReferenceNode(), referenceClass, false);
 			
 			if (call.getParent() instanceof Super == false && method.isVirtual() && !call.isVirtualTypeKnown())
 			{
