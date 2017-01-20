@@ -12,8 +12,6 @@ CFLAGS=
 
 CC = $(NOVA_CC)
 
-LDIRS=-L$(home)/../Misc/example/bin
-
 LIBS = -lcrypto -lcurl
 
 ifdef VERBOSE
@@ -72,8 +70,6 @@ ifndef NO_OPTIMIZE
 		CFLAGS += -march=native -fomit-frame-pointer
 	endif
 endif
-
-EXEC_PATH = $(home)/../Misc/example/bin/Executable.exe
 
 EXTRADEPS = VTableDeclarations.h\
 			NovaNativeInterface.h\
