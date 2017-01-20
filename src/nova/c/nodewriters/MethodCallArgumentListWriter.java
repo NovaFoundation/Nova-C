@@ -160,7 +160,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	 */
 	private StringBuilder generateArgumentPrefix(StringBuilder builder, Value child, int argNum)
 	{
-		Value parameter = node().getMethodCall().getInferredDeclaration().getParameterList().getParameter(argNum);
+		Value parameter = node().getMethodCall().getCallableMethodBase().getParameterList().getParameter(argNum);
 		
 		if (child instanceof Variable)
 		{
@@ -193,7 +193,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	private StringBuilder checkReference(StringBuilder builder)
 	{
 		MethodCall     call   = node().getMethodCall();
-		CallableMethod method = call.getInferredDeclaration();
+		CallableMethod method = call.getCallableMethodBase();
 		
 		if (method instanceof Constructor ||
 			(!node().getMethodCall().getDeclaration().isInstance() &&
