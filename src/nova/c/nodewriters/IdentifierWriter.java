@@ -3,10 +3,7 @@ package nova.c.nodewriters;
 import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.error.SyntaxMessage;
 import net.fathomsoft.nova.tree.*;
-import net.fathomsoft.nova.tree.variables.Array;
-import net.fathomsoft.nova.tree.variables.FieldDeclaration;
-import net.fathomsoft.nova.tree.variables.Variable;
-import net.fathomsoft.nova.tree.variables.VariableDeclaration;
+import net.fathomsoft.nova.tree.variables.*;
 
 public abstract class IdentifierWriter extends ValueWriter implements AccessibleWriter
 {
@@ -114,7 +111,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			VariableDeclaration decl = ((Variable)node()).getDeclaration();
 			
-			if (decl instanceof InstanceDeclaration)
+			if (decl instanceof FieldDeclaration || decl instanceof ClosureVariable)
 			{
 				field = (InstanceDeclaration)decl;
 			}
@@ -130,7 +127,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 			{
 				Value ref = (Value)node().getReferenceNode();
 				
-				if (ref.getTypeClass().isContainingClass(node()))
+				if (ref.getTypeClass().isContainingClass(node()) || ref instanceof ObjectReference)
 				{
 					if (!node().isAccessed())
 					{
