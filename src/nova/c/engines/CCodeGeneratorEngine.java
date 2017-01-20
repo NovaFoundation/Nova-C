@@ -276,7 +276,10 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				
 				File outputDir = getOutputDirectory(file);
 				
-				new File(outputDir, file.getPackage().getLocation()).mkdirs();
+				if (!file.getPackage().isDefaultPackage())
+				{
+					new File(outputDir, file.getPackage().getLocation()).mkdirs();
+				}
 				
 				types.append("typedef struct ").append(file.getName()).append(' ').append(file.getName()).append(';').append('\n');
 				includes.append("#include <").append(getWriter(file).generateHeaderName()).append('>').append('\n');
