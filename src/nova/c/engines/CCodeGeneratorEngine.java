@@ -493,12 +493,20 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.print(relative.length() > 0 ? relative : ".");
 					writer.print("\n");
 					
+					writer.print("EXEC_PATH = \"");
+					writer.print(controller.outputFile.getAbsolutePath().replace('\\', '/'));
+					writer.print("\"\n");
+					
+					writer.print("LDIRS=-L\"");
+					writer.print(controller.installDirectory.getAbsolutePath().replace('\\', '/') + "/bin");
+					writer.print("\"\n");
+					
 					targetPath = Paths.get(controller.targetEngineWorkingDir.getParentFile().getCanonicalPath());
 					relative = outputPath.relativize(targetPath).toString().replace("\\", "/");
 					
-					writer.print("NOVA_STDLIB_LOCATION = ");
+					writer.print("NOVA_STDLIB_LOCATION = \"");
 					writer.print(relative.length() > 0 ? relative : ".");
-					writer.print("/StandardLibrary\n\n");
+					writer.print("/StandardLibrary\"\n\n");
 					
 					writer.print("MAKEFILE_LOCATION = ");
 					writer.print("$(NOVA_COMPILE_HOME)/makefile.nova\n\n");
