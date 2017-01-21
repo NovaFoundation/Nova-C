@@ -59,7 +59,9 @@ else
 	
 	ifeq ($(shell uname), Linux)
 		LDIRS += -L/usr/include/openssl
-		LIBS += -lm -ldl -lc -lmysqlclient -lpcre2-8
+		LIBS += -lm -ldl -lc -lmysqlclient
+	else
+		CFLAGS += -Wno-logical-op-parentheses
 	endif
 	
 	LIBS += -lpthread
