@@ -43,7 +43,7 @@ public abstract class FileDeclarationWriter extends NodeWriter
 		Package pkg = node().getPackage();
 		ClassDeclaration clazz = node().getClassDeclaration();
 		
-		return getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName();
+		return (getWriter(pkg).generateHeaderLocation() + "/" + getWriter(clazz).generateSourceName()).replace(" ", "\\ ");
 	}
 	
 	public String getIncludeStatement()
