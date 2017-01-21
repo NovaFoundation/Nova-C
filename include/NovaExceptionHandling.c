@@ -1,5 +1,7 @@
 #include "NovaExceptionHandling.h"
 
+#ifdef _WIN32
+
 static char const* NOVA_PROGRAM_NAME;
 
 void setProgramName(char* name) {
@@ -172,3 +174,5 @@ void nova_signal_handler(int code) {
         //printStack();
         exit(1);
 }
+
+#endif
