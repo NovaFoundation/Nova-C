@@ -115,7 +115,7 @@ ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
 
 %.o: %.c %.d
 	$(ECHO) "Compiling '$<'"
-	$(V)$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $< $(LDIRS) $(LIBS)
+	$(V)$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $<
 
 %.d:;
 
