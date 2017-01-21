@@ -18,7 +18,7 @@ public abstract class DefaultArgumentWriter extends IValueWriter
 		{
 			if (parameter.isPrimitive())
 			{
-				builder.append("(intptr_t)nova_null");
+				builder.append("(int)(intptr_t)").append(Value.NULL_IDENTIFIER);
 			}
 			else
 			{
