@@ -55,6 +55,7 @@ ifeq ($(OS), Windows_NT)
 	CFLAGS += -mwindows -mconsole -Wl,--enable-stdcall-fixup
 	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
 else
+	CFLAGS += -ggdb
 	LIBS += -lpcre2-8
 	
 	ifeq ($(shell uname), Linux)
