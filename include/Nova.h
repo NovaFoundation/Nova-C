@@ -76,7 +76,7 @@ typedef void (*del_function)(void* reference, nova_exception_Nova_ExceptionData*
  * @destArrLen The length of the destination array (hence C doesn't know any length info about passed arrays)
  * @size The size of the type of the array (ex: if the array of type long, put in this parameter sizeof(long))
  */
-void arrayCopy(void* dest, int dIndex, const void* src, int sIndex, int len, int destArrLen, size_t size);
+void arrayCopy(void* dest, int dIndex, const void* src, int sIndex, int len, int destArrLen);
 
 char* ufgets(FILE* stream);
 

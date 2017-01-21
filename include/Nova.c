@@ -42,10 +42,12 @@ char* ufgets(FILE* stream)
  * @destArrLen The length of the destination array (hence C doesn't know any length info about passed arrays)
  * @size The size of the type of the array (ex: if the array of type long, put in this parameter sizeof(long))
  */
-void arrayCopy(void* dest, int dIndex, const void* src, int sIndex, int len, int destLen, size_t size)
+void arrayCopy(void* dest, int dIndex, const void* src, int sIndex, int len, int destLen)
 {
 	uint8_t *udest = (uint8_t*) dest;
 	uint8_t *usrc = (uint8_t*) src;
+	size_t size = sizeof(dest);
+	
 	dIndex  *= size;
 	sIndex  *= size;
 	len     *= size;
