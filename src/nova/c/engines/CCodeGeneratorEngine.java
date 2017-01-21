@@ -1133,6 +1133,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append(Literal.GARBAGE_IDENTIFIER).append(" = malloc(sizeof(void*));").append('\n');
 					writer.append(getWriter(gcInit).generateSource()).append('\n');
 					writer.append("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
+					writer.append("TRY").append('\n');
+					writer.append('{').append('\n');
 					writer.append(nativeAssignments).append('\n');
 					writer.append(vtableClassInstanceAssignments).append('\n');
 					writer.append(vtableClassInstancePropertyAssignments).append('\n');
@@ -1148,8 +1150,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("}").append('\n');
 					writer.append("nova_datastruct_list_Nova_Array* argsArray = nova_datastruct_list_Nova_Array_2_Nova_construct(0, exceptionData, (nova_Nova_Object**)args, argc);");
 					writer.append('\n');
-					writer.append("TRY").append('\n');
-					writer.append('{').append('\n');
 					writer.append(getWriter(mainMethod).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", argsArray);").append('\n');
 					writer.append('}').append('\n');
 					writer.append("CATCH (").append(getWriter(tree.getRoot().getProgram().getClassDeclaration("nova/exception/Exception")).getVTableClassInstance()).append(')').append('\n');
