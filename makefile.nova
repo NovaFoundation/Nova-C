@@ -44,7 +44,7 @@ ifeq ($(CC), gcc)
 		CFLAGS += -O2
 	endif
 	
-	CFLAGS += -pipe -Wl,--enable-stdcall-fixup
+	CFLAGS += -pipe
 endif
 
 ifndef NO_GC
@@ -52,7 +52,7 @@ ifndef NO_GC
 	LIBS += -lgc
 endif
 ifeq ($(OS), Windows_NT)
-	CFLAGS += -mwindows -mconsole
+	CFLAGS += -mwindows -mconsole -Wl,--enable-stdcall-fixup
 	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
 else
 	ifeq ($(shell uname), Linux)
