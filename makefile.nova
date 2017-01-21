@@ -48,14 +48,13 @@ ifeq ($(CC), gcc)
 endif
 
 ifndef NO_GC
-	CFLAGS += -DUSE_GC
+	CFLAGS += -DUSE_GC -DPARALLEL_MARK -DGC_THREADS
 	LIBS += -lgc
 endif
 ifeq ($(OS), Windows_NT)
 	CFLAGS += -mwindows -mconsole -Wl,--enable-stdcall-fixup
 	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
 else
-	CFLAGS += -ggdb -DPARALLEL_MARK -DGC_THREADS
 	LIBS += -lpcre2-8
 	
 	ifeq ($(shell uname), Linux)
