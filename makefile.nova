@@ -48,7 +48,7 @@ ifeq ($(CC), gcc)
 endif
 
 ifndef NO_GC
-	CFLAGS += -DUSE_GC -DPARALLEL_MARK -DGC_THREADS
+	CFLAGS += -DUSE_GC -DPARALLEL_MARK
 	LIBS += -lgc
 endif
 ifeq ($(OS), Windows_NT)
