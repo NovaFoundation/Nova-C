@@ -1,7 +1,6 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
-import net.fathomsoft.nova.tree.variables.Super;
 import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 
 public abstract class MethodCallWriter extends VariableWriter
