@@ -108,6 +108,7 @@ endif
 rwildcard=$(sort $(dir $(foreach d,$(wildcard $1*/),$(sort $(dir $(call rwildcard,$d*/) $d)))))
 
 ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
+HOME_DIRS = $(patsubst %,%,$(call rwildcard,$(subst \,/,$(home))/nova/))
 
 %.gch: %.h
 	$(ECHO) "Compiling '$<'"
@@ -137,12 +138,16 @@ clean:
 #	$(foreach f, $(GENERATED_FILES), echo $(f);)
 #	$(shell for %%a in ($(GENERATED_FILES)) do if exist "%%a" del "%%a")
 #	@echo "Deleting all *.o and *.gch files"
-#	del /S ./*.o ./*.gch ./*.d
+#	rm -rf $(home)/*.o $(home)/*.gch $(home)/*.d
 #else
 #	rm -f $(GENERATED_FILES)
 #endif
 #	@echo $(ALL_DIRS)
 #	@echo $(sort $(dir $(wildcard ./*/)))
 	$(V)$(foreach var,$(ALL_DIRS),rm -f $(var)*.o $(var)*.gch $(var)*.d;)
+	$(V)$(foreach var,$(HOME_DIRS),\
+		echo removing $(var);\
+		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
+	)
 
 -include $(ALLOBJ:.o=.d)
