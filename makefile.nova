@@ -144,9 +144,12 @@ clean:
 #endif
 #	@echo $(ALL_DIRS)
 #	@echo $(sort $(dir $(wildcard ./*/)))
-	$(V)$(foreach var,$(ALL_DIRS),rm -f $(var)*.o $(var)*.gch $(var)*.d;)
+	$(V)$(foreach var,$(ALL_DIRS),\
+		echo cleaning contents of $(var);\
+		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
+	)
 	$(V)$(foreach var,$(HOME_DIRS),\
-		echo removing $(var);\
+		echo cleaning contents of $(var);\
 		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
 	)
 
