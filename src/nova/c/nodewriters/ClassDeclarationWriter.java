@@ -60,7 +60,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-//			if (method instanceof Constructor == false || !node().isPropertyTrue("functionMap"))
+			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
 			{
 				builder.append("typedef " + getWriter(method).generateType() + " (*");
 				
@@ -79,10 +79,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		{
 			NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 			
-			if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
+			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
 			{
-				getWriter(method).generateSourceNativeName(builder, true).append(" ");
-				getWriter(method).generateSourceNativeName(builder, false).append(";\n");
+				if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
+				{
+					getWriter(method).generateSourceNativeName(builder, true).append(" ");
+					getWriter(method).generateSourceNativeName(builder, false).append(";\n");
+				}
 			}
 		}
 		
@@ -104,7 +107,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration m : methods)
 		{
-//			if (m instanceof Constructor == false || !node().isPropertyTrue("functionMap"))
+			if (m instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)m).isPrimitiveOverload())
 			{
 				NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 				
