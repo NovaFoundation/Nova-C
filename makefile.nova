@@ -109,6 +109,7 @@ rwildcard=$(sort $(dir $(foreach d,$(wildcard $1*/),$(sort $(dir $(call rwildcar
 
 ALL_DIRS = $(patsubst %,%,$(call rwildcard,./))
 HOME_DIRS = $(patsubst %,%,$(call rwildcard,$(subst \,/,$(home))/nova/))
+INCLUDE_DIRS = $(patsubst %,%,$(call rwildcard,$(subst \,/,$(home))/include/))
 
 %.gch: %.h
 	$(ECHO) "Compiling '$<'"
@@ -149,6 +150,10 @@ clean:
 		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
 	)
 	$(V)$(foreach var,$(HOME_DIRS),\
+		echo cleaning contents of $(var);\
+		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
+	)
+	$(V)$(foreach var,$(INCLUDE_DIRS),\
 		echo cleaning contents of $(var);\
 		rm -f $(var)*.o $(var)*.gch $(var)*.d;\
 	)
