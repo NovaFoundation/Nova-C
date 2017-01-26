@@ -148,6 +148,16 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		uniquePrefix += getFunctionMapPrefix();
 		uniquePrefix += postPrefix;
 		
+		if (node().isPrimitiveOverload())
+		{
+			if (uniquePrefix.length() > 0)
+			{
+				uniquePrefix += "_";
+			}
+			
+			uniquePrefix += getPrimitiveOverloadPrefix();
+		}
+		
 		if (overloadId == -1)
 		{
 			return super.generateSourceName(builder, uniquePrefix.length() == 0 ? null : uniquePrefix);
@@ -158,5 +168,41 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		}
 		
 		return super.generateSourceName(builder, uniquePrefix);
+	}
+	
+	public String getPrimitiveOverloadPrefix()
+	{
+		String prefix = "";
+		
+		NovaParameterList params = node().getParameterList();
+		
+		for (int i = 0; i < params.getNumParameters(); i++)
+		{
+			Parameter param = params.getParameter(i);
+			
+			if (param.isPrimitive())
+			{
+				prefix += getWriter(param).generateTypeName() + "_";
+			}
+			else
+			{
+				prefix += param.getType() + "_";
+			}
+		}
+		
+		if (node().getType() == null)
+		{
+			prefix += "void";
+		}
+		else if (node().isPrimitive())
+		{
+			prefix += generateType();
+		}
+		else
+		{
+			prefix += node().getType();
+		}
+		
+		return prefix;
 	}
 }
