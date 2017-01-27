@@ -252,7 +252,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			ClassDeclaration clazz = existing.getParentClass(true);
 			
-			generateClassName(builder, clazz).append('_');
+			getWriter(clazz).generateSourceName(builder).append('_');
 		}
 		
 		if (existing instanceof LocalDeclaration && existing instanceof Parameter == false)
@@ -275,10 +275,5 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		builder.append(Nova.LANGUAGE_NAME).append("_");
 		
 		return builder.append(name);
-	}
-	
-	public StringBuilder generateClassName(StringBuilder builder, ClassDeclaration clazz)
-	{
-		return getWriter(clazz).generateSourceName(builder);
 	}
 }
