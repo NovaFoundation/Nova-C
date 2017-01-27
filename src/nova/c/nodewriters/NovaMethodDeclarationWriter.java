@@ -50,6 +50,11 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 							location += '_';
 						}
 						
+						if (clazz.isPrimitiveOverload())
+						{
+							location += getWriter(clazz).getPrimitiveOverloadPrefix();
+						}
+						
 						location += clazz.getName();
 					}
 					else
