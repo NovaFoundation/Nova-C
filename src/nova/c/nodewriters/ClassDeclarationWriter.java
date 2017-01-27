@@ -215,6 +215,25 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		return builder;
 	}
 	
+	public String getNativeLocation()
+	{
+		String location = node().getPackage().isDefaultPackage() ? "" : node().getPackage().getLocation().replace('/', '_');
+		
+		if (location.length() > 0)
+		{
+			location += "_";
+		}
+		
+		if (node().isPrimitiveOverload())
+		{
+			location += getPrimitiveOverloadPrefix();
+		}
+		
+		location += getName();
+		
+		return location;
+	}
+	
 	public StringBuilder generateVTableClassPropertyAssignments(StringBuilder builder)
 	{
 		generateVTableExtensionAssignment(builder);

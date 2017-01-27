@@ -698,7 +698,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (ClassDeclaration clazz : file.getClassDeclarations())
 					{
-						writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(clazz.getNativeLocation()).append(";\n"));
+						writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(getWriter(clazz).getNativeLocation()).append(";\n"));
 					}
 				}
 				
@@ -903,7 +903,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 								
 								VirtualMethodDeclaration virtual = n.getVirtualMethod();
 								
-								builder.append(ENVIRONMENT_VAR + "." + clazz.getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + clazz.getVTableNodes().getExtensionVTable().getName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
+								builder.append(ENVIRONMENT_VAR + "." + getWriter(clazz).getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + getWriter(clazz.getVTableNodes().getExtensionVTable()).generateSourceName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
 							}
 						}
 					}
