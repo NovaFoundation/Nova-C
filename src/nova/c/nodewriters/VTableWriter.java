@@ -12,7 +12,25 @@ public abstract class VTableWriter extends IIdentifierWriter
 
 		return builder;
 	}
-
+	
+	@Override
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	{
+		return generateTypeName(builder).append("");
+	}
+	
+	@Override
+	public StringBuilder generateTypeName(StringBuilder builder)
+	{
+		return getWriter(node().getParentClass()).generateSourceName(builder).append("_VTable");
+	}
+	
+	@Override
+	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		return generateTypeName(builder).append("_val");
+	}
+	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
 		NovaMethodDeclaration methods[] = node().getVirtualMethods();

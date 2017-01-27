@@ -16,6 +16,12 @@ public abstract class TraitVTableWriter extends VTableWriter
 		return generateType(builder).append(" ").append(TraitVTable.IDENTIFIER);
 	}
 	
+	@Override
+	public StringBuilder generateTypeName(StringBuilder builder)
+	{
+		return builder.append("nova_Interface_VTable");
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		return builder;
