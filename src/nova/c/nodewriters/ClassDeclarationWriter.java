@@ -186,8 +186,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		/////////////////////////////
 		
-		generateMap(builder, "FunctionMap", method, classClass);
-		generateMap(builder, "PropertyMap", method, classClass);
+		if (!node().isPropertyTrue("functionMap"))
+		{
+			generateMap(builder, "FunctionMap", method, classClass);
+			generateMap(builder, "PropertyMap", method, classClass);
+		}
 		
 		return builder.append('\n');
 	}
