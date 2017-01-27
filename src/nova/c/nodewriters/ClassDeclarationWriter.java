@@ -4,6 +4,8 @@ import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.Package;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
+import net.fathomsoft.nova.tree.generics.GenericTypeParameter;
+import net.fathomsoft.nova.tree.generics.GenericTypeParameterList;
 import net.fathomsoft.nova.tree.variables.FieldList;
 import net.fathomsoft.nova.tree.variables.InstanceFieldList;
 import net.fathomsoft.nova.util.Location;
@@ -525,6 +527,36 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	{
 		Package p = node().getFileDeclaration().getPackage();
 		
-		return getWriter(p).generateLocation(builder).append('_');
+		getWriter(p).generateLocation(builder).append('_');
+		
+		if (node().isPrimitiveOverload())
+		{
+			builder.append(getPrimitiveOverloadPrefix());
+		}
+		
+		return builder;
+	}
+	
+	public String getPrimitiveOverloadPrefix()
+	{
+		String prefix = "";
+		
+		Value[] types = node().primitiveOverloadTypes;
+		
+		for (int i = 0; i < types.length; i++)
+		{
+			Value type = types[i];
+			
+//			if (type.isPrimitiveType())
+//			{
+//				prefix += getWriter(type).generateTypeName() + "_";
+//			}
+//			else
+			{
+				prefix += type.getType() + "_";
+			}
+		}
+		
+		return prefix;
 	}
 }
