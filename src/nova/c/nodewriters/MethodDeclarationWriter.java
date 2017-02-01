@@ -8,7 +8,7 @@ public abstract class MethodDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
-		return generateHeaderFragment(builder);
+		return generateHeaderFragment(builder).append("\n");
 	}
 	
 	public StringBuilder generateHeaderFragment(StringBuilder builder)
