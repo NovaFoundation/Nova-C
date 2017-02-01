@@ -322,6 +322,15 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		VTable extension = node().getVTableNodes().getExtensionVTable();
 
 		builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
+		
+		if (node().containsNonStaticPrivateData())
+		{
+			builder.append("struct Private_").append(generateSourceName()).append("* prv;").append('\n');
+		}
+		else
+		{
+			builder.append("void* prv;").append('\n');
+		}
 
 		//writeClassDataDeclaration(builder);
 		
@@ -337,11 +346,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		for (ClosureVariable c : variables)
 		{
 			getWriter(c).generateDeclaration(builder);
-		}
-		
-		if (node().containsNonStaticPrivateData())
-		{
-			builder.append("struct Private_").append(generateSourceName()).append("* prv;").append('\n');
 		}
 		
 		builder.append(')').append('\n');
