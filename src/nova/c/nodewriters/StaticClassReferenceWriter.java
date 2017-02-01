@@ -33,9 +33,16 @@ public abstract class StaticClassReferenceWriter extends IIdentifierWriter
 	
 	public StringBuilder generateArgumentReference(StringBuilder builder, Identifier callingMethod)
 	{
-		if (node().doesAccess() && node().getAccessedNode() instanceof MethodCall == false)
+		if (node().doesAccess())
 		{
-			return getWriter(node().getAccessedNode()).generateArgumentReference(builder, callingMethod);
+			if (node().getAccessedNode().getName().equals("class"))
+			{
+				return generateUseOutput(builder);
+			}
+			else if (node().getAccessedNode() instanceof MethodCall == false)
+			{
+				return getWriter(node().getAccessedNode()).generateArgumentReference(builder, callingMethod);
+			}
 		}
 		
 		return builder.append(0);//getAccessedNode().generateArgumentReference(builder, callingMethod);
