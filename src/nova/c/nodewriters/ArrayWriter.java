@@ -22,7 +22,7 @@ public abstract class ArrayWriter extends VariableDeclarationWriter
 			builder.append("nova_gen_array(");
 		}
 		
-		builder.append("NOVA_MALLOC(sizeof(").append(generateTypeClassName()).append(")");
+		builder.append("NOVA_MALLOC(sizeof(").append(generateTypeName()).append(")");
 		
 		Dimensions dim = node().getDimensions();
 		
