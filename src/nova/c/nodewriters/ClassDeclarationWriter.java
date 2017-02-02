@@ -62,7 +62,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration method : methods)
 		{
-			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
+//			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
 			{
 				builder.append("typedef " + getWriter(method).generateType() + " (*");
 				
@@ -81,7 +81,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		{
 			NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 			
-			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
+//			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
 			{
 				if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 				{
