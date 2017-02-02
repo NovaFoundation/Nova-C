@@ -109,7 +109,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		for (MethodDeclaration m : methods)
 		{
-			if (m instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)m).isPrimitiveOverload())
+//			if (m instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)m).isPrimitiveOverload())
 			{
 				NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 				
