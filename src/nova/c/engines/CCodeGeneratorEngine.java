@@ -440,7 +440,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (FileDeclaration file : tree.getFiles())
 					{
-						writer.print(" " + getWriter(file).generateFullLocation() + ".h");
+						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/') + ".h");
 					}
 				}
 				
@@ -448,7 +448,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					String location = getExternalLocation(external);
 					
-					writer.print(" " + location.substring(0, location.length() - 2).replace(" ", "\\ ") + ".h");
+					writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/') + ".h");
 				}
 				
 				writer.print("\n");
@@ -463,7 +463,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (FileDeclaration file : tree.getFiles())
 					{
-						writer.print(" " + getWriter(file).generateFullLocation() + ".o");
+						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/') + ".o");
 					}
 				}
 				
@@ -473,30 +473,31 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					if (new File(location.substring(0, location.length() - 2) + ".c").isFile())
 					{
-						writer.print(" " + location.substring(0, location.length() - 2).replace(" ", "\\ ") + ".o");
+						writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/') + ".o");
 					}
 				}
 				
 				writer.print("\n\n");
 				
 				writer.print("NOVA_COMPILE_HOME = ");
-				writer.print(controller.targetEngineWorkingDir.getAbsolutePath().replace(" ", "\\ "));
+				writer.print(controller.targetEngineWorkingDir.getAbsolutePath().replace('\\', '/'));
 				writer.print("\n");
 				
 				writer.print("EXEC_PATH = ");
-				writer.print(controller.outputFile.getAbsolutePath().replace('\\', '/').replace(" ", "\\ "));
+				writer.print(formatPath(controller.outputFile.getAbsolutePath()));
 				writer.print("\n");
 				
 				writer.print("LDIRS=-L");
-				writer.print(controller.installDirectory.getAbsolutePath().replace('\\', '/').replace(" ", "\\ ") + "/bin");
+				writer.print(formatPath(controller.installDirectory.getAbsolutePath() + "/bin"));
 				writer.print("\n");
 				
 				writer.print("NOVA_STDLIB_LOCATION = ");
-				writer.print(controller.targetEngineWorkingDir.getParentFile().getAbsolutePath().replace(" ", "\\ "));
+				writer.print(controller.targetEngineWorkingDir.getParentFile().getAbsolutePath().replace('\\', '/'));
 				writer.print("/StandardLibrary\n\n");
 				
 				writer.print("MAKEFILE_LOCATION = ");
-				writer.print("$(NOVA_COMPILE_HOME)/makefile.nova\n\n");
+				writer.print("$(NOVA_COMPILE_HOME)/makefile.nova");
+				writer.print("\n\n");
 				
 				writer.print("include $(MAKEFILE_LOCATION)");
 			}, forceRecompile);
@@ -512,6 +513,18 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		return true;
+	}
+	
+	public String formatPath(String path)
+	{
+		if (controller.isFlagEnabled(Nova.QUOTE_PATHS))
+		{
+			return '"' + path + '"';
+		}
+		else
+		{
+			return path.replace('\\', '/').replace(" ", "\\ ");
+		}
 	}
 	
 	public boolean writeClassData()
