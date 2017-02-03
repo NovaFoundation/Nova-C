@@ -440,7 +440,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (FileDeclaration file : tree.getFiles())
 					{
-						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/') + ".h");
+						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/').replace(" ", "\\ ") + ".h");
 					}
 				}
 				
@@ -448,7 +448,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					String location = getExternalLocation(external);
 					
-					writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/') + ".h");
+					writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/').replace(" ", "\\ ") + ".h");
 				}
 				
 				writer.print("\n");
@@ -463,7 +463,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (FileDeclaration file : tree.getFiles())
 					{
-						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/') + ".o");
+						writer.print(" " + getWriter(file).generateFullLocation().replace('\\', '/').replace(" ", "\\ ") + ".o");
 					}
 				}
 				
@@ -473,14 +473,14 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					if (new File(location.substring(0, location.length() - 2) + ".c").isFile())
 					{
-						writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/') + ".o");
+						writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/').replace(" ", "\\ ") + ".o");
 					}
 				}
 				
 				writer.print("\n\n");
 				
 				writer.print("NOVA_COMPILE_HOME = ");
-				writer.print(controller.targetEngineWorkingDir.getAbsolutePath().replace('\\', '/'));
+				writer.print(controller.targetEngineWorkingDir.getAbsolutePath().replace('\\', '/').replace(" ", "\\ "));
 				writer.print("\n");
 				
 				writer.print("EXEC_PATH = ");
@@ -492,7 +492,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				writer.print("\n");
 				
 				writer.print("NOVA_STDLIB_LOCATION = ");
-				writer.print(controller.targetEngineWorkingDir.getParentFile().getAbsolutePath().replace('\\', '/'));
+				writer.print(controller.targetEngineWorkingDir.getParentFile().getAbsolutePath().replace('\\', '/').replace(" ", "\\ "));
 				writer.print("/StandardLibrary\n\n");
 				
 				writer.print("MAKEFILE_LOCATION = ");
