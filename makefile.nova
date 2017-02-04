@@ -12,7 +12,7 @@ CFLAGS=
 
 CC = $(NOVA_CC)
 
-LIBS = -lcrypto -lcurl
+LIBS = 
 
 ifdef VERBOSE
 	V=
