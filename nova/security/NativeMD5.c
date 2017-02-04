@@ -1,6 +1,6 @@
 #include "NativeMD5.h"
 
-char* nova_md5(char* input)
+/*char* nova_md5(char* input)
 {
 	int n;
 	int length;
@@ -35,4 +35,4 @@ char* nova_md5(char* input)
     }
 
     return out;
-}
+}*/
