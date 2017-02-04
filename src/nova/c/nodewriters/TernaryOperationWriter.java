@@ -1,7 +1,6 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
-import net.fathomsoft.nova.tree.generics.GenericTypeArgument;
 
 public abstract class TernaryOperationWriter extends IValueWriter implements AccessibleWriter
 {
@@ -33,7 +32,7 @@ public abstract class TernaryOperationWriter extends IValueWriter implements Acc
 		trueType = trueNode.getTypeClass();
 		falseType = falseNode.getTypeClass();
 		
-		if (trueType != falseType)
+		if (trueType != falseType || t instanceof Cast || f instanceof Cast)
 		{
 			ClassDeclaration commonClass = trueType.getCommonAncestor(falseNode.getTypeClass());
 			Value castNode;
@@ -50,25 +49,6 @@ public abstract class TernaryOperationWriter extends IValueWriter implements Acc
 			trueValue = getWriter(castNode).generateTypeCast() + trueValue;
 			falseValue = getWriter(castNode).generateTypeCast() + falseValue;
 		}
-		
-//		if (trueNode.isGenericType())
-//		{
-//			GenericTypeArgument arg = trueNode.getGenericTypeParameter().getCorrespondingArgument(trueNode);
-//			
-//			if (arg != null && !arg.isGenericType())
-//			{
-//				trueValue = getWriter(arg).generateTypeCast() + trueValue;
-//			}
-//		}
-//		if (falseNode.isGenericType())
-//		{
-//			GenericTypeArgument arg = falseNode.getGenericTypeParameter().getCorrespondingArgument(falseNode);
-//			
-//			if (arg != null && !arg.isGenericType())
-//			{
-//				falseValue = getWriter(arg).generateTypeCast() + falseValue;
-//			}
-//		}
 		
 		Value condition = node().getCondition();
 		
