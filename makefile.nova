@@ -113,11 +113,11 @@ INCLUDE_DIRS = $(patsubst %,%,$(call rwildcard,$(subst \,/,$(home))/include/))
 
 %.gch: %.h
 	$(ECHO) "Compiling '$<'"
-	$(V)$(CC) $(CFLAGS) $(IDIR) -c -o $@ $<
+	$(V)$(CC) $(CFLAGS) $(IDIR) -c -o "$@" "$<"
 
 %.o: %.c %.d
 	$(ECHO) "Compiling '$<'"
-	$(V)$(CC) -MMD $(CFLAGS) $(IDIR) -c -o $@ $<
+	$(V)$(CC) -MMD $(CFLAGS) $(IDIR) -c -o "$@" "$<"
 
 %.d:;
 
