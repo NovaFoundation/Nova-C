@@ -36,7 +36,7 @@ public abstract class LiteralWriter extends IValueWriter implements AccessibleWr
 			
 			return getWriter(str).generateSourceFragment(builder);
 		}
-		else if (node().isNullLiteral(node()))
+		else if (node().isNullLiteral())
 		{
 			return generateNullOutput(builder);
 		}
