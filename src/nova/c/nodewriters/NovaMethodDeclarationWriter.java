@@ -18,7 +18,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 	
 	public StringBuilder generateClosureContext(StringBuilder builder)
 	{
-		return builder.append(NovaMethodDeclaration.NULL_IDENTIFIER);
+		return builder.append(NovaMethodDeclarationWriter.NULL_IDENTIFIER);
 	}
 	
 	public StringBuilder generateSourceNativeName(StringBuilder builder, boolean declaration)

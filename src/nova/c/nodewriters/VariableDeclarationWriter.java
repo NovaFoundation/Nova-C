@@ -51,7 +51,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		}
 		else
 		{
-			builder.append(ClosureDeclaration.NULL_IDENTIFIER);//method.getParameterList().getObjectReference().generateNullOutput(builder);
+			builder.append(ClosureDeclarationWriter.NULL_IDENTIFIER);//method.getParameterList().getObjectReference().generateNullOutput(builder);
 		}
 		
 		return builder;
@@ -111,7 +111,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		}
 		else
 		{
-			builder.append(generateTypeCast()).append(Value.NULL_IDENTIFIER);
+			builder.append(generateTypeCast()).append(ValueWriter.NULL_IDENTIFIER);
 		}
 		
 		return builder;

@@ -49,7 +49,7 @@ public abstract class DefaultParameterInitializationWriter extends NodeWriter
 		
 		if (param.isPrimitive())
 		{
-			builder.append("(int)(intptr_t)").append(Value.NULL_IDENTIFIER);
+			builder.append("(int)(intptr_t)").append(ValueWriter.NULL_IDENTIFIER);
 		}
 		else
 		{

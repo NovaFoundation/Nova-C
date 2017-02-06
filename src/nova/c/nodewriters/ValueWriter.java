@@ -5,6 +5,8 @@ import net.fathomsoft.nova.util.SyntaxUtils;
 
 public abstract class ValueWriter extends NodeWriter
 {
+	public static final String NULL_IDENTIFIER = "nova_null";//"(*nova_null_ptr)";
+	
 	public abstract Value node();
 	
 	public StringBuilder generateHeader(StringBuilder builder)
@@ -50,7 +52,7 @@ public abstract class ValueWriter extends NodeWriter
 	 */
 	public StringBuilder generateNullOutput(StringBuilder builder)
 	{
-		return generateTypeCast(builder).append(Value.NULL_IDENTIFIER);
+		return generateTypeCast(builder).append(ValueWriter.NULL_IDENTIFIER);
 	}
 	
 	public StringBuilder generateArgumentOutput(StringBuilder builder)
