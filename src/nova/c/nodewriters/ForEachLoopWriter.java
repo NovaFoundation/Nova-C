@@ -12,6 +12,8 @@ public abstract class ForEachLoopWriter extends LoopWriter
 		
 		Value hasNextCheck = node().getHasNextCheck();
 		
+		getWriter(node().elementDeclaration).generateSource(builder);
+		
 		builder.append("while (").append(getWriter(hasNextCheck).generateSourceFragment()).append(')').append('\n');
 		
 		for (int i = 0; i < node().getNumChildren(); i++)
