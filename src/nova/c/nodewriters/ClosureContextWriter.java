@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 
 public abstract class ClosureContextWriter extends TypeListWriter
 {
@@ -25,6 +26,17 @@ public abstract class ClosureContextWriter extends TypeListWriter
                 var.originalDeclaration.setIsValueReference(true);
                 var.originalDeclaration.generateSource(builder);
                 var.originalDeclaration.setIsValueReference(original);*/
+			
+			VariableDeclaration root = var.getRootDeclaration();
+			
+			if (root instanceof ClosureDeclaration)
+			{
+				builder.append("void* ");
+				getWriter(root).generateObjectReferenceIdentifier(builder).append(";\n");
+				
+				builder.append("void* ");
+				builder.append(root.getContextName()).append(";\n");
+			}
 		}
 		
 		builder.append("} ").append(node().getName());
