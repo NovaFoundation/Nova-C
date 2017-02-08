@@ -1127,6 +1127,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("srand(currentTimeMillis());").append('\n');
 					writer.append(getWriter(gcInit).generateSource()).append('\n');
 					writer.append(Literal.GARBAGE_IDENTIFIER).append(" = malloc(sizeof(void*));").append('\n');
+					writer.append("nova_thread_semaphore = CreateSemaphore(0, 1, 1, 0);").append('\n');
 					writer.append("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
 					writer.append("TRY").append('\n');
 					writer.append('{').append('\n');
