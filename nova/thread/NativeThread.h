@@ -62,4 +62,8 @@ struct DataStruct
 NOVA_THREAD_FUNC lib_nova_thread_run(NOVA_THREAD_FUNC_ARG arg);
 NOVA_THREAD_HANDLE* create_thread(nova_thread_Nova_Thread* this, run_method method, void* ref, void* context);
 
+#ifdef _WIN32
+    extern HANDLE nova_thread_semaphore;
+#endif
+
 #endif
