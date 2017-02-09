@@ -14,7 +14,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 	}
 	
 	@Override
-	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
 		return generateTypeName(builder).append("");
 	}

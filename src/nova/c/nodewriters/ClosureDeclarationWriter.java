@@ -31,7 +31,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 		return builder;
 	}
 	
-	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
 		return builder.append(generateSourceName("closure" + node().id));
 	}
@@ -55,7 +55,7 @@ public abstract class ClosureDeclarationWriter extends ParameterWriter
 	{
 		builder.append("typedef ");
 		
-		super.generateType(builder, true, true).append(" (*").append(generateSourceName("closure" + node().id)).append(')');
+		super.generateType(builder, true, true, true).append(" (*").append(generateSourceName("closure" + node().id)).append(')');
 		
 		ParameterList params = node().getParameterList();
 		
