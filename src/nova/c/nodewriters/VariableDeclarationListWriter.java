@@ -55,14 +55,37 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
+		for (ClosureContextDeclaration child : node().closureContextDeclarations)
+		{
+			generateDeclaration(builder, child);
+		}
+		
+		if (node().parent.parent instanceof NovaMethodDeclaration)
+		{
+			NovaMethodDeclaration method = (NovaMethodDeclaration)node().parent.parent;
+			
+			if (method instanceof Constructor == false)
+			{
+				if (!method.isPrimitiveOverload() && method instanceof InitializationMethod)
+				{
+					method = ((InitializationMethod)method).constructor;
+				}
+				
+				for (Parameter param : method.getParameterList())
+				{
+					for (ClosureVariableDeclaration c : param.closureVariableDeclarations)
+					{
+						getWriter(c).generateAssignment(builder);
+					}
+				}
+			}
+		}
+		
 		for (int i = 0; i < node().getNumChildren(); i++)
 		{
 			LocalDeclaration child = (LocalDeclaration)node().getChild(i);
 			
-			getWriter(child).generateDeclarationFragment(builder).append(" = ");
-			getWriter(child).generateDefaultValue(builder);
-			
-			builder.append(";\n");
+			generateDeclaration(builder, child);
 		}
 		
 		if (node().getNumChildren() > 0)
