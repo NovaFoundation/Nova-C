@@ -31,6 +31,28 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		return builder;
 	}
 	
+	public StringBuilder generateDeclaration(StringBuilder builder, LocalDeclaration child)
+	{
+		getWriter(child).generateDeclarationFragment(builder).append(" = ");
+		
+		if (child.isAllocatedOnHeap())
+		{
+			getWriter(child).generateTypeCast(builder).append("NOVA_MALLOC(sizeof(");
+			getWriter(child).generateType(builder, true, true, false).append("));\n");
+			
+			getWriter(child).generateUseOutput(builder).append(" = ");
+		}
+		
+		getWriter(child).generateDefaultValue(builder).append(";\n");
+		
+		for (ClosureVariableDeclaration c : child.closureVariableDeclarations)
+		{
+			getWriter(c).generateAssignment(builder);
+		}
+		
+		return builder;
+	}
+	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
 		for (int i = 0; i < node().getNumChildren(); i++)
