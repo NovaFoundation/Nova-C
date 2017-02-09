@@ -1552,6 +1552,11 @@ public class Writer
 		return (VariableDeclarationWriter)getWriter((Node)node);
 	}
 	
+	public static ClosureVariableDeclarationWriter getWriter(final ClosureVariableDeclaration node)
+	{
+		return (ClosureVariableDeclarationWriter)getWriter((Node)node);
+	}
+	
 	public static VariableWriter getWriter(final Variable node)
 	{
 		return (VariableWriter)getWriter((Node)node);
