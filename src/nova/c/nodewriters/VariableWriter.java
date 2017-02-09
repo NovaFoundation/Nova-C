@@ -22,7 +22,18 @@ public abstract class VariableWriter extends IdentifierWriter
 		
 		if (node().declaration instanceof ClosureVariableDeclaration)
 		{
+			ClosureVariableDeclaration decl = (ClosureVariableDeclaration)node().declaration;
+			
+			if (decl.getRootDeclaration() instanceof ClosureDeclaration == false)
+			{
+				builder.append("*");
+			}
+			
 			builder.append(ClosureVariableDeclaration.CONTEXT_VARIABLE_NAME).append("->");
+		}
+		else
+		{
+			builder.append("*");
 		}
 		
 		return builder;

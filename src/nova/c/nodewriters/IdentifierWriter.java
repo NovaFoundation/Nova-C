@@ -148,7 +148,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		
 		if (node().isValueReference())
 		{
-			builder.append("(*");
+			builder.append("(");
 			
 //			if (node().requiresHeapAllocation())
 //			{
