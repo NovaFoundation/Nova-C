@@ -33,6 +33,23 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		return builder;
 	}
 	
+	public StringBuilder generateInheritedContext(StringBuilder builder, ClosureContextDeclaration declaration)
+	{
+		ClosureContext context = declaration.context;
+		
+		for (ClosureVariableDeclaration c : context)
+		{
+			if (c.originalDeclaration instanceof ClosureVariableDeclaration)
+			{
+				builder.append(declaration.getName()).append("->");
+				getWriter(c).generateSourceName(builder).append(" = context->");
+				getWriter(c.originalDeclaration).generateSourceName(builder).append(";\n");
+			}
+		}
+		
+		return builder;
+	}
+	
 	public StringBuilder generateDeclaration(StringBuilder builder, LocalDeclaration child)
 	{
 		getWriter(child).generateDeclarationFragment(builder).append(" = ");
