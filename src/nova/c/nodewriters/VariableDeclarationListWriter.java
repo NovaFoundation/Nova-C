@@ -64,7 +64,11 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		
 		getWriter(child).generateDefaultValue(builder).append(";\n");
 		
-		for (ClosureVariableDeclaration c : child.closureVariableDeclarations)
+		if (child instanceof ClosureContextDeclaration)
+		{
+			generateInheritedContext(builder, (ClosureContextDeclaration)child);
+		}
+		else
 		{
 			Optional<ClosureVariableDeclaration> first = child.closureVariableDeclarations.stream().findFirst();
 			
@@ -78,6 +82,7 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 				{
 					getWriter(c).generateAssignment(builder, first.get());
 				}
+			}
 		}
 		
 		return builder;
