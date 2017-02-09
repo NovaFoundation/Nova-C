@@ -29,9 +29,17 @@ public abstract class LocalDeclarationWriter extends VariableDeclarationWriter
                 }
                 
                 return builder;*/
-			return getWriter(node().implicitType).generateType(builder, checkArray, checkValueReference);
+			getWriter(node().implicitType).generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
+			
+			
+			if (checkAllocatedOnHeap && node().isAllocatedOnHeap())
+			{
+				builder.append("*");
+			}
+			
+			return builder;
 		}
 		
-		return super.generateType(builder, checkArray, checkValueReference);
+		return super.generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
 	}
 }
