@@ -4,6 +4,8 @@ import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 import net.fathomsoft.nova.tree.variables.VariableDeclarationList;
 
+import java.util.Optional;
+
 public abstract class VariableDeclarationListWriter extends ListWriter
 {
 	public abstract VariableDeclarationList node();
@@ -47,7 +49,18 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		
 		for (ClosureVariableDeclaration c : child.closureVariableDeclarations)
 		{
-			getWriter(c).generateAssignment(builder);
+			Optional<ClosureVariableDeclaration> first = child.closureVariableDeclarations.stream().findFirst();
+			
+			for (ClosureVariableDeclaration c : child.closureVariableDeclarations)
+			{
+				if (c == first.get())
+				{
+					getWriter(c).generateAssignment(builder);
+				}
+				else
+				{
+					getWriter(c).generateAssignment(builder, first.get());
+				}
 		}
 		
 		return builder;
@@ -73,9 +86,18 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 				
 				for (Parameter param : method.getParameterList())
 				{
+					Optional<ClosureVariableDeclaration> first = param.closureVariableDeclarations.stream().findFirst();
+					
 					for (ClosureVariableDeclaration c : param.closureVariableDeclarations)
 					{
-						getWriter(c).generateAssignment(builder);
+						if (c == first.get())
+						{
+							getWriter(c).generateAssignment(builder);
+						}
+						else
+						{
+							getWriter(c).generateAssignment(builder, first.get());
+						}
 					}
 				}
 			}
