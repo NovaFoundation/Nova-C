@@ -6,7 +6,18 @@ public abstract class LocalDeclarationWriter extends VariableDeclarationWriter
 {
 	public abstract LocalDeclaration node();
 	
-	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	@Override
+	public StringBuilder generatePointers(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
+	{
+		if (checkAllocatedOnHeap && node().isAllocatedOnHeap())
+		{
+			builder.append("*");
+		}
+		
+		return super.generatePointers(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
+	}
+	
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
 		if (node().isImplicit())
 		{
