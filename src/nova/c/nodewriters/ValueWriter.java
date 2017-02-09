@@ -135,10 +135,25 @@ public abstract class ValueWriter extends NodeWriter
 		return generateType(builder, checkArray, true);
 	}
 	
-	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	public final StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	{
+		return generateType(builder, checkArray, checkValueReference, true);
+	}
+	
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
 		generateTypeName(builder);
 		
+		return generatePointers(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
+	}
+	
+	public final StringBuilder generatePointers(StringBuilder builder, boolean checkArray, boolean checkValueReference)
+	{
+		return generatePointers(builder, checkArray, checkValueReference, true);
+	}
+	
+	public StringBuilder generatePointers(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
+	{
 		if (node().isReference())
 		{
 			builder.append('&');
@@ -230,7 +245,12 @@ public abstract class ValueWriter extends NodeWriter
 	
 	public final StringBuilder generateTypeCast(StringBuilder builder, boolean checkArray, boolean checkValueReference)
 	{
-		return builder.append('(').append(generateType(new StringBuilder(), checkArray, checkValueReference)).append(')').append(generatePointerToValueConversion());
+		return generateTypeCast(builder, checkArray, checkValueReference, true);
+	}
+	
+	public final StringBuilder generateTypeCast(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
+	{
+		return builder.append('(').append(generateType(new StringBuilder(), checkArray, checkValueReference, checkAllocatedOnHeap)).append(')').append(generatePointerToValueConversion());
 	}
 	
 	public StringBuilder generatePointerToValueConversion()
