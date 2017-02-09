@@ -4,6 +4,7 @@ import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.tree.variables.Super;
 import net.fathomsoft.nova.tree.variables.Variable;
+import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 import net.fathomsoft.nova.util.SyntaxUtils;
 
 public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
@@ -60,9 +61,14 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				
 				boolean sameType = SyntaxUtils.isSameType(arg.getReturnedNode(), param, false) || param.isPrimitiveType() && arg.isPrimitiveType();
 				
-				if (arg instanceof Variable && ((Variable)arg).getDeclaration() instanceof ClosureDeclaration)
+				if (arg instanceof Variable)
 				{
-					getWriter(param).generateTypeCast(builder);
+					VariableDeclaration declaration = ((Variable)arg).declaration;
+					
+					if (declaration instanceof ClosureDeclaration)
+					{
+						getWriter(param).generateTypeCast(builder);
+					}
 				}
 				
 				if (!sameType)
@@ -89,6 +95,23 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				if (!sameType)
 				{
 					builder.append(')');
+				}
+				
+				if (arg instanceof Variable)
+				{
+					VariableDeclaration declaration = ((Variable)arg).declaration;
+					
+					if (declaration instanceof ClosureVariableDeclaration)
+					{
+						ClosureVariableDeclaration decl = (ClosureVariableDeclaration)declaration;
+						
+						if (decl.getRootDeclaration() instanceof ClosureDeclaration)
+						{
+							builder.append(", ");
+							
+							getWriter(decl).generateClosureContextValues(builder, (ClosureDeclaration)decl.getRootDeclaration(), ", ", "");
+						}
+					}
 				}
 			}
 			
