@@ -19,6 +19,27 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		return generateDeclarationFragment(builder).append(";\n");
 	}
 	
+	@Override
+	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		return generateIdentifierSourceName(builder, uniquePrefix);
+	}
+	
+	public StringBuilder generateIdentifierSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		return super.generateSourceName(builder, uniquePrefix);
+	}
+	
+	public StringBuilder generateSourceClosureVariableName(StringBuilder builder, String uniquePrefix)
+	{
+		if (node().requiresHeapAllocation())
+		{
+			return builder.append("(*").append(getWriter(node().closureVariableDeclarations.get(0)).getHeapVariableName()).append(")");
+		}
+		
+		return generateIdentifierSourceName(builder, uniquePrefix);
+	}
+	
 	/**
 	 * Generate a String with the declaration modifiers and the name of
 	 * the variable declared.
@@ -111,7 +132,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		}
 		else
 		{
-			builder.append(generateTypeCast()).append(ValueWriter.NULL_IDENTIFIER);
+			generateTypeCast(builder, true, true, false).append(ValueWriter.NULL_IDENTIFIER);
 		}
 		
 		return builder;
