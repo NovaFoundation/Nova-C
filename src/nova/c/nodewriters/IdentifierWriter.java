@@ -141,18 +141,40 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 			}
 		}
 		
+		if (node().isAllocatedOnHeap())
+		{
+//			builder.append("(*");
+		}
+		
 		if (node().isValueReference())
 		{
 			builder.append("(*");
 			
+//			if (node().requiresHeapAllocation())
+//			{
+//				builder.append("*");
+//			}
+			
 			generateSourcePrefix(builder);
 		}
-		
-		generateSourceName(builder);
+//		Nova.debuggingBreakpoint(node().getName().equals("list") && node().getParentMethod() != null && node().getParentMethod().getName().equals("getChildFiles"));
+//		if (!node().isValueReference() && node().requiresHeapAllocation() && node() instanceof Variable && ((Variable)node()).declaration.closureVariableDeclaration != null &&
+//			(node().getParentMethod() == null || node().getParentMethod() == ((Variable)node()).declaration.closureVariableDeclaration.getParentMethod()))
+//		{
+//			builder.append("(*").append(getWriter(((Variable)node()).declaration.closureVariableDeclaration).getHeapVariableName()).append(")");
+//		}
+//		else
+		{
+			generateSourceName(builder);
+		}
 		
 		if (node().isValueReference())
 		{
 			builder.append(')');
+		}
+		if (node().isAllocatedOnHeap())
+		{
+//			builder.append(')');
 		}
 		
 		generateArrayAccess(builder);
