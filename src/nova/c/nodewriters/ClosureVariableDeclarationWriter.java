@@ -103,19 +103,9 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		
 		builder.append(";\n");
 		
-		Nova.debuggingBreakpoint(node().getName().equals("func"));
-		
 		if (root instanceof ClosureDeclaration)
 		{
-			String context = node().originalDeclaration != root ? "context->" : "";
-			
-			generateLeftAssignment(builder);
-			getWriter(root).generateObjectReferenceIdentifier(builder).append(" = ").append(context);
-			getWriter(root).generateObjectReferenceIdentifier(builder).append(";\n");
-			
-			generateLeftAssignment(builder);
-			builder.append(root.getContextName()).append(" = ").append(context);
-			builder.append(root.getContextName()).append(";\n");
+			generateClosureContextAssignments(builder, (ClosureDeclaration)root);
 		}
 		
 		return builder;
