@@ -62,13 +62,10 @@ void thread_nanosleep2(struct timespec req)
 NOVA_THREAD_FUNC lib_nova_thread_run(NOVA_THREAD_FUNC_ARG arg)
 {
 	DataStruct* data = (DataStruct*)arg;
-
-	nova_thread_Nova_Thread* this = data->instance;
-	nova_exception_Nova_ExceptionData* exceptionData = 0;
 	
-	data->run_method(this, exceptionData, data->context);
-
-	NOVA_FREE(data);
+	data->run_method(data->instance, 0, data->context);
+	
+	// NOVA_FREE(data);
 
 	return 0;
 }
@@ -78,14 +75,14 @@ NOVA_THREAD_HANDLE* create_thread(nova_thread_Nova_Thread* this, run_method meth
 	NOVA_THREAD_HANDLE* handle;
 
 	DataStruct* data = (DataStruct*)NOVA_MALLOC(sizeof(DataStruct));
-
-	data->instance   = ref;
-	data->context   = context;
+	
+	data->instance   = this;
+	data->context    = context;
 	data->run_method = method;
 	
 	handle = (NOVA_THREAD_HANDLE*)NOVA_MALLOC(sizeof(NOVA_THREAD_HANDLE));
 	
 	lib_nova_thread_create(handle, lib_nova_thread_run, (NOVA_THREAD_FUNC_ARG)data);
-
+	
 	return handle;
 }
