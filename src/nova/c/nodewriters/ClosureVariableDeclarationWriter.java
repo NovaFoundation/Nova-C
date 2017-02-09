@@ -1,6 +1,5 @@
 package nova.c.nodewriters;
 
-import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.ClosureContext;
 import net.fathomsoft.nova.tree.ClosureDeclaration;
 import net.fathomsoft.nova.tree.ClosureVariableDeclaration;
@@ -40,7 +39,7 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		{
 			builder.append("context->");
 		}
-		else if (!node().originalDeclaration.isAllocatedOnHeap())
+		else if (!node().originalDeclaration.isAllocatedOnHeap() && node().originalDeclaration instanceof ClosureDeclaration == false)
 		{
 			builder.append('&');
 		}
