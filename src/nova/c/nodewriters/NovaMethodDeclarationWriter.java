@@ -115,6 +115,12 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		return generateSourceName(builder, uniquePrefix, true);
 	}
 	
+	@Override
+	public StringBuilder generateIdentifierSourceName(StringBuilder builder, String uniquePrefix)
+	{
+		return generateSourceName(builder, uniquePrefix, true);
+	}
+	
 	public String getFunctionMapPrefix()
 	{
 		String output = "";
@@ -165,14 +171,14 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		
 		if (overloadId == -1)
 		{
-			return super.generateSourceName(builder, uniquePrefix.length() == 0 ? null : uniquePrefix);
+			return super.generateIdentifierSourceName(builder, uniquePrefix.length() == 0 ? null : uniquePrefix);
 		}
 		else
 		{
 			uniquePrefix += overloadId;
 		}
 		
-		return super.generateSourceName(builder, uniquePrefix);
+		return super.generateIdentifierSourceName(builder, uniquePrefix);
 	}
 	
 	public String getPrimitiveOverloadPrefix()

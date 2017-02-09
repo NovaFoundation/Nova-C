@@ -28,11 +28,11 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 	}
 	
 	@Override
-	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+	public StringBuilder generateIdentifierSourceName(StringBuilder builder, String uniquePrefix)
 	{
 		if (this instanceof ClosureDeclarationWriter)
 		{
-			return super.generateSourceName(builder, uniquePrefix);
+			return super.generateIdentifierSourceName(builder, uniquePrefix);
 		}
 		
 		if (uniquePrefix != null)
@@ -47,6 +47,12 @@ public abstract class ParameterWriter extends LocalDeclarationWriter
 		
 		return builder.append(node().getName());
 	}
+	
+//	@Override
+//	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
+//	{
+//		return generateIdentifierSourceName(builder, uniquePrefix);
+//	}
 	
 	public StringBuilder generateHeader(StringBuilder builder)
 	{
