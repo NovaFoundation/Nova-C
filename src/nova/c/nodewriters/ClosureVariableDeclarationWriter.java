@@ -111,6 +111,21 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		return builder;
 	}
 	
+	public StringBuilder generateClosureContextAssignments(StringBuilder builder, ClosureDeclaration declaration)
+	{
+		String context = node().originalDeclaration != declaration ? "context->" : "";
+		
+		generateLeftAssignment(builder);
+		getWriter(declaration).generateObjectReferenceIdentifier(builder).append(" = ").append(context);
+		getWriter(declaration).generateObjectReferenceIdentifier(builder).append(";\n");
+		
+		generateLeftAssignment(builder);
+		builder.append(declaration.getContextName()).append(" = ").append(context);
+		builder.append(declaration.getContextName()).append(";\n");
+		
+		return builder;
+	}
+	
 	@Override
 	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
