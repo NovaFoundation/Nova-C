@@ -50,13 +50,30 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 	
 	public StringBuilder generateAssignment(StringBuilder builder)
 	{
+		return generateAssignment(builder, null);
+	}
+	
+	public StringBuilder generateAssignment(StringBuilder builder, ClosureVariableDeclaration reference)
+	{
+		if (reference != null && reference.getClosureContext().declaration.getParentMethod() != node().getClosureContext().declaration.getParentMethod())
+		{
+			return builder;
+		}
+		
 		VariableDeclaration root = node().getRootDeclaration();
 		
 		boolean heap = node().requiresHeapAllocation && root instanceof ClosureDeclaration == false;
 		
 		String heapName = null;
 		
-		if (heap)
+		if (reference != null)
+		{
+			if (heap)
+			{
+				getWriter(node().originalDeclaration).generateType(builder).append("* ").append(getHeapVariableName()).append(" = ").append(getWriter(reference).getHeapVariableName()).append(";\n");
+			}
+		}
+		else if (heap)
 		{
 			heapName = getHeapVariableName();
 			
@@ -71,7 +88,14 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		
 		if (heap)
 		{
-			builder.append(heapName);
+			if (reference != null)
+			{
+				builder.append(getWriter(reference).getHeapVariableName());
+			}
+			else
+			{
+				builder.append(heapName);
+			}
 		}
 		else
 		{
