@@ -31,7 +31,12 @@ public abstract class VariableWriter extends IdentifierWriter
 	@Override
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
-		return getWriter(node().getDeclaration()).generateSourceName(builder, uniquePrefix);
+		if (node().isValueReference() || node().declaration instanceof Parameter)
+		{
+			return getWriter(node().getDeclaration()).generateIdentifierSourceName(builder, uniquePrefix);
+		}
+		
+		return getWriter(node().getDeclaration()).generateSourceClosureVariableName(builder, uniquePrefix);
 	}
 	
 	public StringBuilder generateVolatileDereference(StringBuilder builder)
