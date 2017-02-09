@@ -44,6 +44,11 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 				builder.append(declaration.getName()).append("->");
 				getWriter(c).generateSourceName(builder).append(" = context->");
 				getWriter(c.originalDeclaration).generateSourceName(builder).append(";\n");
+				
+				if (c.getRootDeclaration() instanceof ClosureDeclaration)
+				{
+					getWriter(c).generateClosureContextAssignments(builder, (ClosureDeclaration)c.getRootDeclaration());
+				}
 			}
 		}
 		
