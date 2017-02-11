@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+#ifdef USE_GC
+#   include <gc/gc.h>
+#endif
+
 #ifdef _WIN32
 
 #include <Windows.h>
