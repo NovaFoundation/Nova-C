@@ -2,10 +2,7 @@
 #define NOVA_EXCEPTION_HANDLING
 
 #include <stdio.h>
-
-#ifdef USE_GC
-#   include <gc/gc.h>
-#endif
+#include <Nova.h>
 
 #ifdef _WIN32
 
