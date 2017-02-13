@@ -711,7 +711,10 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					for (ClassDeclaration clazz : file.getClassDeclarations())
 					{
-						writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(getWriter(clazz).getNativeLocation()).append(";\n"));
+						if (!clazz.isPrimitiveOverload())
+						{
+							writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(getWriter(clazz).getNativeLocation()).append(";\n"));
+						}
 					}
 				}
 				
@@ -893,30 +896,33 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			
 			for (ClassDeclaration clazz : file.getClassDeclarations())
 			{
-				MethodDeclaration[] methods = clazz.getVisibleNativeMethods();
-				
-				for (MethodDeclaration method : methods)
+				if (!clazz.isPrimitiveOverload())
 				{
-					if (method instanceof NovaMethodDeclaration)
+					MethodDeclaration[] methods = clazz.getVisibleNativeMethods();
+					
+					for (MethodDeclaration method : methods)
 					{
-						if (method.isInstance())
+						if (method instanceof NovaMethodDeclaration)
 						{
-							NovaMethodDeclaration n = (NovaMethodDeclaration)method;
-							
-							if (n.isOverridden() && !(n instanceof Constructor))
+							if (method.isInstance())
 							{
-								//n = n.getVirtualMethod();
+								NovaMethodDeclaration n = (NovaMethodDeclaration)method;
 								
-								String itable = "";
-								
-								if (n.getRootDeclaration().getParentClass() instanceof Trait)
+								if (n.isOverridden() && !(n instanceof Constructor))
 								{
-									itable = TraitVTable.IDENTIFIER + ".";
+									//n = n.getVirtualMethod();
+									
+									String itable = "";
+									
+									if (n.getRootDeclaration().getParentClass() instanceof Trait)
+									{
+										itable = TraitVTable.IDENTIFIER + ".";
+									}
+									
+									VirtualMethodDeclaration virtual = n.getVirtualMethod();
+									
+									builder.append(ENVIRONMENT_VAR + "." + getWriter(clazz).getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + getWriter(clazz.getVTableNodes().getExtensionVTable()).generateSourceName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
 								}
-								
-								VirtualMethodDeclaration virtual = n.getVirtualMethod();
-								
-								builder.append(ENVIRONMENT_VAR + "." + getWriter(clazz).getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + getWriter(clazz.getVTableNodes().getExtensionVTable()).generateSourceName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
 							}
 						}
 					}

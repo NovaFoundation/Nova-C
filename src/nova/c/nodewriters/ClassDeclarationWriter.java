@@ -51,6 +51,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateHeaderNativeInterface(StringBuilder builder)
 	{
+		if (node().isPrimitiveOverload())
+		{
+			return builder;
+		}
+		
 		MethodDeclaration[] methods = node().getVisibleNativeMethods();
 		
             /*if (methods.length <= 0)
@@ -98,6 +103,11 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public StringBuilder generateSourceNativeInterface(StringBuilder builder)
 	{
+		if (node().isPrimitiveOverload())
+		{
+			return builder;
+		}
+		
 		//		String name = generateSourceName("native").toString();
 		
 		MethodDeclaration[] methods = node().getVisibleNativeMethods();
