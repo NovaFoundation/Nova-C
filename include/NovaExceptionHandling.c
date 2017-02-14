@@ -238,4 +238,9 @@ void nova_signal_handler(int code) {
         exit(1);
 }
 
+#else
+void nova_print_calling_stacktrace(int count)
+{
+  printf("print calling stacktrace unsupported on current OS\n");
+}
 #endif
