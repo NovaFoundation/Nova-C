@@ -1113,7 +1113,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("nova_primitive_Nova_Null* nova_null;").append('\n');
 					writer.append("void* ").append(Literal.GARBAGE_IDENTIFIER).append(';').append('\n');
-					writer.append("typedef void (*thread_join_function_type)(void*, nova_exception_Nova_ExceptionData*, nova_Nova_Object*, int, nova_datastruct_list_Nova_Array*, void*);\n");
+					writer.append("typedef void (*thread_join_function_type)(void*, nova_exception_Nova_ExceptionData*, struct E*, int, nova_datastruct_list_Nova_Array*, void*);\n");
 					writer.append("void novaJoinActiveThreads(void* this, nova_exception_Nova_ExceptionData* exceptionData, nova_thread_Nova_Thread* _1, int _2, void* _3, void* context)\n");
 					writer.append("{\n");
 					writer.append("nova_thread_Nova_Thread_Nova_join(_1, exceptionData);\n");
