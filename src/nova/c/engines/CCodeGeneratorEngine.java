@@ -1133,7 +1133,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("srand(currentTimeMillis());").append('\n');
 					writer.append(getWriter(gcInit).generateSource()).append('\n');
 					writer.append(Literal.GARBAGE_IDENTIFIER).append(" = malloc(sizeof(void*));").append('\n');
-					writer.append("nova_thread_semaphore = CreateSemaphore(0, 1, 1, 0);").append('\n');
+					writer.append("if ((errno = nova_create_semaphore()) != 0) return errno;").append('\n');
 					writer.append("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
 					writer.append("TRY").append('\n');
 					writer.append('{').append('\n');
@@ -1171,6 +1171,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append('}').append('\n');
 					writer.append("END_TRY;").append('\n');
 					writer.append(immutableForEach).append("((nova_datastruct_list_Nova_ImmutableArray*)nova_thread_Nova_Thread_Nova_ACTIVE_THREADS, exceptionData, (thread_join_function_type)&novaJoinActiveThreads, 0, 0);\n");
+					writer.append("if ((errno = nova_close_semaphore()) != 0) return errno;").append('\n');
 					
 					if (OS == WINDOWS)
 					{

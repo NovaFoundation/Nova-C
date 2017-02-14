@@ -2,6 +2,8 @@
 
 #ifdef _WIN32
 	HANDLE nova_thread_semaphore;
+#elif defined(__APPLE__) || defined(__linux__)
+	sem_t* nova_thread_semaphore;
 #endif
 
 void lib_nova_thread_create(NOVA_THREAD_HANDLE* handle, NOVA_THREAD_FUNC_TYPE func, NOVA_THREAD_FUNC_ARG arg)
@@ -85,4 +87,35 @@ NOVA_THREAD_HANDLE* create_thread(nova_thread_Nova_Thread* this, run_method meth
 	lib_nova_thread_create(handle, lib_nova_thread_run, (NOVA_THREAD_FUNC_ARG)data);
 	
 	return handle;
+}
+
+int nova_create_semaphore() {
+#ifdef _WIN32
+	nova_thread_semaphore = CreateSemaphore(0, 1, 1, 0);
+#elif defined(__APPLE__) || defined(__linux__)
+	if ((nova_thread_semaphore = sem_open("nova_thread_semaphore", O_CREAT, 0644, 1)) == SEM_FAILED) {
+		printf("Failed to init semaphore");
+		
+		return -1;
+	}
+#endif
+	
+	return 0;
+}
+
+int nova_close_semaphore() {
+#if defined(__APPLE__) || defined(__linux__)
+	if (sem_close(nova_thread_semaphore) == -1) {
+		printf("Failed to close semaphore");
+		
+		return -1;
+	}
+	if (sem_unlink("nova_thread_semaphore") == -1) {
+		printf("Failed to unlink semaphore");
+		
+		return -1;
+	}
+#endif
+	
+	return 0;
 }
