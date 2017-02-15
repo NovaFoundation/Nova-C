@@ -33,6 +33,7 @@
 #	else
 #		define new_thread_method pthread_create
 #	endif
+#	include <fcntl.h>
 #	include <semaphore.h>
 #endif
 
