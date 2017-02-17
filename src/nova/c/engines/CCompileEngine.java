@@ -3,6 +3,7 @@ package nova.c.engines;
 import net.fathomsoft.nova.CompileEngine;
 import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.FileDeclaration;
+import net.fathomsoft.nova.tree.Parameter;
 import net.fathomsoft.nova.util.Command;
 import net.fathomsoft.nova.util.CommandListener;
 import net.fathomsoft.nova.util.FileUtils;
@@ -192,6 +193,11 @@ public class CCompileEngine extends CompileEngine
 			if (controller.isFlagEnabled(Nova.NO_GC))
 			{
 				extraArgs += "NO_GC=true ";
+			}
+			
+			if (controller.isFlagEnabled(Nova.LIBRARY))
+			{
+				extraArgs += "LIBRARY=true ";
 			}
 			
 			FileDeclaration[] files = tree.getFiles();
