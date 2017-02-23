@@ -31,7 +31,7 @@ public abstract class AssignmentWriter extends ValueWriter
 			builder.append(";\n");
 			
 			ClosureVariable var = (ClosureVariable)node().getAssignedNode().declaration;
-			ClosureDeclaration closure = (ClosureDeclaration)((Variable)node().getAssignmentNode().getReturnedNode()).declaration;
+			ClosureDeclaration closure = ((ClosureCompatible)((Variable)node().getAssignmentNode().getReturnedNode()).declaration).getClosureDeclaration();
 			
 			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
 			builder.append(getWriter(var).generateReferenceName()).append(" = ").append(getWriter(closure).generateObjectReferenceIdentifier(new StringBuilder())).append(";\n");
