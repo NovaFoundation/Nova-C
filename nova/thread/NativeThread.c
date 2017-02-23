@@ -119,3 +119,11 @@ int nova_close_semaphore() {
 	
 	return 0;
 }
+
+long_long nova_current_thread_id() {
+#ifdef _WIN32
+	return GetCurrentThreadId();
+#else
+	return pthread_threadid();
+#endif
+}

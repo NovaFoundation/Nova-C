@@ -67,6 +67,8 @@ NOVA_THREAD_HANDLE* create_thread(nova_thread_Nova_Thread* this, run_method meth
 int nova_create_semaphore();
 int nova_close_semaphore();
 
+long_long nova_current_thread_id();
+
 #ifdef _WIN32
     extern HANDLE nova_thread_semaphore;
 #elif defined(__APPLE__) || defined(__linux__)
