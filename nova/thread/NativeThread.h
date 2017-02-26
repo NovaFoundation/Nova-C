@@ -52,7 +52,7 @@ void thread_nanosleep(long_long nanos);
 
 typedef struct DataStruct DataStruct;
 
-typedef void (*run_method)(void*, nova_exception_Nova_ExceptionData*, void*);
+typedef void (*run_method)(void*, void*);
 
 struct DataStruct
 {

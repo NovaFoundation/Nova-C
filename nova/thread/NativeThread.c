@@ -65,7 +65,7 @@ NOVA_THREAD_FUNC lib_nova_thread_run(NOVA_THREAD_FUNC_ARG arg)
 {
 	DataStruct* data = (DataStruct*)arg;
 	
-	data->run_method(data->instance, 0, data->context);
+	data->run_method(data->instance, data->context);
 	
 	// NOVA_FREE(data);
 
