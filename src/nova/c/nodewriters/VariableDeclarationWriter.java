@@ -1,6 +1,7 @@
 package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
+import net.fathomsoft.nova.tree.annotations.ThreadLocalAnnotation;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.tree.variables.Variable;
 import net.fathomsoft.nova.tree.variables.VariableDeclaration;
@@ -117,6 +118,10 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		if (node().isVolatile())//!(node() instanceof Parameter || node() instanceof FieldDeclaration))
 		{
 			builder.append(node().getVolatileText()).append(' ');
+		}
+		if (node().containsAnnotationOfType(ThreadLocalAnnotation.class, false, false))
+		{
+			builder.append("__thread ");
 		}
 		
 		generateType(builder);
