@@ -247,7 +247,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		
 		if (node().doesForceOriginalName())
 		{
-			return builder.append(name);
+			return builder.append(node().getProperty("externalName"));
 		}
 		
 		VariableDeclaration existing = null;
