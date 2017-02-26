@@ -28,7 +28,7 @@ public class CCompileEngine extends CompileEngine
 {
 	public boolean forceRecompile, forceCheck, singleFile;
 	
-	private int compiler;
+	public int compiler;
 	
 	public long flags;
 	
