@@ -10,9 +10,7 @@ import net.fathomsoft.nova.tree.variables.FieldDeclaration;
 import net.fathomsoft.nova.util.FileUtils;
 import net.fathomsoft.nova.util.StringUtils;
 import net.fathomsoft.nova.util.SyntaxUtils;
-import nova.c.nodewriters.ClassDeclarationWriter;
-import nova.c.nodewriters.FileDeclarationWriter;
-import nova.c.nodewriters.StaticBlockWriter;
+import nova.c.nodewriters.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -1072,7 +1070,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			Constructor   strConstructor  = (Constructor)((MethodCall)Instantiation.decodeStatement(mainMethod, "new String(new Char[0])", mainMethod.getLocationIn(), true).getIdentifier()).getDeclaration();
 			strConstructor.addAnnotation(annotation);
 			
-			String immutableForEach = getWriter(mainMethod.getProgram().getClassDeclaration("nova/datastruct/list/ImmutableArray").getMethods("forEach")[0]).generateSourceName().toString();
+			BodyMethodDeclarationWriter runMain = (BodyMethodDeclarationWriter)getWriter(mainMethod.getProgram().getClassDeclaration("nova/System").getMethods("runMain")[0]);
 			
 			File header = new File(controller.outputDirectory, MAIN_FUNCTION_FILE_NAME + ".h");
 			File source = new File(controller.outputDirectory, MAIN_FUNCTION_FILE_NAME + ".c");
@@ -1111,75 +1109,23 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					writer.append("#include \"").append(MAIN_FUNCTION_FILE_NAME).append(".h\"").append('\n').append('\n');
 					
-					writer.append("typedef void (*thread_join_function_type)(void*, nova_exception_Nova_ExceptionData*, struct E*, int, nova_datastruct_list_Nova_Array*, void*);\n");
-					writer.append("void novaJoinActiveThreads(void* this, nova_exception_Nova_ExceptionData* exceptionData, nova_thread_Nova_Thread* _1, int _2, void* _3, void* context)\n");
+					writer.append("void novaInitProgramData(void* this, nova_exception_Nova_ExceptionData* exceptionData)\n");
 					writer.append("{\n");
-					writer.append("nova_thread_Nova_Thread_Nova_join(_1, exceptionData);\n");
-					writer.append("}\n");
-					writer.append('\n');
-					writer.append("int main(int argc, char** argvs)").append('\n');
-					writer.append("{").append('\n');
-					writer.append("#ifdef _WIN32\nsetProgramName(argvs[0]);").append('\n');
-					writer.append("//signal(SIGSEGV, nova_signal_handler);").append('\n');
-					writer.append("SetUnhandledExceptionFilter(nova_exception_handler);\n#endif").append('\n');
-					writer.append("nova_Nova_String** args;").append('\n');
-					writer.append("int      i;").append('\n').append('\n');
-					writer.append("nova_exception_Nova_ExceptionData* ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(" = 0;").append('\n');
-					//			writer.append	("ShowWindow(FindWindowA(\"ConsoleWindowClass\", NULL), 0);").append('\n');
-					//			writer.append	("FreeConsole();").append('\n');
-					//			writer.append	("AllocConsole();").append('\n');
-					writer.append("srand(currentTimeMillis());").append('\n');
-					writer.append(getWriter(gcInit).generateSource()).append('\n');
-					writer.append(Literal.GARBAGE_IDENTIFIER).append(" = malloc(sizeof(void*));").append('\n');
-					writer.append("if ((errno = nova_create_semaphore()) != 0) return errno;").append('\n');
-					writer.append("nova_null = ").append(getWriter(nullConstructor).generateSourceFragment()).append(';').append('\n');
-					writer.append("TRY").append('\n');
-					writer.append('{').append('\n');
 					writer.append(nativeAssignments).append('\n');
 					writer.append(vtableClassInstanceAssignments).append('\n');
 					writer.append(vtableClassInstancePropertyAssignments).append('\n');
 					writer.append(vtableClassArray).append('\n');
 					writer.append(staticBlockCalls).append('\n');
-					writer.append("args = (nova_Nova_String**)NOVA_MALLOC(argc * sizeof(nova_Nova_String));").append('\n');
-					writer.append('\n');
-					writer.append("for (i = 0; i < argc; i++)").append('\n');
+					writer.append('}').append('\n').append('\n');
+					
+					writer.append("int main(int argc, char** argvs)").append('\n');
 					writer.append("{").append('\n');
-					writer.append("char* str = (char*)NOVA_MALLOC(sizeof(char) * strlen(argvs[i]) + 1);").append('\n');
-					writer.append("copy_string(str, argvs[i]);").append('\n');
-					writer.append("args[i] = ").append(getWriter(strConstructor).generateSourceName()).append("(0, 0, str);").append('\n');
-					writer.append("}").append('\n');
-					writer.append("nova_datastruct_list_Nova_Array* argsArray = nova_datastruct_list_Nova_Array_2_Nova_construct(0, exceptionData, (nova_Nova_Object**)args, argc);");
-					writer.append('\n');
-					writer.append(getWriter(mainMethod).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", argsArray);").append('\n');
-					writer.append('}').append('\n');
-					writer.append("CATCH (").append(getWriter(tree.getRoot().getProgram().getClassDeclaration("nova/exception/Exception")).getVTableClassInstance()).append(')').append('\n');
-					writer.append('{').append('\n');
-					writer.append("char* message = \"Exception in Thread 'main'\";").append('\n');
-					writer.append("nova_exception_Nova_Exception* base = (nova_exception_Nova_Exception*)").append(Exception.EXCEPTION_DATA_IDENTIFIER).append("->nova_exception_Nova_ExceptionData_Nova_thrownException;").append('\n');
-					writer.append("if (base != 0 && base->nova_exception_Nova_Exception_Nova_message != 0 && base->nova_exception_Nova_Exception_Nova_message != (nova_Nova_String*)nova_null) {").append('\n');
-					writer.append("printf(\"%s: %s\", message, base->nova_exception_Nova_Exception_Nova_message->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_StringCharArray_Nova_data);").append('\n');
-					writer.append("} else {").append('\n');
-					writer.append("puts(message);").append('\n');
-					writer.append("}").append('\n');
-					//			writer.append		(getWriter(enter).generateSource()).append('\n');
-					writer.append('}').append('\n');
-					writer.append("FINALLY").append('\n');
-					writer.append('{').append('\n');
-					writer.append('\n');
-					writer.append('}').append('\n');
-					writer.append("END_TRY;").append('\n');
-					writer.append(immutableForEach).append("((nova_datastruct_list_Nova_ImmutableArray*)nova_thread_Nova_Thread_Nova_ACTIVE_THREADS, exceptionData, (thread_join_function_type)&novaJoinActiveThreads, 0, 0);\n");
-					writer.append("if ((errno = nova_close_semaphore()) != 0) return errno;").append('\n');
-					
-					if (OS == WINDOWS)
-					{
-						writer.append("FreeConsole();").append('\n');
-					}
-					
-					writer.append("NOVA_FREE(args);").append('\n');
-					writer.append(getWriter(gcColl).generateSource()).append('\n');
-					writer.append('\n');
-					writer.append("return 0;").append('\n');
+					writer.append("return nova_Nova_System_static_Nova_runMain(0, 0, argc, argvs, ")
+						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("mainFunc")).generateTypeCast())
+						.append('&').append(getWriter(mainMethod).generateSourceName())
+						.append(", 0, 0, ")
+						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("initialize")).generateTypeCast())
+						.append("&novaInitProgramData, 0, 0);").append('\n');
 					writer.append("}\n");
 				});
 			}
