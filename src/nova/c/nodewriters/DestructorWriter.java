@@ -121,7 +121,7 @@ public abstract class DestructorWriter extends BodyMethodDeclarationWriter
 				
 				getWriter(dest).generateSourceName(builder).append('(').append('&');
 				
-				getWriter(field).generateUseOutput(builder, true).append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");");
+				getWriter(field).generateUseOutput(builder, true).append(");");
 			}
 		}
 		

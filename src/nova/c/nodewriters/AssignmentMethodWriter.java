@@ -67,7 +67,7 @@ public abstract class AssignmentMethodWriter extends BodyMethodDeclarationWriter
 		
 		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER);
 		
-		return builder.append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");\n");
+		return builder.append(");\n");
 	}
 	
 	/**

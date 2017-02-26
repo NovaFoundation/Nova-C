@@ -172,7 +172,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 			
 			getWriter(destructor).generateSourceName(builder).append('(').append('&');
 			
-			generateUseOutput(builder, true).append(", ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(");\n");
+			generateUseOutput(builder, true).append(");\n");
 		}
 		
 		return builder;

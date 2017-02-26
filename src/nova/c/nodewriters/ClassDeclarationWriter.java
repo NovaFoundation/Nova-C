@@ -308,7 +308,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		String interfaces = getVTableClassInstance() + "->" + getWriter(clazz.getField("interfaces")).generateSourceName();
 		
 		builder.append(interfaces).append(" = ")
-			.append(getWriter(method).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", (nova_Nova_Object**)").append(name).append(", ").append(interfaceList.length).append(");\n");
+			.append(getWriter(method).generateSourceName()).append("(0, (nova_Nova_Object**)").append(name).append(", ").append(interfaceList.length).append(");\n");
 		
 		return builder;
 	}

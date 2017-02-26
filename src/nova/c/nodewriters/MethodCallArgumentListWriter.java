@@ -160,7 +160,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 	{
 		if (!node().getMethodCall().isExternal())
 		{
-			checkReference(builder).append(Exception.EXCEPTION_DATA_IDENTIFIER);
+			checkReference(builder);
 			
 			if (node().getNumChildren() > 0)
 			{
@@ -302,8 +302,6 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				builder.append(')');
 			}
 		}
-		
-		builder.append(", ");
 		
 		return builder;
 	}

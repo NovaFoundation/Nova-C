@@ -877,7 +877,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		builder.append(getWriter(allArray).generateSourceName()).append(" = ")
-			.append(getWriter(method).generateSourceName()).append("(0, ").append(Exception.EXCEPTION_DATA_IDENTIFIER).append(", (nova_Nova_Object**)").append(name).append(", ").append(classes.length).append(");\n");
+			.append(getWriter(method).generateSourceName()).append("(0, (nova_Nova_Object**)").append(name).append(", ").append(classes.length).append(");\n");
 		
 		return builder.append("\n");
 	}
@@ -1109,7 +1109,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					writer.append("#include \"").append(MAIN_FUNCTION_FILE_NAME).append(".h\"").append('\n').append('\n');
 					
-					writer.append("void novaInitProgramData(void* this, nova_exception_Nova_ExceptionData* exceptionData)\n");
+					writer.append("void novaInitProgramData(void* this)\n");
 					writer.append("{\n");
 					writer.append(nativeAssignments).append('\n');
 					writer.append(vtableClassInstanceAssignments).append('\n');
@@ -1120,7 +1120,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("int main(int argc, char** argvs)").append('\n');
 					writer.append("{").append('\n');
-					writer.append("return nova_Nova_System_static_Nova_runMain(0, 0, argc, argvs, ")
+					writer.append("return nova_Nova_System_static_Nova_runMain(0, argc, argvs, ")
 						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("mainFunc")).generateTypeCast())
 						.append('&').append(getWriter(mainMethod).generateSourceName())
 						.append(", 0, 0, ")

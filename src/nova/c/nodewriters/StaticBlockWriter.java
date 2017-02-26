@@ -39,6 +39,6 @@ public abstract class StaticBlockWriter extends NodeWriter
 	
 	public static StringBuilder generateMethodCall(StringBuilder builder, ClassDeclaration clazz)
 	{
-		return generateMethodName(builder, clazz).append("(" + Exception.EXCEPTION_DATA_IDENTIFIER + ")");
+		return generateMethodName(builder, clazz).append("()");
 	}
 }
