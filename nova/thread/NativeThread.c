@@ -123,6 +123,12 @@ int nova_close_semaphore() {
 long_long nova_current_thread_id() {
 #ifdef _WIN32
 	return GetCurrentThreadId();
+#elif defined(__APPLE__)
+	uint64_t id;
+	
+	pthread_threadid_np(NULL, &id);
+	
+	return id;
 #else
 	return pthread_threadid();
 #endif
