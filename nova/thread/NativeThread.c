@@ -130,6 +130,11 @@ long_long nova_current_thread_id() {
 	
 	return id;
 #else
-	return pthread_threadid();
+	pthread_t ptid = pthread_self();
+	uint64_t id = 0;
+	
+	memcpy(&id, &ptid, sizeof(id) < sizeof(ptid) ? sizeof(id) : sizeof(ptid));
+
+	return id;
 #endif
 }
