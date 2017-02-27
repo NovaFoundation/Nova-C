@@ -5,6 +5,9 @@
 
 #ifdef _WIN32
 #   define nova_library_handle HINSTANCE
+#else
+#	include <dlfcn.h>
+#	define nova_library_handle void*
 #endif
 
 nova_library_handle nova_load_library(char* location);
