@@ -1115,6 +1115,10 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append(vtableClassInstanceAssignments).append('\n');
 					writer.append(vtableClassInstancePropertyAssignments).append('\n');
 					writer.append(vtableClassArray).append('\n');
+					writer.append('}').append('\n').append('\n');
+					
+					writer.append("void novaCallStaticBlocks(void* this)\n");
+					writer.append("{\n");
 					writer.append(staticBlockCalls).append('\n');
 					writer.append('}').append('\n').append('\n');
 					
@@ -1125,7 +1129,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						.append('&').append(getWriter(mainMethod).generateSourceName())
 						.append(", 0, 0, ")
 						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("initialize")).generateTypeCast())
-						.append("&novaInitProgramData, 0, 0);").append('\n');
+						.append("&novaInitProgramData, ")
+						.append("0, 0, ")
+						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("callStaticBlocks")).generateTypeCast())
+						.append("&novaCallStaticBlocks, ")
+						.append("0, 0);").append('\n');
 					writer.append("}\n");
 				});
 			}
