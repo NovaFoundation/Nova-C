@@ -1124,6 +1124,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("int main(int argc, char** argvs)").append('\n');
 					writer.append("{").append('\n');
+					writer.append(getWriter(gcInit).generateSource()).append('\n');
 					writer.append("return nova_Nova_System_static_Nova_runMain(0, argc, argvs, ")
 						.append(getWriter((ClosureDeclaration)runMain.node().getParameter("mainFunc")).generateTypeCast())
 						.append('&').append(getWriter(mainMethod).generateSourceName())
