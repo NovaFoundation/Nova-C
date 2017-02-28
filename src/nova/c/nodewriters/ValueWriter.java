@@ -142,6 +142,13 @@ public abstract class ValueWriter extends NodeWriter
 	
 	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
+		if (node().getTypeObject() instanceof FunctionType)
+		{
+			FunctionType type = (FunctionType)node().getTypeObject();
+			
+			return getWriter(type.closure).generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
+		}
+		
 		generateTypeName(builder);
 		
 		return generatePointers(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
