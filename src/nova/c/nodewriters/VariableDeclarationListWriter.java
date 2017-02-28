@@ -69,6 +69,8 @@ public abstract class VariableDeclarationListWriter extends ListWriter
 		
 		getWriter(child).generateDefaultValue(builder).append(";\n");
 		
+		getWriter(child).generatePostAssignment(builder);
+		
 		if (child instanceof ClosureContextDeclaration)
 		{
 			generateInheritedContext(builder, (ClosureContextDeclaration)child);

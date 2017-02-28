@@ -7,6 +7,22 @@ public abstract class LocalDeclarationWriter extends VariableDeclarationWriter
 	public abstract LocalDeclaration node();
 	
 	@Override
+	public StringBuilder generatePostAssignment(StringBuilder builder)
+	{
+		super.generatePostAssignment(builder);
+		
+		if (node().getTypeObject() instanceof FunctionType)
+		{
+			builder.append("void* ");
+			generateObjectReferenceIdentifier(builder).append(" = ").append(NULL_IDENTIFIER).append(";\n");
+			
+			builder.append("void* ").append(getContextName()).append(" = ").append(NULL_IDENTIFIER).append(";\n");
+		}
+		
+		return builder;
+	}
+	
+	@Override
 	public StringBuilder generatePointers(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
 	{
 		if (checkAllocatedOnHeap && node().isAllocatedOnHeap())

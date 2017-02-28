@@ -53,6 +53,11 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		return generateModifiersSource(builder).append(' ').append(generateSourceName());
 	}
 	
+	public StringBuilder generatePostAssignment(StringBuilder builder)
+	{
+		return builder;
+	}
+	
 	public StringBuilder generateClosureArguments(StringBuilder builder, Variable context, NovaMethodDeclaration method)
 	{
 		generateClosureInstanceReference(builder, context);
