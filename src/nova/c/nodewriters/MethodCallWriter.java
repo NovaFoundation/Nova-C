@@ -12,37 +12,6 @@ public abstract class MethodCallWriter extends VariableWriter
 		return generateSourceFragment(builder).append(';').append('\n');
 	}
 	
-	public StringBuilder generatedCSourceFragment(StringBuilder builder, boolean checkSpecial)
-	{
-		if (checkSpecial && node().isSpecialFragment())
-		{
-			return generateSpecialFragment(builder);
-		}
-		
-		return generateUseOutput(builder);
-	}
-	
-	/**
-	 * Generate a String representing the output of the children of the
-	 * MethodCall.
-	 *
-	 * @return A String representing the output of the children of the
-	 * 		MethodCall.
-	 */
-	public StringBuilder generatehildrenCSourceFragment(StringBuilder builder)
-	{
-		for (int i = 1; i < node().getNumChildren(); i++)
-		{
-			Node child = node().getChild(i);
-			
-			builder.append("->");
-			
-			getWriter(child).generateSourceFragment(builder);
-		}
-		
-		return builder;
-	}
-	
 	/**
 	 * Generate the representation of when the method call is being used
 	 * in action.
