@@ -26,7 +26,7 @@ public abstract class DefaultParameterInitializationWriter extends NodeWriter
 			builder.append(ref).append(" = ").append(cast).append("(").append(ref).append(" == 0 ? ").append(cast);
 			getWriter(c).generateClosureInstanceReference(builder).append(" : ").append(ref).append(");\n");
 			
-			String context = decl.getContextName();
+			String context = getWriter(decl).getContextName();
 			
 			builder.append(context).append(" = ").append(cast).append("(").append(context).append(" == 0 ? ").append(cast);
 			getWriter(c).generateClosureContextReference(builder).append(" : ").append(context).append(");");

@@ -96,7 +96,7 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 	
 	public StringBuilder generateContextParameter(StringBuilder builder)
 	{
-		return builder.append("void* ").append(node().getContextName());
+		return builder.append("void* ").append(getContextName());
 	}
 	
 	/**

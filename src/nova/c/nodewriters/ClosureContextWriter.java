@@ -35,7 +35,7 @@ public abstract class ClosureContextWriter extends TypeListWriter
 				getWriter(root).generateObjectReferenceIdentifier(builder).append(";\n");
 				
 				builder.append("void* ");
-				builder.append(root.getContextName()).append(";\n");
+				builder.append(getWriter(root).getContextName()).append(";\n");
 			}
 		}
 		

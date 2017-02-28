@@ -131,7 +131,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		
 		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
 		{
-			builder.append(",\n").append(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration()).getContextName());
+			builder.append(",\n").append(getWriter(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration())).getContextName());
 		}
 		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureVariable)
 		{

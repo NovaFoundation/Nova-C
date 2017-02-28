@@ -82,7 +82,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			
 			if (declaration.getParent() instanceof NovaParameterList)
 			{
-				builder.append(declaration.getContextName());
+				builder.append(getWriter(declaration).getContextName());
 			}
 			else
 			{

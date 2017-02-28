@@ -120,8 +120,8 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		getWriter(declaration).generateObjectReferenceIdentifier(builder).append(";\n");
 		
 		generateLeftAssignment(builder);
-		builder.append(declaration.getContextName()).append(" = ").append(context);
-		builder.append(declaration.getContextName()).append(";\n");
+		builder.append(getWriter(declaration).getContextName()).append(" = ").append(context);
+		builder.append(getWriter(declaration).getContextName()).append(";\n");
 		
 		return builder;
 	}
@@ -134,7 +134,7 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		getWriter(declaration).generateObjectReferenceIdentifier(builder).append(afterObjectReference);
 		
 		builder.append(context);
-		builder.append(declaration.getContextName()).append(afterClosureContext);
+		builder.append(getWriter(declaration).getContextName()).append(afterClosureContext);
 		
 		return builder;
 	}
