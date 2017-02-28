@@ -45,6 +45,17 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof FirstClassClosureDeclaration)
+		{
+			return new FirstClassClosureDeclarationWriter()
+			{
+				@Override
+				public FirstClassClosureDeclaration node()
+				{
+					return (FirstClassClosureDeclaration)node;
+				}
+			};
+		}
 		else if (node instanceof ExtensionDeclaration)
 		{
 			return new ExtensionDeclarationWriter()
@@ -1545,6 +1556,11 @@ public class Writer
 	public static VariableDeclarationListWriter getWriter(final VariableDeclarationList node)
 	{
 		return (VariableDeclarationListWriter)getWriter((Node)node);
+	}
+	
+	public static FirstClassClosureDeclarationWriter getWriter(final FirstClassClosureDeclaration node)
+	{
+		return (FirstClassClosureDeclarationWriter)getWriter((Node)node);
 	}
 	
 	public static VariableDeclarationWriter getWriter(final VariableDeclaration node)
