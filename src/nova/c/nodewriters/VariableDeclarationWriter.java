@@ -99,6 +99,11 @@ public abstract class VariableDeclarationWriter extends IIdentifierWriter
 		return generateContextParameter(new StringBuilder());
 	}
 	
+	public String getContextName()
+	{
+		return generateSourceName(ClosureVariableDeclaration.CONTEXT_VARIABLE_NAME).toString();
+	}
+	
 	public StringBuilder generateContextParameter(StringBuilder builder)
 	{
 		return builder.append("void* ").append(getContextName());
