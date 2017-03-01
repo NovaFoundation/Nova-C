@@ -45,6 +45,14 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			getWriter(var).generateSourceFragment(builder);
 		}
+		else if (callable instanceof FirstClassClosureDeclaration)
+		{
+			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)callable;
+			
+			builder.append("(");
+			getWriter(closure).generateTypeCast(builder);
+			getWriter(closure.reference).generateSourceName(builder).append("->func)");
+		}
 		else
 		{
 			getWriter((Identifier)base).generateSourceName(builder);

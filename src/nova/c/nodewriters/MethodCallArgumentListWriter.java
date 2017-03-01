@@ -129,7 +129,15 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			i++;
 		}
 		
-		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
+		if (node().getMethodCall().getCallableDeclaration() instanceof FirstClassClosureDeclaration)
+		{
+			builder.append(",\n");
+			
+			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)node().getMethodCall().getCallableDeclaration();
+			
+			getWriter(closure.reference).generateSourceName(builder).append("->context");
+		}
+		else if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
 		{
 			builder.append(",\n").append(getWriter(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration())).getContextName());
 		}
@@ -223,6 +231,12 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				call.isAccessedWithinStaticContext()))
 		{
 			builder.append(0);
+		}
+		else if (method instanceof FirstClassClosureDeclaration)
+		{
+			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)method;
+			
+			getWriter(closure.reference).generateSourceName(builder).append("->ref");
 		}
 		else if (method instanceof ClosureDeclaration)
 		{
