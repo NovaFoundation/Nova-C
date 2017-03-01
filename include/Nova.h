@@ -1,6 +1,12 @@
 #ifndef NOVA_NOVA
 #define NOVA_NOVA
 
+typedef struct nova_funcStruct {
+    void* func;
+    void* ref;
+    void* context;
+} nova_funcStruct;
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
