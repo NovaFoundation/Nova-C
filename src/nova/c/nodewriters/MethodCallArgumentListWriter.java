@@ -1,5 +1,6 @@
 package nova.c.nodewriters;
 
+import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.tree.variables.Super;
@@ -133,9 +134,20 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			builder.append(",\n");
 			
-			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)node().getMethodCall().getCallableDeclaration();
+			Identifier identifier = null;
 			
-			getWriter(closure.reference).generateSourceName(builder).append("->context");
+			if (call instanceof ChainedMethodCall)
+			{
+				ChainedMethodCall chained = (ChainedMethodCall)call;
+				
+				identifier = chained.getChainReference();
+			}
+			else
+			{
+				identifier = ((FirstClassClosureDeclaration)method).reference;
+			}
+			
+			getWriter(identifier).generateSourceName(builder).append("->context");
 		}
 		else if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
 		{
@@ -236,7 +248,20 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)method;
 			
-			getWriter(closure.reference).generateSourceName(builder).append("->ref");
+			Identifier identifier = null;
+			
+			if (call instanceof ChainedMethodCall)
+			{
+				ChainedMethodCall chained = (ChainedMethodCall)call;
+				
+				identifier = chained.getChainReference();
+			}
+			else
+			{
+				identifier = ((FirstClassClosureDeclaration)method).reference;
+			}
+			
+			getWriter(identifier).generateSourceName(builder).append("->ref");
 		}
 		else if (method instanceof ClosureDeclaration)
 		{
