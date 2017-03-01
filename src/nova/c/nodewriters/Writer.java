@@ -617,6 +617,17 @@ public class Writer
 				}
 			};
 		}
+		else if (node instanceof ChainedMethodCall)
+		{
+			return new ChainedMethodCallWriter()
+			{
+				@Override
+				public ChainedMethodCall node()
+				{
+					return (ChainedMethodCall)node;
+				}
+			};
+		}
 		else if (node instanceof MethodCall)
 		{
 			return new MethodCallWriter()
@@ -1581,6 +1592,11 @@ public class Writer
 	public static VirtualMethodDeclarationWriter getWriter(final VirtualMethodDeclaration node)
 	{
 		return (VirtualMethodDeclarationWriter)getWriter((Node)node);
+	}
+	
+	public static ChainedMethodCallWriter getWriter(final ChainedMethodCall node)
+	{
+		return (ChainedMethodCallWriter)getWriter((Node)node);
 	}
 	
 	public static VTableWriter getWriter(final VTable node)
