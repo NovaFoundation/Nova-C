@@ -59,18 +59,25 @@ public abstract class ClosureWriter extends VariableWriter
 		ClosureDeclaration decl = node().getClosureDeclaration();
 		ClosureDeclaration base = decl;
 		
-		MethodCall call = node().getMethodCall();
-		
-		NovaMethodDeclaration method = call.getNovaMethod();
-		
-		if (method != null && !call.isVirtualTypeKnown())
+		if (decl instanceof FirstClassClosureDeclaration)
 		{
-			base = (ClosureDeclaration)method.getVirtualMethod().getParameterList().getParameter(decl.getIndex());
+			builder.append('&').append(getWriter(node().declaration).generateSourceName());
 		}
-		
-		getWriter(base).generateTypeCast(builder);
-		
-		generateSourceFunctionReference(builder);
+		else
+		{
+			MethodCall call = node().getMethodCall();
+			
+			NovaMethodDeclaration method = call.getNovaMethod();
+			
+			if (method != null && !call.isVirtualTypeKnown())
+			{
+				base = (ClosureDeclaration)method.getVirtualMethod().getParameterList().getParameter(decl.getIndex());
+			}
+			
+			getWriter(base).generateTypeCast(builder);
+			
+			generateSourceFunctionReference(builder);
+		}
 		
 		builder.append(", ");
 		
