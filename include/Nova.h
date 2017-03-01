@@ -92,4 +92,8 @@ void copy_string(char* target, char* source);
 void** nova_gen_array(void** array, int* dimensionSizes, int dimension, int dimensions, int size);
 void nova_free_array(void** array, int* dimensionSizes, int dimension, int dimensions, del_function function, nova_exception_Nova_ExceptionData* exceptionData);
 
+nova_funcStruct* nova_get_funcStruct1(void* func);
+nova_funcStruct* nova_get_funcStruct2(void* func, void* ref);
+nova_funcStruct* nova_get_funcStruct3(void* func, void* ref, void* context);
+
 #endif
