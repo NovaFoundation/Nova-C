@@ -146,7 +146,9 @@ public abstract class ValueWriter extends NodeWriter
 		{
 			FunctionType type = (FunctionType)node().getTypeObject();
 			
-			return getWriter(type.closure).generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap);
+			builder.append("/*");
+			
+			return getWriter(type.closure).generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap).append("*/nova_funcStruct*");
 		}
 		
 		generateTypeName(builder);
