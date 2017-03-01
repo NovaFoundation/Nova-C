@@ -12,11 +12,7 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 	@Override
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
-		FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)node().getMethodDeclaration();
-		
 		builder.append("(");
-		
-		boolean callFunction = true;
 		
 		if (node().chained != null)
 		{
@@ -35,22 +31,13 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 			getWriter(((FunctionType)ref.getTypeObject()).closure).generateTypeCast(builder);
 			
 			getWriter(ref).generateSourceName(builder);
-			
-//			callFunction = ref instanceof MethodCall;
 		}
 		
-		if (callFunction)
-		{
-			builder.append("->func)");
-			
-			MethodCallArgumentList args = node().getArgumentList();
-			
-			getWriter(args).generateSource(builder);
-		}
-		else
-		{
-			builder.append(')');
-		}
+		builder.append("->func)");
+		
+		MethodCallArgumentList args = node().getArgumentList();
+		
+		getWriter(args).generateSource(builder);
 		
 		return builder;
 	}
