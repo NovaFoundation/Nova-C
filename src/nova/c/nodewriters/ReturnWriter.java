@@ -32,7 +32,15 @@ public abstract class ReturnWriter extends IValueWriter
 				getWriter(method).generateTypeCast(builder).append(getWriter(returned).generatePointerToValueConversion(returned));
 			}
 			
-			getWriter(value).generateSourceFragment(builder);
+			if (node().getParentMethod().getTypeObject() instanceof FunctionType && returned instanceof Closure)
+			{
+				builder.append("nova_get_funcStruct3(");
+				getWriter(value).generateSourceFragment(builder).append(")");
+			}
+			else
+			{
+				getWriter(value).generateSourceFragment(builder);
+			}
 		}
 		
 		return builder;
