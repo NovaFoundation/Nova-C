@@ -16,7 +16,14 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 		
 		if (node().chained != null)
 		{
-			getWriter(((FunctionType)node().getTypeObject()).closure).generateTypeCast(builder);
+			ClosureDeclaration closure = ((FunctionType)node().getTypeObject()).closure;
+			
+			if (((FirstClassClosureDeclaration)closure).reference instanceof ClosureDeclaration)
+			{
+				closure = (ClosureDeclaration)((FirstClassClosureDeclaration)closure).reference;
+			}
+			
+			getWriter(closure).generateTypeCast(builder);
 			
 			builder.append("(");
 			getWriter(node().variable).generateSourceName(builder).append(" = ");
