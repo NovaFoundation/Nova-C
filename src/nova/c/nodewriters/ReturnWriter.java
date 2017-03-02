@@ -24,23 +24,20 @@ public abstract class ReturnWriter extends IValueWriter
 			
 			Value returned = value.getReturnedNode();
 			
+			NovaMethodDeclaration method = node().getParentMethod();
+			
 			if (value.getReturnedNode().isGenericType(true) || !SyntaxUtils.isSameType(node().getParentMethod(), returned, false) ||
 				(returned instanceof MethodCall && !SyntaxUtils.isSameType(node().getParentMethod(), (Value)((MethodCall)returned).getCallableMethodBase())))
 			{
-				NovaMethodDeclaration method = node().getParentMethod();
-				
 				getWriter(method).generateTypeCast(builder).append(getWriter(returned).generatePointerToValueConversion(returned));
 			}
 			
-			if (node().getParentMethod().getTypeObject() instanceof FunctionType && returned instanceof Closure)
-			{
-				builder.append("nova_get_funcStruct3(");
-				getWriter(value).generateSourceFragment(builder).append(")");
-			}
-			else
-			{
-				getWriter(value).generateSourceFragment(builder);
-			}
+//			if (node().getParentMethod().getTypeObject() instanceof FunctionType && returned instanceof Closure)
+//			{
+//				getWriter(method).generateTypeCast(builder);
+//			}
+			
+			getWriter(value).generateSourceFragment(builder);
 		}
 		
 		return builder;
