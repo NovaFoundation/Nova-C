@@ -64,7 +64,15 @@ public abstract class ClosureWriter extends VariableWriter
 		ClosureDeclaration decl = node().getClosureDeclaration();
 		ClosureDeclaration base = decl;
 		
-		if (decl instanceof FirstClassClosureDeclaration)
+		boolean firstClass = decl instanceof FirstClassClosureDeclaration;
+		boolean pack = isPackagedAsFunction();
+		
+		if (pack)
+		{
+			builder.append("nova_get_funcStruct3(");
+		}
+		
+		if (firstClass)
 		{
 			builder.append('&').append(getWriter(node().declaration).generateSourceName());
 		}
@@ -87,6 +95,11 @@ public abstract class ClosureWriter extends VariableWriter
 		builder.append(", ");
 		
 		getWriter(decl).generateClosureArguments(builder, node(), node().getMethodDeclaration());
+		
+		if (pack)
+		{
+			builder.append(')');
+		}
 		
 		return builder;
 	}
