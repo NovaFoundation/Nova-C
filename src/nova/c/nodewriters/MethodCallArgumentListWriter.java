@@ -62,6 +62,11 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				
 				boolean sameType = SyntaxUtils.isSameType(arg.getReturnedNode(), param, false) || param.isPrimitiveType() && arg.isPrimitiveType();
 				
+				if (param.isGenericType() && arg instanceof Closure && getWriter((Closure)arg).isPackagedAsFunction())
+				{
+					sameType = false;
+				}
+				
 				if (arg instanceof Variable)
 				{
 					VariableDeclaration declaration = ((Variable)arg).declaration;
@@ -215,7 +220,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			}
 		}
 		
-		if (parameter.getDataType() != child.getReturnedNode().getDataType())
+		if (!parameter.isGenericType() && parameter.getDataType() != child.getReturnedNode().getDataType())
 		{
 //			if (!node().getMethodCall().getReferenceNode().toValue().isPrimitiveGenericTypeWrapper())//parameter.getArrayDimensions() == 0 || parameter.isWithinExternalContext() || parameter.getArrayDimensions() != child.getReturnedNode().getArrayDimensions())
 			{
