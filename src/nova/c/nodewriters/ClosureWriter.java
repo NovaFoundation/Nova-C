@@ -54,6 +54,11 @@ public abstract class ClosureWriter extends VariableWriter
 		return getWriter(node().getClosureDeclaration()).generateClosureContextReference(builder, node().getMethodDeclaration());
 	}
 	
+	public boolean isPackagedAsFunction()
+	{
+		return node().getClosureDeclaration() instanceof FirstClassClosureDeclaration && (node().parent.parent instanceof Return || node().parent instanceof MethodCallArgumentList); 
+	}
+	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
 		ClosureDeclaration decl = node().getClosureDeclaration();
