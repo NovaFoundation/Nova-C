@@ -2,23 +2,15 @@ package nova.c.nodewriters;
 
 import net.fathomsoft.nova.tree.*;
 
-public abstract class ClosureVariableWriter extends NovaMethodDeclarationWriter
+public abstract class ClosureVariableWriter extends VariableWriter
 {
 	public abstract ClosureVariable node();
 	
-	@Override
-	public StringBuilder generateUseOutput(StringBuilder builder, boolean pointer, boolean checkAccesses)
-	{
-		return super.generateUseOutput(builder, pointer, checkAccesses);
-	}
-	
 	public StringBuilder generateDeclaration(StringBuilder builder)
 	{
-		generateFunctionPointer(builder).append(";\n");
-		builder.append("void* ").append(generateContextName()).append(";\n");
-		builder.append("void* ").append(generateReferenceName()).append(";\n");
+		builder.append("nova_funcStruct*");
 		
-		return builder;
+		return generateSourceName(builder).append(";\n");
 	}
 	
 	public StringBuilder generateContextName()
@@ -38,7 +30,7 @@ public abstract class ClosureVariableWriter extends NovaMethodDeclarationWriter
 	
 	public StringBuilder generateReferenceName(StringBuilder builder)
 	{
-		return generateSourceName(builder, "reference");
+		return generateSourceName(builder, "ref");
 	}
 	
 	public StringBuilder generateSource(StringBuilder builder)
@@ -48,6 +40,21 @@ public abstract class ClosureVariableWriter extends NovaMethodDeclarationWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
-		return generateSourceName(builder);
+		if (node().parent instanceof Assignment)
+		{
+			Assignment a = (Assignment)node().parent;
+			
+			if (a.getAssignmentNode().getReturnedNode() == node())
+			{
+				builder.append("nova_get_funcStruct3(");
+				generateUseOutput(builder).append(", ");
+				generateReferenceName(builder).append(", ");
+				generateContextName(builder).append(")");
+				
+				return builder;
+			}
+		}
+		
+		return super.generateSourceFragment(builder);
 	}
 }
