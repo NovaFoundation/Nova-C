@@ -109,7 +109,7 @@ public abstract class DestructorWriter extends BodyMethodDeclarationWriter
 		}
 		else
 		{
-			if (field.isPrimitiveArray())
+			if (field.isPrimitiveArray() || field.getTypeObject() instanceof FunctionType)
 			{
 				//				void nova_free_array(void** array, int* dimensionSizes, int dimension, int dimensions, del_function function);
 				//				builder.append("nova_free_array(" + field.generateUseOutput(new StringBuilder(), true) + ", );");
