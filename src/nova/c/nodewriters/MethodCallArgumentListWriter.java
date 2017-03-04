@@ -60,7 +60,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 					}
 				}
 				
-				boolean sameType = SyntaxUtils.isSameType(arg.getReturnedNode(), param, false) || param.isPrimitiveType() && arg.isPrimitiveType();
+				boolean sameType = arg instanceof ClosureVariable || SyntaxUtils.isSameType(arg.getReturnedNode(), param, false) || param.isPrimitiveType() && arg.isPrimitiveType();
 				
 				if (param.isGenericType() && arg instanceof Closure && getWriter((Closure)arg).isPackagedAsFunction())
 				{
