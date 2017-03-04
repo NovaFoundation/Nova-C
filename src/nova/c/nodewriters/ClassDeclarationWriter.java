@@ -11,6 +11,7 @@ import net.fathomsoft.nova.tree.variables.InstanceFieldList;
 import net.fathomsoft.nova.util.Location;
 
 import java.io.PrintWriter;
+import java.util.function.Consumer;
 
 public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 {
@@ -391,6 +392,17 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 				.append(generateSourceName()).append(",\n")
 				.append(generatePrivateFieldsSource()).append(')').append('\n');
 		}
+		
+		Consumer<NovaMethodDeclaration> writePrivatePrototype = x -> {
+			if (x.getVisibility() == InstanceDeclaration.PRIVATE)
+			{
+				getWriter(x).generateSourcePrototype(builder).append('\n');
+			}
+		};
+		
+		node().getConstructorList().forEachNovaMethod(writePrivatePrototype);
+		node().getMethodList().forEachNovaMethod(writePrivatePrototype);
+		node().getPropertyMethodList().forEachNovaMethod(writePrivatePrototype);
 		
 		return builder;
 	}
