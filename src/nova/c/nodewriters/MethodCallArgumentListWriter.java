@@ -158,17 +158,17 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 		{
 			builder.append(",\n").append(getWriter(((ClosureDeclaration)node().getMethodCall().getCallableDeclaration())).getContextName());
 		}
-		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureVariable)
-		{
-			builder.append(",\n");
-			
-			if (!call.isAccessed())
-			{
-				getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).writeInstanceAccess(builder);
-			}
-			
-			builder.append(getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).generateContextName());
-		}
+//		if (node().getMethodCall().getCallableDeclaration() instanceof ClosureVariable)
+//		{
+//			builder.append(",\n");
+//			
+//			if (!call.isAccessed())
+//			{
+//				getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).writeInstanceAccess(builder);
+//			}
+//			
+//			builder.append(getWriter((ClosureVariable)node().getMethodCall().getCallableDeclaration()).generateContextName());
+//		}
 		
 		return builder.append(')');
 	}
@@ -274,15 +274,15 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 			
 			getWriter(closure).generateObjectReferenceIdentifier(builder);
 		}
-		else if (method instanceof ClosureVariable)
-		{
-			if (!call.isAccessed())
-			{
-				getWriter((ClosureVariable)method).writeInstanceAccess(builder);
-			}
-			
-			getWriter((ClosureVariable)method).generateReferenceName(builder);
-		}
+//		else if (method instanceof ClosureVariable)
+//		{
+//			if (!call.isAccessed())
+//			{
+//				getWriter((ClosureVariable)method).writeInstanceAccess(builder);
+//			}
+//			
+//			getWriter((ClosureVariable)method).generateReferenceName(builder);
+//		}
 		else
 		{
 			if (method instanceof Destructor)

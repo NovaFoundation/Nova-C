@@ -34,7 +34,7 @@ public abstract class MethodCallWriter extends VariableWriter
 		
 		CallableMethod base = node().getCallableMethodBase();
 		
-		if (callable instanceof ClosureVariable)
+		/*if (callable instanceof ClosureVariable)
 		{
 			ClosureVariable var = (ClosureVariable)callable;
 			
@@ -45,7 +45,7 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			getWriter(var).generateSourceFragment(builder);
 		}
-		else if (callable instanceof FirstClassClosureDeclaration)
+		else */if (callable instanceof FirstClassClosureDeclaration)
 		{
 			FirstClassClosureDeclaration closure = (FirstClassClosureDeclaration)callable;
 			

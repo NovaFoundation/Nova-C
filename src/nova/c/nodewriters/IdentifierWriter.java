@@ -111,7 +111,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		{
 			VariableDeclaration decl = ((Variable)node()).getDeclaration();
 			
-			if (decl instanceof FieldDeclaration || decl instanceof ClosureVariable)
+			if (decl instanceof FieldDeclaration)
 			{
 				field = (InstanceDeclaration)decl;
 			}

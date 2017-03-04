@@ -121,7 +121,7 @@ public abstract class VariableWriter extends IdentifierWriter
 			
 			if (instance == null)
 			{
-				instance = node().getTypeClass().getClosureVariable(node().getAccessedNode().getName());
+//				instance = node().getTypeClass().getClosureVariable(node().getAccessedNode().getName());
 			}
 			
 			if (instance != null && instance.getVisibility() == InstanceDeclaration.PRIVATE)
