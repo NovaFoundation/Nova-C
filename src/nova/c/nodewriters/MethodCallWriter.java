@@ -51,7 +51,7 @@ public abstract class MethodCallWriter extends VariableWriter
 			
 			builder.append("(");
 			getWriter(closure).generateTypeCast(builder);
-			getWriter(closure.reference).generateSourceName(builder).append("->func)");
+			getWriter(closure.reference).generateUseOutput(builder).append("->func)");
 		}
 		else
 		{

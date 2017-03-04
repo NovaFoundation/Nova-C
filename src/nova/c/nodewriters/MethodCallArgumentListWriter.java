@@ -152,7 +152,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				identifier = ((FirstClassClosureDeclaration)method).reference;
 			}
 			
-			getWriter(identifier).generateSourceName(builder).append("->context");
+			getWriter(identifier).generateUseOutput(builder).append("->context");
 		}
 		else if (node().getMethodCall().getCallableDeclaration() instanceof ClosureDeclaration)
 		{
@@ -266,7 +266,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				identifier = ((FirstClassClosureDeclaration)method).reference;
 			}
 			
-			getWriter(identifier).generateSourceName(builder).append("->ref");
+			getWriter(identifier).generateUseOutput(builder).append("->ref");
 		}
 		else if (method instanceof ClosureDeclaration)
 		{
