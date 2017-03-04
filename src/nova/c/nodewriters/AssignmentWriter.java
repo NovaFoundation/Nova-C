@@ -26,19 +26,19 @@ public abstract class AssignmentWriter extends ValueWriter
 		
 		getWriter(assignee).generateSourceFragment(builder).append(" = ").append(generateAssignmentSource());
 		
-		if (node().getAssignedNodeValue() instanceof Variable && node().getAssignedNode().declaration instanceof ClosureVariable)
-		{
-			builder.append(";\n");
-			
-			ClosureVariable var = (ClosureVariable)node().getAssignedNode().declaration;
-			ClosureDeclaration closure = ((ClosureCompatible)((Variable)node().getAssignmentNode().getReturnedNode()).declaration).getClosureDeclaration();
-			
-			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
-			builder.append(getWriter(var).generateReferenceName()).append(" = ").append(getWriter(closure).generateObjectReferenceIdentifier(new StringBuilder())).append(";\n");
-			
-			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
-			builder.append(getWriter(var).generateContextName()).append(" = ").append(getWriter(closure).getContextName());
-		}
+//		if (node().getAssignedNodeValue() instanceof Variable && node().getAssignedNode().declaration instanceof ClosureVariable)
+//		{
+//			builder.append(";\n");
+//			
+//			ClosureVariable var = (ClosureVariable)node().getAssignedNode().declaration;
+//			ClosureDeclaration closure = ((ClosureCompatible)((Variable)node().getAssignmentNode().getReturnedNode()).declaration).getClosureDeclaration();
+//			
+//			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
+//			builder.append(getWriter(var).generateReferenceName()).append(" = ").append(getWriter(closure).generateObjectReferenceIdentifier(new StringBuilder())).append(";\n");
+//			
+//			getWriter(node().getAssignedNode().getRootAccessNode()).generateSourceUntil(builder, "->", node().getAssignedNode());
+//			builder.append(getWriter(var).generateContextName()).append(" = ").append(getWriter(closure).getContextName());
+//		}
 		
 		return builder;
 	}
