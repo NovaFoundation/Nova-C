@@ -15,10 +15,10 @@
 #endif
 
 #ifdef _WIN32
-typedef void (*nova_star_window_draw_function)(HWND hwnd, HDC hdc, PAINTSTRUCT ps);
+typedef void (*nova_star_window_draw_function)(nova_star_Nova_Window* window);
 #endif
 
-WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title, nova_star_window_draw_function drawHandle);
+WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window_draw_function drawHandle);
 
 void GetDesktopResolution(int* horizontal, int* vertical);
 

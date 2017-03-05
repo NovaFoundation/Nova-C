@@ -29,14 +29,14 @@ void DrawButton(HDC hdc, int x, int y, int width, int height) {
 	DrawFrameControl(hdc, &r, DFC_BUTTON, DFCS_BUTTONPUSH);
 }
 
-void DrawComponents(HWND hwnd, HDC hdc, PAINTSTRUCT ps) {
-	DrawPixels(hwnd, hdc, ps);
+void DrawComponents(nova_star_Nova_Window* this) {
+	DrawPixels(*this->hwnd, *this->hdc, *this->ps);
 	
-	SetBkMode(hdc, TRANSPARENT);
+	SetBkMode(*this->hdc, TRANSPARENT);
 	
-	DrawButton(hdc, 100, 100, 100, 20);
+	DrawButton(*this->hdc, 100, 100, 100, 20);
 	
-	TextOut(hdc, 5, 5, "trest", strlen("trest"));
+	TextOut(*this->hdc, 5, 5, "trest", strlen("trest"));
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -45,13 +45,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	
 	nova_star_window_draw_function func = (nova_star_window_draw_function)GetProp(hwnd, (LPCSTR)L"draw function");
+	nova_star_Nova_Window* window = (nova_star_Nova_Window*)GetProp(hwnd, (LPCSTR)L"window");
 	
 	switch (msg)
 	{
 		case WM_PAINT:
-			hdc = BeginPaint(hwnd, &ps);  
+			hdc = BeginPaint(hwnd, &ps);
+			window->hwnd = &hwnd;
+			window->hdc = &hdc;
+			window->ps = &ps;
 			
-			func(hwnd, hdc, ps);
+			func(window);
 			
 			EndPaint(hwnd, &ps);
 			break;
@@ -65,7 +69,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #endif
 
-WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title, nova_star_window_draw_function drawHandle)
+WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window_draw_function drawHandle)
 {
 	drawHandle = &DrawComponents;
 	
@@ -76,7 +80,7 @@ WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* titl
 
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 
-	size_t size = strlen(title) + 1;
+	size_t size = window->title->nova_Nova_String_Nova_count + 1;
 	wchar_t* wa = (wchar_t*)NOVA_MALLOC(sizeof(wchar_t) * size);
 
 	wc.style         = CS_HREDRAW | CS_VREDRAW;
@@ -90,13 +94,15 @@ WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* titl
 	wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
 
-	mbstowcs(wa, title, size);
+	mbstowcs(wa, window->title->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_StringCharArray_Nova_data, size);
 
 	RegisterClassW(&wc);
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, x, y, width, height, NULL, NULL, hInstance, drawHandle);
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, drawHandle);
+	window->hwnd = &hwnd;
 	
 	SetProp(hwnd, (LPCSTR)L"draw function", drawHandle);
+	SetProp(hwnd, (LPCSTR)L"window", window);
 	
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
 	UpdateWindow(hwnd);
