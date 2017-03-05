@@ -98,7 +98,7 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window
 
 	RegisterClassW(&wc);
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, drawHandle);
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
 	window->hwnd = &hwnd;
 	
 	SetProp(hwnd, (LPCSTR)L"draw function", paintFunc);
