@@ -65,8 +65,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #endif
 
-WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title)
+WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title, nova_star_window_draw_function drawHandle)
 {
+	drawHandle = &DrawComponents;
+	
 #ifdef _WIN32
 	MSG  msg;
 	HWND hwnd;
@@ -91,8 +93,11 @@ WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* titl
 	mbstowcs(wa, title, size);
 
 	RegisterClassW(&wc);
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, x, y, width, height, NULL, NULL, hInstance, NULL);
-
+	
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, x, y, width, height, NULL, NULL, hInstance, drawHandle);
+	
+	SetProp(hwnd, (LPCSTR)L"draw function", drawHandle);
+	
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
 	UpdateWindow(hwnd);
 
