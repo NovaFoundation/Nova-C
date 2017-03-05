@@ -3,11 +3,8 @@
 #ifdef _WIN32
 void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 {
-	PAINTSTRUCT ps;
 	RECT r;
 	int i = 0;
-
-	HDC hdc = BeginPaint(hwnd, &ps);
 
 	GetClientRect(hwnd, &r);
 
@@ -44,10 +41,19 @@ void DrawComponents(HWND hwnd, HDC hdc, PAINTSTRUCT ps) {
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	PAINTSTRUCT ps;  
+	HDC hdc;
+	
+	nova_star_window_draw_function func = (nova_star_window_draw_function)GetProp(hwnd, (LPCSTR)L"draw function");
+	
 	switch (msg)
 	{
 		case WM_PAINT:
-			DrawPixels(hwnd);
+			hdc = BeginPaint(hwnd, &ps);  
+			
+			func(hwnd, hdc, ps);
+			
+			EndPaint(hwnd, &ps);
 			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
