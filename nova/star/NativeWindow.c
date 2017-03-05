@@ -1,7 +1,7 @@
 #include "NativeWindow.h"
 
 #ifdef _WIN32
-void DrawPixels(HWND hwnd)
+void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 {
 	PAINTSTRUCT ps;
 	RECT r;
