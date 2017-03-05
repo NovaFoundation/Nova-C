@@ -56,7 +56,9 @@ public abstract class ClosureWriter extends VariableWriter
 	
 	public boolean isPackagedAsFunction()
 	{
-		return node().getClosureDeclaration() instanceof FirstClassClosureDeclaration && (node().parent.parent instanceof Return || node().parent instanceof MethodCallArgumentList); 
+		return node().getClosureDeclaration() instanceof FirstClassClosureDeclaration &&
+			(node().parent.parent instanceof Return || node().parent instanceof MethodCallArgumentList || 
+			(node().getBaseNode() instanceof Assignment));
 	}
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
