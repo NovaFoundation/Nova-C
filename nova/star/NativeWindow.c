@@ -32,8 +32,6 @@ void DrawButton(HDC hdc, int x, int y, int width, int height) {
 void DrawComponents(nova_star_Nova_Window* this) {
 	DrawPixels(*this->hwnd, *this->hdc, *this->ps);
 	
-	SetBkMode(*this->hdc, TRANSPARENT);
-	
 	DrawButton(*this->hdc, 100, 100, 100, 20);
 	
 	TextOut(*this->hdc, 5, 5, "trest", strlen("trest"));
@@ -54,6 +52,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			window->hwnd = &hwnd;
 			window->hdc = &hdc;
 			window->ps = &ps;
+			
+			SetBkMode(hdc, TRANSPARENT);
 			
 			paintFunc(window);
 			
