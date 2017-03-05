@@ -15,4 +15,6 @@
 #endif
 WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title);
 
+void GetDesktopResolution(int* horizontal, int* vertical);
+
 #endif
