@@ -13,7 +13,12 @@
 #else
 #   define WINDOW_ID_TYPE void*
 #endif
-WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title);
+
+#ifdef _WIN32
+typedef void (*nova_star_window_draw_function)(HWND hwnd, HDC hdc, PAINTSTRUCT ps);
+#endif
+
+WINDOW_ID_TYPE nova_createWindow(int x, int y, int width, int height, char* title, nova_star_window_draw_function drawHandle);
 
 void GetDesktopResolution(int* horizontal, int* vertical);
 
