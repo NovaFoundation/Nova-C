@@ -44,7 +44,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;  
 	HDC hdc;
 	
-	nova_star_window_draw_function func = (nova_star_window_draw_function)GetProp(hwnd, (LPCSTR)L"draw function");
+	nova_star_window_paint_function paintFunc = (nova_star_window_paint_function)GetProp(hwnd, (LPCSTR)L"draw function");
 	nova_star_Nova_Window* window = (nova_star_Nova_Window*)GetProp(hwnd, (LPCSTR)L"window");
 	
 	switch (msg)
@@ -55,7 +55,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			window->hdc = &hdc;
 			window->ps = &ps;
 			
-			func(window);
+			paintFunc(window);
 			
 			EndPaint(hwnd, &ps);
 			break;
@@ -69,9 +69,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #endif
 
-WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window_draw_function drawHandle)
+WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window_paint_function paintFunc)
 {
-	drawHandle = &DrawComponents;
+	paintFunc = &DrawComponents;
 	
 #ifdef _WIN32
 	MSG  msg;
@@ -101,7 +101,7 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_star_window
 	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, drawHandle);
 	window->hwnd = &hwnd;
 	
-	SetProp(hwnd, (LPCSTR)L"draw function", drawHandle);
+	SetProp(hwnd, (LPCSTR)L"draw function", paintFunc);
 	SetProp(hwnd, (LPCSTR)L"window", window);
 	
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
