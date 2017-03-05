@@ -19,7 +19,27 @@ void DrawPixels(HWND hwnd)
 		SetPixel(hdc, x, y, RGB(255, 0, 0));
 	}
 
-	EndPaint(hwnd, &ps);
+}
+
+void DrawButton(HDC hdc, int x, int y, int width, int height) {
+	RECT r;
+	
+	r.left   = x;
+	r.right  = x + width;
+	r.top    = y;
+	r.bottom = y + height;
+	
+	DrawFrameControl(hdc, &r, DFC_BUTTON, DFCS_BUTTONPUSH);
+}
+
+void DrawComponents(HWND hwnd, HDC hdc, PAINTSTRUCT ps) {
+	DrawPixels(hwnd, hdc, ps);
+	
+	SetBkMode(hdc, TRANSPARENT);
+	
+	DrawButton(hdc, 100, 100, 100, 20);
+	
+	TextOut(hdc, 5, 5, "trest", strlen("trest"));
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
