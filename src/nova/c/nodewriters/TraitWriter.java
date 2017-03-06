@@ -9,11 +9,6 @@ public abstract class TraitWriter extends ClassDeclarationWriter
 {
 	public abstract Trait node();
 	
-	public StringBuilder generateSource(StringBuilder builder)
-	{
-		return super.generateSource(builder);
-	}
-	
 	public java.io.Writer writeVTableDeclaration(java.io.Writer writer) throws IOException
 	{
 		writer.write(getVTableType() + " " + getVTableValueName() + ";\n");
