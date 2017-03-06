@@ -42,6 +42,11 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 		return builder;
 	}
 	
+	public boolean isPackagedAsFunction()
+	{
+		return false;
+	}
+	
 	/**
 	 * Generate the representation of when the variable is being used, in
 	 * action, rather than being declared.<br>
