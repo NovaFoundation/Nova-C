@@ -46,19 +46,14 @@ public abstract class ClosureVariableWriter extends VariableWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
-		if (node().parent instanceof Assignment)
+		if (isPackagedAsFunction())
 		{
-			Assignment a = (Assignment)node().parent;
+			builder.append("nova_get_funcStruct3(");
+			generateUseOutput(builder).append(", ");
+			generateReferenceName(builder).append(", ");
+			generateContextName(builder).append(")");
 			
-			if (a.getAssignmentNode().getReturnedNode() == node())
-			{
-				builder.append("nova_get_funcStruct3(");
-				generateUseOutput(builder).append(", ");
-				generateReferenceName(builder).append(", ");
-				generateContextName(builder).append(")");
-				
-				return builder;
-			}
+			return builder;
 		}
 		
 		return super.generateSourceFragment(builder);
