@@ -38,6 +38,12 @@ public abstract class ClosureVariableWriter extends VariableWriter
 		return builder;//generateSourceFragment(builder);
 	}
 	
+	public boolean isPackagedAsFunction()
+	{
+		return (node().parent.parent instanceof Return || node().getRootAccessNode() != null && node().getRootAccessNode().toValue().parent instanceof Assignment ||
+				(node().parent instanceof MethodCallArgumentList && ((MethodCall)node().parent.parent).getCorrespondingParameter(node().getVisibleIndex()) instanceof ClosureDeclaration == false));
+	}
+	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
 		if (node().parent instanceof Assignment)
