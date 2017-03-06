@@ -53,7 +53,7 @@ ifndef NO_GC
 endif
 ifeq ($(OS), Windows_NT)
 	CFLAGS += -mwindows -mconsole -Wl,--enable-stdcall-fixup
-	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp
+	LIBS += -lws2_32 -lmysql -lpcre2-8-0 -limagehlp -lcomctl32
 else
 	LIBS += -lpcre2-8
 	
