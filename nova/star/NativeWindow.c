@@ -37,25 +37,50 @@ void DrawComponents(nova_star_Nova_Window* this) {
 	TextOut(*this->hdc, 5, 5, "trest", strlen("trest"));
 }
 
+__thread nova_star_Nova_Window* initWindow;
+__thread nova_funcStruct* initPaintFunc;
+__thread nova_funcStruct* initAddedFunc;
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;  
 	HDC hdc;
+	INITCOMMONCONTROLSEX icex;
 	
-	nova_funcStruct* paintFunc = (nova_funcStruct*)GetProp(hwnd, (LPCSTR)L"paint function");
 	nova_star_Nova_Window* window = (nova_star_Nova_Window*)GetProp(hwnd, (LPCSTR)L"window");
 	
 	switch (msg)
 	{
+		case WM_CREATE:
+		    icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+		    icex.dwICC = ICC_STANDARD_CLASSES;
+		    InitCommonControlsEx(&icex);
+		    
+			initWindow->hwnd = &hwnd;
+			initWindow->ps = &ps;
+		    
+			((nova_star_window_function)initAddedFunc->func)(initAddedFunc->ref, initAddedFunc->context);
+		    
+		    
+		    break;
+		case WM_COMMAND:
+			// nova_funcStruct* actionFunction = (nova_funcStruct*)GetProp(hwnd, (LPCSTR)L"action function");
+			// ((nova_star_window_paint_function)paintFunc->func)(paintFunc->ref, paintFunc->context);
+			// window->currentActionId = 
+			
+			nova_star_Nova_UIComponent_virtual_Nova_searchActionTarget((nova_star_Nova_UIComponent*)window->frame, (int)LOWORD(wParam));
+			
+            break;
 		case WM_PAINT:
 			hdc = BeginPaint(hwnd, &ps);
 			window->hwnd = &hwnd;
-			window->hdc = &hdc;
 			window->ps = &ps;
+			window->hdc = &hdc;
 			
 			SetBkMode(hdc, TRANSPARENT);
 			
-			((nova_star_window_paint_function)paintFunc->func)(paintFunc->ref, paintFunc->context);
+			nova_funcStruct* paintFunc = (nova_funcStruct*)GetProp(hwnd, (LPCSTR)L"paint function");
+			((nova_star_window_function)paintFunc->func)(paintFunc->ref, paintFunc->context);
 			
 			EndPaint(hwnd, &ps);
 			break;
@@ -69,7 +94,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 #endif
 
-WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc)
+WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc, nova_funcStruct* addedFunc)
 {
 #ifdef _WIN32
 	MSG  msg;
@@ -84,22 +109,27 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 	wc.style         = CS_HREDRAW | CS_VREDRAW;
 	wc.cbClsExtra    = 0;
 	wc.cbWndExtra    = 0;
-	wc.lpszClassName = L"Pixels";
+	wc.lpszClassName = L"Window";
 	wc.hInstance     = hInstance;
 	wc.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
 	wc.lpszMenuName  = NULL;
 	wc.lpfnWndProc   = WndProc;
 	wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-
+	
 	mbstowcs(wa, window->title->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_StringCharArray_Nova_data, size);
 
 	RegisterClassW(&wc);
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
-	window->hwnd = &hwnd;
+	initWindow = window;
+	initPaintFunc = paintFunc;
+	initAddedFunc = addedFunc;
 	
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, window);
+	window->hwnd = &hwnd;
+
 	SetProp(hwnd, (LPCSTR)L"paint function", paintFunc);
+	SetProp(hwnd, (LPCSTR)L"added function", addedFunc);
 	SetProp(hwnd, (LPCSTR)L"window", window);
 	
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
