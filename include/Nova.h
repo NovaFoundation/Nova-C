@@ -7,6 +7,16 @@ typedef struct nova_funcStruct {
     void* context;
 } nova_funcStruct;
 
+#ifdef _WIN32
+#   ifndef _WIN32_WINNT
+#       define _WIN32_WINNT 0x0600
+#   endif
+#   define _WIN32_IE 0x0900
+
+#   include <windows.h>
+#   include <commctrl.h>
+#endif
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
