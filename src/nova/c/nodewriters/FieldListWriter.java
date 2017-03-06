@@ -47,6 +47,6 @@ public abstract class FieldListWriter extends ListWriter
 	 */
 	public StringBuilder generateNonStaticSource(StringBuilder builder)
 	{
-		return getWriter(node().getPrivateStaticFieldList()).generateHeader(builder);
+		return getWriter(node().getPrivateStaticFieldList()).generateSource(builder);
 	}
 }
