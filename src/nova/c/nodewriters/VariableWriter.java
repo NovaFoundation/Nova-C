@@ -74,7 +74,7 @@ public abstract class VariableWriter extends IdentifierWriter
 	
 	public StringBuilder generateExtraArguments(StringBuilder builder)
 	{
-		if (node().getDeclaration() instanceof ClosureDeclaration)
+		if (node().getDeclaration() instanceof ClosureDeclaration && !isPackagedAsFunction())
 		{
 			builder.append(", ");
 			
