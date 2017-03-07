@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define WM_USER_INVALRECT (WM_USER + 100)
+
 #ifdef _WIN32
 #	define WINDOW_ID_TYPE HWND
 #else
