@@ -449,9 +449,13 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		{
 			StaticBlock block = node().getStaticBlockList().getChild(0);
 			
-			getWriter(block).generateMethodHeader(builder, node()).append('\n');
+			getWriter(block).generateMethodHeader(builder, node(), true).append('\n');
 			
 			builder.append('{').append('\n');
+			
+			builder.append("if (!");
+			getWriter(block).generateInitedVariable(builder, node()).append(") {\n");
+			getWriter(block).generateInitedVariable(builder, node()).append(" = 1;\n");
 			
 			for (int i = 0; i < node().getStaticBlockList().getNumVisibleChildren(); i++)
 			{
@@ -459,6 +463,8 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 				
 				getWriter(block).generateSource(builder);
 			}
+			
+			builder.append("}\n");
 			
 			builder.append('}').append('\n');
 		}
