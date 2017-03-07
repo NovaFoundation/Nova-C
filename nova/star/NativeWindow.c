@@ -18,25 +18,6 @@ void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 
 }
 
-void DrawButton(HDC hdc, int x, int y, int width, int height) {
-	RECT r;
-	
-	r.left   = x;
-	r.right  = x + width;
-	r.top    = y;
-	r.bottom = y + height;
-	
-	DrawFrameControl(hdc, &r, DFC_BUTTON, DFCS_BUTTONPUSH);
-}
-
-void DrawComponents(nova_star_Nova_Window* this) {
-	DrawPixels(*this->hwnd, *this->hdc, *this->ps);
-	
-	DrawButton(*this->hdc, 100, 100, 100, 20);
-	
-	TextOut(*this->hdc, 5, 5, "trest", strlen("trest"));
-}
-
 __thread nova_star_Nova_Window* initWindow;
 __thread nova_funcStruct* initPaintFunc;
 __thread nova_funcStruct* initAddedFunc;
