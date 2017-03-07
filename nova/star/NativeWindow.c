@@ -44,6 +44,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		    
 		    
 		    break;
+		case WM_USER_INVALRECT:
+			InvalidateRect(hwnd, NULL, FALSE);
+        	UpdateWindow(hwnd);
+        	break;
 		case WM_ERASEBKGND:
 			return 0;
 		case WM_COMMAND:
