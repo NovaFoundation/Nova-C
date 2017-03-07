@@ -38,7 +38,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		    InitCommonControlsEx(&icex);
 		    
 			initWindow->hwnd = hwnd;
-			initWindow->ps = &ps;
+			initWindow->ps = ps;
 		    
 			((nova_star_window_function)initAddedFunc->func)(initAddedFunc->ref, initAddedFunc->context);
 		    
@@ -57,8 +57,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_PAINT:
 			hdc = BeginPaint(hwnd, &ps);
 			
-			window->ps = &ps;
-			window->hdc = &hdc;
+			window->ps = ps;
+			window->hdc = hdc;
 			
 			SetBkMode(hdc, TRANSPARENT);
 	
