@@ -18,9 +18,9 @@ void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 
 }
 
-__thread nova_star_Nova_Window* initWindow;
-__thread nova_funcStruct* initPaintFunc;
-__thread nova_funcStruct* initAddedFunc;
+__thread nova_star_Nova_Window* threadWindow;
+__thread nova_funcStruct* threadPaintFunc;
+__thread nova_funcStruct* threadAddedFunc;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -28,45 +28,46 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	INITCOMMONCONTROLSEX icex;
 	
-	nova_star_Nova_Window* window = (nova_star_Nova_Window*)GetProp(hwnd, (LPCSTR)L"window");
-	
 	switch (msg)
 	{
 		case WM_CREATE:
 		    icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 		    icex.dwICC = ICC_STANDARD_CLASSES;
 		    InitCommonControlsEx(&icex);
-		    
-			initWindow->hwnd = hwnd;
-			initWindow->ps = ps;
-		    
-			((nova_star_window_function)initAddedFunc->func)(initAddedFunc->ref, initAddedFunc->context);
-		    
+		    nova_init_scrollbar();
 		    
 		    break;
 		case WM_USER_INVALRECT:
 			InvalidateRect(hwnd, NULL, FALSE);
         	UpdateWindow(hwnd);
         	break;
+		case WM_ADD_COMPONENT:
+			((nova_star_window_function)threadAddedFunc->func)(threadAddedFunc->ref, threadAddedFunc->context);
+        	break;
 		case WM_ERASEBKGND:
 			return 0;
 		case WM_COMMAND:
-			nova_star_Nova_UIComponent_virtual_Nova_searchActionTarget((nova_star_Nova_UIComponent*)window->frame, (int)LOWORD(wParam));
+			nova_star_Nova_UIComponent_virtual_Nova_searchActionTarget((nova_star_Nova_UIComponent*)threadWindow->frame, (int)LOWORD(wParam));
 			
             break;
 		case WM_PAINT:
 			hdc = BeginPaint(hwnd, &ps);
 			
-			window->ps = ps;
-			window->hdc = hdc;
+			threadWindow->ps = ps;
+			threadWindow->hdc = hdc;
 			
 			SetBkMode(hdc, TRANSPARENT);
-	
-			nova_funcStruct* paintFunc = (nova_funcStruct*)GetProp(hwnd, (LPCSTR)L"paint function");
-			((nova_star_window_function)paintFunc->func)(paintFunc->ref, paintFunc->context);
+			
+			((nova_star_window_function)threadPaintFunc->func)(threadPaintFunc->ref, threadPaintFunc->context);
 			
 			EndPaint(hwnd, &ps);
 			break;
+		case WM_MOUSEWHEEL:
+            CustomHandleMouseWheel(hwnd, HIWORD(wParam), TRUE);
+            return 0;
+        case WM_MOUSEHWHEEL:
+            CustomHandleMouseWheel(hwnd, HIWORD(wParam), FALSE);
+            return 0;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
@@ -80,7 +81,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc, nova_funcStruct* addedFunc)
 {
 #ifdef _WIN32
-	MSG  msg;
+	MSG msg;
 	HWND hwnd;
 	WNDCLASSW wc;
 
@@ -104,31 +105,32 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 
 	RegisterClassW(&wc);
 	
-	initWindow = window;
-	initPaintFunc = paintFunc;
-	initAddedFunc = addedFunc;
+	threadWindow = window;
+	threadPaintFunc = paintFunc;
+	threadAddedFunc = addedFunc;
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VISIBLE, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, window);
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, window);
 	
 	window->hwnd = hwnd;
-
-	SetProp(hwnd, (LPCSTR)L"paint function", paintFunc);
-	SetProp(hwnd, (LPCSTR)L"added function", addedFunc);
-	SetProp(hwnd, (LPCSTR)L"window", window);
+	window->hinstance = hInstance;
 	
-	ShowWindow(hwnd, SW_SHOWDEFAULT);
-	UpdateWindow(hwnd);
-
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		DispatchMessage(&msg);
 	}
-
+	
 	return hwnd;
 #else
     return 0;
 #endif
 }
+
+#ifdef _WIN32
+void nova_showWindow(HWND hwnd) {
+	ShowWindow(hwnd, SW_SHOWDEFAULT);
+	UpdateWindow(hwnd);
+}
+#endif
 
 // Get the horizontal and vertical screen sizes in pixel
 void GetDesktopResolution(int* horizontal, int* vertical) {
