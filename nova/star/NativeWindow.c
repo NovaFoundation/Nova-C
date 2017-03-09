@@ -88,15 +88,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			
 			EndPaint(hwnd, &ps);
 			break;
-		case WM_MOUSEWHEEL:
-            CustomHandleMouseWheel(hwnd, HIWORD(wParam), TRUE);
-            return 0;
-        case WM_MOUSEHWHEEL:
-            CustomHandleMouseWheel(hwnd, HIWORD(wParam), FALSE);
-            return 0;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
+		default: 
+			return nova_scroll_proc(hwnd, msg, wParam, lParam);
 	}
 
 	return DefWindowProcW(hwnd, msg, wParam, lParam);

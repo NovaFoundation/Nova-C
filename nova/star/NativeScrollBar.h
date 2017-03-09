@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 void nova_init_scrollbar();
+LRESULT CALLBACK nova_scroll_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int WheelScrollLines(HWND hwnd, int iDelta, UINT nPage, BOOL isVertical);
 void CustomHandleMouseWheel(HWND hwnd, int iDelta, BOOL isVertical);
 

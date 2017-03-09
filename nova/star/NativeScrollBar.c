@@ -11,6 +11,20 @@ void nova_init_scrollbar() {
     InitializeCriticalSection(&csWheelLock);
 }
 
+LRESULT CALLBACK nova_scroll_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch(uMsg) {
+        case WM_MOUSEWHEEL:
+            CustomHandleMouseWheel(hwnd, HIWORD(wParam), TRUE);
+            return 0;
+        case WM_MOUSEHWHEEL:
+            CustomHandleMouseWheel(hwnd, HIWORD(wParam), FALSE);
+            return 0;
+    }
+    
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
 // Helper function for calculation of scrolling lines for provided mouse wheel
 // delta value. This function is quite generic and can be used/shared among
 // many controls.
