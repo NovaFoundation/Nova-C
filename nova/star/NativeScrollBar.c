@@ -15,10 +15,10 @@ LRESULT CALLBACK nova_scroll_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
 {
     switch(uMsg) {
         case WM_MOUSEWHEEL:
-            CustomHandleMouseWheel(hwnd, HIWORD(wParam), TRUE);
+            CustomHandleMouseWheel(hwnd, GET_WHEEL_DELTA_WPARAM(wParam), TRUE);
             break;
         case WM_MOUSEHWHEEL:
-            CustomHandleMouseWheel(hwnd, HIWORD(wParam), FALSE);
+            CustomHandleMouseWheel(hwnd, GET_WHEEL_DELTA_WPARAM(wParam), FALSE);
             break;
     }
     
