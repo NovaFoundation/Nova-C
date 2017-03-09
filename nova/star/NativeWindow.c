@@ -1,5 +1,8 @@
 #include "NativeWindow.h"
 
+// #define NK_IMPLEMENTATION
+// #include <ui/nuklear.h>
+
 #ifdef _WIN32
 void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 {
@@ -18,39 +21,13 @@ void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 
 }
 
-// int nova_uiwindow_closing(uiWindow *w, void *data) {
-// 	uiQuit();
-// 	return 1;
-// }
-
-// int nova_uiwindow_quit(void *data) {
-// 	uiWindow *mainwin = uiWindow(data);
-
-// 	uiControlDestroy(uiControl(mainwin));
-// 	return 1;
-// }
-
-// int nova_init_ui() {
-// 	uiInitOptions o;
-// 	const char* err;
-// 	memset(&o, 0, sizeof (uiInitOptions));
-// 	err = uiInit(&o);
-// 	if (err != NULL) {
-// 		fprintf(stderr, "error initializing ui: %s\n", err);
-// 		uiFreeInitError(err);
-// 		return 1;
-// 	}
-	
-// 	return 0;
-// }
-
 __thread nova_star_Nova_Window* threadWindow;
 __thread nova_funcStruct* threadPaintFunc;
 __thread nova_funcStruct* threadAddedFunc;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps;  
+	PAINTSTRUCT ps;
 	HDC hdc;
 	INITCOMMONCONTROLSEX icex;
 	LRESULT result;
@@ -69,18 +46,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         	UpdateWindow(hwnd);
         	break;
 		case WM_ADD_COMPONENT:
-			((nova_star_window_function)threadAddedFunc->func)(threadAddedFunc->ref, threadAddedFunc->context);
+			nova_star_Nova_UIComponent_virtual_Nova_onAdded((nova_star_Nova_UIComponent*)threadAddedFunc->ref);
         	break;
 		case WM_ERASEBKGND:
-			{
-				RECT r;
-				hdc = BeginPaint(hwnd, &ps);
-				GetClientRect(hwnd, &r);
-				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
-				FillRect(hdc, &r, brush);
-				DeleteObject(brush);
-				return 1;
-			}
+			// {
+			// 	RECT r;
+			// 	hdc = BeginPaint(hwnd, &ps);
+			// 	GetClientRect(hwnd, &r);
+			// 	HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
+			// 	FillRect(hdc, &r, brush);
+			// 	DeleteObject(brush);
+			// 	return 1;
+			// }
 			break;
 		case WM_COMMAND:
 			nova_star_Nova_UIComponent_virtual_Nova_searchActionTarget((nova_star_Nova_UIComponent*)threadWindow->frame, (int)LOWORD(wParam));
@@ -94,7 +71,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			
 			SetBkMode(hdc, TRANSPARENT);
 			
-			((nova_star_window_function)threadPaintFunc->func)(threadPaintFunc->ref, threadPaintFunc->context);
+			// ((nova_star_window_function)threadPaintFunc->func)(threadPaintFunc->ref, threadPaintFunc->context);
 			
 			EndPaint(hwnd, &ps);
 			break;
@@ -112,7 +89,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps;  
+	PAINTSTRUCT ps;
 	HDC hdc;
 	INITCOMMONCONTROLSEX icex;
 	LRESULT result;
@@ -122,11 +99,11 @@ LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_CREATE:
 		    break;
 		case WM_USER_INVALRECT:
-			InvalidateRect(hwnd, NULL, FALSE);
-        	UpdateWindow(hwnd);
+			// InvalidateRect(hwnd, NULL, FALSE);
+   //      	UpdateWindow(hwnd);
         	break;
 		case WM_ADD_COMPONENT:
-			// ((nova_star_window_function)threadAddedFunc->func)(threadAddedFunc->ref, threadAddedFunc->context);
+			((nova_star_window_function)threadAddedFunc->func)(threadAddedFunc->ref, threadAddedFunc->context);
         	break;
 		case WM_ERASEBKGND:
 			{
@@ -149,7 +126,7 @@ LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			
 			SetBkMode(hdc, TRANSPARENT);
 			
-			// ((nova_star_window_function)threadPaintFunc->func)(threadPaintFunc->ref, threadPaintFunc->context);
+			nova_star_Nova_UIComponent_virtual_Nova_draw((nova_star_Nova_UIComponent*)GetProp(hwnd, "reference"));
 			
 			EndPaint(hwnd, &ps);
 			break;
@@ -165,6 +142,38 @@ LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
+HINSTANCE nova_hInstance;
+
+void nova_gui_init() {
+	nova_hInstance = GetModuleHandle(NULL);
+	
+	WNDCLASSW wc;
+	WNDCLASSW emptyPanel;
+
+	wc.style         = CS_HREDRAW | CS_VREDRAW;
+	wc.cbClsExtra    = 0;
+	wc.cbWndExtra    = 0;
+	wc.lpszClassName = L"Window";
+	wc.hInstance     = nova_hInstance;
+	wc.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
+	wc.lpszMenuName  = NULL;
+	wc.lpfnWndProc   = WndProc;
+	wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+	wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+
+	ZeroMemory(&emptyPanel, sizeof(WNDCLASSW));
+	emptyPanel.style         = CS_HREDRAW | CS_VREDRAW;
+	emptyPanel.lpszClassName = L"Empty Panel";
+	emptyPanel.hInstance     = nova_hInstance;
+	emptyPanel.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
+	emptyPanel.lpfnWndProc   = EmptyWndProc;
+	emptyPanel.hCursor       = LoadCursor(NULL, IDC_ARROW);
+	emptyPanel.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+	
+	RegisterClassW(&wc);
+	RegisterClassW(&emptyPanel);
+}
+
 #endif
 
 WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc, nova_funcStruct* addedFunc)
@@ -172,46 +181,23 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 #ifdef _WIN32
 	MSG msg;
 	HWND hwnd;
-	WNDCLASSW wc;
-	WNDCLASSW emptyPanel;
-
-	HINSTANCE hInstance = GetModuleHandle(NULL);
-
-	size_t size = window->title->nova_Nova_String_Nova_count + 1;
-
-	wc.style         = CS_HREDRAW | CS_VREDRAW;
-	wc.cbClsExtra    = 0;
-	wc.cbWndExtra    = 0;
-	wc.lpszClassName = L"Window";
-	wc.hInstance     = hInstance;
-	wc.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
-	wc.lpszMenuName  = NULL;
-	wc.lpfnWndProc   = WndProc;
-	wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-
-	emptyPanel.style         = CS_HREDRAW | CS_VREDRAW;
-	emptyPanel.cbClsExtra    = 0;
-	emptyPanel.cbWndExtra    = 0;
-	emptyPanel.lpszClassName = L"Empty Panel";
-	emptyPanel.hInstance     = hInstance;
-	emptyPanel.hbrBackground = GetSysColorBrush(COLOR_3DFACE);
-	emptyPanel.lpszMenuName  = NULL;
-	emptyPanel.lpfnWndProc   = EmptyWndProc;
-	emptyPanel.hCursor       = LoadCursor(NULL, IDC_ARROW);
-	emptyPanel.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-	
-	RegisterClassW(&wc);
-	RegisterClassW(&emptyPanel);
 	
 	threadWindow = window;
 	threadPaintFunc = paintFunc;
 	threadAddedFunc = addedFunc;
 	
-	hwnd = CreateWindowW(wc.lpszClassName, nova_Nova_String_Nova_toWide(window->title), WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
+	hwnd = CreateWindowW(L"Window",
+		nova_Nova_String_Nova_toWide(window->title),
+		WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL,
+		window->x, window->y,
+		window->width, window->height,
+		NULL,
+		NULL,
+		nova_hInstance,
+		NULL);
 	
 	window->hwnd = hwnd;
-	window->hinstance = hInstance;
+	window->hinstance = nova_hInstance;
 	
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
