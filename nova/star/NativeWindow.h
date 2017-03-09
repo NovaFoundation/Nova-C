@@ -2,6 +2,7 @@
 #define NOVA_NATIVE_WINDOW
 
 #include <Nova.h>
+#include <ui/ui.h>
 
 #include <nova/star/NativeScrollBar.h>
 
@@ -20,6 +21,10 @@
 #ifdef _WIN32
 typedef void (*nova_star_window_function)(void*, void*);
 #endif
+
+int nova_init_ui();
+int nova_uiwindow_closing(uiWindow *w, void *data);
+int nova_uiwindow_quit(void *data);
 
 WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc, nova_funcStruct* addedFunc);
 void nova_showWindow(HWND hwnd);

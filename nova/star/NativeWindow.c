@@ -18,6 +18,32 @@ void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 
 }
 
+int nova_uiwindow_closing(uiWindow *w, void *data) {
+	uiQuit();
+	return 1;
+}
+
+int nova_uiwindow_quit(void *data) {
+	uiWindow *mainwin = uiWindow(data);
+
+	uiControlDestroy(uiControl(mainwin));
+	return 1;
+}
+
+int nova_init_ui() {
+	uiInitOptions o;
+	const char* err;
+	memset(&o, 0, sizeof (uiInitOptions));
+	err = uiInit(&o);
+	if (err != NULL) {
+		fprintf(stderr, "error initializing ui: %s\n", err);
+		uiFreeInitError(err);
+		return 1;
+	}
+	
+	return 0;
+}
+
 __thread nova_star_Nova_Window* threadWindow;
 __thread nova_funcStruct* threadPaintFunc;
 __thread nova_funcStruct* threadAddedFunc;

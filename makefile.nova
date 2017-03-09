@@ -12,7 +12,7 @@ CFLAGS=
 
 CC = $(NOVA_CC)
 
-LIBS = 
+LIBS = -lui
 
 ifdef VERBOSE
 	V=
