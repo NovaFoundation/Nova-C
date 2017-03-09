@@ -73,11 +73,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         	break;
 		case WM_ERASEBKGND:
 			{
-				// RECT r;
-				// GetClientRect(hwnd, &r);
-				// HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
-				// FillRect(threadWindow->hdc, &r, brush);
-				// DeleteObject(brush);
+				RECT r;
+				hdc = BeginPaint(hwnd, &ps);
+				GetClientRect(hwnd, &r);
+				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
+				FillRect(hdc, &r, brush);
+				DeleteObject(brush);
+				return 1;
 			}
 			break;
 		case WM_COMMAND:
