@@ -178,7 +178,6 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 
 	size_t size = window->title->nova_Nova_String_Nova_count + 1;
-	wchar_t* wa = (wchar_t*)NOVA_MALLOC(sizeof(wchar_t) * size);
 
 	wc.style         = CS_HREDRAW | CS_VREDRAW;
 	wc.cbClsExtra    = 0;
@@ -202,8 +201,6 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 	emptyPanel.hCursor       = LoadCursor(NULL, IDC_ARROW);
 	emptyPanel.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
 	
-	mbstowcs(wa, window->title->nova_Nova_String_Nova_chars->nova_datastruct_list_Nova_StringCharArray_Nova_data, size);
-
 	RegisterClassW(&wc);
 	RegisterClassW(&emptyPanel);
 	
@@ -211,7 +208,7 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 	threadPaintFunc = paintFunc;
 	threadAddedFunc = addedFunc;
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
+	hwnd = CreateWindowW(wc.lpszClassName, nova_Nova_String_Nova_toWide(window->title), WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
 	
 	window->hwnd = hwnd;
 	window->hinstance = hInstance;
