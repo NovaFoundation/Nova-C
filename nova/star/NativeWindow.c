@@ -18,31 +18,31 @@ void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
 
 }
 
-int nova_uiwindow_closing(uiWindow *w, void *data) {
-	uiQuit();
-	return 1;
-}
+// int nova_uiwindow_closing(uiWindow *w, void *data) {
+// 	uiQuit();
+// 	return 1;
+// }
 
-int nova_uiwindow_quit(void *data) {
-	uiWindow *mainwin = uiWindow(data);
+// int nova_uiwindow_quit(void *data) {
+// 	uiWindow *mainwin = uiWindow(data);
 
-	uiControlDestroy(uiControl(mainwin));
-	return 1;
-}
+// 	uiControlDestroy(uiControl(mainwin));
+// 	return 1;
+// }
 
-int nova_init_ui() {
-	uiInitOptions o;
-	const char* err;
-	memset(&o, 0, sizeof (uiInitOptions));
-	err = uiInit(&o);
-	if (err != NULL) {
-		fprintf(stderr, "error initializing ui: %s\n", err);
-		uiFreeInitError(err);
-		return 1;
-	}
+// int nova_init_ui() {
+// 	uiInitOptions o;
+// 	const char* err;
+// 	memset(&o, 0, sizeof (uiInitOptions));
+// 	err = uiInit(&o);
+// 	if (err != NULL) {
+// 		fprintf(stderr, "error initializing ui: %s\n", err);
+// 		uiFreeInitError(err);
+// 		return 1;
+// 	}
 	
-	return 0;
-}
+// 	return 0;
+// }
 
 __thread nova_star_Nova_Window* threadWindow;
 __thread nova_funcStruct* threadPaintFunc;
@@ -73,11 +73,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         	break;
 		case WM_ERASEBKGND:
 			{
-				RECT r;
-				GetClientRect(hwnd, &r);
-				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
-				FillRect(threadWindow->hdc, &r, brush);
-				DeleteObject(brush);
+				// RECT r;
+				// GetClientRect(hwnd, &r);
+				// HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
+				// FillRect(threadWindow->hdc, &r, brush);
+				// DeleteObject(brush);
 			}
 			break;
 		case WM_COMMAND:
@@ -209,7 +209,7 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 	threadPaintFunc = paintFunc;
 	threadAddedFunc = addedFunc;
 	
-	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, window);
+	hwnd = CreateWindowW(wc.lpszClassName, wa, WS_OVERLAPPEDWINDOW | WS_VSCROLL | ES_AUTOVSCROLL, window->x, window->y, window->width, window->height, NULL, NULL, hInstance, NULL);
 	
 	window->hwnd = hwnd;
 	window->hinstance = hInstance;
