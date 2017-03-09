@@ -125,5 +125,5 @@ void CustomHandleMouseWheel(HWND hwnd, int iDelta, BOOL isVertical)
     ScrollWindowEx(hwnd, 
                    (isVertical ? 0 : (nOldPos - nPos) * scrollUnit),
                    (isVertical ? (nOldPos - nPos) * scrollUnit : 0),
-                   NULL, NULL, NULL, NULL, SW_ERASE | SW_INVALIDATE);
+                   NULL, NULL, NULL, NULL, SW_ERASE | SW_INVALIDATE | SW_SCROLLCHILDREN);
 }

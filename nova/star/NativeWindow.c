@@ -53,6 +53,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;  
 	HDC hdc;
 	INITCOMMONCONTROLSEX icex;
+	LRESULT result;
 	
 	switch (msg)
 	{
@@ -71,7 +72,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			((nova_star_window_function)threadAddedFunc->func)(threadAddedFunc->ref, threadAddedFunc->context);
         	break;
 		case WM_ERASEBKGND:
-			return 0;
+			{
+				RECT r;
+				GetClientRect(hwnd, &r);
+				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
+				FillRect(threadWindow->hdc, &r, brush);
+				DeleteObject(brush);
+			}
+			break;
 		case WM_COMMAND:
 			nova_star_Nova_UIComponent_virtual_Nova_searchActionTarget((nova_star_Nova_UIComponent*)threadWindow->frame, (int)LOWORD(wParam));
 			
@@ -92,7 +100,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			PostQuitMessage(0);
 			return 0;
 		default: 
-			return nova_scroll_proc(hwnd, msg, wParam, lParam);
+			if (result = nova_scroll_proc(hwnd, msg, wParam, lParam)) {
+				return result;
+			}
 	}
 
 	return DefWindowProcW(hwnd, msg, wParam, lParam);
