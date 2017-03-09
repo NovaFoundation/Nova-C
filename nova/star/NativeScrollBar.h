@@ -1,8 +1,12 @@
 #ifndef NOVA_NATIVE_SCROLLBAR
 #define NOVA_NATIVE_SCROLLBAR
 
-#define SPI_GETWHEELSCROLLCHARS 0x006C
-#define WM_MOUSEHWHEEL          0x020E
+#ifndef SPI_GETWHEELSCROLLCHARS
+#   define SPI_GETWHEELSCROLLCHARS 0x006C
+#endif
+#ifndef WM_MOUSEHWHEEL
+#   define WM_MOUSEHWHEEL          0x020E
+#endif
 
 #include <Nova.h>
 
