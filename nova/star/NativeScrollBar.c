@@ -16,13 +16,13 @@ LRESULT CALLBACK nova_scroll_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lP
     switch(uMsg) {
         case WM_MOUSEWHEEL:
             CustomHandleMouseWheel(hwnd, HIWORD(wParam), TRUE);
-            return 0;
+            break;
         case WM_MOUSEHWHEEL:
             CustomHandleMouseWheel(hwnd, HIWORD(wParam), FALSE);
-            return 0;
+            break;
     }
     
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    return 0;
 }
 
 // Helper function for calculation of scrolling lines for provided mouse wheel
