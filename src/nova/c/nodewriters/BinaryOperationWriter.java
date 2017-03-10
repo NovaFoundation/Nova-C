@@ -67,6 +67,18 @@ public abstract class BinaryOperationWriter extends IValueWriter
 					}
 				}
 			}
+			
+			if (checkType && leftReturned.isPrimitive() != rightReturned.isPrimitive() && !Literal.isNullLiteral(leftReturned) && !Literal.isNullLiteral(rightReturned))
+			{
+				if (leftReturned.isPrimitive())
+				{
+					leftCast = getWriter(rightReturned).generateTypeCast() + "(intptr_t)" + leftCast;
+				}
+				else
+				{
+					rightCast = getWriter(leftReturned).generateTypeCast() + "(intptr_t)" + rightCast;
+				}
+			}
 		}
 		
 		if (leftCast == "" && rightCast == "")
