@@ -89,7 +89,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			
 //			if (method instanceof NovaMethodDeclaration == false || !((NovaMethodDeclaration)method).isPrimitiveOverload())
 			{
-				if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
+				if (method.isInstance() && !method.isPrimitiveOverload() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 				{
 					getWriter(method).generateSourceNativeName(builder, true).append(" ");
 					getWriter(method).generateSourceNativeName(builder, false).append(";\n");
@@ -124,7 +124,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 			{
 				NovaMethodDeclaration method = (NovaMethodDeclaration)m;
 				
-				if (method.isInstance() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
+				if (method.isInstance() && !method.isPrimitiveOverload() && (method instanceof AbstractMethodDeclaration == false || method.isOverridden()))
 				{
 					String value = "&" + getWriter(method).generateSourceName();
 					
