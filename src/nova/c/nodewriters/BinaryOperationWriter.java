@@ -97,6 +97,10 @@ public abstract class BinaryOperationWriter extends IValueWriter
 		{
 			leftCast = "(unsigned int)" + leftCast;
 		}
+		else if (operator.operator.equals(Operator.MODULO) && (leftReturned.getTypeClass().isOfType("nova/primitive/number/RealNumber") || rightReturned.getTypeClass().isOfType("nova/primitive/number/RealNumber")))
+		{
+			return builder.append("fmod(").append(leftCast).append(getWriter(left).generateSourceFragment()).append(", ").append(rightCast).append(getWriter(right).generateSourceFragment()).append(")");
+		}
 		
 		return builder.append(leftCast).append(getWriter(left).generateSourceFragment()).append(' ')
 			.append(getWriter(operator).generateSourceFragment()).append(' ')
