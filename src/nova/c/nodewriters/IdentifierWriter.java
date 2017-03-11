@@ -271,6 +271,7 @@ public abstract class IdentifierWriter extends ValueWriter implements Accessible
 			
 			if (existing == null)
 			{
+				Nova.debuggingBreakpoint(true);
 				SyntaxMessage.error("Unable to find declaration for variable '" + name + "'", node());
 			}
 		}
