@@ -1,6 +1,5 @@
 package nova.c.nodewriters;
 
-import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 import net.fathomsoft.nova.tree.exceptionhandling.Exception;
 import net.fathomsoft.nova.tree.variables.Super;
@@ -98,6 +97,11 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				
 				getWriter(arg).generateArgumentOutput(builder);
 				
+				if (!param.isGenericType() && arg instanceof Variable && arg.isFunctionType() && arg instanceof ClosureVariable == false)
+				{
+					builder.append("->func");
+				}
+				
 				if (!sameType)
 				{
 					builder.append(')');
@@ -117,6 +121,13 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 							
 							getWriter(decl).generateClosureContextValues(builder, (ClosureDeclaration)decl.getRootDeclaration(), ", ", "");
 						}
+					}
+					else if (declaration.isFunctionType())
+					{
+						builder.append(", ");
+						
+						getWriter(arg).generateArgumentOutput(builder).append("->ref, ");
+						getWriter(arg).generateArgumentOutput(builder).append("->context");
 					}
 				}
 			}
