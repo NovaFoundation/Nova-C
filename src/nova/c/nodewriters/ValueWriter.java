@@ -279,6 +279,11 @@ public abstract class ValueWriter extends NodeWriter
 	
 	public StringBuilder generatePointerToValueConversion(StringBuilder builder, Value required)
 	{
+		if (node().isFunctionType())
+		{
+			return builder;
+		}
+		
 		boolean ptr = false;
 		
 		if (/*isGenericType() && */node() instanceof Accessible)

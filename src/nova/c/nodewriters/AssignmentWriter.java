@@ -14,12 +14,15 @@ public abstract class AssignmentWriter extends ValueWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
-		if (node().getAssignedNodeValue().getDataType() == Value.POINTER &&
-			node().getAssignmentNode().getReturnedNode().getDataType() == Value.VALUE ||
-			node().getAssignedNodeValue().getDataType() == Value.DOUBLE_POINTER &&
-				node().getAssignmentNode().getReturnedNode().getDataType() == Value.POINTER)
+		if (!node().getAssignedNodeValue().isFunctionType())
 		{
-			builder.append('*');
+			if (node().getAssignedNodeValue().getDataType() == Value.POINTER &&
+				node().getAssignmentNode().getReturnedNode().getDataType() == Value.VALUE ||
+				node().getAssignedNodeValue().getDataType() == Value.DOUBLE_POINTER &&
+					node().getAssignmentNode().getReturnedNode().getDataType() == Value.POINTER)
+			{
+				builder.append('*');
+			}
 		}
 		
 		Value assignee = node().getAssigneeNode();
