@@ -1,7 +1,7 @@
 package nova.c.nodewriters;
 
+import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
-import net.fathomsoft.nova.tree.variables.Variable;
 
 public abstract class AssignmentWriter extends ValueWriter
 {
@@ -14,6 +14,17 @@ public abstract class AssignmentWriter extends ValueWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
+		if (node().containsProperty("methodCall"))
+		{
+			builder.append("(");
+			
+			FunctionType type = (FunctionType)node().getAssignmentNode().getReturnedNode().getNovaTypeValue(node()).getTypeObject();
+			
+			ClosureDeclaration closure = type.closure;
+			
+			getWriter(closure).generateTypeCast(builder).append("(");
+		}
+		
 		if (!node().getAssignedNodeValue().isFunctionType())
 		{
 			if (node().getAssignedNodeValue().getDataType() == Value.POINTER &&
@@ -43,6 +54,13 @@ public abstract class AssignmentWriter extends ValueWriter
 //			builder.append(getWriter(var).generateContextName()).append(" = ").append(getWriter(closure).getContextName());
 //		}
 		
+		if (node().containsProperty("methodCall"))
+		{
+			builder.append(")->func)");
+			
+			generateMethodCallSource(builder);
+		}
+		
 		return builder;
 	}
 	
@@ -54,6 +72,15 @@ public abstract class AssignmentWriter extends ValueWriter
 	private StringBuilder generateAssignmentSource()
 	{
 		return generateAssignmentSource(new StringBuilder());
+	}
+	
+	private StringBuilder generateMethodCallSource(StringBuilder builder)
+	{
+		MethodCall call = (MethodCall)node().getProperty("methodCall");
+		
+		getWriter(call.getArgumentList()).generateSourceFragment(builder);
+		
+		return builder;
 	}
 	
 	/**
