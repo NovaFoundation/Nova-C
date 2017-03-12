@@ -16,7 +16,7 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 		
 		if (node().chained != null)
 		{
-			ClosureDeclaration closure = ((FunctionType)node().getTypeObject()).closure;
+			ClosureDeclaration closure = ((FunctionType)node().getNovaTypeValue(node()).getTypeObject()).closure;
 			
 			if (((FirstClassClosureDeclaration)closure).reference instanceof ClosureDeclaration)
 			{
