@@ -1,9 +1,6 @@
 package nova.c.nodewriters;
 
-import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
-import net.fathomsoft.nova.tree.variables.Variable;
-import net.fathomsoft.nova.tree.variables.VariableDeclaration;
 
 public abstract class ChainedMethodCallWriter extends MethodCallWriter
 {
@@ -13,8 +10,6 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
 		builder.append("(");
-		
-		Nova.debuggingBreakpoint(node().getParentMethod().getName().equals("testCallingFunctionWithParametersFromCollection"));
 		
 		boolean call = true;
 		
