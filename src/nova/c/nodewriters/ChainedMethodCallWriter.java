@@ -14,6 +14,10 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 	{
 		builder.append("(");
 		
+		Nova.debuggingBreakpoint(node().getParentMethod().getName().equals("testCallingFunctionWithParametersFromCollection"));
+		
+		boolean call = true;
+		
 		if (node().chained != null)
 		{
 			ClosureDeclaration closure = ((FunctionType)node().getNovaTypeValue(node()).getTypeObject()).closure;
@@ -31,6 +35,16 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 			
 			getWriter(node().chained).generateSourceFragment(builder).append(")");
 		}
+		else if (node().variable != null)
+		{
+			getWriter(node().variable).generateSourceName(builder).append(" = (nova_funcStruct*)");
+			
+			getWriter(node().getChainBase()).generateUseOutput(builder);
+			
+			builder.append(")");
+			
+			call = false;
+		}
 		else
 		{
 			Identifier ref = node().getChainReference();
@@ -40,11 +54,23 @@ public abstract class ChainedMethodCallWriter extends MethodCallWriter
 			getWriter(ref).generateSourceName(builder);
 		}
 		
-		builder.append("->func)");
-		
-		MethodCallArgumentList args = node().getArgumentList();
-		
-		getWriter(args).generateSource(builder);
+		if (call)
+		{
+			builder.append("->func)");
+			
+			MethodCallArgumentList args;
+			
+			if (node().chained == null || node().chained.chained != null || node().chained.variable == null)
+			{
+				args = node().getArgumentList();
+			}
+			else
+			{
+				args = node().chained.getArgumentList();
+			}
+			
+			getWriter(args).generateSource(builder);
+		}
 		
 		return builder;
 	}
