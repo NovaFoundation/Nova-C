@@ -11,9 +11,9 @@ public abstract class GenericTypeArgumentWriter extends IIdentifierWriter
 	@Override
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
-		if (node().getTypeObject() instanceof FunctionType)
+		if (node().isFunctionType())
 		{
-			return builder.append(node().getName());
+			return builder.append(node().getName()).append(((FunctionType)node().getTypeObject()).closure.id);
 		}
 		
 		return generateType(builder);
