@@ -1,7 +1,7 @@
 #include "NativeWindow.h"
 
-// #define NK_IMPLEMENTATION
-// #include <ui/nuklear.h>
+#define NK_IMPLEMENTATION
+#include <ui/nuklear.h>
 
 #ifdef _WIN32
 void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
