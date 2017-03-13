@@ -97,7 +97,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 				
 				getWriter(arg).generateArgumentOutput(builder);
 				
-				if (!param.isGenericType() && arg instanceof Variable && arg.isFunctionType() && arg instanceof ClosureVariable == false)
+				if (param instanceof ClosureDeclaration && arg instanceof Variable && arg.isFunctionType() && arg instanceof ClosureVariable == false)
 				{
 					builder.append("->func");
 				}
@@ -107,7 +107,7 @@ public abstract class MethodCallArgumentListWriter extends ArgumentListWriter
 					builder.append(')');
 				}
 				
-				if (arg instanceof Variable)
+				if (param instanceof ClosureDeclaration && arg instanceof Variable)
 				{
 					VariableDeclaration declaration = ((Variable)arg).declaration;
 					
