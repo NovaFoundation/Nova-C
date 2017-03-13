@@ -102,9 +102,9 @@ OBJ = $(subst :,$(colon),$(EXTRAOBJ)) $(NOVA_OBJ)
 GENERATED_FILES = $(QOOBJ) $(QOGCH)
 
 ifdef COMPILE_C_FILES
-	COMPILE_ITEMS = $(ALLOBJ:.o=.c) resources.o
+	COMPILE_ITEMS = $(ALLOBJ:.o=.c)# resources.o
 else
-	COMPILE_ITEMS = $(ALLOBJ) resources.o
+	COMPILE_ITEMS = $(ALLOBJ)# resources.o
 endif
 
 #rwildcard=$(foreach d,$(wildcard $1*/),$(call rwildcard,$d*/) echo $d)
