@@ -1,5 +1,6 @@
 #include "NativeScrollBar.h"
 
+#ifdef _WIN32
 // Lock protecting the static variables. Note you have to initialize the
 // critical section before calling the function WheelScrollLines() below
 // for the first time.
@@ -127,3 +128,5 @@ void CustomHandleMouseWheel(HWND hwnd, int iDelta, BOOL isVertical)
                    (isVertical ? (nOldPos - nPos) * scrollUnit : 0),
                    NULL, NULL, NULL, NULL, SW_ERASE | SW_INVALIDATE | SW_SCROLLCHILDREN);
 }
+
+#endif

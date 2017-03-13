@@ -124,7 +124,10 @@ LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
+#endif
+
 void nova_gui_init() {
+#ifdef _WIN32
 	nova_hInstance = GetModuleHandle(NULL);
 	
 	WNDCLASSW wc;
@@ -152,9 +155,8 @@ void nova_gui_init() {
 	
 	RegisterClassW(&wc);
 	RegisterClassW(&emptyPanel);
-}
-
 #endif
+}
 
 WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct* paintFunc, nova_funcStruct* addedFunc)
 {
@@ -190,12 +192,12 @@ WINDOW_ID_TYPE nova_createWindow(nova_star_Nova_Window* window, nova_funcStruct*
 #endif
 }
 
+void nova_showWindow(WINDOW_ID_TYPE hwnd) {
 #ifdef _WIN32
-void nova_showWindow(HWND hwnd) {
 	ShowWindow(hwnd, SW_SHOWDEFAULT);
 	UpdateWindow(hwnd);
-}
 #endif
+}
 
 // Get the horizontal and vertical screen sizes in pixel
 void GetDesktopResolution(int* horizontal, int* vertical) {
