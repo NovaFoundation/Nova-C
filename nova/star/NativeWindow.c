@@ -1,25 +1,7 @@
 #include "NativeWindow.h"
 
-#define NK_IMPLEMENTATION
-#include <ui/nuklear.h>
-
 #ifdef _WIN32
-void DrawPixels(HWND hwnd, HDC hdc, PAINTSTRUCT ps)
-{
-	RECT r;
-	int i = 0;
-
-	GetClientRect(hwnd, &r);
-
-	for (i = 0; i < 1000; i++)
-	{
-		int x = (rand() % r.right - r.left);
-		int y = (rand() % r.bottom - r.top);
-
-		SetPixel(hdc, x, y, RGB(255, 0, 0));
-	}
-
-}
+HINSTANCE nova_hInstance;
 
 __thread nova_star_Nova_Window* threadWindow;
 __thread nova_funcStruct* threadPaintFunc;
@@ -141,8 +123,6 @@ LRESULT CALLBACK EmptyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
-
-HINSTANCE nova_hInstance;
 
 void nova_gui_init() {
 	nova_hInstance = GetModuleHandle(NULL);

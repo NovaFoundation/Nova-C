@@ -3,8 +3,6 @@
 
 #include <Nova.h>
 
-#include <ui/nuklear.h>
-
 #include <nova/star/NativeScrollBar.h>
 
 #include <string.h>
