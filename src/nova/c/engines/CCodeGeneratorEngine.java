@@ -436,13 +436,13 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 //		writeClassData();
 	}
 	
-	public Trait[] getAllInterfaces(File library)
+	public Trait[] getAllInterfaces()
 	{
 		ArrayList<Trait> list = new ArrayList<>();
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (file.getLibrary() == library && file.getClassDeclaration() instanceof Trait)
+			if (file.getClassDeclaration() instanceof Trait)
 			{
 				list.add((Trait)file.getClassDeclaration());
 			}
@@ -451,25 +451,22 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new Trait[0]);
 	}
 	
-	public ClassDeclaration[] getAllClasses(File library)
+	public ClassDeclaration[] getAllClasses()
 	{
-		return getAllClasses(library, true);
+		return getAllClasses(true);
 	}
 	
-	public ClassDeclaration[] getAllClasses(File library, boolean includeInterfaces)
+	public ClassDeclaration[] getAllClasses(boolean includeInterfaces)
 	{
 		ArrayList<ClassDeclaration> list = new ArrayList<>();
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (file.getLibrary() == library)
+			if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
 			{
-				if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
+				for (ClassDeclaration c : file.getClassDeclarations())
 				{
-					for (ClassDeclaration c : file.getClassDeclarations())
-					{
-						list.add(c);
-					}
+					list.add(c);
 				}
 			}
 		}
@@ -477,11 +474,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new ClassDeclaration[0]);
 	}
 	
-	public VirtualMethodDeclaration[] getAllVirtualMethods(File library)
+	public VirtualMethodDeclaration[] getAllVirtualMethods()
 	{
 		ArrayList<VirtualMethodDeclaration> list = new ArrayList<>();
 		
-		for (ClassDeclaration c : getAllClasses(library))
+		for (ClassDeclaration c : getAllClasses())
 		{
 			for (NovaMethodDeclaration method : c.getExtensionVirtualMethods(false))
 			{
@@ -625,96 +622,96 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	
 	public boolean writeClassData()
 	{
-//		try
-//		{
-//			final Trait[] interfaces = getAllInterfaces();
-//			
-//			File header = new File(controller.outputDirectory, "NovaClassData.h");
-//			
-//			FileUtils.writeIfDifferent(header, writer ->
-//			{
-//				writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
-//				
-//				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/meta/Class");
-//				
-//				writer.print("typedef struct NovaClassData NovaClassData;\n\n");
-//				
-//				try
-//				{
-//					for (Trait i : interfaces)
-//					{
-//						getWriter(i).writeVTableTypedef(writer);
-//					}
-//					
-//					for (Trait i : interfaces)
-//					{
-//						getWriter(i).writeDefaultVTableDeclaration(writer);
-//					}
-//					
-//					if (!compileEngine.singleFile)
-//					{
-//						writer.print("\n");
-//						writer.write(getAllIncludes());
-//						writer.print("\n");
-//					}
-//					
-//					for (Trait i : interfaces)
-//					{
-//						getWriter(i).writeVTableAssignment(writer);
-//						writer.print("\n");
-//					}
-//					
-//					writer.print("\n");
-//					
-//					writer.print("\nstruct NovaClassData {\n");
-//					
-//					//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
-//					
-//					for (Trait i : interfaces)
-//					{
-//						getWriter(i).writeVTableDeclaration(writer);
-//					}
-//					
-//					writer.print("\n");
-//					
-//					for (VirtualMethodDeclaration virtual : getAllVirtualMethods())
-//					{
-//						getWriter(virtual).writeVTableDeclaration(writer);
-//					}
-//				}
-//				catch (IOException e)
-//				{
-//					throw new RuntimeException(e);
-//				}
-//				
-//				writer.print("};\n");
-//				
-//				writer.print("\n#endif");
-//			}, forceRecompile);
-//			
-//			File source = new File(controller.outputDirectory, "NovaClassData.c");
-//			
-//			FileUtils.writeIfDifferent(source, writer ->
-//			{
-////				writer.write("#include <NovaClassData.h>\n\n");
-//				
-//				try
-//				{
-//					for (Trait i : interfaces)
-//					{
-//						getWriter(i).writeDefaultVTable(writer);
-//					}
-//				}
-//				catch (IOException e)
-//				{
-//					throw new RuntimeException(e);
-//				}
-//			}, forceRecompile);
-//		}
-//		catch (IOException e)
-//		{
-//			return false;
-//		}
+		try
+		{
+			final Trait[] interfaces = getAllInterfaces();
+			
+			File header = new File(controller.outputDirectory, "NovaClassData.h");
+			
+			FileUtils.writeIfDifferent(header, writer ->
+			{
+				writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
+				
+				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/meta/Class");
+				
+				writer.print("typedef struct NovaClassData NovaClassData;\n\n");
+				
+				try
+				{
+					for (Trait i : interfaces)
+					{
+						getWriter(i).writeVTableTypedef(writer);
+					}
+					
+					for (Trait i : interfaces)
+					{
+						getWriter(i).writeDefaultVTableDeclaration(writer);
+					}
+					
+					if (!compileEngine.singleFile)
+					{
+						writer.print("\n");
+						writer.write(getAllIncludes());
+						writer.print("\n");
+					}
+					
+					for (Trait i : interfaces)
+					{
+						getWriter(i).writeVTableAssignment(writer);
+						writer.print("\n");
+					}
+					
+					writer.print("\n");
+					
+					writer.print("\nstruct NovaClassData {\n");
+					
+					//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
+					
+					for (Trait i : interfaces)
+					{
+						getWriter(i).writeVTableDeclaration(writer);
+					}
+					
+					writer.print("\n");
+					
+					for (VirtualMethodDeclaration virtual : getAllVirtualMethods())
+					{
+						getWriter(virtual).writeVTableDeclaration(writer);
+					}
+				}
+				catch (IOException e)
+				{
+					throw new RuntimeException(e);
+				}
+				
+				writer.print("};\n");
+				
+				writer.print("\n#endif");
+			}, forceRecompile);
+			
+			File source = new File(controller.outputDirectory, "NovaClassData.c");
+			
+			FileUtils.writeIfDifferent(source, writer ->
+			{
+//				writer.write("#include <NovaClassData.h>\n\n");
+				
+				try
+				{
+					for (Trait i : interfaces)
+					{
+						getWriter(i).writeDefaultVTable(writer);
+					}
+				}
+				catch (IOException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}, forceRecompile);
+		}
+		catch (IOException e)
+		{
+			return false;
+		}
 		
 		return true;
 	}
