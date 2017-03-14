@@ -18,9 +18,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 import static net.fathomsoft.nova.Nova.*;
 import static nova.c.nodewriters.NodeWriter.getWriter;
@@ -169,6 +167,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return sources;
 	}
 	
+	public static File getLibraryOutputDirectory(File library)
+	{
+		return new File(library, ".novalib/c");
+	}
+	
 	public void writeFiles()
 	{
 		generateVTableDeclarations(); // must do first because then sets forceRecompile
@@ -203,141 +206,219 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		allHeaders.append("#include <ExceptionHandler.h>\n");
 		allHeaders.append("#include <setjmp.h>\n").append('\n');
 		
-		File headerFile = new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".h");
-		File sourceFile = new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".c");
+		HashMap<File, File> headerFiles = new HashMap<>();
+		HashMap<File, File> sourceFiles = new HashMap<>();
 		
-		long headerTime = 0;
-		long sourceTime = 0;
+		headerFiles.put(null, new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".h"));
+		sourceFiles.put(null, new File(controller.outputDirectory, SINGLE_FILE_BUILD_FILE_NAME + ".c"));
 		
-		PrintWriter headerWriter = null;
-		PrintWriter sourceWriter = null;
+		HashMap<File, Long> headerTimes = new HashMap<>();
+		HashMap<File, Long> sourceTimes = new HashMap<>();
 		
-		String previousHeader = null;
-		String previousSource = null;
+		HashMap<File, PrintWriter> headerWriters = new HashMap<>();
+		HashMap<File, PrintWriter> sourceWriters = new HashMap<>();
+		
+		HashMap<File, String> previousHeaders = new HashMap<>();
+		HashMap<File, String> previousSources = new HashMap<>();
 		
 		try
 		{
 			if (compileEngine.singleFile)
 			{
-				if (headerFile.isFile())
+				headerFiles.forEach((l, f) -> {
+					if (f.isFile())
+					{
+						try
+						{
+							headerTimes.put(l, f.lastModified());
+							previousHeaders.put(l, FileUtils.readFile(f));
+						}
+						catch (IOException e)
+						{
+							throw new RuntimeException(e);
+						}
+					}
+				});
+				
+				sourceFiles.forEach((l, f) -> {
+					if (f.isFile())
+					{
+						try
+						{
+							sourceTimes.put(l, f.lastModified());
+							previousSources.put(l, FileUtils.readFile(f));
+						}
+						catch (IOException e)
+						{
+							throw new RuntimeException(e);
+						}
+					}
+				});
+				
+				headerWriters.put(null, FileUtils.getFileWriter(headerFiles.get(null), true));
+				sourceWriters.put(null, FileUtils.getFileWriter(sourceFiles.get(null), true));
+				
+				for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
 				{
-					headerTime = headerFile.lastModified();
-					previousHeader = FileUtils.readFile(headerFile);
+					File parent = getLibraryOutputDirectory(entry.getKey());
+					parent.mkdirs();
+					
+					File headerFile = new File(parent, entry.getKey().getName() + ".h");
+					File sourceFile = new File(parent, entry.getKey().getName() + ".c");
+					
+					headerWriters.put(entry.getKey(), FileUtils.getFileWriter(headerFile, true));
+					sourceWriters.put(entry.getKey(), FileUtils.getFileWriter(sourceFile, true));
+					
+					FileUtils.clearFile(headerFile);
+					FileUtils.clearFile(sourceFile);
 				}
 				
-				if (sourceFile.isFile())
-				{
-					sourceTime = sourceFile.lastModified();
-					previousSource = FileUtils.readFile(sourceFile);
-				}
+				FileUtils.clearFile(headerFiles.get(null));
+				FileUtils.clearFile(sourceFiles.get(null));
 				
-				headerWriter = FileUtils.getFileWriter(headerFile, true);
-				sourceWriter = FileUtils.getFileWriter(sourceFile, true);
+				sourceWriters.forEach((f, w) -> w.print("#include \"" + (f == null ? SINGLE_FILE_BUILD_FILE_NAME : f.getName()) + ".h\"\n\n"));
 				
-				FileUtils.clearFile(headerFile);
-				FileUtils.clearFile(sourceFile);
-				
-				sourceWriter.print("#include \"" + SINGLE_FILE_BUILD_FILE_NAME + ".h\"\n\n");
-				
-				headerWriter.print("#ifndef NOVA_OUTPUT\n");
-				headerWriter.print("#define NOVA_OUTPUT\n\n");
+				headerWriters.forEach((f, w) -> w.print("#ifndef NOVA_" + (f != null ? f.getName() + "_" : "") + "OUTPUT\n"));
+				headerWriters.forEach((f, w) -> w.print("#define NOVA_" + (f != null ? f.getName() + "_" : "") + "OUTPUT\n\n"));
 				
 				for (int i = 0; i < files.length; i++)
 				{
 					FileDeclaration file = files[i];
 					
-					headerWriter.print(getWriter(file).generateDummyTypes(new StringBuilder()).toString());
+					headerWriters.get(controller.getLibrary(file.file)).print(getWriter(file).generateDummyTypes(new StringBuilder()).toString());
 				}
 				
-				headerWriter.print("#include <MacroLib.h>\n\n");
+				headerWriters.forEach((f, w) -> w.print("#include <MacroLib.h>\n\n"));
 				
 				for (int i = 0; i < files.length; i++)
 				{
 					FileDeclaration file = files[i];
 					
-					headerWriter.print(getWriter(file).generateClosureDefinitions(new StringBuilder()).toString());
+					headerWriters.get(controller.getLibrary(file.file)).print(getWriter(file).generateClosureDefinitions(new StringBuilder()).toString());
 				}
 				
-				headerWriter.print("\n#include <Nova.h>\n");
-				headerWriter.print("#include <pcre/pcre2.h>\n");
-				headerWriter.print("#include <ExceptionHandler.h>\n");
+				headerWriters.forEach((f, w) -> w.print("\n#include <Nova.h>\n"));
+				headerWriters.forEach((f, w) -> {
+					if (f != null)
+					{
+						headerWriters.forEach((f2, w2) -> {
+							if (f2 != f)
+							{
+								w2.print("#include <" + f.getName() + ".h>\n");
+							}
+						});
+					}
+				});
+				headerWriters.forEach((f, w) -> w.print("#include <pcre/pcre2.h>\n"));
+				headerWriters.forEach((f, w) -> w.print("#include <ExceptionHandler.h>\n"));
 				
-				headerWriter.print(getAllExternalIncludes() + "\n");
-				headerWriter.print("#include <VTableDeclarations.h>\n\n");
+				headerWriters.forEach((f, w) -> w.print(getAllExternalIncludes() + "\n"));
+				headerWriters.forEach((f, w) -> w.print("#include <VTableDeclarations.h>\n\n"));
 			}
 			
 			for (int i = 0; i < files.length; i++)
 			{
-				FileDeclaration file   = files[i];
-				String          header = headers[i];
-				String          source = sources[i];
+				FileDeclaration file = files[i];
 				
-				File outputDir = getOutputDirectory(file);
+				File lib = controller.getLibrary(file.file);
 				
-				if (!file.getPackage().isDefaultPackage())
+				String header = headers[i];
+				String source = sources[i];
+				
+				File outputDir = null;
+				
+				if (file.isLibraryFile())
+				{
+					outputDir = getLibraryOutputDirectory(lib);
+				}
+				else
+				{
+					outputDir = getOutputDirectory(file);
+				}
+				
+				if (!file.getPackage().isDefaultPackage() && !compileEngine.singleFile)
 				{
 					new File(outputDir, file.getPackage().getLocation()).mkdirs();
 				}
 				
 				types.append("typedef struct ").append(file.getName()).append(' ').append(file.getName()).append(';').append('\n');
 				includes.append("#include <").append(getWriter(file).generateHeaderName()).append('>').append('\n');
-			
+				
 				if (!controller.isFlagEnabled(NO_C_OUTPUT))
 				{
 					if (compileEngine.singleFile)
 					{
-						headerWriter.print(header);
-						sourceWriter.print(source);
+						headerWriters.get(controller.getLibrary(file.file)).print(header);
+						sourceWriters.get(controller.getLibrary(file.file)).print(source);
 					}
 					else
 					{
-						headerFile = new File(outputDir, getWriter(file).generateHeaderName());
-						sourceFile = new File(outputDir, getWriter(file).generateSourceName());
+						headerFiles.put(lib, new File(outputDir, getWriter(file).generateHeaderName()));
+						sourceFiles.put(lib, new File(outputDir, getWriter(file).generateSourceName()));
 						
-						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > headerFile.lastModified())
+						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > headerFiles.get(lib).lastModified())
 						{
-							if (FileUtils.writeIfDifferent(headerFile, header))
+							if (FileUtils.writeIfDifferent(headerFiles.get(lib), header))
 							{
-								controller.log("Wrote " + headerFile.getCanonicalPath());
+								controller.log("Wrote " + headerFiles.get(lib).getCanonicalPath());
 							}
 							else if (compileEngine.forceRecompile)
 							{
-								controller.log("No differences to file " + headerFile.getCanonicalPath());
+								controller.log("No differences to file " + headerFiles.get(lib).getCanonicalPath());
 							}
 						}
-						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > sourceFile.lastModified())
+						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > sourceFiles.get(lib).lastModified())
 						{
-							if (FileUtils.writeIfDifferent(sourceFile, source))
+							if (FileUtils.writeIfDifferent(sourceFiles.get(lib), source))
 							{
-								controller.log("Wrote " + sourceFile.getCanonicalPath());
+								controller.log("Wrote " + sourceFiles.get(lib).getCanonicalPath());
 							}
 							else if (compileEngine.forceRecompile)
 							{
-								controller.log("No differences to file " + sourceFile.getCanonicalPath());
+								controller.log("No differences to file " + sourceFiles.get(lib).getCanonicalPath());
 							}
 						}
 					}
 					
-					cHeaderFiles.add(headerFile);
-					cSourceFiles.add(sourceFile);
+					cHeaderFiles.add(headerFiles.get(lib));
+					cSourceFiles.add(sourceFiles.get(lib));
 				}
 			}
 			
 			if (compileEngine.singleFile)
 			{
-				headerWriter.print("\n#endif");
+				headerWriters.forEach((f, w) -> w.print("\n#endif"));
 				
-				headerWriter.close();
-				sourceWriter.close();
+				headerWriters.forEach((f, w) -> w.close());
+				sourceWriters.forEach((f, w) -> w.close());
 				
-				if (FileUtils.checkModified(headerFile, headerTime, previousHeader, FileUtils.readFile(headerFile)))
-				{
-					controller.log("Wrote " + headerFile.getCanonicalPath());
-				}
-				if (FileUtils.checkModified(sourceFile, sourceTime, previousSource, FileUtils.readFile(sourceFile)))
-				{
-					controller.log("Wrote " + sourceFile.getCanonicalPath());
-				}
+				headerFiles.forEach((l, f) -> {
+					try
+					{
+						if (FileUtils.checkModified(f, headerTimes.get(l), previousHeaders.get(l), FileUtils.readFile(f)))
+						{
+							controller.log("Wrote " +f.getCanonicalPath());
+						}
+					}
+					catch (IOException e)
+					{
+						throw new RuntimeException(e);
+					}
+				});
+				
+				sourceFiles.forEach((l, f) -> {
+					try
+					{
+						if (FileUtils.checkModified(f, sourceTimes.get(l), previousSources.get(l), FileUtils.readFile(f)))
+						{
+							controller.log("Wrote " + f.getCanonicalPath());
+						}
+					}
+					catch (IOException e)
+					{
+						throw new RuntimeException(e);
+					}
+				});
 			}
 		}
 		catch (IOException e)
@@ -352,16 +433,16 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		allHeaders.append("#endif");
 		
-		writeClassData();
+//		writeClassData();
 	}
 	
-	public Trait[] getAllInterfaces()
+	public Trait[] getAllInterfaces(File library)
 	{
 		ArrayList<Trait> list = new ArrayList<>();
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (file.getClassDeclaration() instanceof Trait)
+			if (file.getLibrary() == library && file.getClassDeclaration() instanceof Trait)
 			{
 				list.add((Trait)file.getClassDeclaration());
 			}
@@ -370,22 +451,25 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new Trait[0]);
 	}
 	
-	public ClassDeclaration[] getAllClasses()
+	public ClassDeclaration[] getAllClasses(File library)
 	{
-		return getAllClasses(true);
+		return getAllClasses(library, true);
 	}
 	
-	public ClassDeclaration[] getAllClasses(boolean includeInterfaces)
+	public ClassDeclaration[] getAllClasses(File library, boolean includeInterfaces)
 	{
 		ArrayList<ClassDeclaration> list = new ArrayList<>();
 		
 		for (FileDeclaration file : tree.getFiles())
 		{
-			if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
+			if (file.getLibrary() == library)
 			{
-				for (ClassDeclaration c : file.getClassDeclarations())
+				if (includeInterfaces || file.getClassDeclaration() instanceof Trait == false)
 				{
-					list.add(c);
+					for (ClassDeclaration c : file.getClassDeclarations())
+					{
+						list.add(c);
+					}
 				}
 			}
 		}
@@ -393,11 +477,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new ClassDeclaration[0]);
 	}
 	
-	public VirtualMethodDeclaration[] getAllVirtualMethods()
+	public VirtualMethodDeclaration[] getAllVirtualMethods(File library)
 	{
 		ArrayList<VirtualMethodDeclaration> list = new ArrayList<>();
 		
-		for (ClassDeclaration c : getAllClasses())
+		for (ClassDeclaration c : getAllClasses(library))
 		{
 			for (NovaMethodDeclaration method : c.getExtensionVirtualMethods(false))
 			{
@@ -447,6 +531,20 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					String location = getExternalLocation(external);
 					
 					writer.print(" " + location.substring(0, location.length() - 2).replace('\\', '/').replace(" ", "\\ ") + ".h");
+				}
+				
+				try
+				{
+					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+					{
+						File f = new File(getLibraryOutputDirectory(entry.getKey()), entry.getKey().getName() + ".h");
+						
+						writer.print(" " + f.getCanonicalPath().replace('\\', '/').replace(" ", "\\ "));
+					}
+				}
+				catch (IOException e)
+				{
+					
 				}
 				
 				writer.print("\n");
@@ -527,96 +625,96 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	
 	public boolean writeClassData()
 	{
-		try
-		{
-			final Trait[] interfaces = getAllInterfaces();
-			
-			File header = new File(controller.outputDirectory, "NovaClassData.h");
-			
-			FileUtils.writeIfDifferent(header, writer ->
-			{
-				writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
-				
-				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/meta/Class");
-				
-				writer.print("typedef struct NovaClassData NovaClassData;\n\n");
-				
-				try
-				{
-					for (Trait i : interfaces)
-					{
-						getWriter(i).writeVTableTypedef(writer);
-					}
-					
-					for (Trait i : interfaces)
-					{
-						getWriter(i).writeDefaultVTableDeclaration(writer);
-					}
-					
-					if (!compileEngine.singleFile)
-					{
-						writer.print("\n");
-						writer.write(getAllIncludes());
-						writer.print("\n");
-					}
-					
-					for (Trait i : interfaces)
-					{
-						getWriter(i).writeVTableAssignment(writer);
-						writer.print("\n");
-					}
-					
-					writer.print("\n");
-					
-					writer.print("\nstruct NovaClassData {\n");
-					
-					//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
-					
-					for (Trait i : interfaces)
-					{
-						getWriter(i).writeVTableDeclaration(writer);
-					}
-					
-					writer.print("\n");
-					
-					for (VirtualMethodDeclaration virtual : getAllVirtualMethods())
-					{
-						getWriter(virtual).writeVTableDeclaration(writer);
-					}
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-				
-				writer.print("};\n");
-				
-				writer.print("\n#endif");
-			}, forceRecompile);
-			
-			File source = new File(controller.outputDirectory, "NovaClassData.c");
-			
-			FileUtils.writeIfDifferent(source, writer ->
-			{
-				writer.write("#include <NovaClassData.h>\n\n");
-				
-				try
-				{
-					for (Trait i : interfaces)
-					{
-						getWriter(i).writeDefaultVTable(writer);
-					}
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}, forceRecompile);
-		}
-		catch (IOException e)
-		{
-			return false;
-		}
+//		try
+//		{
+//			final Trait[] interfaces = getAllInterfaces();
+//			
+//			File header = new File(controller.outputDirectory, "NovaClassData.h");
+//			
+//			FileUtils.writeIfDifferent(header, writer ->
+//			{
+//				writer.print("#ifndef NOVA_CLASS_DATA\n#define NOVA_CLASS_DATA\n\n");
+//				
+//				ClassDeclaration clazz = controller.getTree().getRoot().getClassDeclaration("nova/meta/Class");
+//				
+//				writer.print("typedef struct NovaClassData NovaClassData;\n\n");
+//				
+//				try
+//				{
+//					for (Trait i : interfaces)
+//					{
+//						getWriter(i).writeVTableTypedef(writer);
+//					}
+//					
+//					for (Trait i : interfaces)
+//					{
+//						getWriter(i).writeDefaultVTableDeclaration(writer);
+//					}
+//					
+//					if (!compileEngine.singleFile)
+//					{
+//						writer.print("\n");
+//						writer.write(getAllIncludes());
+//						writer.print("\n");
+//					}
+//					
+//					for (Trait i : interfaces)
+//					{
+//						getWriter(i).writeVTableAssignment(writer);
+//						writer.print("\n");
+//					}
+//					
+//					writer.print("\n");
+//					
+//					writer.print("\nstruct NovaClassData {\n");
+//					
+//					//writer.print(clazzWriter.generateType().toString() + " instance_class;\n\n");
+//					
+//					for (Trait i : interfaces)
+//					{
+//						getWriter(i).writeVTableDeclaration(writer);
+//					}
+//					
+//					writer.print("\n");
+//					
+//					for (VirtualMethodDeclaration virtual : getAllVirtualMethods())
+//					{
+//						getWriter(virtual).writeVTableDeclaration(writer);
+//					}
+//				}
+//				catch (IOException e)
+//				{
+//					throw new RuntimeException(e);
+//				}
+//				
+//				writer.print("};\n");
+//				
+//				writer.print("\n#endif");
+//			}, forceRecompile);
+//			
+//			File source = new File(controller.outputDirectory, "NovaClassData.c");
+//			
+//			FileUtils.writeIfDifferent(source, writer ->
+//			{
+////				writer.write("#include <NovaClassData.h>\n\n");
+//				
+//				try
+//				{
+//					for (Trait i : interfaces)
+//					{
+//						getWriter(i).writeDefaultVTable(writer);
+//					}
+//				}
+//				catch (IOException e)
+//				{
+//					throw new RuntimeException(e);
+//				}
+//			}, forceRecompile);
+//		}
+//		catch (IOException e)
+//		{
+//			return false;
+//		}
 		
 		return true;
 	}
@@ -983,6 +1081,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("\n#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
 				}
 				
+				for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+				{
+					writer.write("#include <" + entry.getKey().getName() + ".h>\n");
+				}
+				
 				writer.append("\n#include <Nova.h>\n");
 					
 				if (compileEngine.singleFile)
@@ -1090,6 +1193,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					{
 						writer.write("#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
 						writer.write("#include <NovaExceptionHandling.h>\n");
+					}
+					
+					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+					{
+						writer.write("#include <" + entry.getKey().getName() + ".h>\n");
 					}
 					
 					writer.write("#include <InterfaceVTable.h>\n");
