@@ -20,20 +20,30 @@ public abstract class StaticBlockWriter extends NodeWriter
 	{
 		Scope scope = node().getScope();
 		
-		Node[] references = scope.getChildrenOfType(StaticClassReference.class);
+//		Node[] references = scope.getChildrenOfType(StaticClassReference.class);
+//		
+//		HashSet<String> called = new HashSet<>();
+//		
+//		for (Node ref : references)
+//		{
+//			StaticClassReference reference = (StaticClassReference)ref;
+//			
+//			TypeList<StaticBlock> blocks = reference.getTypeClass().getStaticBlockList();
+//			
+//			if (blocks.getNumVisibleChildren() > 0 && !called.contains(blocks.getParentClass().getName()))
+//			{
+//				called.add(blocks.getParentClass().getName());
+//				
+//				getWriter(blocks.getVisibleChild(0)).generateMethodName(builder, blocks.getParentClass()).append("();\n");
+//			}
+//		}
 		
-		HashSet<String> called = new HashSet<>();
-		
-		for (Node ref : references)
+		for (ClassDeclaration c : node().getScope().getDependencies())
 		{
-			StaticClassReference reference = (StaticClassReference)ref;
-			
-			TypeList<StaticBlock> blocks = reference.getTypeClass().getStaticBlockList();
-			
-			if (blocks.getNumVisibleChildren() > 0 && !called.contains(blocks.getParentClass().getName()))
+			TypeList<StaticBlock> blocks = c.getStaticBlockList();
+
+			if (blocks.getNumVisibleChildren() > 0)
 			{
-				called.add(blocks.getParentClass().getName());
-				
 				getWriter(blocks.getVisibleChild(0)).generateMethodName(builder, blocks.getParentClass()).append("();\n");
 			}
 		}
