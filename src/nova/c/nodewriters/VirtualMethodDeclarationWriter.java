@@ -69,11 +69,17 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	public StringBuilder generateFunctionReferenceTypeName(StringBuilder builder)
 	{
 		return generateSourceName(builder, "type");
+	}
+	
+	@Override
+	public StringBuilder generateHeader(StringBuilder builder)
+	{
+		builder.append("typedef ");
+		generateFunctionPointer(builder, "type").append(";\n");
 		
-		generateVirtualMethodName(builder);
-		getWriter(output.getArgumentList()).generateSourceFragment(builder);
+		builder.append("extern ").append(generateFunctionReferenceTypeName(new StringBuilder())).append("* ").append(generateSourceName()).append(";\n");
 		
-		return builder.append(";\n}\n");
+		return builder;
 	}
 	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
