@@ -66,7 +66,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
-		return generateVirtualMethodName(builder);
+		return generateVirtualMethodName(builder, uniquePrefix);
 	}
 	
 	/**
@@ -92,12 +92,22 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	 */
 	public StringBuilder generateVirtualMethodName(StringBuilder builder)
 	{
-		return generateVirtualMethodName(builder, node().base);
+		return generateVirtualMethodName(builder, (String)null);
+	}
+	
+	public StringBuilder generateVirtualMethodName(StringBuilder builder, String prefix)
+	{
+		return generateVirtualMethodName(builder, prefix, node().base);
 	}
 	
 	public StringBuilder generateVirtualMethodName(StringBuilder builder, NovaMethodDeclaration reference)
 	{
-		String prefix = "virtual";
+		return generateVirtualMethodName(builder, null, reference);
+	}
+		
+	public StringBuilder generateVirtualMethodName(StringBuilder builder, String prefix, NovaMethodDeclaration reference)
+	{
+		prefix = "virtual" + (prefix != null ? "_" + prefix : "");
 		String postPrefix = "";
 		
 		if (node().base instanceof PropertyMethod)
