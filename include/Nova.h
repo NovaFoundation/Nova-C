@@ -71,7 +71,7 @@ typedef struct nova_funcStruct {
 #include <VTableDeclarations.h>
 // #include <InterfaceVTable.h>
 // #include <ExceptionHandler.h>
-#include <NovaClassData.h>
+// #include <NovaClassData.h>
 
 //#include <nova/primitive/nova_primitive_Nova_Null.h>
 //#include <nova/exception/nova_exception_Nova_ExceptionData.h>
