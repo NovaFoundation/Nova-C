@@ -87,9 +87,14 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 	
 	public StringBuilder generateFunctionPointer(StringBuilder builder)
 	{
+		return generateFunctionPointer(builder);
+	}
+	
+	public StringBuilder generateFunctionPointer(StringBuilder builder, String prefix)
+	{
 		NovaParameterList params = node().getParameterList();
 		
-		return generateType(builder).append(" (*").append(generateSourceName()).append(")(").append(getWriter(params).generateHeader()).append(")");
+		return generateType(builder).append(" (*").append(generateSourceName(prefix)).append(")(").append(getWriter(params).generateHeader()).append(")");
 	}
 	
 	/**
