@@ -64,6 +64,11 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 //		return builder.append(";\n}\n");
 		
 		return generateFunctionReferenceTypeName(builder).append("* ").append(generateSourceName()).append(";\n");
+	}
+	
+	public StringBuilder generateFunctionReferenceTypeName(StringBuilder builder)
+	{
+		return generateSourceName(builder, "type");
 		
 		generateVirtualMethodName(builder);
 		getWriter(output.getArgumentList()).generateSourceFragment(builder);
