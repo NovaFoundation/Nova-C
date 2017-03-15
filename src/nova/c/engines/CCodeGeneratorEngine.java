@@ -313,6 +313,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				headerWriters.forEach((f, w) -> w.print("#include <ExceptionHandler.h>\n"));
 				
 				headerWriters.forEach((f, w) -> w.print(getAllExternalIncludes() + "\n"));
+				headerWriters.forEach((f, w) -> {
+					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+					{
+						w.print("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
+					}
+				});
 				headerWriters.forEach((f, w) -> w.print("#include <VTableDeclarations.h>\n\n"));
 			}
 			
