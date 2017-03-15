@@ -1034,96 +1034,131 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 
 	private void generateVTableDeclarations()
 	{
-		File header = new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".h");
-		File source = new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".c");
+		HashMap<File, File> headers = new HashMap<>();
+		HashMap<File, File> sources = new HashMap<>();
 		
-		try
+		headers.put(null, new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".h"));
+		sources.put(null, new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".c"));
+		
+		for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
 		{
-			boolean forceRecompile = compileEngine.forceRecompile;
+			File dir = getLibraryOutputDirectory(entry.getKey());
 			
-			forceRecompile = forceRecompile | FileUtils.writeIfDifferent(source, writer ->
+			headers.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h"));
+			sources.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".c"));
+		}
+		
+		final boolean[] forceRecompile = new boolean[] { compileEngine.forceRecompile };
+		
+		sources.forEach((l, source) -> {
+			try
 			{
-				writer.append("#include \"" + VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
-				
-//				try
-//				{
-					for (ClassDeclaration c : getAllClasses())
-					{
-						VTableList vtables = c.getVTableNodes();
-						
-						writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
-					}
-//				}
-//				catch (IOException e)
-//				{
-//					throw new RuntimeException(e);
-//				}
-			}, forceRecompile);
-			
-			forceRecompile = forceRecompile | FileUtils.writeIfDifferent(header, writer ->
-			{
-				writer.append("#ifndef NOVA_VTABLE_DECLARATIONS\n");
-				writer.append("#define NOVA_VTABLE_DECLARATIONS\n\n");
-				
-//				try
-//				{
-					for (ClassDeclaration c : getAllClasses())
-					{
-						VTableList vtables = c.getVTableNodes();
-						
-						writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder()).append('\n'));
-						writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder()).append('\n'));
-					}	
-//				}
-//				catch (IOException e)
-//				{
-//					throw new RuntimeException(e);
-//				}
-				if (compileEngine.singleFile)
+				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(source, writer ->
 				{
-					writer.append("\n#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
-				}
-				
-				for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-				{
-					writer.write("#include <" + entry.getKey().getName() + ".h>\n");
-				}
-				
-				writer.append("\n#include <Nova.h>\n");
+					writer.append("#include \"").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
 					
-				if (compileEngine.singleFile)
-				{
-					writer.append("#include <InterfaceVTable.h>\n");
-				}
-				else
-				{
-					writer.append(getAllIncludes()).append('\n');
-				}
-				
-//				try
-//				{
+					//				try
+					//				{
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
 						
-						writer.append(getWriter(vtables).generateHeader(new StringBuilder()).append('\n'));
-	//					getWriter(vtables).generateSource(builder).append('\n');
+						if (c.getFileDeclaration().getLibrary() == l)
+						{
+							writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
+						}
 					}
-//				}
-//				catch (IOException e)
-//				{
-//					throw new RuntimeException(e);
-//				}
-				
-				writer.append("#endif");
-			}, forceRecompile);
-			
-			this.forceRecompile = forceRecompile;
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+					//				}
+					//				catch (IOException e)
+					//				{
+					//					throw new RuntimeException(e);
+					//				}
+				}, forceRecompile[0]);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		});
+		
+		headers.forEach((l, header) -> {
+			try
+			{
+				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(header, writer ->
+				{
+					writer.append("#ifndef NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n");
+					writer.append("#define NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n\n");
+					
+					//				try
+					//				{
+					for (ClassDeclaration c : getAllClasses())
+					{
+						VTableList vtables = c.getVTableNodes();
+						
+						if (c.getFileDeclaration().getLibrary() == l)
+						{
+							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder()).append('\n'));
+							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder()).append('\n'));
+						}
+					}
+					//				}
+					//				catch (IOException e)
+					//				{
+					//					throw new RuntimeException(e);
+					//				}
+					if (compileEngine.singleFile)
+					{
+						writer.append("\n#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
+					}
+					
+					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+					{
+						writer.write("#include <" + entry.getKey().getName() + ".h>\n");
+						writer.append("#include <").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
+					}
+					
+					writer.append("\n#include <Nova.h>\n");
+					
+					if (compileEngine.singleFile)
+					{
+						writer.append("#include <InterfaceVTable.h>\n");
+					}
+					else
+					{
+						writer.append(getAllIncludes()).append('\n');
+					}
+					
+					//				try
+					//				{
+					if (l == null)
+					{
+						for (ClassDeclaration c : getAllClasses())
+						{
+							VTableList vtables = c.getVTableNodes();
+							
+							//						if (c.getFileDeclaration().getLibrary() == l)
+							{
+								writer.append(getWriter(vtables).generateHeader(new StringBuilder()).append('\n'));
+								//					getWriter(vtables).generateSource(builder).append('\n');
+							}
+						}
+					}
+					//				}
+					//				catch (IOException e)
+					//				{
+					//					throw new RuntimeException(e);
+					//				}
+					
+					writer.append("#endif");
+				}, forceRecompile[0]);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		});
+		
+		this.forceRecompile = forceRecompile[0];
 	}
 	
 	/**
