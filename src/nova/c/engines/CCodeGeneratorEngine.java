@@ -319,7 +319,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						w.print("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
 					}
 				});
-				headerWriters.forEach((f, w) -> w.print("#include <VTableDeclarations.h>\n\n"));
+				headerWriters.forEach((f, w) -> w.print("#include \"VTableDeclarations.h\"\n\n"));
 			}
 			
 			for (int i = 0; i < files.length; i++)
