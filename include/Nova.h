@@ -68,7 +68,7 @@ typedef struct nova_funcStruct {
 #define PCRE2_CODE_UNIT_WIDTH 8
 
 #include <stdio.h>
-#include <VTableDeclarations.h>
+// #include <VTableDeclarations.h>
 // #include <InterfaceVTable.h>
 // #include <ExceptionHandler.h>
 // #include <NovaClassData.h>
