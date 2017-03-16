@@ -6,13 +6,13 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 {
 	public abstract ExtensionVTable node();
 	
-	public StringBuilder generateHeader(StringBuilder builder)
+	public StringBuilder generateHeader(StringBuilder builder, boolean full)
 	{
 		TraitVTable table = node().getInterfaceVTable();
 		
-		getWriter(table).generateHeader(builder).append('\n');
+		getWriter(table).generateHeader(builder, full).append('\n');
 		
-		super.generateHeader(builder);
+		super.generateHeader(builder, full);
 		
 		return builder;
 	}

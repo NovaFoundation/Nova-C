@@ -6,7 +6,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 {
 	public abstract TraitVTable node();
 	
-	public StringBuilder generateHeader(StringBuilder builder)
+	public StringBuilder generateHeader(StringBuilder builder, boolean full)
 	{
 		return builder;
 	}

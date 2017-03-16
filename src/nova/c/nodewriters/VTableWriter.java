@@ -1,5 +1,6 @@
 package nova.c.nodewriters;
 
+import net.fathomsoft.nova.Nova;
 import net.fathomsoft.nova.tree.*;
 
 public abstract class VTableWriter extends IIdentifierWriter
@@ -22,7 +23,17 @@ public abstract class VTableWriter extends IIdentifierWriter
 	@Override
 	public StringBuilder generateTypeName(StringBuilder builder)
 	{
-		return getWriter(node().getParentClass()).generateSourceName(builder).append("_VTable");
+		return generateTypeName(builder, false);
+	}
+	
+	public StringBuilder generateTypeName(boolean full)
+	{
+		return generateTypeName(new StringBuilder(), full);
+	}
+	
+	public StringBuilder generateTypeName(StringBuilder builder, boolean full)
+	{
+		return getWriter(node().getParentClass()).generateSourceName(builder).append(full ? "_full" : "").append("_VTable");
 	}
 	
 	@Override
@@ -31,15 +42,23 @@ public abstract class VTableWriter extends IIdentifierWriter
 		return generateTypeName(builder).append("_val");
 	}
 	
-	public StringBuilder generateHeader(StringBuilder builder)
+	public final StringBuilder generateHeader(StringBuilder builder)
 	{
-		NovaMethodDeclaration methods[] = node().getVirtualMethods();
-
-		builder.append("struct ").append(generateTypeName()).append("\n{\n");
+		return generateHeader(builder, false);
+	}
+	
+	public StringBuilder generateHeader(StringBuilder builder, boolean full)
+	{
+		builder.append("struct ").append(generateTypeName(full)).append("\n{\n");
 		
 		writeChildrenHeader(builder);
 		
-		generateVirtualMethodDeclarations(builder, methods);
+		if (full)
+		{
+			NovaMethodDeclaration methods[] = node().getVirtualMethods();
+			
+			generateVirtualMethodDeclarations(builder, methods);
+		}
 		
 		builder.append("}").append(";");
 		
