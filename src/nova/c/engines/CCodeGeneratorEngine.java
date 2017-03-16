@@ -32,12 +32,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	public File					nativeInterfaceSource, nativeInterfaceHeader;
 	public File					interfaceVTableHeader, vtableDeclarationsHeader, vtableDeclarationsSource;
 	
-	private static final String NATIVE_INTERFACE_FILE_NAME = "NovaNativeInterface";
+//	private static final String NATIVE_INTERFACE_FILE_NAME = "NovaNativeInterface";
 	private static final String INTERFACE_VTABLE_FILE_NAME = "InterfaceVTable";
 	private static final String SINGLE_FILE_BUILD_FILE_NAME = "NovaOutput";
 	private static final String MAIN_FUNCTION_FILE_NAME = "MainFunction";
 	private static final String VTABLE_DECLARATIONS_FILE_NAME = "VTableDeclarations";
-	private static final String ENVIRONMENT_VAR            = "novaEnv";
+//	private static final String ENVIRONMENT_VAR            = "novaEnv";
 	
 	private CCompileEngine compileEngine;
 	
@@ -176,7 +176,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 	{
 		generateVTableDeclarations(); // must do first because then sets forceRecompile
 		
-		generateNativeInterface();
+//		generateNativeInterface();
 		generateInterfaceVTable();
 
 		writeMakefile();
@@ -742,11 +742,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return FileUtils.formatPath(controller.targetEngineWorkingDir.getAbsolutePath() + "/include");
 	}
 	
-	private void generateNativeInterface()
-	{
-		generateNativeInterfaceHeader();
-		generateNativeInterfaceSource();
-	}
+//	private void generateNativeInterface()
+//	{
+//		generateNativeInterfaceHeader();
+//		generateNativeInterfaceSource();
+//	}
 	
 	public String getAllExternalIncludes()
 	{
@@ -772,87 +772,87 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return builder.toString();
 	}
 	
-	private void generateNativeInterfaceHeader()
-	{
-		File header = new File(controller.outputDirectory, NATIVE_INTERFACE_FILE_NAME + ".h");
-		
-		controller.outputDirectory.mkdirs();
-		
-		try
-		{
-			FileUtils.writeIfDifferent(header, writer ->
-			{
-				writer.append("#ifndef NOVA_NATIVE_INTERFACE\n");
-				writer.append("#define NOVA_NATIVE_INTERFACE\n\n");
-				
-				if (compileEngine.singleFile)
-				{
-					writer.append("#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
-					writer.append("#include <ExceptionHandler.h>\n");
-					writer.append(getAllExternalIncludes());
-				}
-				else
-				{
-					writer.append(getAllIncludes());
-				}
-				
-				writer.append('\n');
-				
-				for (FileDeclaration file : tree.getFiles())
-				{
-					writer.print(getWriter(file).generateHeaderNativeInterface(new StringBuilder()).append("\n"));
-				}
-				
-				writer.append("\ntypedef struct nova_env\n");
-				writer.append("{\n");
-				
-				for (FileDeclaration file : tree.getFiles())
-				{
-					for (ClassDeclaration clazz : file.getClassDeclarations())
-					{
-						if (!clazz.isPrimitiveOverload())
-						{
-							writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(getWriter(clazz).getNativeLocation()).append(";\n"));
-						}
-					}
-				}
-				
-				writer.append("} nova_env;\n\n");
-				writer.append("extern nova_env " + ENVIRONMENT_VAR + ";\n\n");
-				writer.append("\n#endif\n");
-			}, forceRecompile);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	private void generateNativeInterfaceSource()
-	{
-		File source = new File(controller.outputDirectory, NATIVE_INTERFACE_FILE_NAME + ".c");
-		
-		try
-		{
-			FileUtils.writeIfDifferent(source, writer ->
-			{
-				writer.append("#include \"" + NATIVE_INTERFACE_FILE_NAME + ".h\"\n\n");
-				
-				writer.append("nova_env " + ENVIRONMENT_VAR + " = {\n");
-				
-				for (FileDeclaration file : tree.getFiles())
-				{
-					writer.print(getWriter(file).generateSourceNativeInterface(new StringBuilder()).append('\n'));
-				}
-				
-				writer.append("};\n");
-			}, forceRecompile);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+//	private void generateNativeInterfaceHeader()
+//	{
+//		File header = new File(controller.outputDirectory, NATIVE_INTERFACE_FILE_NAME + ".h");
+//		
+//		controller.outputDirectory.mkdirs();
+//		
+//		try
+//		{
+//			FileUtils.writeIfDifferent(header, writer ->
+//			{
+//				writer.append("#ifndef NOVA_NATIVE_INTERFACE\n");
+//				writer.append("#define NOVA_NATIVE_INTERFACE\n\n");
+//				
+//				if (compileEngine.singleFile)
+//				{
+//					writer.append("#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
+//					writer.append("#include <ExceptionHandler.h>\n");
+//					writer.append(getAllExternalIncludes());
+//				}
+//				else
+//				{
+//					writer.append(getAllIncludes());
+//				}
+//				
+//				writer.append('\n');
+//				
+//				for (FileDeclaration file : tree.getFiles())
+//				{
+//					writer.print(getWriter(file).generateHeaderNativeInterface(new StringBuilder()).append("\n"));
+//				}
+//				
+//				writer.append("\ntypedef struct nova_env\n");
+//				writer.append("{\n");
+//				
+//				for (FileDeclaration file : tree.getFiles())
+//				{
+//					for (ClassDeclaration clazz : file.getClassDeclarations())
+//					{
+//						if (!clazz.isPrimitiveOverload())
+//						{
+//							writer.print(getWriter(clazz).generateSourceName(new StringBuilder(), "native").append(" ").append(getWriter(clazz).getNativeLocation()).append(";\n"));
+//						}
+//					}
+//				}
+//				
+//				writer.append("} nova_env;\n\n");
+//				writer.append("extern nova_env " + ENVIRONMENT_VAR + ";\n\n");
+//				writer.append("\n#endif\n");
+//			}, forceRecompile);
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void generateNativeInterfaceSource()
+//	{
+//		File source = new File(controller.outputDirectory, NATIVE_INTERFACE_FILE_NAME + ".c");
+//		
+//		try
+//		{
+//			FileUtils.writeIfDifferent(source, writer ->
+//			{
+//				writer.append("#include \"" + NATIVE_INTERFACE_FILE_NAME + ".h\"\n\n");
+//				
+//				writer.append("nova_env " + ENVIRONMENT_VAR + " = {\n");
+//				
+//				for (FileDeclaration file : tree.getFiles())
+//				{
+//					writer.print(getWriter(file).generateSourceNativeInterface(new StringBuilder()).append('\n'));
+//				}
+//				
+//				writer.append("};\n");
+//			}, forceRecompile);
+//		}
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//		}
+//	}
 	
 	private void generateInterfaceVTable()
 	{
@@ -983,54 +983,54 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return builder.append("\n");
 	}
 	
-	private StringBuilder generateNativeVirtualMethodAssignments()
-	{
-		StringBuilder builder = new StringBuilder();
-		
-		Program root = tree.getRoot();
-		
-		for (int i = 0; i < root.getNumVisibleChildren(); i++)
-		{
-			FileDeclaration file = root.getVisibleChild(i);
-			
-			for (ClassDeclaration clazz : file.getClassDeclarations())
-			{
-				if (!clazz.isPrimitiveOverload())
-				{
-					MethodDeclaration[] methods = clazz.getVisibleNativeMethods();
-					
-					for (MethodDeclaration method : methods)
-					{
-						if (method instanceof NovaMethodDeclaration)
-						{
-							if (method.isInstance())
-							{
-								NovaMethodDeclaration n = (NovaMethodDeclaration)method;
-								
-								if (n.isOverridden() && !(n instanceof Constructor))
-								{
-									//n = n.getVirtualMethod();
-									
-									String itable = "";
-									
-									if (n.getRootDeclaration().getParentClass() instanceof Trait)
-									{
-										itable = TraitVTable.IDENTIFIER + ".";
-									}
-									
-									VirtualMethodDeclaration virtual = n.getVirtualMethod();
-									
-									builder.append(ENVIRONMENT_VAR + "." + getWriter(clazz).getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + getWriter(clazz.getVTableNodes().getExtensionVTable()).generateSourceName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return builder;
-	}
+//	private StringBuilder generateNativeVirtualMethodAssignments()
+//	{
+//		StringBuilder builder = new StringBuilder();
+//		
+//		Program root = tree.getRoot();
+//		
+//		for (int i = 0; i < root.getNumVisibleChildren(); i++)
+//		{
+//			FileDeclaration file = root.getVisibleChild(i);
+//			
+//			for (ClassDeclaration clazz : file.getClassDeclarations())
+//			{
+//				if (!clazz.isPrimitiveOverload())
+//				{
+//					MethodDeclaration[] methods = clazz.getVisibleNativeMethods();
+//					
+//					for (MethodDeclaration method : methods)
+//					{
+//						if (method instanceof NovaMethodDeclaration)
+//						{
+//							if (method.isInstance())
+//							{
+//								NovaMethodDeclaration n = (NovaMethodDeclaration)method;
+//								
+//								if (n.isOverridden() && !(n instanceof Constructor))
+//								{
+//									//n = n.getVirtualMethod();
+//									
+//									String itable = "";
+//									
+//									if (n.getRootDeclaration().getParentClass() instanceof Trait)
+//									{
+//										itable = TraitVTable.IDENTIFIER + ".";
+//									}
+//									
+//									VirtualMethodDeclaration virtual = n.getVirtualMethod();
+//									
+//									builder.append(ENVIRONMENT_VAR + "." + getWriter(clazz).getNativeLocation() + "." + getWriter(n).generateSourceNativeName(new StringBuilder(), false) + " = " + getWriter(clazz.getVTableNodes().getExtensionVTable()).generateSourceName() + "." + itable + getWriter(virtual).generateVirtualMethodName() + ";\n");
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		return builder;
+//	}
 
 	private void generateVTableDeclarations()
 	{
@@ -1189,7 +1189,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		}
 		
 		StringBuilder staticBlockCalls  = generateStaticBlockCalls();
-		StringBuilder nativeAssignments = generateNativeVirtualMethodAssignments();
+//		StringBuilder nativeAssignments = generateNativeVirtualMethodAssignments();
 		StringBuilder vtableClassInstanceAssignments = generateVTableClassInstanceAssignments((NovaMethodDeclaration)mainMethod);
 		StringBuilder vtableClassArray = generateVTableClassArray();
 		StringBuilder vtableClassInstancePropertyAssignments = generateVTableClassInstancePropertyAssignments();
@@ -1257,7 +1257,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("void novaInitProgramData(void* this)\n");
 					writer.append("{\n");
-					writer.append(nativeAssignments).append('\n');
+//					writer.append(nativeAssignments).append('\n');
 					writer.append(vtableClassInstanceAssignments).append('\n');
 					writer.append(vtableClassInstancePropertyAssignments).append('\n');
 					writer.append(vtableClassArray).append('\n');
