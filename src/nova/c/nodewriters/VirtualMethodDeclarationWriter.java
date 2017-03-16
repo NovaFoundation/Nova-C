@@ -63,7 +63,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 //		
 //		return builder.append(";\n}\n");
 		
-		return generateFunctionReferenceTypeName(builder).append("* ").append(generateSourceName()).append(";\n");
+		return generateFunctionReferenceTypeName(builder).append(" ").append(generateSourceName()).append(";\n");
 	}
 	
 	public StringBuilder generateFunctionReferenceTypeName(StringBuilder builder)
@@ -77,7 +77,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		builder.append("typedef ");
 		generateFunctionPointer(builder, "type").append(";\n");
 		
-		builder.append("extern ").append(generateFunctionReferenceTypeName(new StringBuilder())).append("* ").append(generateSourceName()).append(";\n");
+		builder.append("extern ").append(generateFunctionReferenceTypeName(new StringBuilder())).append(" ").append(generateSourceName()).append(";\n");
 		
 		return builder;
 	}

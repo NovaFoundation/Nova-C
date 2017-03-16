@@ -17,6 +17,12 @@ public abstract class TraitVTableWriter extends VTableWriter
 	}
 	
 	@Override
+	public StringBuilder generateType(StringBuilder builder, boolean checkArray, boolean checkValueReference, boolean checkAllocatedOnHeap)
+	{
+		return super.generateType(builder, checkArray, checkValueReference, checkAllocatedOnHeap).append("*");
+	}
+	
+	@Override
 	public StringBuilder generateTypeName(StringBuilder builder)
 	{
 		return builder.append("nova_Interface_VTable");
