@@ -13,7 +13,7 @@
 		buffer buf;\
 		int exception_code;\
 		\
-		nova_exception_Nova_ExceptionData* newData = novaEnv.nova_exception_ExceptionData.ExceptionData(0, &buf);\
+		nova_exception_Nova_ExceptionData* newData = nova_exception_Nova_ExceptionData_Nova_construct(0, &buf);\
 		\
 		if (exceptionData != 0)\
 		{\
@@ -45,6 +45,6 @@
 		}\
 	}
 
-#define THROW(exception, soft) novaEnv.nova_exception_ExceptionData.throwException(exceptionData, &exceptionData, (nova_exception_Nova_Exception*)exception, soft)
+#define THROW(exception, soft) nova_exception_Nova_ExceptionData_Nova_throwException(exceptionData, &exceptionData, (nova_exception_Nova_Exception*)exception, soft)
 
 #endif
