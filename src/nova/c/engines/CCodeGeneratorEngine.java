@@ -1062,8 +1062,15 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
+						File lib = c.getFileDeclaration().getLibrary();
 						
-						if (c.getFileDeclaration().getLibrary() == l)
+						if (l == null)
+						{
+							vtables.forEach(vtable -> {
+								writer.append(getWriter(vtable).generateSource(new StringBuilder(), true).append('\n'));
+							});
+						}
+						else if (lib == l)
 						{
 							writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
 						}
@@ -1089,7 +1096,43 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("#ifndef NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n");
 					writer.append("#define NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n\n");
 					
-					writer.append("\ntypedef struct nova_Interface_VTable nova_Interface_VTable;\n");
+					//				try
+					//				{
+					for (ClassDeclaration c : getAllClasses())
+					{
+						VTableList vtables = c.getVTableNodes();
+						
+						if (c.getFileDeclaration().getLibrary() == l)
+						{
+							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
+							
+							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder()).append('\n'));
+							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder()));
+							
+							writer.append("//////////////////////////////////////////////////////////////////////\n\n");
+						}
+					}
+					
+					writer.append("#include <" + (l != null ? l.getName() : SINGLE_FILE_BUILD_FILE_NAME) + ".h" + ">\n");
+					
+					for (ClassDeclaration c : getAllClasses())
+					{
+						VTableList vtables = c.getVTableNodes();
+						
+						if (c.getFileDeclaration().getLibrary() == l)
+						{
+							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
+							
+							for (NovaMethodDeclaration method : vtables.getExtensionVTable().getVirtualMethods())
+							{
+								writer.append(getWriter(method.getVirtualMethod()).generateHeader(new StringBuilder()));
+							}
+							
+							writer.append("//////////////////////////////////////////////////////////////////////\n\n");
+						}
+					}
+					
+					writer.append("typedef struct nova_Interface_VTable nova_Interface_VTable;\n\n");
 					
 					writer.append("// ").append("Interface methods").append(" /////////////////////////////////////////////////////\n");
 					
@@ -1105,27 +1148,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("//////////////////////////////////////////////////////////////////////\n\n");
 					
-					//				try
-					//				{
-					for (ClassDeclaration c : getAllClasses())
-					{
-						VTableList vtables = c.getVTableNodes();
-						
-						if (c.getFileDeclaration().getLibrary() == l)
-						{
-							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
-							
-							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder()).append('\n'));
-							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder()).append('\n'));
-							
-							for (NovaMethodDeclaration method : vtables.getExtensionVTable().getVirtualMethods())
-							{
-								writer.append(getWriter(method.getVirtualMethod()).generateHeader(new StringBuilder()));
-							}
-							
-							writer.append("//////////////////////////////////////////////////////////////////////\n\n");
-						}
-					}
 					//				}
 					//				catch (IOException e)
 					//				{
