@@ -15,6 +15,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <limits.h>
+
 #ifdef _WIN32
 void nova_init_scrollbar();
 LRESULT CALLBACK nova_scroll_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
