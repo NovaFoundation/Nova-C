@@ -1057,8 +1057,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					writer.append("#include \"").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
 					
-					//				try
-					//				{
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
@@ -1075,11 +1073,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 							writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
 						}
 					}
-					//				}
-					//				catch (IOException e)
-					//				{
-					//					throw new RuntimeException(e);
-					//				}
 				}, forceRecompile[0]);
 			}
 			catch (IOException e)
@@ -1096,8 +1089,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("#ifndef NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n");
 					writer.append("#define NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n\n");
 					
-					//				try
-					//				{
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
@@ -1106,8 +1097,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						{
 							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
 							
-							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder()).append('\n'));
-							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder()));
+							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder(), l == null).append('\n'));
+							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder(), l == null));
 							
 							writer.append("//////////////////////////////////////////////////////////////////////\n\n");
 						}
@@ -1148,14 +1139,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("//////////////////////////////////////////////////////////////////////\n\n");
 					
-					//				}
-					//				catch (IOException e)
-					//				{
-					//					throw new RuntimeException(e);
-					//				}
-					
-					//				try
-					//				{
 					if (l == null)
 					{
 						if (compileEngine.singleFile)
@@ -1198,11 +1181,6 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 							//					getWriter(vtables).generateSource(builder).append('\n');
 						}
 					}
-					//				}
-					//				catch (IOException e)
-					//				{
-					//					throw new RuntimeException(e);
-					//				}
 					
 					writer.append("#endif");
 				}, forceRecompile[0]);
@@ -1291,6 +1269,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
 					{
 						writer.write("#include <" + entry.getKey().getName() + ".h>\n");
+						writer.write("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
 					}
 					
 					writer.write("#include <InterfaceVTable.h>\n");
