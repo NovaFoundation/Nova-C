@@ -16,10 +16,15 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 		
 		return builder;
 	}
-
+	
 	public StringBuilder generateExternDeclaration(StringBuilder builder)
 	{
-		return builder.append("extern ").append(generateType()).append(' ').append(generateSourceName()).append(";\n");
+		return generateExternDeclaration(builder, false);
+	}
+	
+	public StringBuilder generateExternDeclaration(StringBuilder builder, boolean full)
+	{
+		return builder.append("extern ").append(generateTypeName(full)).append(" ").append(generateSourceName(full)).append(";\n");
 	}
 	
 	@Override

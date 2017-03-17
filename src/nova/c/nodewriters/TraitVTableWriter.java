@@ -33,9 +33,28 @@ public abstract class TraitVTableWriter extends VTableWriter
 		return builder;
 	}
 	
+	@Override
+	public StringBuilder generateSourceName(StringBuilder builder, boolean full)
+	{
+		return super.generateSourceName(builder, full).append("_itable");
+	}
+	
 	public StringBuilder generateSourceFragment(StringBuilder builder)
 	{
+		return generateSourceFragment(builder, false);
+	}
+	
+	public StringBuilder generateSourceFragment(StringBuilder builder, boolean full)
+	{
+		return full ? builder.append("&").append(generateSourceName(true)) : builder.append(0);
+	}
+	
+	public StringBuilder generateDeclaration(StringBuilder builder)
+	{
 		NovaMethodDeclaration[] methods = node().getVirtualMethods();
+		
+		generateTypeName(builder).append(" ");
+		generateSourceName(builder, true).append(" = ");
 		
 		builder.append("{\n");
 		
@@ -53,9 +72,6 @@ public abstract class TraitVTableWriter extends VTableWriter
 			builder.append(",\n");
 		}
 		
-		builder.append("}");
-		
-		return builder;
-		//return super.generateSourceFragment(builder);
+		return builder.append("};\n");
 	}
 }

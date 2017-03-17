@@ -7,9 +7,14 @@ public abstract class VTableWriter extends IIdentifierWriter
 {
 	public abstract VTable node();
 
-	public StringBuilder generateTypedef(StringBuilder builder)
+	public final StringBuilder generateTypedef(StringBuilder builder)
 	{
-		builder.append("typedef struct ").append(generateTypeName()).append(' ').append(generateTypeName()).append(";");
+		return generateTypedef(builder, false);
+	}
+	
+	public StringBuilder generateTypedef(StringBuilder builder, boolean full)
+	{
+		builder.append("typedef struct ").append(generateTypeName(full)).append(' ').append(generateTypeName(full)).append(";");
 
 		return builder;
 	}
@@ -36,10 +41,20 @@ public abstract class VTableWriter extends IIdentifierWriter
 		return getWriter(node().getParentClass()).generateSourceName(builder).append(full ? "_full" : "").append("_VTable");
 	}
 	
+	public StringBuilder generateSourceName(boolean full)
+	{
+		return generateSourceName(new StringBuilder(), full);
+	}
+	
 	@Override
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
-		return generateTypeName(builder).append("_val");
+		return generateSourceName(builder, false);
+	}
+	
+	public StringBuilder generateSourceName(StringBuilder builder, boolean full)
+	{
+		return generateTypeName(builder, full).append("_val");
 	}
 	
 	public final StringBuilder generateHeader(StringBuilder builder)
@@ -84,14 +99,27 @@ public abstract class VTableWriter extends IIdentifierWriter
 	
 	public StringBuilder generateSource(StringBuilder builder, boolean full)
 	{
-		NovaMethodDeclaration methods[] = node().getVirtualMethods();
+		if (full)
+		{
+			for (int i = 0; i < node().getNumChildren(); i++)
+			{
+				Node child = node().getChild(i);
+				
+				if (child instanceof TraitVTable)
+				{
+					getWriter((TraitVTable)child).generateDeclaration(builder).append("\n");
+				}
+			}
+		}
 		
-		generateType(builder).append(' ').append(generateSourceName()).append(" =\n{\n");
+		generateTypeName(builder, full).append(" ").append(generateSourceName(full)).append(" =\n{\n");
 		
 		writeChildrenSource(builder, full);
 		
 		if (full)
 		{
+			NovaMethodDeclaration methods[] = node().getVirtualMethods();
+			
 			generateVirtualMethodValues(builder, methods);
 		}
 		
@@ -106,9 +134,9 @@ public abstract class VTableWriter extends IIdentifierWriter
 		{
 			Node child = node().getChild(i);
 			
-			if (child instanceof TraitVTable && !full)
+			if (child instanceof TraitVTable)
 			{
-				builder.append("0");
+				getWriter((TraitVTable)child).generateSourceFragment(builder, full);
 			}
 			else
 			{
@@ -169,6 +197,8 @@ public abstract class VTableWriter extends IIdentifierWriter
 		{
 			if (method != null)
 			{
+//				builder.append("&");
+				
 				//				method.generateVirtualMethodName(builder);
 				if (method instanceof AbstractMethodDeclaration)
 				{

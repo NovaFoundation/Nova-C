@@ -176,7 +176,7 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 	
 	public String getVTableClassInstance()
 	{
-		return getWriter(node().getVTableNodes().getExtensionVTable()).generateSourceName() + "." + getClassInstanceVTableName();
+		return getWriter(node().getVTableNodes().getExtensionVTable()).generateSourceName(!node().getFileDeclaration().isLibraryFile()) + "." + getClassInstanceVTableName();
 	}
 	
 	public StringBuilder generateVTableClassInstanceAssignment(StringBuilder builder, NovaMethodDeclaration method)
@@ -330,9 +330,9 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		
 		generateSourceName(builder).append(", ").append('\n').append('\n');
 
-		VTable extension = node().getVTableNodes().getExtensionVTable();
+		ExtensionVTable extension = node().getVTableNodes().getExtensionVTable();
 
-		builder.append(getWriter(extension).generateType()).append("* ").append(VTable.IDENTIFIER).append(";\n");
+		builder.append(getWriter(extension).generateTypeName(!node().getFileDeclaration().isLibraryFile())).append("* ").append(VTable.IDENTIFIER).append(";\n");
 		
 		if (node().containsNonStaticPrivateData())
 		{
