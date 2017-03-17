@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <StandardLibrary.h>
 
 #if defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>
@@ -12,7 +13,7 @@
 #include <io.h>
 #endif
 
-#include <NovaNativeInterface.h>
+// #include <NovaNativeInterface.h>
 
 typedef void (*error_func)(void*, int, nova_Nova_String*, char, void*);
 

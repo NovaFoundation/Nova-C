@@ -39,6 +39,7 @@
 
 #include <time.h>
 #include <Nova.h>
+#include <StandardLibrary.h>
 
 void lib_nova_thread_create(NOVA_THREAD_HANDLE* handle, NOVA_THREAD_FUNC_TYPE func, NOVA_THREAD_FUNC_ARG arg);
 
