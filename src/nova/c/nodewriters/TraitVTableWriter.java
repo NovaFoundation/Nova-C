@@ -28,7 +28,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 		return builder.append("nova_Interface_VTable");
 	}
 	
-	public StringBuilder generateSource(StringBuilder builder)
+	public StringBuilder generateSource(StringBuilder builder, boolean full)
 	{
 		return builder;
 	}

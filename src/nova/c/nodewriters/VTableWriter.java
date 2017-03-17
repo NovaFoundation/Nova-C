@@ -77,28 +77,45 @@ public abstract class VTableWriter extends IIdentifierWriter
 		return builder;
 	}
 	
-	public StringBuilder generateSource(StringBuilder builder)
+	public final StringBuilder generateSource(StringBuilder builder)
+	{
+		return generateSource(builder, false);
+	}
+	
+	public StringBuilder generateSource(StringBuilder builder, boolean full)
 	{
 		NovaMethodDeclaration methods[] = node().getVirtualMethods();
 		
 		generateType(builder).append(' ').append(generateSourceName()).append(" =\n{\n");
 		
-		writeChildrenSource(builder);
+		writeChildrenSource(builder, full);
 		
-		generateVirtualMethodValues(builder, methods);
+		if (full)
+		{
+			generateVirtualMethodValues(builder, methods);
+		}
 		
 		builder.append("};\n");
 		
 		return builder;
 	}
 	
-	public StringBuilder writeChildrenSource(StringBuilder builder)
+	public StringBuilder writeChildrenSource(StringBuilder builder, boolean full)
 	{
 		for (int i = 0; i < node().getNumChildren(); i++)
 		{
 			Node child = node().getChild(i);
 			
-			getWriter(child).generateSourceFragment(builder).append(",\n");
+			if (child instanceof TraitVTable && !full)
+			{
+				builder.append("0");
+			}
+			else
+			{
+				getWriter(child).generateSourceFragment(builder);
+			}
+			
+			builder.append(",\n");
 		}
 		
 		return builder;

@@ -33,10 +33,10 @@ public abstract class ExtensionVTableWriter extends VTableWriter
 	}
 	
 	@Override
-	public StringBuilder writeChildrenSource(StringBuilder builder)
+	public StringBuilder writeChildrenSource(StringBuilder builder, boolean full)
 	{
 		builder.append("0,\n");
 		
-		return super.writeChildrenSource(builder);
+		return super.writeChildrenSource(builder, full);
 	}
 }
