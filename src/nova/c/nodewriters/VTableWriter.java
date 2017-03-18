@@ -197,12 +197,15 @@ public abstract class VTableWriter extends IIdentifierWriter
 		{
 			if (method != null)
 			{
-//				builder.append("&");
+				VirtualMethodDeclaration virtual = method.getVirtualMethod();
+				
+				builder.append("(").append(getWriter(virtual).generateFunctionReferenceTypeName(new StringBuilder())).append(")");
+				builder.append("&");
 				
 				//				method.generateVirtualMethodName(builder);
 				if (method instanceof AbstractMethodDeclaration)
 				{
-					method = method.getVirtualMethod();
+					method = virtual;
 				}
 				
 				getWriter(method).generateSourceName(builder);
