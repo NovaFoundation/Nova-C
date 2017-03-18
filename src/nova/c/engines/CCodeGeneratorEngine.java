@@ -1093,7 +1093,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					{
 						VTableList vtables = c.getVTableNodes();
 						
-						if (c.getFileDeclaration().getLibrary() == l)
+						File lib = c.getFileDeclaration().getLibrary();
+						
+						if (lib == l || l == null)
 						{
 							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
 							
