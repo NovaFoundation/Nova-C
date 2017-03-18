@@ -76,13 +76,11 @@ ifndef NO_OPTIMIZE
 endif
 
 EXTRADEPS = VTableDeclarations.h\
-			NovaNativeInterface.h\
 			InterfaceVTable.h\
 			$(home)/include/Nova.h\
 			$(home)/include/NovaExceptionHandling.h
 
 EXTRAOBJ = VTableDeclarations.o\
-			NovaNativeInterface.o\
 			$(home)/include/Nova.o\
 			$(home)/include/NovaExceptionHandling.o
 			
