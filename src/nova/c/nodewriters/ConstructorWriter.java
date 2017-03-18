@@ -67,7 +67,7 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		
 		VTable extension = node().getParentClass().getVTableNodes().getExtensionVTable();
 		
-		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append("->").append(VTable.IDENTIFIER).append(" = &").append(getWriter(extension).generateSourceName()).append(";\n");
+		builder.append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append("->").append(VTable.IDENTIFIER).append(" = &").append(getWriter(extension).generateSourceName(!extension.getFileDeclaration().isLibraryFile())).append(";\n");
 		
 		{
 			Stack<AssignmentMethod> calls = new Stack<>();
