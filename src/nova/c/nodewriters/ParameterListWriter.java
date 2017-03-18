@@ -20,6 +20,11 @@ public abstract class ParameterListWriter extends TypeListWriter
 	{
 		generateHeaderDefaultParameters(builder);
 		
+		return generateHeaderNovaParameters(builder);
+	}
+	
+	public StringBuilder generateHeaderNovaParameters(StringBuilder builder)
+	{
 		for (int i = 0; i < node().getNumVisibleChildren(); i++)
 		{
 			if (i > 0 || node().getParameterOffset() > 0)
