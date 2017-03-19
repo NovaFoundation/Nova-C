@@ -38,7 +38,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 	
 	public StringBuilder generateTypeName(StringBuilder builder, boolean full)
 	{
-		return getWriter(node().getParentClass()).generateSourceName(builder).append(full ? "_full" : "").append("_VTable");
+		return getWriter(node().getParentClass()).generateSourceName(builder).append(/*full ? "_full" : */"").append("_VTable");
 	}
 	
 	public StringBuilder generateSourceName(boolean full)
@@ -68,7 +68,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		
 		writeChildrenHeader(builder);
 		
-		if (full)
+//		if (full)
 		{
 			NovaMethodDeclaration methods[] = node().getVirtualMethods();
 			
@@ -116,7 +116,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		
 		writeChildrenSource(builder, full);
 		
-		if (full)
+//		if (full)
 		{
 			NovaMethodDeclaration methods[] = node().getVirtualMethods();
 			

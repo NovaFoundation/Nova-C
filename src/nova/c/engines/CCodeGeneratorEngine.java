@@ -1171,13 +1171,13 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						VTableList vtables = c.getVTableNodes();
 						File lib = c.getFileDeclaration().getLibrary();
 						
-						if (l == null)
+						/*if (l == null)
 						{
 							vtables.forEach(vtable -> {
 								writer.append(getWriter(vtable).generateHeader(new StringBuilder(), true).append('\n'));
 							});
 						}
-						else if (lib == l)
+						else */if (lib == l)
 						{
 							writer.append(getWriter(vtables).generateHeader(new StringBuilder()).append('\n'));
 							//					getWriter(vtables).generateSource(builder).append('\n');
