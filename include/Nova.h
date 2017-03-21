@@ -108,4 +108,6 @@ nova_funcStruct* nova_get_funcStruct3(void* func, void* ref, void* context);
 
 typedef void (*nova_basic_function_type)();
 
+extern nova_basic_function_type* nova_interface_vtable;
+
 #endif
