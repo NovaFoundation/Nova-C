@@ -119,6 +119,21 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		return builder.append(")");
 	}
 	
+	public StringBuilder generateFunctionPointerType(StringBuilder builder)
+	{
+		return generateFunctionPointerType(builder, null);
+	}
+		
+	public StringBuilder generateFunctionPointerType(StringBuilder builder, String prefix)
+	{
+		return generateFunctionPointerType(builder, prefix, false);
+	}
+	
+	public StringBuilder generateFunctionPointerType(StringBuilder builder, String prefix, boolean voidReference)
+	{
+		return generateFunctionPointer(builder, prefix, voidReference, true);
+	}
+	
 	/**
 	 * Generate the identifier that will be used to call the method.
 	 *
