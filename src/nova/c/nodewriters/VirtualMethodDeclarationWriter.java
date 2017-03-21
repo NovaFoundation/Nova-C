@@ -11,59 +11,74 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 	
 	public StringBuilder generateSource(StringBuilder builder)
 	{
-//		generateSourceSignature(builder);
-//		
-//            /*
-//            if (getType() == null)
-//            {
-//                builder.append("{}");
-//            }
-//            else
-//            {
-//                builder.append("{return 0;}");
-//            }
-//            */
-//		
-//		builder.append("\n{\n");
-//		
-//		if (node().getType() != null)
-//		{
-//			builder.append("return ");
-//		}
-//		
-//		Parameter ref = node().getOriginalParameterList().getObjectReference();
-//		
-//		getWriter(ref).generateSourceFragment(builder).append("->");
-//		
-//		builder.append(VTable.IDENTIFIER).append("->");
-//		
-//		if (node().getParentClass() instanceof Trait)
-//		{
-//			builder.append(TraitVTable.IDENTIFIER).append(".");
-//		}
-//		
-//		String call = node().getName() + "(";
-//		
-//		for (int i = 0; i < node().getParameterList().getNumVisibleChildren(); i++)
-//		{
-//			if (i > 0)
-//			{
-//				call += ", ";
-//			}
-//			
-//			call += node().getParameterList().getVisibleChild(i).getName();
-//		}
-//		
-//		call += ")";
-//		
-//		MethodCall output = MethodCall.decodeStatement(node().getScope(), call, node().getLocationIn().asNew(), true, true, node());
-//		
-//		generateVirtualMethodName(builder);
-//		getWriter(output.getArgumentList()).generateSourceFragment(builder);
-//		
-//		return builder.append(";\n}\n");
+		generateSourceSignature(builder);
+
+            /*
+            if (getType() == null)
+            {
+                builder.append("{}");
+            }
+            else
+            {
+                builder.append("{return 0;}");
+            }
+            */
+
+		builder.append("\n{\n");
+
+		if (node().getType() != null)
+		{
+			builder.append("return ");
+		}
 		
-		return generateFunctionReferenceTypeName(builder).append(" ").append(generateSourceName()).append(";\n");
+		if (node().getParentClass() instanceof Trait)
+		{
+			builder.append("((");
+			generateFunctionPointerType(builder);
+			builder.append(")");
+		}
+
+		Parameter ref = node().getOriginalParameterList().getObjectReference();
+
+		getWriter(ref).generateSourceFragment(builder).append("->");
+
+		builder.append(VTable.IDENTIFIER).append("->");
+
+		if (node().getParentClass() instanceof Trait)
+		{
+			builder.append(TraitVTable.IDENTIFIER).append("[");
+		}
+
+		String call = node().getName() + "(";
+
+		for (int i = 0; i < node().getParameterList().getNumVisibleChildren(); i++)
+		{
+			if (i > 0)
+			{
+				call += ", ";
+			}
+
+			call += node().getParameterList().getVisibleChild(i).getName();
+		}
+
+		call += ")";
+
+		MethodCall output = MethodCall.decodeStatement(node().getScope(), call, node().getLocationIn().asNew(), true, true, node());
+
+		if (node().getParentClass() instanceof Trait)
+		{
+			generateVirtualMethodIndex(builder).append("])");
+		}
+		else
+		{
+			generateVirtualMethodName(builder);
+		}
+		
+		getWriter(output.getArgumentList()).generateSourceFragment(builder);
+
+		return builder.append(";\n}\n");
+		
+//		return generateFunctionReferenceTypeName(builder).append(" ").append(generateSourceName()).append(";\n");
 	}
 	
 	public StringBuilder generateFunctionReferenceTypeName(StringBuilder builder)
