@@ -13,7 +13,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 	
 	public StringBuilder generateHeaderFragment(StringBuilder builder)
 	{
-		return generateType(builder).append(" ").append(TraitVTable.IDENTIFIER);
+		return generateType(builder).append("* ").append(TraitVTable.IDENTIFIER);
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 	@Override
 	public StringBuilder generateTypeName(StringBuilder builder)
 	{
-		return builder.append("nova_Interface_VTable");
+		return builder.append("nova_basic_function_type");//.append("nova_Interface_VTable");
 	}
 	
 	public StringBuilder generateSource(StringBuilder builder, boolean full)
@@ -46,15 +46,15 @@ public abstract class TraitVTableWriter extends VTableWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder, boolean full)
 	{
-		return full ? builder.append("&").append(generateSourceName(true)) : builder.append(0);
+		return /*full ? builder.append("&").append(generateSourceName(true)) : */builder.append(0);
 	}
 	
 	public StringBuilder generateDeclaration(StringBuilder builder)
 	{
 		NovaMethodDeclaration[] methods = node().getVirtualMethods();
 		
-		generateTypeName(builder).append(" ");
-		generateSourceName(builder, true).append(" = ");
+		generateTypeName(builder).append("* ");
+		generateSourceName(builder, true).append(" = (nova_basic_function_type[").append(methods.length).append("])");
 		
 		builder.append("{\n");
 		
