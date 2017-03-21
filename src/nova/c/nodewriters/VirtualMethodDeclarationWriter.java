@@ -91,16 +91,24 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		return generateFunctionPointer(new StringBuilder(), "type", true).toString();
 	}
 	
-	@Override
-	public StringBuilder generateHeader(StringBuilder builder)
+	public StringBuilder generateIndexDefinition(StringBuilder builder, int index)
 	{
-		builder.append("typedef ");
-		builder.append(getFunctionType()).append(";\n");
+		builder.append("#define ");
+		generateVirtualMethodIndex(builder).append(" ").append(index);
 		
-		builder.append("extern ").append(generateFunctionReferenceTypeName(new StringBuilder())).append(" ").append(generateSourceName()).append(";\n");
-		
-		return builder;
+		return builder.append("\n");
 	}
+	
+	//	@Override
+//	public StringBuilder generateHeader(StringBuilder builder)
+//	{
+//		builder.append("typedef ");
+//		builder.append(getFunctionType()).append(";\n");
+//		
+//		builder.append("extern ").append(generateFunctionReferenceTypeName(new StringBuilder())).append(" ").append(generateSourceName()).append(";\n");
+//		
+//		return builder;
+//	}
 	
 	public StringBuilder generateSourceName(StringBuilder builder, String uniquePrefix)
 	{
