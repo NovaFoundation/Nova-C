@@ -106,4 +106,6 @@ nova_funcStruct* nova_get_funcStruct1(void* func);
 nova_funcStruct* nova_get_funcStruct2(void* func, void* ref);
 nova_funcStruct* nova_get_funcStruct3(void* func, void* ref, void* context);
 
+typedef void (*nova_basic_function_type)();
+
 #endif
