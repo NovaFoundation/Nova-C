@@ -87,7 +87,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 	
 	public StringBuilder generateFunctionPointer(StringBuilder builder)
 	{
-		return generateFunctionPointer(builder);
+		return generateFunctionPointer(builder, null);
 	}
 	
 	public final StringBuilder generateFunctionPointer(StringBuilder builder, String prefix)
