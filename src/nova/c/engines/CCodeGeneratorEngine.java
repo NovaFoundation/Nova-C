@@ -1104,7 +1104,11 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(source, writer ->
 				{
-					writer.append("#include \"").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n");
+					writer.append("#include \"").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n\n");
+					
+					Arrays.stream(getAllAndIMeanAllVirtualMethods())
+						.filter(v -> v.getFileDeclaration().getLibrary() == l)
+						.forEach(v -> writer.append(getWriter(v).generateSource().append("\n")));
 					
 					for (ClassDeclaration c : getAllClasses())
 					{
@@ -1140,7 +1144,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					int i = 0;
 					
-					for (VirtualMethodDeclaration v : getAllVirtualMethods())
+					for (VirtualMethodDeclaration v : getAllInterfaceVirtualMethods())
 					{
 						if (v.getFileDeclaration().getLibrary() == l)
 						{
@@ -1176,6 +1180,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					}
 					
 					writer.append("#include <" + (l != null ? l.getName() : SINGLE_FILE_BUILD_FILE_NAME) + ".h" + ">\n");
+					
+					Arrays.stream(getAllAndIMeanAllVirtualMethods())
+						.filter(v -> v.getFileDeclaration().getLibrary() == l)
+						.forEach(v -> writer.append(getWriter(v).generateHeader()));
+					
+					writer.append("\n");
 					
 					for (ClassDeclaration c : getAllClasses())
 					{
