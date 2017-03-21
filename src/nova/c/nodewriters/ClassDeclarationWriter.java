@@ -379,7 +379,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		getWriter(node().getMethodList()).generateHeader(builder);
 		getWriter(node().getPropertyMethodList()).generateHeader(builder);
 		getWriter(node().getHiddenMethodList()).generateHeader(builder);
-		getWriter(node().getVirtualMethodList()).generateHeader(builder);
 		
 		return builder;
 	}
@@ -438,7 +437,6 @@ public abstract class ClassDeclarationWriter extends InstanceDeclarationWriter
 		getWriter(node().getMethodList()).generateSource(builder);
 		getWriter(node().getPropertyMethodList()).generateSource(builder);
 		getWriter(node().getHiddenMethodList()).generateSource(builder);
-		getWriter(node().getVirtualMethodList()).generateSource(builder);
 		
 		return builder;
 	}
