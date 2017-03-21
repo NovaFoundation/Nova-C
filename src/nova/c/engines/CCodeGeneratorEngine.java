@@ -1089,6 +1089,26 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					writer.append("#ifndef NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n");
 					writer.append("#define NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n\n");
 					
+					int i = 0;
+					
+					for (VirtualMethodDeclaration v : getAllVirtualMethods())
+					{
+						if (v.getFileDeclaration().getLibrary() == l)
+						{
+							writer.append(getWriter(v).generateIndexDefinition(new StringBuilder(), i));
+						}
+						else
+						{
+							writer.append("/*");
+							writer.append(getWriter(v).generateSourceName()).append(" " + i);
+							writer.append("*/\n");
+						}
+						
+						i++;
+					}
+					
+					writer.append("\n");
+					
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
