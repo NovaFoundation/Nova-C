@@ -97,10 +97,15 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 	
 	public StringBuilder generateFunctionPointer(StringBuilder builder, String prefix, boolean voidReference)
 	{
+		return generateFunctionPointer(builder, prefix, voidReference, false);
+	}
+	
+	public StringBuilder generateFunctionPointer(StringBuilder builder, String prefix, boolean voidReference, boolean typeOnly)
+	{
 		NovaParameterList params = node().getParameterList();
 		
-		generateType(builder).append(" (*").append(generateSourceName(prefix)).append(")(");
-		
+		generateType(builder).append(" (*").append(typeOnly ? "" : generateSourceName(prefix)).append(")(");
+
 //		if (voidReference)
 //		{
 //			builder.append("void*");
