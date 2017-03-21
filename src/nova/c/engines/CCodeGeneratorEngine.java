@@ -500,6 +500,35 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		return list.toArray(new VirtualMethodDeclaration[0]);
 	}
 	
+	public VirtualMethodDeclaration[] getAllAndIMeanAllVirtualMethods()
+	{
+		ArrayList<VirtualMethodDeclaration> list = new ArrayList<>();
+		
+		for (ClassDeclaration c : getAllClasses())
+		{
+			for (NovaMethodDeclaration method : c.getExtensionVirtualMethods(false))
+			{
+				VirtualMethodDeclaration virtual = method.getVirtualMethod();
+				
+				if (virtual != null && !list.contains(virtual))
+				{
+					list.add(virtual);
+				}
+			}
+			for (NovaMethodDeclaration method : c.getInterfaceVirtualMethods(false))
+			{
+				VirtualMethodDeclaration virtual = method.getVirtualMethod();
+				
+				if (virtual != null && !list.contains(virtual))
+				{
+					list.add(virtual);
+				}
+			}
+		}
+		
+		return list.toArray(new VirtualMethodDeclaration[0]);
+	}
+	
 	public String getExternalLocation(String external)
 	{
 		return new File(FileUtils.formAbsolutePath(external)).getAbsolutePath().replace("\\", "/");
