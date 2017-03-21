@@ -172,6 +172,11 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 		return generateSourceName(builder, prefix, reference != null ? reference.overloadID : node().overloadID, postPrefix);
 	}
 	
+	public StringBuilder generateVirtualMethodIndex(StringBuilder builder)
+	{
+		return generateVirtualMethodName(builder, "index");
+	}
+	
 	public java.io.Writer writeVTableDeclaration(java.io.Writer writer) throws IOException
 	{
 		writer.write(generateType().toString());
