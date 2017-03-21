@@ -180,7 +180,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 		VirtualMethodDeclaration virtual = method.getVirtualMethod();
 		ParameterList params = method.getParameterList();
 		
-		return getWriter(virtual).generateSource(builder);//getWriter(method).generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName(method)).append(")(").append(getWriter(params).generateHeader()).append(");\n");
+		return getWriter(method).generateType(builder).append(" (*").append(getWriter(virtual).generateVirtualMethodName(method)).append(")(").append(getWriter(params).generateHeader()).append(");\n");//getWriter(virtual).generateSource(builder);
 	}
 	
 	/**
@@ -199,8 +199,8 @@ public abstract class VTableWriter extends IIdentifierWriter
 			{
 				VirtualMethodDeclaration virtual = method.getVirtualMethod();
 				
-				builder.append("(").append(getWriter(virtual).generateFunctionReferenceTypeName(new StringBuilder())).append(")");
-				builder.append("&");
+//				builder.append("(").append(getWriter(virtual).generateFunctionReferenceTypeName(new StringBuilder())).append(")");
+//				builder.append("&");
 				
 				//				method.generateVirtualMethodName(builder);
 				if (method instanceof AbstractMethodDeclaration)
