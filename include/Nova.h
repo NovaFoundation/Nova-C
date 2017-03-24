@@ -39,7 +39,6 @@ typedef struct nova_funcStruct {
 #	ifndef WIN32_LEAN_AND_MEAN
 #		define WIN32_LEAN_AND_MEAN
 #	endif
-#	include <windows.h>
 #else
 #	include <pthread.h>
 #	include <unistd.h>
