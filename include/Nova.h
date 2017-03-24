@@ -15,6 +15,10 @@ typedef struct nova_funcStruct {
 
 #   include <windows.h>
 #   include <commctrl.h>
+
+#   define NOVA_CODE_CONTEXT CONTEXT
+#else
+#   define NOVA_CODE_CONTEXT void
 #endif
 
 #include <math.h>
