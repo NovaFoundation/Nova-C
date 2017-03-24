@@ -33,12 +33,10 @@
 		{\
 			nova_exception_Nova_ExceptionData* oldData = exceptionData;\
 			nova_exception_Nova_ExceptionData* newData = exceptionData->nova_exception_Nova_ExceptionData_Nova_parent;\
-			if (newData != 0)\
-			{\
+			if (newData != 0) {\
 				exceptionData = newData;\
 			}\
-			if (oldData != 0)\
-			{\
+			if (oldData != 0) {\
 				NOVA_FREE(oldData);\
 			}\
 		}\
