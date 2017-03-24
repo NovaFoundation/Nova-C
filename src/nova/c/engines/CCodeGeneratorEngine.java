@@ -1080,6 +1080,26 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 //		
 //		return builder;
 //	}
+	
+	private ArrayList<VirtualMethodDeclaration> getAllVirtualMethods(File library)
+	{
+		ArrayList<VirtualMethodDeclaration> list = new ArrayList<>();
+		
+		for (ClassDeclaration c : getAllClasses())
+		{
+			if (c.getFileDeclaration().getLibrary() == library)
+			{
+				c.getVirtualMethodList().forEachNovaMethod(x -> {
+					if (!list.contains(x))
+					{
+						list.add((VirtualMethodDeclaration)x);
+					}
+				});
+			}
+		}
+		
+		return list;
+	}
 
 	private void generateVTableDeclarations()
 	{
