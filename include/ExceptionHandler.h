@@ -12,33 +12,31 @@
 	{\
 		buffer* buf = NOVA_MALLOC(sizeof(buffer));\
 		int exception_code;\
+		nova_exception_Nova_ExceptionData* thrownData;\
 		\
-		nova_exception_Nova_ExceptionData* newData = novaEnv.nova_exception_ExceptionData.ExceptionData(0, buf);\
+		nova_exception_Nova_ExceptionData* tryContextData = novaEnv.nova_exception_ExceptionData.ExceptionData(0, buf);\
 		\
 		if (exceptionData != 0) {\
-			newData->nova_exception_Nova_ExceptionData_Nova_parent = exceptionData;\
+			tryContextData->nova_exception_Nova_ExceptionData_Nova_parent = exceptionData;\
 		}\
 		\
-		exceptionData  = newData;\
+		exceptionData  = tryContextData;\
 		exception_code = setJump(*buf);\
+		\
+		if (exception_code != 0) {\
+			thrownData = exceptionData;\
+			exceptionData = exceptionData->nova_exception_Nova_ExceptionData_Nova_parent;\
+		}\
 		\
 		if (exception_code == 0)
 
 #define CATCH(x)\
-	else if (nova_meta_Nova_Class_Nova_isOfType(exceptionData->nova_exception_Nova_ExceptionData_Nova_thrownException->vtable->classInstance, x))
+	else if (nova_meta_Nova_Class_Nova_isOfType(thrownData->nova_exception_Nova_ExceptionData_Nova_thrownException->vtable->classInstance, x))
 
 #define FINALLY
 
 #define END_TRY \
 		{\
-			nova_exception_Nova_ExceptionData* oldData = exceptionData;\
-			nova_exception_Nova_ExceptionData* newData = exceptionData->nova_exception_Nova_ExceptionData_Nova_parent;\
-			if (newData != 0) {\
-				exceptionData = newData;\
-			}\
-			if (oldData != 0) {\
-				NOVA_FREE(oldData);\
-			}\
 		}\
 	}
 
