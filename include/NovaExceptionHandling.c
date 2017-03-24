@@ -171,6 +171,7 @@ LONG WINAPI nova_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
   switch(ExceptionInfo->ExceptionRecord->ExceptionCode)
   {
     case EXCEPTION_ACCESS_VIOLATION:
+      THROW(nova_exception_Nova_NullAccessException_Nova_construct(0, 0), 0);
       fputs("Error: EXCEPTION_ACCESS_VIOLATION\n", stderr);
       break;
     case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
