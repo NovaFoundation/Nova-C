@@ -51,10 +51,14 @@ char* addr2line(char const * const program_name, void const * const addr)
     int pos = 0;
     
     while (fgets(buf, 1024, fp)) {
-        outbuf = NOVA_REALLOC(outbuf, sizeof(char) * (1024 + pos));
-        arrayCopy(outbuf, pos, buf, 0, 1024, 1024);
-        pos += 1024;
+        int len = strlen(buf);
+        
+        outbuf = NOVA_REALLOC(outbuf, sizeof(char) * (pos + len + 1));
+        arrayCopy(outbuf, pos, buf, 0, len, len);
+        pos += len;
     }
+    
+    outbuf[pos] = '\0';
 
     fclose(fp);
   #endif
@@ -66,7 +70,7 @@ char* addr2line(char const * const program_name, void const * const addr)
 
 char upstack(CONTEXT* context, STACKFRAME* frame)
 {
-  return StackWalk(IMAGE_FILE_MACHINE_I386 ,
+  return StackWalk(IMAGE_FILE_MACHINE_I386,
                    GetCurrentProcess(),
                    GetCurrentThread(),
                    frame,
@@ -74,7 +78,7 @@ char upstack(CONTEXT* context, STACKFRAME* frame)
                    0,
                    SymFunctionTableAccess,
                    SymGetModuleBase,
-                   0 );
+                   0);
 }
 
 #ifdef __GNUC__
