@@ -188,10 +188,11 @@ void nova_print_stacktrace(CONTEXT* context)
                    SymGetModuleBase,
                    0 ) )
   {
-    printf(addr2line(NOVA_PROGRAM_NAME, (void*)frame.AddrPC.Offset));
+    fputs(addr2line(NOVA_PROGRAM_NAME, (void*)frame.AddrPC.Offset), stderr);
+    fputs("\n", stderr);
   }
  
-  SymCleanup( GetCurrentProcess() );
+  SymCleanup(GetCurrentProcess());
 }
 
 LONG WINAPI nova_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
@@ -273,7 +274,7 @@ LONG WINAPI nova_exception_handler(EXCEPTION_POINTERS * ExceptionInfo)
   }
   else
   {
-      printf(addr2line(NOVA_PROGRAM_NAME, (void*)ExceptionInfo->ContextRecord->Eip));
+      fputs(addr2line(NOVA_PROGRAM_NAME, (void*)ExceptionInfo->ContextRecord->Eip), stderr);
   }
   
   char c[2];
