@@ -126,6 +126,14 @@ char** nova_process_calling_stacktrace(int count, NOVA_CODE_CONTEXT* context, vo
   SymCleanup(GetCurrentProcess());
 }
 
+void printTraceElement(char* trace) {
+    fputs(trace, stderr);
+}
+
+void nova_print_calling_stacktrace(int count, NOVA_CODE_CONTEXT* context) {
+    nova_process_calling_stacktrace(count, context, (void (*)(char*, void*))&printTraceElement, 0);
+}
+
 }
 
 #else
