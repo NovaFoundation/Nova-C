@@ -107,7 +107,10 @@ nova_funcStruct* nova_get_funcStruct2(void* func, void* ref);
 nova_funcStruct* nova_get_funcStruct3(void* func, void* ref, void* context);
 
 typedef void (*nova_basic_function_type)();
+typedef void (*nova_vtable_callback)(const char* name, void** handle);
 
 extern nova_basic_function_type* nova_interface_vtable;
+
+void initVTables(nova_basic_function_type* interfaceFunctions, nova_vtable_callback callback);
 
 #endif
