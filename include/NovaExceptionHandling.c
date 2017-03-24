@@ -134,6 +134,25 @@ void nova_print_calling_stacktrace(int count, NOVA_CODE_CONTEXT* context) {
     nova_process_calling_stacktrace(count, context, (void (*)(char*, void*))&printTraceElement, 0);
 }
 
+void addTraceElement(char* trace, void* ptr) {
+    void** ptrs = (void**)ptr;
+    char** data = ptrs[0];
+    int* size = ptrs[1];
+    
+    data = NOVA_REALLOC(data, sizeof(char*) * (*size + 1));
+    data[*size] = trace;
+    
+    (*size)++;
+}
+
+char** nova_get_calling_stacktrace(int count, NOVA_CODE_CONTEXT* context, int* lines) {
+  char** outbuf = NOVA_MALLOC(sizeof(char*) * 0);
+  
+  void* vs[2] = {outbuf, lines};
+  
+  nova_process_calling_stacktrace(count, context, &addTraceElement, vs);
+  
+  return outbuf;
 }
 
 #else
