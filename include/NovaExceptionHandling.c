@@ -102,11 +102,7 @@ NOVA_CODE_CONTEXT* nova_get_context() {
     #endif
 }
 
-void nova_print_calling_stacktrace(int count)
-{
-  NOVA_CODE_CONTEXT* context = nova_get_context();
-  count++;
-  
+char** nova_process_calling_stacktrace(int count, NOVA_CODE_CONTEXT* context, void (*processFunc)(char*, void*), void* ptr) {
   SymInitialize(GetCurrentProcess(), 0, 1);
  
   STACKFRAME frame = { 0 };
@@ -123,12 +119,13 @@ void nova_print_calling_stacktrace(int count)
     upstack(context, &frame);
   }
   
-  while (upstack(context, &frame))
-  {
-    printf(addr2line(NOVA_PROGRAM_NAME, (void*)frame.AddrPC.Offset));
+  while (upstack(context, &frame)) {
+    processFunc(addr2line(NOVA_PROGRAM_NAME, (void*)frame.AddrPC.Offset), ptr);
   }
- 
-  SymCleanup( GetCurrentProcess() );
+  
+  SymCleanup(GetCurrentProcess());
+}
+
 }
 
 #else
