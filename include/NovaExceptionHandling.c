@@ -84,15 +84,24 @@ void* getEIP()
     return __builtin_return_address(0);
 }
 
+NOVA_CODE_CONTEXT* nova_get_context() {
+    #ifdef _WIN32
+        const uintptr_t register esp asm("esp");
+        const uintptr_t register ebp asm("ebp");
+
+        CONTEXT* context = (CONTEXT*)NOVA_MALLOC(sizeof(CONTEXT));
+        context->Eip = (const uintptr_t)getEIP();
+        context->Esp = esp;
+        context->Ebp = ebp;
+        
+        return context;
+    #endif
+}
+
 void nova_print_calling_stacktrace(int count)
 {
-  const uintptr_t register esp asm("esp");
-  const uintptr_t register ebp asm("ebp");
-  
-  CONTEXT* context = (CONTEXT*)NOVA_MALLOC(sizeof(CONTEXT));
-  context->Eip = (const uintptr_t)getEIP();
-  context->Esp = esp;
-  context->Ebp = ebp;
+  NOVA_CODE_CONTEXT* context = nova_get_context();
+  count++;
   
   SymInitialize(GetCurrentProcess(), 0, 1);
  

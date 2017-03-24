@@ -12,6 +12,7 @@
 
 void setProgramName(char* name);
 char* addr2line(char const * const program_name, void const * const addr);
+NOVA_CODE_CONTEXT* nova_get_context();
 void nova_print_stacktrace(CONTEXT* context);
 void nova_print_calling_stacktrace(int count);
 LONG WINAPI nova_exception_handler(EXCEPTION_POINTERS * ExceptionInfo);
