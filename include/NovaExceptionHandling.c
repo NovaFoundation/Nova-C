@@ -34,9 +34,10 @@ void setProgramName(char* name) {
 
 /* Resolve symbol name and source location given the path to the executable 
    and an address */
-int addr2line(char const * const program_name, void const * const addr)
+char* addr2line(char const * const program_name, void const * const addr)
 {
   char addr2line_cmd[512] = {0};
+  char* outbuf = NOVA_MALLOC(sizeof(char) * 0);
  
   /* have addr2line map the address to the relent line in the code */
   #ifdef __APPLE__
@@ -44,11 +45,23 @@ int addr2line(char const * const program_name, void const * const addr)
     sprintf(addr2line_cmd,"atos -o %.256s %p", program_name, addr); 
   #else
     sprintf(addr2line_cmd,"addr2line -f -p -e %.256s %p", program_name, addr); 
+    
+    FILE *fp = popen(addr2line_cmd, "r");
+    char buf[1024];
+    int pos = 0;
+    
+    while (fgets(buf, 1024, fp)) {
+        outbuf = NOVA_REALLOC(outbuf, sizeof(char) * (1024 + pos));
+        arrayCopy(outbuf, pos, buf, 0, 1024, 1024);
+        pos += 1024;
+    }
+
+    fclose(fp);
   #endif
  
   /* This will print a nicely formatted string specifying the
      function and source line of the address */
-  return system(addr2line_cmd);
+  return outbuf;
 }
 
 char upstack(CONTEXT* context, STACKFRAME* frame)
