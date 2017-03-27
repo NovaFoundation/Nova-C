@@ -37,7 +37,7 @@ public abstract class VirtualMethodDeclarationWriter extends BodyMethodDeclarati
 			generateFunctionPointerType(builder);
 			builder.append(")");
 		}
-
+		
 		Parameter ref = node().getOriginalParameterList().getObjectReference();
 
 		getWriter(ref).generateSourceFragment(builder).append("->");
