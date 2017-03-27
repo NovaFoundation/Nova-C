@@ -114,11 +114,8 @@ public abstract class ConstructorWriter extends BodyMethodDeclarationWriter
 		
 		Scope scope = node().getScope();
 		
-		getWriter(scope).generateSource(builder);
-		
-		builder.append('\n');
-		
-		builder.append("return ").append(ParameterList.OBJECT_REFERENCE_IDENTIFIER).append(';').append('\n');
+		builder.append("return ");
+		getWriter(scope).generateSource(builder, false);
 		
 		builder.append('}').append('\n');
 		
