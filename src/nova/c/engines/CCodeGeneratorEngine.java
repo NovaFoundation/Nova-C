@@ -1184,7 +1184,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					int i = 0;
 					
-					for (VirtualMethodDeclaration v : getAllInterfaceVirtualMethods())
+					for (NovaMethodDeclaration v : tree.getRoot().getInterfaceMethods())
 					{
 						// TODO: #1
 //						if (v.getFileDeclaration().getLibrary() == l)
