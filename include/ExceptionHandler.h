@@ -14,7 +14,7 @@
 		int exception_code;\
 		nova_exception_Nova_ExceptionData* thrownData;\
 		\
-		nova_exception_Nova_ExceptionData* tryContextData = novaEnv.nova_exception_ExceptionData.ExceptionData(0, buf);\
+		nova_exception_Nova_ExceptionData* tryContextData = nova_exception_Nova_ExceptionData_Nova_construct(0, buf);\
 		\
 		if (exceptionData != 0) {\
 			tryContextData->nova_exception_Nova_ExceptionData_Nova_parent = exceptionData;\
