@@ -410,9 +410,9 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				headerFiles.forEach((l, f) -> {
 					try
 					{
-						if (FileUtils.checkModified(f, headerTimes.get(l), previousHeaders.get(l), FileUtils.readFile(f)))
+						if (headerTimes.get(l) == null || FileUtils.checkModified(f, headerTimes.get(l), previousHeaders.get(l), FileUtils.readFile(f)))
 						{
-							controller.log("Wrote " +f.getCanonicalPath());
+							controller.log("Wrote " + f.getCanonicalPath());
 						}
 					}
 					catch (IOException e)
@@ -424,7 +424,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				sourceFiles.forEach((l, f) -> {
 					try
 					{
-						if (FileUtils.checkModified(f, sourceTimes.get(l), previousSources.get(l), FileUtils.readFile(f)))
+						if (sourceTimes.get(l) == null || FileUtils.checkModified(f, sourceTimes.get(l), previousSources.get(l), FileUtils.readFile(f)))
 						{
 							controller.log("Wrote " + f.getCanonicalPath());
 						}
