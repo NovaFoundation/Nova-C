@@ -53,10 +53,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 	{
 		NovaMethodDeclaration[] methods = node().getVirtualMethods();
 		
-		generateTypeName(builder).append("* ");
-		generateSourceName(builder, true).append(" = (nova_basic_function_type[").append(methods.length).append("])");
-		
-		builder.append("{\n");
+		builder.append("(nova_basic_function_type[").append(methods.length).append("]){\n");
 		
 		for (NovaMethodDeclaration method : methods)
 		{
@@ -74,5 +71,14 @@ public abstract class TraitVTableWriter extends VTableWriter
 		}
 		
 		return builder.append("};\n");
+	}
+	
+	public StringBuilder generateDeclaration(StringBuilder builder)
+	{
+//		generateTypeName(builder).append("* ");
+//		generateSourceName(builder, true).append(" = ");
+//		generateInitializerValue(builder).append(";\n");
+		
+		return builder;
 	}
 }
