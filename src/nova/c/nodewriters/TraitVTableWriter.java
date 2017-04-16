@@ -49,7 +49,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 		return generateInitializerValue(builder);///*full ? builder.append("&").append(generateSourceName(true)) : */builder.append(0);
 	}
 	
-	public StringBuilder generateDeclaration(StringBuilder builder)
+	public StringBuilder generateInitializerValue(StringBuilder builder)
 	{
 		NovaMethodDeclaration[] methods = node().getVirtualMethods();
 		
@@ -70,7 +70,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 			builder.append(",\n");
 		}
 		
-		return builder.append("};\n");
+		return builder.append("}");
 	}
 	
 	public StringBuilder generateDeclaration(StringBuilder builder)
