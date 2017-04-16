@@ -70,6 +70,13 @@ typedef struct nova_funcStruct {
 
 #define PCRE2_CODE_UNIT_WIDTH 8
 
+typedef void (*nova_basic_function_type)();
+typedef void (*nova_vtable_callback)(const char* name, void** handle);
+
+extern nova_basic_function_type* nova_interface_vtable;
+
+void initVTables(nova_basic_function_type* interfaceFunctions, nova_vtable_callback callback);
+
 #include <stdio.h>
 // #include <VTableDeclarations.h>
 // #include <InterfaceVTable.h>
@@ -108,12 +115,5 @@ void nova_free_array(void** array, int* dimensionSizes, int dimension, int dimen
 nova_funcStruct* nova_get_funcStruct1(void* func);
 nova_funcStruct* nova_get_funcStruct2(void* func, void* ref);
 nova_funcStruct* nova_get_funcStruct3(void* func, void* ref, void* context);
-
-typedef void (*nova_basic_function_type)();
-typedef void (*nova_vtable_callback)(const char* name, void** handle);
-
-extern nova_basic_function_type* nova_interface_vtable;
-
-void initVTables(nova_basic_function_type* interfaceFunctions, nova_vtable_callback callback);
 
 #endif
