@@ -258,20 +258,21 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				headerWriters.put(null, FileUtils.getFileWriter(headerFiles.get(null), true));
 				sourceWriters.put(null, FileUtils.getFileWriter(sourceFiles.get(null), true));
 				
-				for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-				{
-					File parent = getLibraryOutputDirectory(entry.getKey());
-					parent.mkdirs();
-					
-					File headerFile = new File(parent, entry.getKey().getName() + ".h");
-					File sourceFile = new File(parent, entry.getKey().getName() + ".c");
-					
-					headerWriters.put(entry.getKey(), FileUtils.getFileWriter(headerFile, true));
-					sourceWriters.put(entry.getKey(), FileUtils.getFileWriter(sourceFile, true));
-					
-					FileUtils.clearFile(headerFile);
-					FileUtils.clearFile(sourceFile);
-				}
+				// TODO: #1
+//				for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+//				{
+//					File parent = getLibraryOutputDirectory(entry.getKey());
+//					parent.mkdirs();
+//					
+//					File headerFile = new File(parent, entry.getKey().getName() + ".h");
+//					File sourceFile = new File(parent, entry.getKey().getName() + ".c");
+//					
+//					headerWriters.put(entry.getKey(), FileUtils.getFileWriter(headerFile, true));
+//					sourceWriters.put(entry.getKey(), FileUtils.getFileWriter(sourceFile, true));
+//					
+//					FileUtils.clearFile(headerFile);
+//					FileUtils.clearFile(sourceFile);
+//				}
 				
 				FileUtils.clearFile(headerFiles.get(null));
 				FileUtils.clearFile(sourceFiles.get(null));
@@ -285,7 +286,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					FileDeclaration file = files[i];
 					
-					headerWriters.get(controller.getLibrary(file.file)).print(getWriter(file).generateDummyTypes(new StringBuilder()).toString());
+					// TODO: #1
+					headerWriters.get(null/*controller.getLibrary(file.file)*/).print(getWriter(file).generateDummyTypes(new StringBuilder()).toString());
 				}
 				
 				headerWriters.forEach((f, w) -> w.print("#include <MacroLib.h>\n\n"));
@@ -294,7 +296,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					FileDeclaration file = files[i];
 					
-					headerWriters.get(controller.getLibrary(file.file)).print(getWriter(file).generateClosureDefinitions(new StringBuilder()).toString());
+					// TODO: #1
+					headerWriters.get(null/*controller.getLibrary(file.file)*/).print(getWriter(file).generateClosureDefinitions(new StringBuilder()).toString());
 				}
 				
 				headerWriters.forEach((f, w) -> w.print("\n#include <Nova.h>\n"));
@@ -313,12 +316,13 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				headerWriters.forEach((f, w) -> w.print("#include <ExceptionHandler.h>\n"));
 				
 				headerWriters.forEach((f, w) -> w.print(getAllExternalIncludes() + "\n"));
-				headerWriters.forEach((f, w) -> {
-					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-					{
-						w.print("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
-					}
-				});
+				// TODO: #1
+//				headerWriters.forEach((f, w) -> {
+//					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+//					{
+//						w.print("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
+//					}
+//				});
 				headerWriters.forEach((f, w) -> w.print("#include \"VTableDeclarations.h\"\n\n"));
 			}
 			
@@ -326,18 +330,20 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				FileDeclaration file = files[i];
 				
-				File lib = controller.getLibrary(file.file);
+				// TODO: #1
+//				File lib = controller.getLibrary(file.file);
 				
 				String header = headers[i];
 				String source = sources[i];
 				
 				File outputDir = null;
 				
-				if (file.isLibraryFile())
-				{
-					outputDir = getLibraryOutputDirectory(lib);
-				}
-				else
+				// TODO: #1
+//				if (file.isLibraryFile())
+//				{
+//					outputDir = getLibraryOutputDirectory(lib);
+//				}
+//				else
 				{
 					outputDir = getOutputDirectory(file);
 				}
@@ -354,40 +360,43 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 				{
 					if (compileEngine.singleFile)
 					{
-						headerWriters.get(controller.getLibrary(file.file)).print(header);
-						sourceWriters.get(controller.getLibrary(file.file)).print(source);
+						// TODO: #1
+						headerWriters.get(null/*controller.getLibrary(file.file)*/).print(header);
+						sourceWriters.get(null/*controller.getLibrary(file.file)*/).print(source);
 					}
 					else
 					{
-						headerFiles.put(lib, new File(outputDir, getWriter(file).generateHeaderName()));
-						sourceFiles.put(lib, new File(outputDir, getWriter(file).generateSourceName()));
-						
-						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > headerFiles.get(lib).lastModified())
-						{
-							if (FileUtils.writeIfDifferent(headerFiles.get(lib), header))
-							{
-								controller.log("Wrote " + headerFiles.get(lib).getCanonicalPath());
-							}
-							else if (compileEngine.forceRecompile)
-							{
-								controller.log("No differences to file " + headerFiles.get(lib).getCanonicalPath());
-							}
-						}
-						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > sourceFiles.get(lib).lastModified())
-						{
-							if (FileUtils.writeIfDifferent(sourceFiles.get(lib), source))
-							{
-								controller.log("Wrote " + sourceFiles.get(lib).getCanonicalPath());
-							}
-							else if (compileEngine.forceRecompile)
-							{
-								controller.log("No differences to file " + sourceFiles.get(lib).getCanonicalPath());
-							}
-						}
+						// TODO: #1
+//						headerFiles.put(lib, new File(outputDir, getWriter(file).generateHeaderName()));
+//						sourceFiles.put(lib, new File(outputDir, getWriter(file).generateSourceName()));
+//						
+//						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > headerFiles.get(lib).lastModified())
+//						{
+//							if (FileUtils.writeIfDifferent(headerFiles.get(lib), header))
+//							{
+//								controller.log("Wrote " + headerFiles.get(lib).getCanonicalPath());
+//							}
+//							else if (compileEngine.forceRecompile)
+//							{
+//								controller.log("No differences to file " + headerFiles.get(lib).getCanonicalPath());
+//							}
+//						}
+//						if (compileEngine.forceCheck || forceRecompile || file.getFile().lastModified() > sourceFiles.get(lib).lastModified())
+//						{
+//							if (FileUtils.writeIfDifferent(sourceFiles.get(lib), source))
+//							{
+//								controller.log("Wrote " + sourceFiles.get(lib).getCanonicalPath());
+//							}
+//							else if (compileEngine.forceRecompile)
+//							{
+//								controller.log("No differences to file " + sourceFiles.get(lib).getCanonicalPath());
+//							}
+//						}
 					}
 					
-					cHeaderFiles.add(headerFiles.get(lib));
-					cSourceFiles.add(sourceFiles.get(lib));
+					// TODO: #1
+					cHeaderFiles.add(headerFiles.get(null/*lib*/));
+					cSourceFiles.add(sourceFiles.get(null/*lib*/));
 				}
 			}
 			
@@ -1087,7 +1096,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		
 		for (ClassDeclaration c : getAllClasses())
 		{
-			if (c.getFileDeclaration().getLibrary() == library)
+			// TODO: #1
+//			if (c.getFileDeclaration().getLibrary() == library)
 			{
 				c.getVirtualMethodList().forEachNovaMethod(x -> {
 					if (!list.contains(x))
@@ -1109,42 +1119,49 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 		headers.put(null, new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".h"));
 		sources.put(null, new File(controller.outputDirectory, VTABLE_DECLARATIONS_FILE_NAME + ".c"));
 		
-		for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-		{
-			File dir = getLibraryOutputDirectory(entry.getKey());
-			
-			headers.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h"));
-			sources.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".c"));
-		}
+		// TODO: #1
+//		for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+//		{
+//			File dir = getLibraryOutputDirectory(entry.getKey());
+//			
+//			headers.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h"));
+//			sources.put(entry.getKey(), new File(dir, entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".c"));
+//		}
 		
 		final boolean[] forceRecompile = new boolean[] { compileEngine.forceRecompile };
 		
-		sources.forEach((l, source) -> {
+		// TODO: #1
+//		sources.forEach((l, source) -> {
 			try
 			{
-				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(source, writer ->
+				// TODO: #1
+				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(sources.get(null)/*source*/, writer ->
 				{
-					writer.append("#include \"").append(l != null ? l.getName() + "_" : "").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n\n");
+					// TODO: #1
+					writer.append("#include \"").append(/*l != null ? l.getName() + "_" : */"").append(VTABLE_DECLARATIONS_FILE_NAME + ".h\"\n\n");
 					
 					Arrays.stream(getAllAndIMeanAllVirtualMethods())
-						.filter(v -> v.getFileDeclaration().getLibrary() == l)
+						// TODO: #1
+//						.filter(v -> v.getFileDeclaration().getLibrary() == l)
 						.forEach(v -> writer.append(getWriter(v).generateSource().append("\n")));
 					
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
-						File lib = c.getFileDeclaration().getLibrary();
+						// TODO: #1
+//						File lib = c.getFileDeclaration().getLibrary();
 						
-						if (l == null)
-						{
+						// TODO: #1
+//						if (l == null)
+//						{
 							vtables.forEach(vtable -> {
 								writer.append(getWriter(vtable).generateSource(new StringBuilder(), true).append('\n'));
 							});
-						}
-						else if (lib == l)
-						{
-							writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
-						}
+//						}
+//						else if (lib == l)
+//						{
+//							writer.append(getWriter(vtables).generateSource(new StringBuilder()).append('\n'));
+//						}
 					}
 				}, forceRecompile[0]);
 			}
@@ -1152,30 +1169,34 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				e.printStackTrace();
 			}
-		});
+//		});
 		
-		headers.forEach((l, header) -> {
+		// TODO: #1
+//		headers.forEach((l, header) -> {
 			try
 			{
-				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(header, writer ->
+				// TODO: #1
+				forceRecompile[0] = forceRecompile[0] | FileUtils.writeIfDifferent(headers.get(null)/*header*/, writer ->
 				{
-					writer.append("#ifndef NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n");
-					writer.append("#define NOVA_").append(l != null ? l.getName() + "_" : "").append("VTABLE_DECLARATIONS\n\n");
+					// TODO: #1
+					writer.append("#ifndef NOVA_").append(/*l != null ? l.getName() + "_" : */"").append("VTABLE_DECLARATIONS\n");
+					writer.append("#define NOVA_").append(/*l != null ? l.getName() + "_" : */"").append("VTABLE_DECLARATIONS\n\n");
 					
 					int i = 0;
 					
 					for (VirtualMethodDeclaration v : getAllInterfaceVirtualMethods())
 					{
-						if (v.getFileDeclaration().getLibrary() == l)
+						// TODO: #1
+//						if (v.getFileDeclaration().getLibrary() == l)
 						{
-							writer.append(getWriter(v).generateIndexDefinition(new StringBuilder(), i));
+							writer.append(getWriter(v.getVirtualMethod()).generateIndexDefinition(new StringBuilder(), i));
 						}
-						else
-						{
-							writer.append("/*");
-							writer.append(getWriter(v).generateSourceName()).append(" " + i);
-							writer.append("*/\n");
-						}
+//						else
+//						{
+//							writer.append("/*");
+//							writer.append(getWriter(v).generateSourceName()).append(" " + i);
+//							writer.append("*/\n");
+//						}
 						
 						i++;
 					}
@@ -1186,23 +1207,28 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					{
 						VTableList vtables = c.getVTableNodes();
 						
-						File lib = c.getFileDeclaration().getLibrary();
+						// TODO: #1
+//						File lib = c.getFileDeclaration().getLibrary();
 						
-						if (lib == l || l == null)
+						// TODO: #1
+//						if (lib == l || l == null)
 						{
 							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
 							
-							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder(), l == null).append('\n'));
-							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder(), l == null));
+							// TODO: #1
+							writer.append(getWriter(vtables.getExtensionVTable()).generateTypedef(new StringBuilder(), true/*l == null*/).append('\n'));
+							writer.append(getWriter(vtables.getExtensionVTable()).generateExternDeclaration(new StringBuilder(), true/*l == null*/));
 							
 							writer.append("//////////////////////////////////////////////////////////////////////\n\n");
 						}
 					}
 					
-					writer.append("#include <" + (l != null ? l.getName() : SINGLE_FILE_BUILD_FILE_NAME) + ".h" + ">\n");
+					// TODO: #1
+					writer.append("#include <" + (/*l != null ? l.getName() : */SINGLE_FILE_BUILD_FILE_NAME) + ".h" + ">\n");
 					
 					Arrays.stream(getAllAndIMeanAllVirtualMethods())
-						.filter(v -> v.getFileDeclaration().getLibrary() == l)
+						// TODO: #1
+//						.filter(v -> v.getFileDeclaration().getLibrary() == l)
 						.forEach(v -> writer.append(getWriter(v).generateHeader()));
 					
 					writer.append("\n");
@@ -1211,7 +1237,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					{
 						VTableList vtables = c.getVTableNodes();
 						
-						if (c.getFileDeclaration().getLibrary() == l)
+						// TODO: #1
+//						if (c.getFileDeclaration().getLibrary() == l)
 						{
 							writer.append("// ").append(c.getName()).append(" /////////////////////////////////////////////////////\n");
 							
@@ -1232,7 +1259,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					for (NovaMethodDeclaration method : interfaceMethods)
 					{
-						if (method.getFileDeclaration().getLibrary() == l)
+						// TODO: #1
+//						if (method.getFileDeclaration().getLibrary() == l)
 						{
 							writer.append(getWriter(method.getVirtualMethod()).generateHeader(new StringBuilder()));
 						}
@@ -1240,18 +1268,20 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					
 					writer.append("//////////////////////////////////////////////////////////////////////\n\n");
 					
-					if (l == null)
+					// TODO: #1
+//					if (l == null)
 					{
 						if (compileEngine.singleFile)
 						{
 							writer.append("\n#include <" + SINGLE_FILE_BUILD_FILE_NAME + ".h>\n");
 						}
 						
-						for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-						{
-							writer.write("#include <" + entry.getKey().getName() + ".h>\n");
-							writer.append("#include <").append(entry.getKey().getName()).append("_").append(VTABLE_DECLARATIONS_FILE_NAME).append(".h>\n");
-						}
+						// TODO: #1
+//						for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+//						{
+//							writer.write("#include <" + entry.getKey().getName() + ".h>\n");
+//							writer.append("#include <").append(entry.getKey().getName()).append("_").append(VTABLE_DECLARATIONS_FILE_NAME).append(".h>\n");
+//						}
 						
 						writer.append("\n#include <Nova.h>\n");
 						
@@ -1268,7 +1298,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 					for (ClassDeclaration c : getAllClasses())
 					{
 						VTableList vtables = c.getVTableNodes();
-						File lib = c.getFileDeclaration().getLibrary();
+						// TODO: #1
+//						File lib = c.getFileDeclaration().getLibrary();
 						
 						/*if (l == null)
 						{
@@ -1276,7 +1307,8 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 								writer.append(getWriter(vtable).generateHeader(new StringBuilder(), true).append('\n'));
 							});
 						}
-						else */if (lib == l)
+						// TODO: #1
+						else *///if (lib == l)
 						{
 							writer.append(getWriter(vtables).generateHeader(new StringBuilder()).append('\n'));
 							//					getWriter(vtables).generateSource(builder).append('\n');
@@ -1290,7 +1322,7 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 			{
 				e.printStackTrace();
 			}
-		});
+//		});
 		
 		this.forceRecompile = forceRecompile[0];
 	}
@@ -1367,11 +1399,12 @@ public class CCodeGeneratorEngine extends CodeGeneratorEngine
 						writer.write("#include <NovaExceptionHandling.h>\n");
 					}
 					
-					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
-					{
-						writer.write("#include <" + entry.getKey().getName() + ".h>\n");
-						writer.write("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
-					}
+					// TODO: #1
+//					for (Map.Entry<File, ArrayList<File>> entry : controller.libraryFiles.entrySet())
+//					{
+//						writer.write("#include <" + entry.getKey().getName() + ".h>\n");
+//						writer.write("#include <" + entry.getKey().getName() + "_" + VTABLE_DECLARATIONS_FILE_NAME + ".h>\n");
+//					}
 					
 					writer.write("#include <InterfaceVTable.h>\n");
 					writer.write("#include <ExceptionHandler.h>\n");
