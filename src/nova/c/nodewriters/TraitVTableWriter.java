@@ -62,6 +62,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 		{
 			if (method != null)
 			{
+				builder.append("(void*)");
 				getWriter(method).generateInterfaceVTableSource(builder);
 			}
 			else

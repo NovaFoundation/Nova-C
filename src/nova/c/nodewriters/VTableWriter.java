@@ -208,6 +208,7 @@ public abstract class VTableWriter extends IIdentifierWriter
 					method = virtual;
 				}
 				
+				builder.append("(void*)");
 				getWriter(method).generateSourceName(builder);
 			}
 			else
