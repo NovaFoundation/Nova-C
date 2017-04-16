@@ -46,7 +46,7 @@ public abstract class TraitVTableWriter extends VTableWriter
 	
 	public StringBuilder generateSourceFragment(StringBuilder builder, boolean full)
 	{
-		return /*full ? builder.append("&").append(generateSourceName(true)) : */builder.append(0);
+		return generateInitializerValue(builder);///*full ? builder.append("&").append(generateSourceName(true)) : */builder.append(0);
 	}
 	
 	public StringBuilder generateDeclaration(StringBuilder builder)
