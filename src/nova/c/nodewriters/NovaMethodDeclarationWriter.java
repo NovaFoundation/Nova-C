@@ -11,7 +11,7 @@ public abstract class NovaMethodDeclarationWriter extends MethodDeclarationWrite
 		NovaMethodDeclaration root = node().getVirtualMethod();//.getRootDeclaration();
 		NovaParameterList params = root.getParameterList();
 		
-		builder.append("(").append(getWriter(root).generateType()).append("(*)(").append(getWriter(params).generateHeader()).append("))");
+//		builder.append("(").append(getWriter(root).generateType()).append("(*)(").append(getWriter(params).generateHeader()).append("))");
 		
 		return generateSourceName(builder);
 	}
