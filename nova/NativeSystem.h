@@ -13,7 +13,7 @@
 #include <io.h>
 #endif
 
-// #include <NovaNativeInterface.h>
+#include <Nova.h>
 
 typedef void (*error_func)(void*, int, nova_Nova_String*, char, void*);
 
