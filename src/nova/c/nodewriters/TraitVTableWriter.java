@@ -4,6 +4,8 @@ import net.fathomsoft.nova.tree.*;
 
 public abstract class TraitVTableWriter extends VTableWriter
 {
+	public static String MAIN_IDENTIFIER = "nova_interface_vtable";
+	
 	public abstract TraitVTable node();
 	
 	public StringBuilder generateHeader(StringBuilder builder, boolean full)
