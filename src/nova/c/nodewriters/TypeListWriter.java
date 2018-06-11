@@ -25,4 +25,13 @@ public abstract class TypeListWriter extends ListWriter
 		
 		return builder;
 	}
+
+	@Override
+	public StringBuilder generateSource(StringBuilder builder) {
+		node().forEachChild(child -> {
+			getWriter(child).generateSource(builder);
+		});
+
+		return builder;
+	}
 }
