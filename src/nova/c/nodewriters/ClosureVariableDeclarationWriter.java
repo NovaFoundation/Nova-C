@@ -46,6 +46,10 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 		
 		return getWriter(node().originalDeclaration).generateIdentifierSourceName(builder, null);
 	}
+
+	public StringBuilder generateValueAssignment(StringBuilder builder) {
+		return builder.append("*").append(getHeapVariableName()).append(" = ").append(getWriter(node().originalDeclaration).generateSourceName()).append(";\n");
+	}
 	
 	public StringBuilder generateAssignment(StringBuilder builder)
 	{
@@ -78,8 +82,6 @@ public abstract class ClosureVariableDeclarationWriter extends VariableDeclarati
 			
 			getWriter(node().originalDeclaration).generateType(builder).append("* ").append(heapName).append(" = (")
 				.append(getWriter(node().originalDeclaration).generateType()).append("*)NOVA_MALLOC(sizeof(").append(getWriter(node().originalDeclaration).generateType()).append("));\n");
-			
-			builder.append("*").append(heapName).append(" = ").append(getWriter(node().originalDeclaration).generateSourceName()).append(";\n");
 		}
 		
 		generateLeftAssignment(builder);
