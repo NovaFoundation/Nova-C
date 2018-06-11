@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <Nova.h>
-#include <StandardLibrary.h>
 
 char* hashCode(nova_Nova_Object* obj);
 

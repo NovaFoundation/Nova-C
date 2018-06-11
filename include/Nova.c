@@ -2,7 +2,6 @@
 
 nova_primitive_Nova_Null* nova_null;
 void* nova_garbageData;
-nova_basic_function_type* nova_interface_vtable;
 
 /**
  * Similar to fgets(), but handles automatic reallocation of the buffer.

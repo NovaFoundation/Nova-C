@@ -18,7 +18,6 @@
 
 #include <Nova.h>
 
-#include <StandardLibrary.h>
 #include <nova/star/NativeScrollBar.h>
 
 #include <string.h>

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <StandardLibrary.h>
 
 #if defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>

@@ -78,7 +78,7 @@ extern nova_basic_function_type* nova_interface_vtable;
 void initVTables(nova_basic_function_type* interfaceFunctions, nova_vtable_callback callback);
 
 #include <stdio.h>
-// #include <VTableDeclarations.h>
+#include <VTableDeclarations.h>
 // #include <InterfaceVTable.h>
 // #include <ExceptionHandler.h>
 // #include <NovaClassData.h>
