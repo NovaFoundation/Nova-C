@@ -42,12 +42,7 @@ public abstract class DefaultParameterInitializationWriter extends NodeWriter
 	public StringBuilder generateAssignment(StringBuilder builder, Value param, Value defaultValue)
 	{
 		String use = getWriter(param).generateUseOutput().toString();
-		
-		if (param instanceof VariableDeclaration)
-		{
-			use = getWriter((VariableDeclaration)param).generateSourceClosureVariableName(new StringBuilder(), null).toString();
-		}
-		
+
 		builder.append(use).append(" = ");
 		getWriter(param).generateTypeCast(builder).append('(');
 		
